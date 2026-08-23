@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b47uqrhlk01l4"]
+
+[resource]
+resource_name = "Wood"
+albedo_color = Color(0.38431373, 0.28627452, 0.21568628, 1)
+metallic = 0.5

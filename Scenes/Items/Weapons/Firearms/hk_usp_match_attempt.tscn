@@ -1,0 +1,216 @@
+[gd_scene format=3 uid="uid://dsnsb3sojmqq"]
+
+[ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="1_pob23"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_l2e0a"]
+[ext_resource type="Texture2D" uid="uid://cj8pkil1c2500" path="res://Stuff/Images/MuzzleFlash1.png" id="3_54txr"]
+[ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/ProjectileWeapon.gd" id="3_l2e0a"]
+[ext_resource type="AudioStream" uid="uid://df0g7alf3yo0k" path="res://Stuff/Sounds/Ricochet.ogg" id="3_qul2g"]
+[ext_resource type="AudioStream" uid="uid://rsdtugb1ecia" path="res://Stuff/Sounds/Tadaa ;].mp3" id="4_6pif8"]
+[ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="4_davte"]
+[ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="5_nxk41"]
+[ext_resource type="AudioStream" uid="uid://beya8eo5kxo4x" path="res://Stuff/Sounds/gab_Enough.ogg" id="5_wmt0b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.1, 0.1, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_pob23")
+size = Vector3(0.09, 0.09, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("2_l2e0a")
+size = Vector3(0.1, 0.15, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57qmd"]
+material = ExtResource("2_l2e0a")
+size = Vector3(0.1, 0.05, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d0u6y"]
+material = ExtResource("2_l2e0a")
+size = Vector3(0.027416993, 0.041326903, 0.03391113)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3gngh"]
+material = ExtResource("2_l2e0a")
+size = Vector3(0.095, 0.25, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fcnqv"]
+material = ExtResource("2_l2e0a")
+size = Vector3(0.05, 0.01, 0.1023938)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_54txr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_davte")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nxk41")
+}, {
+"duration": 0.1,
+"texture": null
+}],
+"loop": 0,
+"name": &"default",
+"speed": 24.0
+}]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qul2g"]
+properties/0/path = NodePath("Shoot:playing")
+properties/0/spawn = false
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Reload:playing")
+properties/1/spawn = false
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Empty:playing")
+properties/2/spawn = false
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Ammo:text")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Firerate:text")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("BarrelMarker/FireAnimation:frame")
+properties/5/spawn = false
+properties/5/replication_mode = 1
+properties/6/path = NodePath("BarrelMarker/FireAnimation/SpotLight3D:visible")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:transform")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:position")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:scale")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+
+[node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1310180666]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+mass = 50.0
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=257049623]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, 0, 0.055081412)
+shape = SubResource("BoxShape3D_g4v7s")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=653599548]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=152987734]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.020806171, 0.3)
+mesh = SubResource("BoxMesh_yf5fn")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1813362637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.069761746, 0.0065770745)
+mesh = SubResource("BoxMesh_57qmd")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=490952463]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036291502, 0.06240199, -0.19818696)
+mesh = SubResource("BoxMesh_d0u6y")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1380916036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031796947, 0.06240199, -0.19818696)
+mesh = SubResource("BoxMesh_d0u6y")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="MeshInstance3D" unique_id=948624484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0015217289, 0.06240199, 0.07625982)
+mesh = SubResource("BoxMesh_d0u6y")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1658319976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0015217289, 0.026670938, -0.2530206)
+mesh = SubResource("BoxMesh_d0u6y")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1922798456]
+transform = Transform3D(1, 0, 0, 0, 0.95214695, -0.3056406, 0, 0.3056406, 0.95214695, 0, -0.19218166, -0.15848424)
+mesh = SubResource("BoxMesh_3gngh")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="MeshInstance3D" unique_id=648935236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0015217289, -0.112116896, -0.005399853)
+mesh = SubResource("BoxMesh_d0u6y")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1062351932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15078081, -0.017307738)
+mesh = SubResource("BoxMesh_fcnqv")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1811639904]
+transform = Transform3D(1, 0, 0, 0, 0.33918762, 0.94071877, 0, -0.94071877, 0.33918762, 0, -0.10156254, 0.04448779)
+mesh = SubResource("BoxMesh_fcnqv")
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="." unique_id=287257168]
+stream = ExtResource("3_qul2g")
+
+[node name="Reload" type="AudioStreamPlayer3D" parent="." unique_id=1844451035]
+stream = ExtResource("4_6pif8")
+
+[node name="Empty" type="AudioStreamPlayer3D" parent="." unique_id=1453549187]
+stream = ExtResource("5_wmt0b")
+
+[node name="Ammo" type="Label3D" parent="." unique_id=1912072195]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.0388463e-09, 0.08619122, 0.03476035)
+pixel_size = 0.001
+font_size = 30
+outline_size = 3
+
+[node name="Firerate" type="Label3D" parent="." unique_id=1789814756]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.051814817, 0)
+pixel_size = 0.001
+font_size = 25
+outline_size = 3
+
+[node name="BarrelMarker" type="Marker3D" parent="." unique_id=1407823146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.742278e-09, 0, 0.3)
+
+[node name="FireAnimation" type="AnimatedSprite3D" parent="BarrelMarker" unique_id=553643137]
+transform = Transform3D(0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="BarrelMarker/FireAnimation" unique_id=789207740]
+transform = Transform3D(-1.0000001, 0, -8.7422784e-08, 0, 1, 0, 8.7422784e-08, 0, -1.0000001, 0, 0, 0)
+visible = false
+light_color = Color(1, 0.67058825, 0.32156864, 1)
+shadow_enabled = true
+
+[node name="AmmoMarker" type="Marker3D" parent="." unique_id=1244133583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.209796e-09, -0.2, -0.10534778)
+
+[node name="EjectionMarker" type="Marker3D" parent="." unique_id=1689878862]
+transform = Transform3D(-0.7071068, 1.5633728e-07, 0.7071067, -0.7071067, 2.676763e-08, -0.7071068, -1.2947473e-07, -1, 9.1619555e-08, -0.03996203, 0, -3.4935916e-09)
+
+[node name="IsGun" type="Node3D" parent="." unique_id=1468727716 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker")]
+script = ExtResource("3_l2e0a")
+BulletAmount = 1
+Spread = Vector2(0.1, 0.1)
+Ammo = 12
+FullMag = 12
+ReloadTime = 1.0
+ShootSound = NodePath("../Shoot")
+ReloadSound = NodePath("../Reload")
+EmptySound = NodePath("../Empty")
+MuzzleFlashSprite = NodePath("../BarrelMarker/FireAnimation")
+MuzzleFlashLight = NodePath("../BarrelMarker/FireAnimation/SpotLight3D")
+AmmoLabel = NodePath("../Ammo")
+FRLabel = NodePath("../Firerate")
+ProjectilePosMarker = NodePath("../BarrelMarker")
+MagPosMarker = NodePath("../AmmoMarker")
+EjectionPortMarker = NodePath("../EjectionMarker")
+metadata/_custom_type_script = "uid://c3ia6opicatv"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=138157842]
+replication_config = SubResource("SceneReplicationConfig_qul2g")

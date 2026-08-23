@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bklsrrychcfjj"]
+
+[ext_resource type="Script" uid="uid://bk616p7drxqpb" path="res://Scripts/Force.gd" id="1_31nud"]
+
+[node name="Force3D" type="RayCast3D" unique_id=1897492737]
+target_position = Vector3(0, 0, 0)
+script = ExtResource("1_31nud")
+DeleteAfterDone = true
+FinalPosition = Vector3(-1, -5, -1)
+metadata/_custom_type_script = "uid://bk616p7drxqpb"

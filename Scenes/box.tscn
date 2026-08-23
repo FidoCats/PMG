@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://c2da27wehav8v"]
+
+[ext_resource type="Material" uid="uid://b2pk3ishnsooi" path="res://Stuff/Materials/Orange.tres" id="1_vijxn"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_37xgf"]
+[ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_att6g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_vijxn")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2jyye"]
+properties/0/path = NodePath(".:mass")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:inertia")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:freeze")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:transform")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("InteractionComponent/PickUpComponent:picked_up")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[node name="Box" type="RigidBody3D" unique_id=648598193]
+collision_layer = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1599199846]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=39118525]
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=874611035]
+script = ExtResource("2_37xgf")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="PickUpComponent" type="Node" parent="InteractionComponent" unique_id=1451514591]
+script = ExtResource("3_att6g")
+pickup_distance = Vector3(0, 0, -1)
+metadata/_custom_type_script = "uid://ddt8rl37ck60i"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1788380738]
+replication_config = SubResource("SceneReplicationConfig_2jyye")

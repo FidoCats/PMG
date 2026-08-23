@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cnurgy2dnc50d"]
+
+[ext_resource type="ArrayMesh" uid="uid://fsc1ute5woxc" path="res://Stuff/Models/SeaWeedPlushLowerPoly.mesh" id="1_067sm"]
+[ext_resource type="Texture2D" uid="uid://du08l51nh0qj5" path="res://Stuff/Images/SeaweedFace.png" id="2_nytu4"]
+[ext_resource type="Texture2D" uid="uid://q8k0dqk4g8un" path="res://Stuff/Images/SeaweedFaceBlink.png" id="3_dyyo8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ou8vq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nu37m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dyyo8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nytu4")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kll3y"]
+radius = 1.928784
+
+[node name="Seaweed" type="RigidBody3D" unique_id=481990190]
+
+[node name="Seaweed" type="MeshInstance3D" parent="." unique_id=1600144568]
+material_override = SubResource("StandardMaterial3D_ou8vq")
+mesh = ExtResource("1_067sm")
+
+[node name="Sprite3D3" type="AnimatedSprite3D" parent="Seaweed" unique_id=1772441578]
+transform = Transform3D(0.45913863, 0, 0.010812178, 0, 0.45926595, 0, -0.010812178, 0, 0.45913863, 0.067892075, 1.9357901, 0.78917885)
+sprite_frames = SubResource("SpriteFrames_nu37m")
+autoplay = "default"
+frame_progress = 0.6934548
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1106367151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8871989, 0)
+shape = SubResource("SphereShape3D_kll3y")

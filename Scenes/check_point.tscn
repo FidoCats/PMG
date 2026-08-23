@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ddodt0467mr32"]
+
+[ext_resource type="Script" uid="uid://bggj21bj0wlaa" path="res://Scripts/check_point.gd" id="1_mcmgj"]
+[ext_resource type="Texture2D" uid="uid://c0rtl5k83bw0g" path="res://Stuff/Images/species select2.png" id="2_cdwub"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57qmd"]
+transparency = 1
+rim_enabled = true
+rim = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = SubResource("StandardMaterial3D_57qmd")
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d0u6y"]
+size = Vector3(2, 2, 2)
+
+[node name="CheckPoint" type="StaticBody3D" unique_id=603104596]
+script = ExtResource("1_mcmgj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1913044634]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2085006632]
+mesh = SubResource("BoxMesh_yf5fn")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=2120916629]
+transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, 1, 0, -0.5, -4.371139e-08, 0, 0.2, 0)
+texture = ExtResource("2_cdwub")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1008666341]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2034609851]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("BoxShape3D_d0u6y")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

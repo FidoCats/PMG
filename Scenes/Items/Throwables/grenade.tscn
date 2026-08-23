@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dn7mmmq2bmntw"]
+
+[ext_resource type="Script" uid="uid://bcq04dhgc2arm" path="res://Scripts/Grenade.gd" id="1_ft0g1"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_20vs5"]
+[ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_7bgu8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ft0g1"]
+rough = true
+absorbent = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ix0u3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_544s8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wgxcn"]
+
+[node name="Grenade" type="RigidBody3D" unique_id=1070459989]
+physics_material_override = SubResource("PhysicsMaterial_ft0g1")
+script = ExtResource("1_ft0g1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1244253067]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_ix0u3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1282098640]
+mesh = SubResource("CapsuleMesh_544s8")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1639348022]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33452886, 0)
+billboard = 1
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=369110800]
+script = ExtResource("2_20vs5")
+
+[node name="PickUpComponent" type="Node" parent="InteractionComponent" unique_id=1420832501]
+script = ExtResource("3_7bgu8")
+pickup_distance = Vector3(0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1594477501]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=78789841]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("BoxShape3D_wgxcn")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bvufdefva0abq"]
+
+[ext_resource type="Script" uid="uid://dng3ycih1khsc" path="res://Scripts/pistol_mag.gd" id="1_c56xf"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="1_uk7wh"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_lmix0"]
+[ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_c56xf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.1, 0.25, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_uk7wh")
+size = Vector3(0.1, 0.25, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("1_uk7wh")
+size = Vector3(0.1, 0.05, 0.175)
+
+[node name="PistolMag" type="RigidBody3D" unique_id=594087139]
+script = ExtResource("1_c56xf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=972657908]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=79219464]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=165473947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14680597, -0.014937788)
+mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="Timer" type="Timer" parent="." unique_id=1454573251]
+wait_time = 10.0
+autostart = true
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=512031451]
+script = ExtResource("2_lmix0")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="PickUpComponent" type="Node" parent="InteractionComponent" unique_id=145744714]
+script = ExtResource("3_c56xf")
+pickup_distance = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://ddt8rl37ck60i"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,23 @@
+[gd_resource type="Theme" format=3 uid="uid://difq8blxx5te1"]
+
+[ext_resource type="FontFile" uid="uid://b07n2q4yc54cm" path="res://Stuff/Fonts/Jersey25-Regular.ttf" id="1_up5qj"]
+[ext_resource type="StyleBox" uid="uid://by65ifuq3glbw" path="res://Stuff/Styles/ButtonDisable.tres" id="2_20bo0"]
+[ext_resource type="StyleBox" uid="uid://fcycqreuwpd8" path="res://Stuff/Styles/ButtonHover.tres" id="3_tkw0b"]
+[ext_resource type="StyleBox" uid="uid://b1sysgd6b4jwu" path="res://Stuff/Styles/ButtonPressHover.tres" id="4_xlks8"]
+[ext_resource type="StyleBox" uid="uid://curdnyxm5r4ln" path="res://Stuff/Styles/PanelStyleBox.tres" id="5_drwqn"]
+[ext_resource type="StyleBox" uid="uid://b2ucfsieu5m74" path="res://Stuff/Styles/ButtonPress.tres" id="6_s3p83"]
+
+[resource]
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/fonts/font = ExtResource("1_up5qj")
+Button/styles/disabled = ExtResource("2_20bo0")
+Button/styles/hover = ExtResource("3_tkw0b")
+Button/styles/hover_pressed = ExtResource("4_xlks8")
+Button/styles/normal = ExtResource("5_drwqn")
+Button/styles/pressed = ExtResource("6_s3p83")
+Label/constants/outline_size = 3
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 40
+Label/fonts/font = ExtResource("1_up5qj")
+Panel/styles/panel = ExtResource("5_drwqn")

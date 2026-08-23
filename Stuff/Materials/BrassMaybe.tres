@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://el3m2vdomtmn"]
+
+[resource]
+albedo_color = Color(0.9607843, 0.59607846, 0, 1)
+emission_enabled = true
+normal_enabled = true
+clearcoat_enabled = true
+refraction_enabled = true

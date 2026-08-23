@@ -1,0 +1,24 @@
+1.) Fix VCCameras Player_interacted signal not registering
+2.) 
+3.) Change Shotgun bullets to Buckshot instead of .45ACP
+4.) Make Weapons be based of player_inventory slots[1,2,3]
+5.) Keep Weapon Ammo on equip/unequip # This could be fixed by just making them disabled and invisible
+6.) Add Noticability system
+7.) Actually change FOV with different actions
+8.) Make throwing function for held objects
+9.) Item dropping (Almost)
+10.) 
+11.) Fix Guns not working on client / Health not right (Health needs to be synced but what the client doesnt see cant hurt him because the instances are seprate just loosely connected)
+12.) Add PlayersPerSession chooser to lobby creation screen
+13.) Add MapChanger
+14.) Add BaseItem Class
+15.) Make BaseNPC
+16.) Make BaseFluid Class
+17.) Make Better Weapon Models
+18.) Make B&T APC
+19.) Finish M2_IslandTown
+20.) Make the games systems in a way where you can just mess around with the settings and such by being able to shove certain stuff in a folder and it just works
+
+
+
+Goodnight! ^^

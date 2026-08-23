@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cps3p5iiiqt1o"]
+
+[resource]
+albedo_color = Color(0.5653763, 0.63827235, 0.6548191, 1)
+emission_enabled = true
+normal_enabled = true
+clearcoat_enabled = true
+grow = true

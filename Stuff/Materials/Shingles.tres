@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://budqyr7wlfyhc"]
+
+[resource]
+resource_name = "Shingles"
+albedo_color = Color(0.3372549, 0.14509805, 0.12941177, 1)
+metallic = 0.5

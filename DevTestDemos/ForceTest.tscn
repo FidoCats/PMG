@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bw2l62uncoixp"]
+
+[ext_resource type="Script" uid="uid://cqtlnm8wqd0h6" path="res://DevTestDemos/force_test.gd" id="1_fb8th"]
+[ext_resource type="Material" uid="uid://dw4mpuaq0iyln" path="res://Stuff/Materials/Green.tres" id="2_euv34"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_euv34"]
+sky_top_color = Color(0.5083298, 0.58689296, 0.8451894, 1)
+sky_horizon_color = Color(0.78669786, 0.82683206, 0.90415573, 1)
+ground_bottom_color = Color(0.10349775, 0.18547136, 0.23646954, 1)
+ground_horizon_color = Color(0.78669786, 0.82683206, 0.90415573, 1)
+
+[sub_resource type="Sky" id="Sky_xuo3a"]
+sky_material = SubResource("ProceduralSkyMaterial_euv34")
+
+[sub_resource type="Environment" id="Environment_lyf0x"]
+background_mode = 2
+sky = SubResource("Sky_xuo3a")
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("2_euv34")
+size = Vector3(50, 1, 50)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_yf5fn"]
+
+[node name="Node3D" type="Node3D" unique_id=82396519]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=235754137]
+transform = Transform3D(1, 0, 0, 0, 0.16452295, 0.9863733, 0, -0.9863733, 0.16452296, 0, 3.3085642, 0)
+
+[node name="Label1" type="Label3D" parent="." unique_id=1614025548]
+transform = Transform3D(1, 0, 0, 0, 0.4773976, 0.8786874, 0, -0.8786874, 0.4773976, 0, 0, 0)
+text = "wawa"
+
+[node name="Label2" type="Label3D" parent="." unique_id=1470598561]
+transform = Transform3D(1, 0, 0, 0, 0.4773976, 0.8786874, 0, -0.8786874, 0.4773976, 0, -0.1, 0.1)
+text = "wawa"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=558141201]
+transform = Transform3D(0.99121547, -0.021145301, -0.130555, 0.13119937, 0.03266319, 0.9908177, -0.016686764, -0.9992427, 0.035150513, 0, -0.18445349, 0)
+light_color = Color(0.8784314, 1, 1, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1371207480]
+environment = SubResource("Environment_lyf0x")
+
+[node name="Mesh" type="RigidBody3D" parent="." unique_id=1818766730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -26.655115, -8.590235)
+script = ExtResource("1_fb8th")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh" unique_id=966415992]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="Mesh2" type="MeshInstance3D" parent="Mesh" unique_id=237315015]
+mesh = SubResource("BoxMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1880179075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -29.646536, -8.590235)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1915380371]
+mesh = SubResource("BoxMesh_yf5fn")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1725221056]
+shape = SubResource("WorldBoundaryShape3D_yf5fn")
+
+[node name="VSlider" type="VSlider" parent="." unique_id=859197145]
+offset_top = 240.0
+offset_right = 32.0
+offset_bottom = 560.0
+min_value = 10.0
+max_value = 160.0
+value = 120.0
+allow_greater = true
+allow_lesser = true
+
+[connection signal="value_changed" from="VSlider" to="Mesh" method="_on_v_slider_value_changed"]

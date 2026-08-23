@@ -1,0 +1,34 @@
+Basic:
+WASD - Movement
+MouseMove - Look Around
+SpaceBar - Jump
+LCtrl, C - Crouch
+E - Interact
+Q - Special Ability
+Esc - Menu
+M - SpawnMenu
+L - MouseLock Toggle
+K - HurtBind
+LAlt - Kick, Freeze Held Object
+G - Throwable
+H - Switch Throwable
+O - Camera Further
+I - Camera Closer
+P - Reset Camera Distance
+T - Flashlight
+V - Vitals Screen
+Tab - Inventory
+Slash (-/) - Open Chat
+M1 (With empty hands) - Attack
+
+Gun:
+M1 - Shoot
+R - Reload
+B - Change Fire Mode
+
+Other:
+SpaceBar (on wall, hold) - Climb
+SpaceBar (in air, up to 2 times) - Air Jump
+LShift (on floor, hold) - Run
+LCtrl, C (in air, with momentum) - Dive
+LCtrl,C and LShift (on floor, hold) - Slide

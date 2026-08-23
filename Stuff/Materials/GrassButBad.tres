@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cfappvtws40cj"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_d0u6y"]
+
+[resource]
+albedo_color = Color(0.39541486, 0.39541486, 0.39541486, 1)
+roughness_texture = SubResource("ImageTexture_d0u6y")

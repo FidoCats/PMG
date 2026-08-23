@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://n2uolf8wtyby"]
+
+[ext_resource type="Material" uid="uid://n132mcofwgfk" path="res://Stuff/Materials/Blue.tres" id="1_ocaxa"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_x32u1"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_g4v7s"]
+material = ExtResource("1_ocaxa")
+inner_radius = 0.029
+outer_radius = 0.02
+rings = 32
+ring_segments = 16
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+material = ExtResource("2_x32u1")
+top_radius = 0.029
+bottom_radius = 0.023
+height = 0.15
+radial_segments = 32
+rings = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_17r2w"]
+material = ExtResource("2_x32u1")
+top_radius = 0.023
+bottom_radius = 0.029
+height = 0.1
+radial_segments = 32
+rings = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wxoxw"]
+material = ExtResource("1_ocaxa")
+top_radius = 0.021
+bottom_radius = 0.018
+height = 0.01
+radial_segments = 32
+rings = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ocaxa"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:shadow_enabled")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:light_energy")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[node name="Flashlight" type="SpotLight3D" unique_id=1072705150]
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 894.0
+spot_angle = 36.960342
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1737239799]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.0001956895)
+mesh = SubResource("TorusMesh_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1997135454]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.076901674, -3.3614789e-09)
+mesh = SubResource("CylinderMesh_g4v7s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1627322821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20128958, -8.798647e-09)
+mesh = SubResource("CylinderMesh_17r2w")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1838200917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2554016, -1.11639595e-08)
+mesh = SubResource("CylinderMesh_wxoxw")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1227520375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13119967, -5.73492e-09)
+mesh = SubResource("TorusMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1924831700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14184628, -6.2002985e-09)
+mesh = SubResource("TorusMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1229539641]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15209915, -6.6484658e-09)
+mesh = SubResource("TorusMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="MeshInstance3D" unique_id=644771012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16295037, -7.1227877e-09)
+mesh = SubResource("TorusMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="MeshInstance3D" unique_id=839625049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17362145, -7.589236e-09)
+mesh = SubResource("TorusMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1077203887]
+replication_config = SubResource("SceneReplicationConfig_ocaxa")

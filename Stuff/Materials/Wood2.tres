@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dlnfqjwhmxwoy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3a3do"]
+
+[resource]
+albedo_color = Color(0.09019608, 0.05490196, 0.03529412, 1)
+albedo_texture = SubResource("NoiseTexture2D_3a3do")
