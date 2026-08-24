@@ -99,6 +99,8 @@ var MaxJumps: int = 2
 @export var CameraPos: int = 0
 @export var MaxCameraPos = 15
 
+@export var KeepInventory: bool = false
+
 var HandsOccupied: bool = false
 
 var SpringArmBaseLength: float
@@ -594,6 +596,9 @@ func Death():
 	RespawnAudioStream.stream = DeathSound
 	RespawnAudioStream.play()
 	IsRagdolled = true
+	if not KeepInventory:
+		player_inventory.ClearAll()
+	
 	await get_tree().create_timer(1).timeout
 	#ResetCharacter()
 	ResetValues()

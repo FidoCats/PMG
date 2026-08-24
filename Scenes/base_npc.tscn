@@ -19,6 +19,7 @@ font_size = 25
 line_spacing = -15.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 0.001
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sst3"]
 properties/0/path = NodePath(".:transform")
