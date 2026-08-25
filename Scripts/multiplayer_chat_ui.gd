@@ -41,11 +41,11 @@ func _on_send_pressed():
 
 func add_message(nick: String, msg: String, nick_color: Color):
 	var time = Time.get_time_string_from_system()
-	var color = nick_color
+	#var color = nick_color
 	var formatted_message = "[" + time + "] " + nick + ": " + msg + "\n"
 	chat.text += formatted_message
-	var got_nick = chat.text.find(nick)
-	got_nick.font_color = color
+	#var got_nick = chat.text.find(nick)
+	#got_nick.font_color = color
 	chat.scroll_vertical = chat.get_line_count()
 	_limit_chat_history()
 

@@ -1,12 +1,7 @@
-Some people on Sketchfab
-- Cardboard box model
-- low poly cat model
-
 Free GDAssetLib Assets
-- Inventory
-- Multiplayer
+- Multiplayer Network Template with Inventory (Too stupid to make that myself. :3)
 
 Fido
 - Programming
-- Felmitt models
-- everything else i suppose?
+- Player Models
+- Everything else i suppose? ':|

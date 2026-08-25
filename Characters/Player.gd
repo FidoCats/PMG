@@ -56,6 +56,7 @@ const SlideStartSpeed: float = 12.5
 const SlideEndSpeed: float = 2.0
 const DiveStartSpeed: float = 17.5
 const DiveEndSpeed: float = 15.0
+const WallRunSpeed: float = 10.5
 const CrouchFov: float = 5.0
 const RunFov: float = 12.5
 const DiveFov: float = 22.5
@@ -80,6 +81,7 @@ var CurrentFov: float
 
 var CurrentNoise: int
 var CurrentVisibility: int
+var Noticability: int
 
 var CanMove: bool = true
 var IsWalking: bool = true
@@ -87,6 +89,7 @@ var IsCrouching: bool = false
 var IsSliding: bool = false
 var IsDiving: bool = false
 var IsClinging: bool = false
+var CanCling: bool = true
 
 var Jumps: int = 2
 var MaxJumps: int = 2
@@ -252,6 +255,10 @@ func _process(_delta):
 	if is_on_floor() and not CanMove or is_on_wall() and not CanMove:
 		CanMove = true
 	
+	Noticability = CurrentNoise + CurrentVisibility
+	
+	
+	
 	if CurrentFov != Fov:
 		CurrentFov = lerp(CurrentFov, Fov, 0.1)
 	$FPCamera.fov = CurrentFov
@@ -263,6 +270,8 @@ func _process(_delta):
 		if CurrentSpeed <= 0.5 and CurrentNoise >= WalkNoise:
 			CurrentNoise = 0 
 			CurrentFov = SetFov
+		
+		
 		
 		## Get out of seats and such
 		if is_on_floor() and Input.is_action_just_pressed("Jump"):
@@ -315,6 +324,15 @@ func _process(_delta):
 			if CameraPos > 0:
 				$FPCamera/SpringArmOffset/SpringArm3D.spring_length = lerp($FPCamera/SpringArmOffset/SpringArm3D.spring_length, SpringArmBaseLength * CameraPos, 1)
 			print(CameraPos)
+		if Input.is_action_just_pressed("CameraReset"):
+			CameraPos = 0
+	
+	if Input.is_action_just_pressed("Chat") and not InputBlocked:
+		InputBlocked = true 
+	elif Input.is_action_just_pressed("Chat") and InputBlocked:
+		InputBlocked = false
+	
+	
 	
 	## Throwables
 		if Input.is_action_pressed("Throwable") and CanThrowThrowable:
@@ -424,6 +442,8 @@ func _physics_process(delta):
 			Slide()
 		if Input.is_action_pressed("Crouch") and CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor() and not is_on_wall():
 			Dive()
+		if Input.is_action_pressed("RMB") and is_on_wall():
+			WallRun()
 		if Input.is_action_pressed("RMB") and CurrentItem == null:
 			LedgeHold()
 	
@@ -555,23 +575,34 @@ func Dive():
 
 
 
+func WallRun():
+	DesiredGravity = 5.0
+	Speed = WallRunSpeed
+	CurrentNoise = RunNoise
+
+
+
 func LedgeHold():
-	if InfrontRay.Infront != null and LookAtRay.LookingAt == null and FPCamera.rotation_degrees.x > 10.0:
-		IsClinging = true
-		#DesiredGravity = 0.0
-		if CurrentNoise <= WalkNoise:
-			CurrentNoise = LedgeGrabNoise
-		if velocity.y <= 2.5:
-			velocity.y = 0.0
-		Speed = CrouchSpeed
-	elif Input.is_action_just_released("RMB"):
-		#DesiredGravity = Gravity
-		Speed = BaseSpeed
-		IsClinging = false
-	elif Input.is_action_just_pressed("Jump") and IsClinging and Jumps > 0:
-		velocity.y = 7.5
-		IsClinging = false
-		Jumps = 0
+	if InfrontRay.Infront != null and LookAtRay.LookingAt == null and FPCamera.rotation_degrees.x > 2.5 and FPCamera.rotation_degrees.x < 85 and CanCling:
+		if not Input.is_action_pressed("Jump"):
+			IsClinging = true
+			#DesiredGravity = 0.0
+			if CurrentNoise <= WalkNoise:
+				CurrentNoise = LedgeGrabNoise
+			if velocity.y <= 2.5:
+				velocity.y = 0.0
+			Speed = CrouchSpeed
+		elif Input.is_action_just_released("RMB"):
+			#DesiredGravity = Gravity
+			Speed = BaseSpeed
+			IsClinging = false
+		elif Input.is_action_just_pressed("Jump") and IsClinging:
+			CanCling = false
+			velocity.y = 7.5
+			IsClinging = false
+			Jumps = 1
+			await get_tree().create_timer(1).timeout
+			CanCling = true
 
 
 

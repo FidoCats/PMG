@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dkvne1cfd1ene"]
 
 [ext_resource type="PackedScene" uid="uid://dbhc0xc8qiy7n" path="res://Scenes/base_npc.tscn" id="1_y1gs0"]
-[ext_resource type="PackedScene" uid="uid://w8geq2286nla" path="res://Scenes/vibe_coded_camera_system.tscn" id="2_xugai"]
 
 [node name="DebugNpcTestmap" type="Node3D" unique_id=841047864]
 
@@ -112,6 +111,9 @@ size = Vector3(1, 2, 30)
 
 [node name="BaseNPC" parent="." unique_id=1797669239 instance=ExtResource("1_y1gs0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.86389, 1.6634994, -6.6465473)
-
-[node name="ComputerScreen" parent="." unique_id=1857158186 instance=ExtResource("2_xugai")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 16.983797, 1.3409758, 4.6498737)
+CanHear = false
+CanSee = false
+CanFeel = false
+CanTouch = false
+IsAgressive = false
+WillPursue = false

@@ -145,11 +145,10 @@ func Wander(_delta):
 
 
 
-func HurtPlayer(_body, UsedDamage):
+func HurtPlayer(_body): #, UsedDamage):
 	if IsAgressive:
 		if _body.has_method("TakeDamage"):
-			UsedDamage = AttackDamage
-			_body.TakeDamage(UsedDamage)
+			_body.TakeDamage(AttackDamage)
 
 
 

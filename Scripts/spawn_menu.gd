@@ -121,7 +121,7 @@ func _on_maps_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 					#Global.MapNode.remove_child(get_child(0))
 				#var BallpitMap: Node3D = BallpitMapPreload.instantiate()
 				#Global.MapNode.add_child(BallpitMap)
-				$"..".Teleport($"..", Vector3(200,25,0))
+				$"..".Teleport($"..", Vector3(500,5,0))
 			2:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))

@@ -4,31 +4,30 @@ MouseMove - Look Around
 SpaceBar - Jump
 LCtrl, C - Crouch
 E - Interact
-Q - Special Ability
 Esc - Menu
 M - SpawnMenu
-L - MouseLock Toggle
+J - MouseLock Toggle
 K - HurtBind
-LAlt - Kick, Freeze Held Object
+L - Ragdoll
+LAlt - Freeze Held Object
 G - Throwable
 H - Switch Throwable
 O - Camera Further
 I - Camera Closer
 P - Reset Camera Distance
-T - Flashlight
-V - Vitals Screen
 Tab - Inventory
-Slash (-/) - Open Chat
-M1 (With empty hands) - Attack
+Slash (-, /) - Open Chat
 
 Gun:
 M1 - Shoot
+M2 - Pump / Secondary Function
 R - Reload
 B - Change Fire Mode
 
 Other:
-SpaceBar (on wall, hold) - Climb
-SpaceBar (in air, up to 2 times) - Air Jump
+SpaceBar (in air) - Air Jump
 LShift (on floor, hold) - Run
 LCtrl, C (in air, with momentum) - Dive
-LCtrl,C and LShift (on floor, hold) - Slide
+LCtrl, C and LShift (on floor, hold) - Slide
+RMB (if a wall is in front and looking up) - Cling / Ledge Grab
+RMB (with momentum, with a wall to the side / walking on the side of the wall) - Wall Run

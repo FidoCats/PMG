@@ -1,9 +1,6 @@
 [gd_scene format=3 uid="uid://c6nrkt2wqxg5u"]
 
 [ext_resource type="MeshLibrary" uid="uid://dyxep538wkg3f" path="res://Stuff/MeshLibraries/RainbowIg.tres" id="1_wvi3i"]
-[ext_resource type="Script" uid="uid://bvycsafcxak6j" path="res://Scripts/death_prevention.gd" id="2_gqbbi"]
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_s7hoj"]
 
 [node name="BallPit" type="Node3D" unique_id=375342194]
 
@@ -17,18 +14,9 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
-[node name="Area3D" type="Area3D" parent="." unique_id=931258371]
-script = ExtResource("2_gqbbi")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1740266750]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5274677, 0)
-shape = SubResource("WorldBoundaryShape3D_s7hoj")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=756305999]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.2867827, 86.420105)
 visible = false
 light_energy = 1.088
 light_volumetric_fog_energy = 1.25
 shadow_enabled = true
-
-[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]

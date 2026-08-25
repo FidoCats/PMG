@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b73ixp1iw6lxq" path="res://Stuff/Images/Fido Fullbody.png" id="3_fp5op"]
 [ext_resource type="AudioStream" uid="uid://5peweapedbdu" path="res://Stuff/Sounds/edr-cat-purr-meow-8327.mp3" id="4_gffvb"]
 [ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="5_d34pp"]
+[ext_resource type="Script" uid="uid://x3wnhtlu2e45" path="res://Scripts/Spin.gd" id="6_d34pp"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_npnbc"]
 color = Color(0, 0, 0, 0)
@@ -180,13 +181,17 @@ theme_override_colors/font_hover_color = Color(0.858807, 4.71681e-06, 1.15514e-0
 theme_override_font_sizes/font_size = 35
 text = "Quit"
 
-[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=893185653]
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=893185653 node_paths=PackedStringArray("MousePosGetterNode")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-spring_length = 10.0
+spring_length = 50.0
+script = ExtResource("6_d34pp")
+MousePosGetterNode = NodePath("Node2D")
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=987747069]
-transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 22, 21)
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 116, 16)
 fov = 90.0
+
+[node name="Node2D" type="Node2D" parent="SpringArm3D" unique_id=2016161648]
 
 [connection signal="pressed" from="MainContainer/Title" to="." method="_on_title_pressed"]
 [connection signal="pressed" from="MainContainer/MainMenu/Buttons/Host" to="." method="_on_host_pressed"]
