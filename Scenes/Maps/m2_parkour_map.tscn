@@ -9,11 +9,17 @@ albedo_color = Color(0.31431612, 0.31431612, 0.3143161, 1)
 [node name="M2_ParkourMap" type="Node3D" unique_id=1619053211]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1935328640]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
 use_collision = true
-size = Vector3(125, 1, 225)
+size = Vector3(125, 1, 145)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="." unique_id=1037275803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -86)
+use_collision = true
+size = Vector3(125, 1, 53)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1103080766]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -96)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -96)
 use_collision = true
 size = Vector3(100, 1.5, 7.5)
 
@@ -41,6 +47,46 @@ size = Vector3(100, 5, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, -88)
 use_collision = true
 size = Vector3(100, 2.5, 10)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="." unique_id=1430165557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 5.1, -55)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="." unique_id=1539197866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 5.1, -42)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="." unique_id=25855377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 5.1, -50)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="." unique_id=1820202005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 5.1, -36)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="." unique_id=139629543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.5, -24)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="." unique_id=1671212748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 2.5, -11)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="." unique_id=1788339986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.5, 2.5, -19)
+use_collision = true
+size = Vector3(1, 2.5, 10)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="." unique_id=1144213276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.5, 2.5, -5)
+use_collision = true
+size = Vector3(1, 2.5, 10)
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="." unique_id=627250747]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -64)
@@ -4834,3 +4880,10 @@ size = Vector3(0.5, 10, 10)
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -6.6999817, 72, 13.0000305)
 material_override = SubResource("StandardMaterial3D_g4v7s")
 size = Vector3(0.5, 10, 10)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1632043707]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 62.81172, 93)
+light_color = Color(1, 1, 0.5921569, 1)
+light_energy = 1.5
+shadow_enabled = true
+spot_range = 4096.0

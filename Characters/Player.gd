@@ -90,9 +90,10 @@ var IsSliding: bool = false
 var IsDiving: bool = false
 var IsClinging: bool = false
 var CanCling: bool = true
+var IsWallRunning: bool = true
+var CanWallJump: bool = true
 
-var Jumps: int = 2
-var MaxJumps: int = 2
+
 
 ## Others
 @export_category("Propreties")
@@ -101,6 +102,10 @@ var MaxJumps: int = 2
 @export var MinCameraPos: int = 0
 @export var CameraPos: int = 0
 @export var MaxCameraPos = 15
+@export var Jumps: int = 2
+@export var MaxJumps: int = 2
+@export var WallJumps: int = 2
+@export var MaxWallJumps: int = 2
 
 @export var KeepInventory: bool = false
 
@@ -228,32 +233,45 @@ func _process(_delta):
 	if IsRagdolled == true:
 		position = $MutlipartBody/Skeleton3D/Botom.position
 	else:
-		$MutlipartBody/Skeleton3D/Botom.position = position 
+		$MutlipartBody/Skeleton3D/Botom.position = position
+		$MutlipartBody/Skeleton3D/Botom.rotation = rotation
+		$MutlipartBody/Skeleton3D/Botom.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/Chest.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/Face.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/Head.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/LegL.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/LegR.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/ArmL.rotation = Vector3.ZERO
+		$MutlipartBody/Skeleton3D/Botom/ArmR.rotation = Vector3.ZERO
+		
 	
 	$MainMesh.visible = !IsRagdolled
 	
 	$MutlipartBody/Skeleton3D/Botom.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Chest.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Face.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Head.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/LegL.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/LegR.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/ArmL.freeze = !IsRagdolled
-	$MutlipartBody/Skeleton3D/ArmR.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Chest.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Face.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Head.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/LegL.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/LegR.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/ArmL.freeze = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/ArmR.freeze = !IsRagdolled
 	$MutlipartBody/Skeleton3D/Botom/CollisionShape3D.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Chest/CollisionShape3D.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Face/CollisionShape3D.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/Head/CollisionShape3D.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/LegL/CollisionShape3D2.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/LegR/CollisionShape3D.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/ArmL/CollisionShape3D2.disabled = !IsRagdolled
-	$MutlipartBody/Skeleton3D/ArmR/CollisionShape3D.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Chest/CollisionShape3D.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Face/CollisionShape3D.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/Head/CollisionShape3D.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/LegL/CollisionShape3D2.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/LegR/CollisionShape3D.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/ArmL/CollisionShape3D2.disabled = !IsRagdolled
+	$MutlipartBody/Skeleton3D/Botom/ArmR/CollisionShape3D.disabled = !IsRagdolled
 
 ## Basic ifs
-	if CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor_only() and not IsSliding and not IsDiving:
+	if CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor_only() and not IsSliding and not IsDiving and not IsWallRunning:
 		CanMove = false
 	if is_on_floor() and not CanMove or is_on_wall() and not CanMove:
 		CanMove = true
+	
+	if IsSliding and CurrentSpeed <= 1.0:
+		UnCrouch()
 	
 	Noticability = CurrentNoise + CurrentVisibility
 	
@@ -409,7 +427,11 @@ func _physics_process(delta):
 	if is_on_floor():
 		if Jumps != MaxJumps:
 			Jumps = MaxJumps
-
+		if WallJumps != MaxWallJumps:
+			WallJumps = MaxWallJumps
+		if IsWallRunning:
+			IsWallRunning = false
+	
 	if not is_on_floor():
 		velocity.y -= DesiredGravity * delta
 	
@@ -442,19 +464,16 @@ func _physics_process(delta):
 			Slide()
 		if Input.is_action_pressed("Crouch") and CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor() and not is_on_wall():
 			Dive()
-		if Input.is_action_pressed("RMB") and is_on_wall():
-			WallRun()
 		if Input.is_action_pressed("RMB") and CurrentItem == null:
 			LedgeHold()
 	
 	## Input Release
 		if Input.is_action_just_released("Crouch"):
 			UnCrouch()
-		
-		#if Input.is_action_just_released("Crouch") and IsSliding:
-			#IsWalking = true
-			#FPCamera.rotation.y = -180
 
+	## Other Movement ifs
+	if is_on_wall() and not IsClinging:
+		WallRun()
 
 
 	move_and_slide()
@@ -576,9 +595,21 @@ func Dive():
 
 
 func WallRun():
-	DesiredGravity = 5.0
-	Speed = WallRunSpeed
-	CurrentNoise = RunNoise
+	if not Input.is_action_pressed("Jump"):
+		DesiredGravity = 5.0
+		Speed = WallRunSpeed
+		CurrentNoise = RunNoise
+		IsWallRunning = true
+	elif Input.is_action_just_pressed("Jump") and WallJumps > 0 and CanWallJump:
+		DesiredGravity = Gravity
+		CurrentSpeed = WallRunSpeed
+		CanMove = true
+		velocity.y = 3.25
+		WallJumps -= 1
+		Jumps = 1
+		CanWallJump = false
+		await get_tree().create_timer(1).timeout
+		CanWallJump = true
 
 
 

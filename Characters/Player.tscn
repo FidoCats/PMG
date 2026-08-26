@@ -32,10 +32,6 @@ dof_blur_far_enabled = true
 dof_blur_far_distance = 50.0
 dof_blur_amount = 0.05
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_g4v7s"]
-height = 0.115
-radius = 0.425
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
 height = 0.875
 radius = 0.35
@@ -204,6 +200,10 @@ bind/23/pose = Transform3D(1.72851, -2.29899e-06, -1.33733e-06, -0.000247434, -0
 bind/24/name = &"toe.R"
 bind/24/bone = -1
 bind/24/pose = Transform3D(-1.72851, -3.74972e-06, -5.0536e-07, -0.000271607, -0.230886, 1.7131, -1.28633e-05, 1.7132, 0.230893, -0.287996, -0.229828, -0.169801)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g4v7s"]
+height = 0.115
+radius = 0.425
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2grho"]
 properties/0/path = NodePath(".:position")
@@ -506,6 +506,91 @@ bones/24/scale = Vector3(1, 1, 1)
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 freeze = true
 
+[node name="Chest" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=579920474]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/Chest" unique_id=163405588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4240625, 0)
+shape = SubResource("CylinderShape3D_yf5fn")
+
+[node name="Chest" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/Chest" unique_id=163262104]
+transform = Transform3D(0.95999974, 0, 0, 0, 1.8199997, 0, 0, 0, 0.7999997, 0, -1.0168775, 0)
+skeleton = NodePath("../../..")
+
+[node name="Face" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=2146629278]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/Face" unique_id=457202769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6438823, 0)
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Face" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/Face" unique_id=1372106208]
+transform = Transform3D(1, 0, 0, 0, 1.1999999, 0, 0, 0, 1, 0, 0, 0)
+skeleton = NodePath("../../..")
+
+[node name="Head" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=358285000]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/Head" unique_id=1039834335]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6438823, 0)
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Face" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/Head" unique_id=708908442]
+transform = Transform3D(1, 0, 0, 0, 1.1999999, 0, 0, 0, 1, 0, 0, 0)
+skin = SubResource("Skin_5h6fu")
+skeleton = NodePath("../../..")
+
+[node name="LegL" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=791331168]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+freeze = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/LegL" unique_id=1235766351]
+transform = Transform3D(0.9999962, 0, 0, 0, 0.9999962, 0, 0, 0, 0.9999962, 0.20337588, 0.38987148, 0)
+shape = SubResource("CylinderShape3D_57qmd")
+
+[node name="LegL" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/LegL" unique_id=1071531529]
+transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
+skeleton = NodePath("../../..")
+
+[node name="LegR" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=294174251]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/LegR" unique_id=1238325088]
+transform = Transform3D(0.99999815, 0, 0, 0, 0.99999815, 0, 0, 0, 0.99999815, -0.20337556, 0.29662395, 0)
+shape = SubResource("CylinderShape3D_57qmd")
+
+[node name="LegR" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/LegR" unique_id=2075612513]
+transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
+skin = SubResource("Skin_gooby")
+skeleton = NodePath("../../..")
+
+[node name="ArmL" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=2080230757]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+freeze = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/ArmL" unique_id=1330712447]
+transform = Transform3D(0.9999962, 0, 0, 0, 0.9999962, 0, 0, 0, 0.9999962, 0.20337588, 0.38987148, 0)
+shape = SubResource("CylinderShape3D_57qmd")
+
+[node name="LegL" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/ArmL" unique_id=2080478481]
+transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
+skin = SubResource("Skin_gooby")
+skeleton = NodePath("../../..")
+
+[node name="ArmR" type="RigidBody3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=2068603941]
+transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom/ArmR" unique_id=1932626695]
+transform = Transform3D(0.99999815, 0, 0, 0, 0.99999815, 0, 0, 0, 0.99999815, -0.20337556, 0.29662395, 0)
+shape = SubResource("CylinderShape3D_57qmd")
+
+[node name="LegR" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Botom/ArmR" unique_id=1101944408]
+transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
+skin = SubResource("Skin_gooby")
+skeleton = NodePath("../../..")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Botom" unique_id=478829846]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0492499, 0)
 shape = SubResource("CylinderShape3D_g4v7s")
@@ -514,121 +599,37 @@ shape = SubResource("CylinderShape3D_g4v7s")
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
 skeleton = NodePath("../..")
 
-[node name="Chest" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=579920474]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-freeze = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Chest" unique_id=163405588]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4240625, 0)
-shape = SubResource("CylinderShape3D_yf5fn")
-
-[node name="Chest" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Chest" unique_id=163262104]
-transform = Transform3D(0.95999974, 0, 0, 0, 1.8199997, 0, 0, 0, 0.7999997, 0, -1.0168775, 0)
-skeleton = NodePath("../..")
-
-[node name="Face" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=2146629278]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-freeze = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Face" unique_id=457202769]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6438823, 0)
-shape = SubResource("SphereShape3D_g4v7s")
-
-[node name="Face" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Face" unique_id=1372106208]
-transform = Transform3D(1, 0, 0, 0, 1.1999999, 0, 0, 0, 1, 0, 0, 0)
-skeleton = NodePath("../..")
-
-[node name="Head" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=358285000]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-freeze = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/Head" unique_id=1039834335]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6438823, 0)
-shape = SubResource("SphereShape3D_g4v7s")
-
-[node name="Face" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/Head" unique_id=708908442]
-transform = Transform3D(1, 0, 0, 0, 1.1999999, 0, 0, 0, 1, 0, 0, 0)
-skin = SubResource("Skin_5h6fu")
-skeleton = NodePath("../..")
-
-[node name="LegL" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=791331168]
-freeze = true
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/LegL" unique_id=1235766351]
-transform = Transform3D(0.9999962, 0, 0, 0, 0.9999962, 0, 0, 0, 0.9999962, 0.20337588, 0.38987148, 0)
-shape = SubResource("CylinderShape3D_57qmd")
-
-[node name="LegL" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/LegL" unique_id=1071531529]
-transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
-skeleton = NodePath("../..")
-
-[node name="LegR" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=294174251]
-freeze = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/LegR" unique_id=1238325088]
-transform = Transform3D(0.99999815, 0, 0, 0, 0.99999815, 0, 0, 0, 0.99999815, -0.20337556, 0.29662395, 0)
-shape = SubResource("CylinderShape3D_57qmd")
-
-[node name="LegR" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/LegR" unique_id=2075612513]
-transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
-skin = SubResource("Skin_gooby")
-skeleton = NodePath("../..")
-
-[node name="ArmL" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=2080230757]
-freeze = true
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/ArmL" unique_id=1330712447]
-transform = Transform3D(0.9999962, 0, 0, 0, 0.9999962, 0, 0, 0, 0.9999962, 0.20337588, 0.38987148, 0)
-shape = SubResource("CylinderShape3D_57qmd")
-
-[node name="LegL" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/ArmL" unique_id=2080478481]
-transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
-skin = SubResource("Skin_gooby")
-skeleton = NodePath("../..")
-
-[node name="ArmR" type="RigidBody3D" parent="MutlipartBody/Skeleton3D" unique_id=2068603941]
-freeze = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MutlipartBody/Skeleton3D/ArmR" unique_id=1932626695]
-transform = Transform3D(0.99999815, 0, 0, 0, 0.99999815, 0, 0, 0, 0.99999815, -0.20337556, 0.29662395, 0)
-shape = SubResource("CylinderShape3D_57qmd")
-
-[node name="LegR" type="MeshInstance3D" parent="MutlipartBody/Skeleton3D/ArmR" unique_id=1101944408]
-transform = Transform3D(0.99999976, 0, 0, 0, 1.1999996, 0, 0, 0, 0.99999976, 0, 0, 0)
-skin = SubResource("Skin_gooby")
-skeleton = NodePath("../..")
-
 [node name="BottomChest" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=1346940262]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-node_a = NodePath("../Chest")
+node_a = NodePath("../Botom/Chest")
 node_b = NodePath("../Botom")
 bias = 0.01
 
 [node name="BottomLegL" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=1418035484]
 node_a = NodePath("../Botom")
-node_b = NodePath("../LegL")
+node_b = NodePath("../Botom/LegL")
 
 [node name="BottomLegR" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=1762051580]
 node_a = NodePath("../Botom")
-node_b = NodePath("../LegR")
+node_b = NodePath("../Botom/LegR")
 
 [node name="ChestHead" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=1805467830]
-node_a = NodePath("../Chest")
-node_b = NodePath("../Face")
+node_a = NodePath("../Botom/Chest")
+node_b = NodePath("../Botom/Face")
 
 [node name="HeadFace" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=77787436]
-node_a = NodePath("../Head")
-node_b = NodePath("../Face")
+node_a = NodePath("../Botom/Head")
+node_b = NodePath("../Botom/Face")
 
 [node name="ChestArmL" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=448558805]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-node_a = NodePath("../Chest")
-node_b = NodePath("../ArmL")
+node_a = NodePath("../Botom/Chest")
+node_b = NodePath("../Botom/ArmL")
 
 [node name="ChestArmR" type="ConeTwistJoint3D" parent="MutlipartBody/Skeleton3D" unique_id=38479211]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-node_a = NodePath("../Chest")
-node_b = NodePath("../ArmR")
+node_a = NodePath("../Botom/Chest")
+node_b = NodePath("../Botom/ArmR")
 
 [node name="PlayerNick" type="Node3D" parent="." unique_id=1077401834]
 
