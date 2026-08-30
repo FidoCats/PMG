@@ -52,11 +52,6 @@ func _physics_process(_delta: float) -> void:
 					Global.object.global_position.z -= 0 
 					Global.object = null
 					IsPickedUp = false
-		if Input.is_action_just_pressed("LMB"):
-			picked_up = false
-			Global.object.set_linear_velocity(Vector3(0,0,(Global.ObjectDistance)*(Global.object.mass)))
-			Global.object = null
-			print(self, " Thrown!")
 	
 	## Cant pickup stuff if standing on
 	#Global.AboveRay.Above == Global.LookAtRay.LookingAt:

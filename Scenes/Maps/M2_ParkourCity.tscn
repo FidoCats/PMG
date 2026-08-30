@@ -19,9 +19,14 @@ use_collision = true
 size = Vector3(125, 1, 53)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1103080766]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -96)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8999999, -96)
 use_collision = true
 size = Vector3(100, 1.5, 7.5)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="." unique_id=1839066879]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.3999999, -31)
+use_collision = true
+size = Vector3(13, 1.5, 7.5)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="." unique_id=459339745]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -113)
@@ -4884,6 +4889,7 @@ size = Vector3(0.5, 10, 10)
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1632043707]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 62.81172, 93)
 light_color = Color(1, 1, 0.5921569, 1)
-light_energy = 1.5
+light_energy = 5.0
+light_volumetric_fog_energy = 4.406
 shadow_enabled = true
 spot_range = 4096.0

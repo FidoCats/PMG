@@ -80,4 +80,7 @@ value = 120.0
 allow_greater = true
 allow_lesser = true
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=738068012]
+spawn_path = NodePath("..")
+
 [connection signal="value_changed" from="VSlider" to="Mesh" method="_on_v_slider_value_changed"]

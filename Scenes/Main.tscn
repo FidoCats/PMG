@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cplfprj1u8moi" path="res://Scenes/Maps/m2_island_town.tscn" id="5_0sclb"]
 [ext_resource type="PackedScene" uid="uid://bgmeb77i768e2" path="res://Scenes/Maps/kingdoms.tscn" id="6_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="7_fq0cl"]
-[ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/m2_parkour_map.tscn" id="8_hwpts"]
+[ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="8_hwpts"]
 [ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/LargeBox.tscn" id="9_jyqft"]
 [ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/box.tscn" id="10_3tgeq"]
 [ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="12_aht7i"]

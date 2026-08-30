@@ -15,6 +15,8 @@ class_name Player
 @onready var BaseCollisionShape: CollisionShape3D = $BaseCollisionShape
 @onready var CrouchCollisionShape: CollisionShape3D = $CrouchCollisionShape3D
 @onready var MainMesh: MeshInstance3D = $MainMesh
+@onready var ParryArea: Area3D = $FPCamera/ParryArea
+@onready var ParryMesh: MeshInstance3D = $FPCamera/ParryArea/MeshInstance3D
 
 var player_inventory: PlayerInventory
 
@@ -75,6 +77,11 @@ var Speed: float = BaseSpeed
 var CurrentSpeed: float = 0.0
 #var SpeedSlowdown: float = 0.0
 
+var ParryDamage: float = 5.0
+var ParryReward: float = 2.5
+var ParryForce: float = 7.5
+var ParryBody: Node3D = null
+
 var SetFov: float
 var Fov: float
 var CurrentFov: float
@@ -92,6 +99,7 @@ var IsClinging: bool = false
 var CanCling: bool = true
 var IsWallRunning: bool = true
 var CanWallJump: bool = true
+var CanParry: bool = true
 
 
 
@@ -162,25 +170,28 @@ func _unhandled_input(event: InputEvent) -> void:
 		if !InputBlocked:
 			if event is InputEventMouseMotion:
 				
-				
+				if CameraPos == 0:
+					$FPCamera.current = is_multiplayer_authority()
 					if not IsSliding and not IsDiving: 
 						rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
 						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
 						$FPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
 					if IsSliding or IsDiving: 
 						$FPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
-						#$FPCamera.rotation_degrees.y = clamp($FPCamera.rotation_degrees.y,100,-100)
+						#$FPCamera.rotation_degrees.y = clamp($FPCamera.rotation_degrees.y, -110, 110)
 						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
 						$FPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
-			if CameraPos == 0:
-				$FPCamera.current = is_multiplayer_authority()
-			else:
-				$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
-				#if not IsSliding and not IsDiving: 
-					#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
-					#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
-					#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
-
+				
+				else:
+					$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
+					#if not IsSliding and not IsDiving: 
+						#rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
+						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
+						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x = clamp($FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x,-90,90)
+					#if IsSliding or IsDiving: 
+						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
+						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
+						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x = clamp($FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x,-90,90)
 
 
 
@@ -188,6 +199,9 @@ func _ready():
 	Parent = get_parent()
 	
 	add_user_signal("Noticable")
+	
+	ParryArea.body_entered.connect(ParryAreaEntered)
+	ParryArea.body_exited.connect(ParryAreaExited)
 	
 	var is_local_player = is_multiplayer_authority()
 	var local_client_id = multiplayer.get_unique_id()
@@ -309,8 +323,8 @@ func _process(_delta):
 			$UI/Cursor/Tip.text = ""
 		if Input.is_action_just_pressed("WheelDown"):
 			Global.ObjectDistance -= 0.25
-			if Global.ObjectDistance < 0:
-				Global.ObjectDistance = 0.0
+			if Global.ObjectDistance < 0.25:
+				Global.ObjectDistance = 0.25
 			$UI/Cursor/Tip.text = str(Global.ObjectDistance)
 			await get_tree().create_timer(0.25).timeout
 			$UI/Cursor/Tip.text = ""
@@ -466,6 +480,9 @@ func _physics_process(delta):
 			Dive()
 		if Input.is_action_pressed("RMB") and CurrentItem == null:
 			LedgeHold()
+		if Input.is_action_just_pressed("Parry"): #and CanParry:
+			print("F Pressed")
+			Parry(ParryBody)
 	
 	## Input Release
 		if Input.is_action_just_released("Crouch"):
@@ -637,6 +654,42 @@ func LedgeHold():
 
 
 
+func Parry(_body: Node3D):
+	CanParry = false
+	ParryMesh.visible = true
+	print(_body)
+	if _body != self:
+		if _body != null:
+			if LookAtRay.LookingAt != null:
+				_body = LookAtRay.LookingAt
+			if _body.has_method("TakeDamage"):
+				_body.TakeDamage(ParryDamage)
+				await get_tree().create_timer(0.25).timeout
+			else:
+				if _body.is_class("RigidBody3D"): #or _body.is_class("CharacterBody3D"):
+					var camera_transform = FPCamera.global_transform
+					var Force: float = 0
+					if Force < 1:
+						Force += 1
+						_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
+						#PickUpComponent.picked_up = false
+						Global.object = null
+						await get_tree().create_timer(0.015).timeout
+						if _body.get_contact_count() == 0:
+							for f in ParryForce:
+								#Force = lerp(Force, Force + 0.1, 10)
+								Force += 1
+								_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
+								#PickUpComponent.picked_up = false
+								Global.object = null
+								await get_tree().create_timer(0.035).timeout
+	await get_tree().create_timer(0.1).timeout
+	ParryMesh.visible = false
+	CanParry = true
+
+
+
+
 
 
 
@@ -707,6 +760,13 @@ func Teleport(Who: Node3D, Where: Vector3):
 		Who.global_position = Where
 	else:
 		print("Need Who and Where variables to not be nil")
+
+
+
+func ParryAreaEntered(_body):
+	ParryBody = _body
+func ParryAreaExited(_body):
+	ParryBody = null
 
 
 

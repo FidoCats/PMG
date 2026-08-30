@@ -20,6 +20,9 @@ var Parent: Node3D
 
 func _enter_tree() -> void:
 	Parent = get_parent_node_3d()
+	
+	
+	
 	#global_position = StartPosition
 	target_position = FinalPosition
 	#await SetupFinished
@@ -37,13 +40,21 @@ func _enter_tree() -> void:
 func Move() -> void:
 	var TargetPosMarker = Marker3D.new()
 	var DebugMarkerSprite = Sprite3D.new()
-	add_child(TargetPosMarker)
-	add_child(DebugMarkerSprite)
-	#TargetPosMarker.transform.origin = Parent.transform.origin
-	TargetPosMarker.global_position = Parent.global_position + target_position
+	Global.ObjectSpawner.add_child(TargetPosMarker)
+	Global.ObjectSpawner.add_child(DebugMarkerSprite)
+	TargetPosMarker.transform.origin = Parent.transform.origin
+	TargetPosMarker.global_position = Parent.global_position + FinalPosition
+	print("TargetPos: ", )
 	TargetPosMarker.look_at(-target_position)
 	DebugMarkerSprite.global_transform = TargetPosMarker.global_transform
 	DebugMarkerSprite.texture = load("res://Stuff/Images/FluffersDaCat.png")
+	
+	
+	
+	
+	
+	
+	
 	if Parent.global_position != target_position:
 		#if Parent.global_transform != TargetPosMarker.global_transform:
 			#Parent.look_at(TargetPosMarker.global_position)
@@ -53,11 +64,13 @@ func Move() -> void:
 		
 		#Parent.global_position = Vector3(lerp(Parent.global_position.x,TargetPosMarker.global_position.x,F * 0.1), lerp(Parent.global_position.y,TargetPosMarker.global_position.y,F * 0.1), lerp(Parent.global_position.z,TargetPosMarker.global_position.z,F * 0.1))
 		#Parent.global_position = lerp(Parent.global_position, TargetPosMarker.global_position + Parent.global_position, F * 0.001)
-		Parent.global_transform.origin = target_position
+		#Parent.global_transform.origin = target_position
 		
 		Parent.look_at(TargetPosMarker.global_position)
 		
 		#Parent.global_position.z -= F
 		
 		print("Moved to: ", Parent.global_position, "Moved by: ", global_position)
-	
+	else:
+		TargetPosMarker.queue_free()
+		DebugMarkerSprite.queue_free()

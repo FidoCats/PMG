@@ -32,6 +32,14 @@ dof_blur_far_enabled = true
 dof_blur_far_distance = 50.0
 dof_blur_amount = 0.05
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_yf5fn"]
+radius = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+top_radius = 0.035
+bottom_radius = 0.025
+height = 0.65
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
 height = 0.875
 radius = 0.35
@@ -296,7 +304,7 @@ current = true
 fov = 90.0
 
 [node name="LookingAt" type="RayCast3D" parent="FPCamera" unique_id=843091635]
-target_position = Vector3(0, 0, -2.5)
+target_position = Vector3(0, 0, -3)
 script = ExtResource("6_c3bgu")
 
 [node name="Holding" type="Marker3D" parent="FPCamera" unique_id=1242823286]
@@ -315,6 +323,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="TPCamera" type="Camera3D" parent="FPCamera/SpringArmOffset/SpringArm3D" unique_id=1954471204]
 fov = 90.0
+
+[node name="ParryArea" type="Area3D" parent="FPCamera" unique_id=1679698604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4703484e-08, 0, -0.26327825)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FPCamera/ParryArea" unique_id=1780320987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7252903e-08, 0, -0.50000006)
+shape = SubResource("SphereShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FPCamera/ParryArea" unique_id=681518529]
+transform = Transform3D(0.9615164, -0.2664565, -0.06698741, -0.12940961, -0.2241439, -0.9659258, 0.24236241, 0.9374223, -0.2500001, -0.17939922, -0.17261755, -0.19637845)
+visible = false
+mesh = SubResource("CylinderMesh_g4v7s")
 
 [node name="MainMesh" type="MeshInstance3D" parent="." unique_id=255328238]
 transform = Transform3D(0.32399994, 0, 0, 0, 0.32399994, 0, 0, 0, 0.32399994, -0.05, 1.1, 0)
@@ -957,7 +977,7 @@ theme = ExtResource("14_ijtlc")
 item_count = 5
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "M0_TestMap :3"
-item_1/text = "M2_ParkourMap"
+item_1/text = "M2_ParkourCity"
 item_2/text = "M1_Kingdoms + M1_Ballpit"
 item_3/text = "M2_IslandTown"
 item_4/text = "DEBUG_NPC_TESTMAP"
