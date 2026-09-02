@@ -15,6 +15,7 @@ var HandsOccupied: bool = false
 
 var Sensitivity: float = 1.0
 var PlayerCharacterId: String = "Felmitt" # Default = "Felmitt"
+var UseDebug: bool = true
 
 var ProjectileSpawner: MultiplayerSpawner
 var ObjectSpawner: MultiplayerSpawner
@@ -23,6 +24,7 @@ var MapNode: MultiplayerSpawner
 var Damage: float = 0
 
 # Da Leftovers (Someone come eat them plspls)
+
 
 
 

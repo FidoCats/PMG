@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cwjwrqnw0g01r" path="res://Scripts/LookingAt.gd" id="6_c3bgu"]
 [ext_resource type="Script" uid="uid://ct6m0qhmso6y0" path="res://Scripts/Above.gd" id="6_x35ji"]
 [ext_resource type="Script" uid="uid://dk5l4hj3n7y0b" path="res://Scripts/Under.gd" id="7_o8u7c"]
+[ext_resource type="Script" uid="uid://cafh3uj72q7bj" path="res://Scripts/ScriptEdit.gd" id="12_2grho"]
 [ext_resource type="Script" uid="uid://bi641j81gphat" path="res://Scripts/cursor.gd" id="12_7wf5q"]
 [ext_resource type="Script" uid="uid://bnqr61iylb8hn" path="res://Scripts/speed_panel.gd" id="12_o8u7c"]
 [ext_resource type="AudioStream" uid="uid://mdvmh0yc7jpu" path="res://Stuff/Sounds/8bitAhh.ogg" id="12_r52jx"]
@@ -271,6 +272,8 @@ bg_color = Color(0.15294118, 0.3137255, 1, 0.7529412)
 [node name="Player" type="CharacterBody3D" unique_id=1661719079]
 collision_mask = 3
 script = ExtResource("1_x35ji")
+Species = 0
+FelmittModel = ExtResource("5_lli6r")
 ColorOverride = Color(255.0139, 0, 255.0139, 0.5019608)
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="." unique_id=515654043]
@@ -678,7 +681,7 @@ z_index = 1
 layout_mode = 0
 offset_left = 1040.0
 offset_right = 1280.0
-offset_bottom = 1080.0
+offset_bottom = 720.0
 
 [node name="Title" type="Label" parent="UI/Menu" unique_id=1668782754]
 layout_mode = 0
@@ -723,13 +726,52 @@ offset_bottom = 192.5
 theme_override_font_sizes/normal_font_size = 25
 text = "PeerList"
 
-[node name="CodeEdit" type="CodeEdit" parent="UI/Menu" unique_id=2043616396]
+[node name="CodeEdit" type="CodeEdit" parent="UI/Menu" unique_id=2043616396 node_paths=PackedStringArray("RunButton", "SaveButton", "HideButton", "player")]
+visible = false
 layout_mode = 0
 offset_left = -1040.0
-offset_top = 470.0
-offset_right = -590.0
+offset_top = 320.0
+offset_right = -440.0
 offset_bottom = 720.0
 text = "wawa how do i use dis as a console?? "
+minimap_draw = true
+minimap_width = 40
+symbol_lookup_on_click = true
+symbol_tooltip_on_hover = true
+code_completion_enabled = true
+script = ExtResource("12_2grho")
+File = "res://Scripts/Console.gd"
+RunButton = NodePath("Button")
+SaveButton = NodePath("Button2")
+HideButton = NodePath("../ConsoleHide")
+player = NodePath("../../..")
+
+[node name="Button" type="Button" parent="UI/Menu/CodeEdit" unique_id=342916589]
+z_index = 1
+layout_mode = 0
+offset_left = 448.0
+offset_top = 344.0
+offset_right = 584.0
+offset_bottom = 394.0
+theme_override_font_sizes/font_size = 30
+text = "RUN()"
+
+[node name="Button2" type="Button" parent="UI/Menu/CodeEdit" unique_id=572571570]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 312.0
+offset_right = 544.0
+offset_bottom = 356.0
+theme_override_font_sizes/font_size = 20
+text = "SAVE()"
+
+[node name="ConsoleHide" type="Button" parent="UI/Menu" unique_id=761945429]
+layout_mode = 0
+offset_left = -1040.0
+offset_top = 688.0
+offset_right = -930.0
+offset_bottom = 719.0
+text = "Hide Console"
 
 [node name="Cursor" type="Sprite2D" parent="UI" unique_id=2089247148]
 scale = Vector2(1.1, 1.1)

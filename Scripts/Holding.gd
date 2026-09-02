@@ -21,7 +21,7 @@ var UsableSlot: InventorySlot
 func _process(_delta: float) -> void:
 	
 	
-	if not is_multiplayer_authority(): return # the switched guns dont work on client side !!!!
+	if not $"../..".is_multiplayer_authority(): return # the switched guns dont work on client side !!!!
 	
 	CurrentPlayerInventory = $"../..".player_inventory
 	Slot1 = CurrentPlayerInventory.get_slot(0)

@@ -779,7 +779,7 @@ func change_nick(new_nick: String):
 		nickname.text = new_nick
 
 func get_color_overlay(CurrentColorOverride: Color) -> Color:
-	CurrentColorOverride = ColorOverride
+	#CurrentColorOverride = ColorOverride
 	return CurrentColorOverride
 
 func get_main_mesh(ChosenSpecies: SpeciesEnum) -> Mesh:
@@ -794,11 +794,15 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
 	get_color_overlay(SkinColor)
 	get_main_mesh(ModelName)
-	#if ModelName:
-		#MainMesh.mesh = ModelName
+		
 
-	#if OverlayColor:
-		#MainMesh.mesh.material_overlay = OverlayColor
+	if SkinColor and ModelName:
+		MainMesh.mesh = get_main_mesh(ModelName)
+		var OverlayMat: StandardMaterial3D = StandardMaterial3D.new()
+		#OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		OverlayMat.albedo_color = get_color_overlay(SkinColor)
+		MainMesh.material_overlay = OverlayMat
+		print(str(OverlayMat))
 
 	#set_mesh_texture(_bottom_mesh, texture)
 	#set_mesh_texture(_chest_mesh, texture)

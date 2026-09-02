@@ -7,6 +7,10 @@
 [ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="5_d34pp"]
 [ext_resource type="Script" uid="uid://x3wnhtlu2e45" path="res://Scripts/Spin.gd" id="6_d34pp"]
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_g4v7s"]
+color = Color(1, 1, 1, 1)
+thickness = 3
+
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_npnbc"]
 color = Color(0, 0, 0, 0)
 
@@ -20,36 +24,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_script")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1436643909]
+[node name="Main" type="Panel" parent="." unique_id=1482336986]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 278.0
-offset_right = 128.0
+offset_left = 960.0
+offset_right = 381.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.09019608, 0.09019608, 0.09019608, 0.70980394)
 
-[node name="MainContainer" type="VBoxContainer" parent="." unique_id=2122636103]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 278.0
-offset_top = -284.5
-offset_right = 128.0
-offset_bottom = 284.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 50
-alignment = 1
-
-[node name="Title" type="Button" parent="MainContainer" unique_id=205146363]
-layout_mode = 2
+[node name="Title" type="Button" parent="Main" unique_id=205146363]
+layout_mode = 0
+offset_left = -960.0
+offset_top = 56.0
+offset_right = -305.0
+offset_bottom = 130.0
 size_flags_horizontal = 6
 size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.4117647, 0.8039216, 1, 1)
 theme_override_colors/font_hover_color = Color(0.4117647, 0.8039216, 1, 1)
 theme_override_fonts/font = ExtResource("2_w5bcp")
@@ -57,129 +50,267 @@ theme_override_font_sizes/font_size = 65
 text = "Parkour Multiplayer Gaem"
 flat = true
 
-[node name="FidoSprite" type="Sprite2D" parent="MainContainer/Title" unique_id=1946219205]
+[node name="FidoSprite" type="Sprite2D" parent="Main/Title" unique_id=1946219205]
 visible = false
-position = Vector2(290, 25)
-scale = Vector2(0.1, 0.1)
+z_index = 3
+position = Vector2(612, 305.00003)
+scale = Vector2(0.35, 0.35)
 texture = ExtResource("3_fp5op")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="MainContainer/Title" unique_id=1633865967]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Main/Title" unique_id=1633865967]
 stream = ExtResource("4_gffvb")
 volume_db = 4.294
 
-[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="MainContainer/Title" unique_id=1738177261]
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="Main/Title" unique_id=1738177261]
 stream = ExtResource("5_d34pp")
 volume_db = -4.77
 
-[node name="MainMenu" type="VBoxContainer" parent="MainContainer" unique_id=1971513340]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-layout_direction = 1
-theme_override_constants/separation = 20
-alignment = 1
-
-[node name="HSeparator1" type="HSeparator" parent="MainContainer/MainMenu" unique_id=1714764019]
-layout_mode = 2
+[node name="HSeparator" type="HSeparator" parent="Main/Title" unique_id=1552876079]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 672.0
+offset_bottom = 72.0
 theme_override_constants/separation = 10
-theme_override_styles/separator = SubResource("StyleBoxLine_npnbc")
+theme_override_styles/separator = SubResource("StyleBoxLine_g4v7s")
 
-[node name="Option1" type="HBoxContainer" parent="MainContainer/MainMenu" unique_id=1075716321]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
+[node name="Quit" type="Button" parent="Main" unique_id=603942401]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 616.0
+offset_right = 280.0
+offset_bottom = 676.0
+theme_override_colors/font_pressed_color = Color(0.858824, 0, 0, 0.862745)
+theme_override_colors/font_hover_color = Color(0.858807, 4.71681e-06, 1.15514e-06, 0.862745)
+theme_override_font_sizes/font_size = 35
+text = "Quit"
 
-[node name="Label" type="Label" parent="MainContainer/MainMenu/Option1" unique_id=1840982523]
-layout_mode = 2
+[node name="Button" type="Button" parent="Main" unique_id=1449254759]
+visible = false
+layout_mode = 0
+offset_left = 40.0
+offset_top = 64.0
+offset_right = 280.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 20
+
+[node name="Create" type="Button" parent="Main" unique_id=1842520965]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 80.0
+offset_right = 280.0
+offset_bottom = 140.0
+theme_override_font_sizes/font_size = 20
+text = "Create New Session"
+
+[node name="Connect" type="Button" parent="Main" unique_id=223850058]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 144.0
+offset_right = 280.0
+offset_bottom = 204.0
+theme_override_font_sizes/font_size = 20
+text = "Connect to Session"
+
+[node name="Profile" type="Button" parent="Main" unique_id=1965675293]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 248.0
+offset_right = 280.0
+offset_bottom = 308.0
+theme_override_font_sizes/font_size = 20
+text = "Player Profile"
+
+[node name="Settings" type="Button" parent="Main" unique_id=426730217]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 312.0
+offset_right = 280.0
+offset_bottom = 372.0
+theme_override_font_sizes/font_size = 20
+text = "Settings"
+
+[node name="HSeparator" type="HSeparator" parent="Main" unique_id=106941671]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 72.0
+offset_right = 264.0
+offset_bottom = 76.0
+
+[node name="Label" type="Label" parent="Main/HSeparator" unique_id=1816448753]
+layout_mode = 0
+offset_left = 56.0
+offset_top = -32.0
+offset_right = 147.0
+offset_bottom = 3.0
+theme_override_fonts/font = ExtResource("2_w5bcp")
+theme_override_font_sizes/font_size = 32
+text = "Session"
+
+[node name="HSeparator2" type="HSeparator" parent="Main" unique_id=968446764]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 240.0
+offset_right = 264.0
+offset_bottom = 244.0
+
+[node name="Label" type="Label" parent="Main/HSeparator2" unique_id=1973460275]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -32.0
+offset_right = 177.0
+offset_bottom = 3.0
+theme_override_fonts/font = ExtResource("2_w5bcp")
+theme_override_font_sizes/font_size = 32
+text = "Prefrences"
+
+[node name="HostPanel" type="Panel" parent="." unique_id=796818582]
+visible = false
+layout_mode = 0
+offset_top = 320.0
+offset_right = 304.0
+offset_bottom = 720.0
+
+[node name="Host" type="Button" parent="HostPanel" unique_id=517629508]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 320.0
+offset_right = 272.0
+offset_bottom = 380.0
+theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "Host"
+
+[node name="JoinPanel" type="Panel" parent="." unique_id=1171024508]
+visible = false
+layout_mode = 0
+offset_top = 320.0
+offset_right = 304.0
+offset_bottom = 720.0
+
+[node name="Join" type="Button" parent="JoinPanel" unique_id=874830]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 320.0
+offset_right = 272.0
+offset_bottom = 380.0
+theme_override_colors/font_pressed_color = Color(0, 0.627451, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0.627451, 1, 1)
+theme_override_font_sizes/font_size = 35
+text = "Join"
+
+[node name="Profile" type="Panel" parent="." unique_id=827725779]
+visible = false
+layout_mode = 0
+offset_top = 320.0
+offset_right = 576.0
+offset_bottom = 720.0
+
+[node name="Label" type="Label" parent="Profile" unique_id=1840982523]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 12.0
+offset_right = 239.0
+offset_bottom = 61.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 35
 text = "Nickname : "
 
-[node name="NickInput" type="LineEdit" parent="MainContainer/MainMenu/Option1" unique_id=1249495757]
-layout_mode = 2
+[node name="NickInput" type="LineEdit" parent="Profile" unique_id=1249495757]
+layout_mode = 0
+offset_left = 238.0
+offset_top = 8.0
+offset_right = 387.0
+offset_bottom = 65.0
 theme_override_colors/font_selected_color = Color(1, 0, 1, 1)
 theme_override_font_sizes/font_size = 35
 placeholder_text = "Name :3"
 max_length = 20
 expand_to_text_length = true
 
-[node name="Option2" type="HBoxContainer" parent="MainContainer/MainMenu" unique_id=1158324241]
-layout_mode = 2
-size_flags_vertical = 4
-alignment = 1
-
-[node name="Label" type="Label" parent="MainContainer/MainMenu/Option2" unique_id=490348323]
-layout_mode = 2
+[node name="Label2" type="Label" parent="Profile" unique_id=490348323]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 96.0
+offset_right = 340.0
+offset_bottom = 145.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 35
-text = "Player Skin : "
+text = "PlayerCharacter : "
 
-[node name="SkinInput" type="LineEdit" parent="MainContainer/MainMenu/Option2" unique_id=524571267]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_selected_color = Color(1, 0, 1, 1)
+[node name="SkinInput" type="OptionButton" parent="Profile" unique_id=1870118228]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 96.0
+offset_right = 542.0
+offset_bottom = 139.0
+allow_reselect = true
+
+[node name="ColorOverlay" type="ColorPickerButton" parent="Profile" unique_id=1389600234]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 160.0
+offset_right = 384.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 0)
+
+[node name="Label" type="Label" parent="Profile/ColorOverlay" unique_id=1275904081]
+layout_mode = 0
+offset_left = -264.0
+offset_top = 16.0
+offset_right = -17.0
+offset_bottom = 65.0
 theme_override_font_sizes/font_size = 35
-placeholder_text = "blue"
-alignment = 1
-expand_to_text_length = true
+text = "Overlay Color: "
 
-[node name="Option3" type="HBoxContainer" parent="MainContainer/MainMenu" unique_id=202084925]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
+[node name="Settings" type="Panel" parent="." unique_id=699460403]
+visible = false
+layout_mode = 0
+offset_top = 320.0
+offset_right = 304.0
+offset_bottom = 720.0
 
-[node name="Label" type="Label" parent="MainContainer/MainMenu/Option3" unique_id=1319503287]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 35
-text = "IP Address : "
+[node name="HSeparator1" type="HSeparator" parent="." unique_id=1714764019]
+layout_mode = 0
+offset_left = 469.0
+offset_top = 137.5
+offset_right = 836.0
+offset_bottom = 147.5
+theme_override_constants/separation = 10
+theme_override_styles/separator = SubResource("StyleBoxLine_npnbc")
 
-[node name="AddressInput" type="LineEdit" parent="MainContainer/MainMenu/Option3" unique_id=500184332]
-layout_mode = 2
+[node name="AddressInput" type="LineEdit" parent="." unique_id=500184332]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 64.0
+offset_top = 381.0
+offset_right = 222.0
+offset_bottom = 438.0
 theme_override_colors/font_selected_color = Color(1, 0, 1, 1)
 theme_override_font_sizes/font_size = 35
 placeholder_text = "127.0.0.1"
 alignment = 1
 expand_to_text_length = true
 
-[node name="HSeparator2" type="HSeparator" parent="MainContainer/MainMenu" unique_id=1482578599]
-layout_mode = 2
+[node name="Label3" type="Label" parent="AddressInput" unique_id=1319503287]
+z_index = 1
+layout_mode = 0
+offset_left = -16.0
+offset_top = -49.0
+offset_right = 189.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 35
+text = "IP Address : "
+
+[node name="HSeparator2" type="HSeparator" parent="." unique_id=1482578599]
+layout_mode = 0
+offset_left = 651.0
+offset_top = 354.5
+offset_right = 654.0
+offset_bottom = 384.5
 theme_override_constants/separation = 30
 theme_override_styles/separator = SubResource("StyleBoxLine_npnbc")
-
-[node name="Buttons" type="HBoxContainer" parent="MainContainer/MainMenu" unique_id=1724632718]
-layout_mode = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="Host" type="Button" parent="MainContainer/MainMenu/Buttons" unique_id=517629508]
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_font_sizes/font_size = 35
-text = "Host"
-
-[node name="Join" type="Button" parent="MainContainer/MainMenu/Buttons" unique_id=874830]
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0, 0.627451, 1, 1)
-theme_override_colors/font_hover_color = Color(0, 0.627451, 1, 1)
-theme_override_font_sizes/font_size = 35
-text = "Join"
-
-[node name="Option4" type="HBoxContainer" parent="MainContainer/MainMenu" unique_id=1585077896]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
-
-[node name="Quit" type="Button" parent="MainContainer/MainMenu/Option4" unique_id=603942401]
-layout_mode = 2
-theme_override_colors/font_pressed_color = Color(0.858824, 0, 0, 0.862745)
-theme_override_colors/font_hover_color = Color(0.858807, 4.71681e-06, 1.15514e-06, 0.862745)
-theme_override_font_sizes/font_size = 35
-text = "Quit"
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=893185653 node_paths=PackedStringArray("MousePosGetterNode")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
@@ -193,7 +324,13 @@ fov = 90.0
 
 [node name="Node2D" type="Node2D" parent="SpringArm3D" unique_id=2016161648]
 
-[connection signal="pressed" from="MainContainer/Title" to="." method="_on_title_pressed"]
-[connection signal="pressed" from="MainContainer/MainMenu/Buttons/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="MainContainer/MainMenu/Buttons/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="MainContainer/MainMenu/Option4/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Main/Title" to="." method="_on_title_pressed"]
+[connection signal="pressed" from="Main/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Main/Create" to="." method="_on_create_pressed"]
+[connection signal="pressed" from="Main/Connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="Main/Profile" to="." method="_on_profile_pressed"]
+[connection signal="pressed" from="Main/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="HostPanel/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="JoinPanel/Join" to="." method="_on_join_pressed"]
+[connection signal="item_selected" from="Profile/SkinInput" to="." method="_on_skin_input_item_selected"]
+[connection signal="color_changed" from="Profile/ColorOverlay" to="." method="_on_color_overlay_color_changed"]

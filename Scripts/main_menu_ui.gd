@@ -5,12 +5,11 @@ signal host_pressed(nickname: String, skin: String)
 signal join_pressed(nickname: String, skin: String, address: String)
 signal quit_pressed
 
-@onready var skin_input: LineEdit = $MainContainer/MainMenu/Option2/SkinInput
-@onready var nick_input: LineEdit = $MainContainer/MainMenu/Option1/NickInput
-@onready var address_input: LineEdit = $MainContainer/MainMenu/Option3/AddressInput
+@onready var skin_input: OptionButton = $Profile/SkinInput
+@onready var nick_input: LineEdit = $Profile/NickInput
+@onready var address_input: LineEdit = $AddressInput
 
-func _ready():
-	pass
+
 
 func _on_host_pressed():
 	var nickname = nick_input.text.strip_edges()
@@ -52,10 +51,53 @@ func get_address() -> String:
 
 # Mine! ^^ -Fido
 func _on_title_pressed() -> void:
-	$MainContainer/Title/FidoSprite.visible = true
-	$MainContainer/Title/AudioStreamPlayer2D.play()
-	$MainContainer/Title/AudioStreamPlayer2D2.play()
-	$MainContainer/Title/FidoSprite.scale.y = lerp($MainContainer/Title/FidoSprite.scale.y, 0.025, 0.01)
+	$Main/Title/FidoSprite.visible = true
+	$Main/Title/AudioStreamPlayer2D.play()
+	$Main/Title/AudioStreamPlayer2D2.play()
+	$Main/Title/FidoSprite.scale = lerp($Main/Title/FidoSprite.scale, Vector2(0.175, 0.175), 0.01)
 	await get_tree().create_timer(1.5).timeout
-	$MainContainer/Title/FidoSprite.scale.y = 0.1
-	$MainContainer/Title/FidoSprite.visible = false
+	$Main/Title/FidoSprite.scale = Vector2(0.35, 0.35)
+	$Main/Title/FidoSprite.visible = false
+
+
+
+func _ready():
+	for i in Player.SpeciesEnum:
+		$Profile/SkinInput.add_item(str(i))
+
+
+
+func _on_create_pressed() -> void:
+	if $HostPanel.visible == false:
+		$HostPanel.visible = true
+		$AddressInput.visible = true
+	else:
+		$HostPanel.visible = false
+		$AddressInput.visible = false
+
+func _on_connect_pressed() -> void:
+	if $JoinPanel.visible == false:
+		$JoinPanel.visible = true
+		$AddressInput.visible = true
+	else:
+		$JoinPanel.visible = false
+		$AddressInput.visible = false
+
+func _on_profile_pressed() -> void:
+	if $Profile.visible == false:
+		$Profile.visible = true
+	else:
+		$Profile.visible = false
+
+func _on_settings_pressed() -> void:
+	if $Settings.visible == false:
+		$Settings.visible = true
+	else:
+		$Settings.visible = false
+
+
+func _on_skin_input_item_selected(_index: int) -> void:
+	Network.player_info.set("species", Player.SpeciesEnum.get(_index))
+
+func _on_color_overlay_color_changed(_color: Color) -> void:
+	Network.player_info.set("skin",_color)

@@ -48,8 +48,10 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 
 
 
+
 @onready var BoxPreload = preload("res://Scenes/box.tscn") 
 @onready var BigBoxPreload = preload("res://Scenes/LargeBox.tscn")
+@rpc("any_peer", "reliable")
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -65,6 +67,7 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			BigBox.global_basis = $"../FPCamera".global_basis
 			BigBox.global_position.z -= 2.5
 
+@rpc("any_peer", "reliable")
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
 	match _index:
@@ -72,6 +75,7 @@ func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			var spear = ItemDatabase.get_item("SPEAR")
 			CurrentPlayerInventory.add_item(spear)
 
+@rpc("any_peer", "reliable")
 func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
 	match _index:
@@ -83,6 +87,7 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 			CurrentPlayerInventory.add_item(m870)
 
 @onready var WeedFishPreload = preload("res://Scenes/seaweed.tscn")
+@rpc("any_peer", "reliable")
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -92,9 +97,11 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 			WeedFish.global_basis = $"../FPCamera".global_basis
 			WeedFish.global_position.z -= 2.5
 
+@rpc("any_peer", "reliable")
 func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	pass
 
+@rpc("any_peer", "reliable")
 func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
 	match _index:
@@ -102,12 +109,14 @@ func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			var flashlight = ItemDatabase.get_item("FLASHLIGHT")
 			CurrentPlayerInventory.add_item(flashlight)
 
+@rpc("any_peer", "reliable")
 func _on_others_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	pass
 
 @onready var BallpitMapPreload = preload("res://Scenes/Maps/ball_pit.tscn")
 @onready var KingdomsMapPreload = preload("res://Scenes/Maps/kingdoms.tscn")
 @onready var IslandTownPreload = preload("res://Scenes/Maps/m2_island_town.tscn")
+@rpc("any_peer", "reliable")
 func _on_maps_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	#if $"..".IsAdmin == true:
 		match _index:
