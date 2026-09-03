@@ -24,6 +24,7 @@ var PosiOrNot: bool
 
 func _ready() -> void:
 	#Global.BulletTimer = %Timer #0.045
+	gravity_scale = 0.35
 	await get_tree().create_timer(0.045).timeout
 	CanKill = true
 	PosiOrNot = randi_range(0,1)

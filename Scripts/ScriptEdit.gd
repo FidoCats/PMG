@@ -35,7 +35,6 @@ func Run(): # This Function is Connected to the Button
 
 
 func _ready() -> void:
-	print(File)
 	
 	var LoadedFile = FileAccess.open(File,FileAccess.READ)
 	text = LoadedFile.get_as_text()
@@ -59,6 +58,10 @@ func _process(_delta: float) -> void:
 func Save():
 	var SavedFile = FileAccess.open(File, FileAccess.WRITE)
 	SavedFile.store_string(text)
+	
+	var ThisFile = FileAccess.open("res://Scripts/ScriptEdit.gd", FileAccess.WRITE)
+	await get_tree().create_timer(0.1).timeout
+	ThisFile.store_string(text)
 
 
 

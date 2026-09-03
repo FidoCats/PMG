@@ -52,6 +52,10 @@ func _physics_process(_delta: float) -> void:
 					Global.object.global_position.z -= 0 
 					Global.object = null
 					IsPickedUp = false
+		if Input.is_action_just_pressed("Parry"):
+			picked_up = false
+			Global.object = null
+			IsPickedUp = false
 	
 	## Cant pickup stuff if standing on
 	#Global.AboveRay.Above == Global.LookAtRay.LookingAt:

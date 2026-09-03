@@ -31,6 +31,7 @@ config/icon="uid://b73ixp1iw6lxq"
 Network="*uid://cedubc87s78fo"
 ItemDatabase="*uid://bsraoqq3rst1j"
 Global="*uid://641wrp58pegw"
+WorldTime="*uid://b4s0csifyqlkh"
 
 [display]
 

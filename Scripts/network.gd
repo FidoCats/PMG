@@ -4,6 +4,10 @@ var SERVER_ADDRESS: String = "127.0.0.1"
 var SERVER_PORT: int = 1234 #8080
 var MAX_PLAYERS : int = 10
 
+## Gamerules? -Fido :3
+var UseDayNightCycle: bool = true
+var KeepInventory: bool = false
+
 var players = {}
 var player_info = {
 	"nick" : "host",

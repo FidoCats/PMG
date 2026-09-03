@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://v42r4dvek5rq"]
+
+[ext_resource type="Script" uid="uid://n5k2a0wbbdeb" path="res://Scripts/item_giver.gd" id="1_ef0g2"]
+[ext_resource type="Material" uid="uid://b3ilu41fng272" path="res://Stuff/Materials/Red.tres" id="2_djghv"]
+[ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="3_gxthr"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="4_y6nu7"]
+[ext_resource type="Texture2D" uid="uid://ct5rmotve1vi7" path="res://Stuff/Images/Studio logo.png" id="5_djghv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1, 2, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("2_djghv")
+size = Vector3(1, 2, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hs6a4"]
+material = ExtResource("3_gxthr")
+size = Vector3(1.1, 0.15, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_55ty7"]
+size = Vector3(1, 1.25, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dyi37"]
+material = ExtResource("2_djghv")
+size = Vector3(1, 1.25, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("4_y6nu7")
+size = Vector3(0.5, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+albedo_color = Color(0.07123137, 0.07123139, 0.07123137, 1)
+normal_enabled = true
+clearcoat_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_yf5fn")
+size = Vector2(1, 0.75)
+
+[node name="ItemGiver" type="Node3D" unique_id=1343173528 node_paths=PackedStringArray("Sprite", "CollisionArea", "NameLabel", "PrintSprite")]
+script = ExtResource("1_ef0g2")
+ItemId = "USPM"
+Sprite = NodePath("Screen/Sprite3D")
+CollisionArea = NodePath("StaticBody3D/Area3D")
+NameLabel = NodePath("Screen/Label3D")
+PrintSprite = NodePath("StaticBody3D2/MeshInstance3D2/Sprite3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=696423283]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1158796191]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.23572421)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=716087525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.24099493)
+mesh = SubResource("BoxMesh_yf5fn")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D" unique_id=429734886]
+transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 1.0638014, -0.040994927)
+mesh = SubResource("BoxMesh_hs6a4")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Area3D" type="Area3D" parent="StaticBody3D" unique_id=1494678045]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D" unique_id=1276633392]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=211113351]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2" unique_id=737072356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.37704733, 0.2642758)
+shape = SubResource("BoxShape3D_55ty7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2" unique_id=1023617395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.37374428, 0.25900507)
+mesh = SubResource("BoxMesh_dyi37")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D2" unique_id=145299596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0.5)
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="Sprite3D" type="Sprite3D" parent="StaticBody3D2/MeshInstance3D2" unique_id=1972041919]
+shaded = true
+
+[node name="Screen" type="MeshInstance3D" parent="." unique_id=1875282503]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.6118629, 0.011161089)
+mesh = SubResource("PlaneMesh_g4v7s")
+
+[node name="Sprite3D" type="Sprite3D" parent="Screen" unique_id=883256187]
+transform = Transform3D(0.25, 0, 0, 0, -1.0927847e-08, 0.25, 0, -0.25, -1.0927847e-08, 0, 0.0033268873, -0.040927768)
+texture = ExtResource("5_djghv")
+
+[node name="Label3D" type="Label3D" parent="Screen" unique_id=1935556986]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.016606938, 0.27621222)
+text = "ItemName :3"
+font_size = 24
+outline_size = 6

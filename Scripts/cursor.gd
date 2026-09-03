@@ -2,6 +2,8 @@ extends Control
 
 
 
+signal disconnect_pressed
+
 @onready var NameLabel: Label = $Cursor/LookAtName
 @onready var TypeLabel: Label = $Cursor/Tip
 @onready var Cursor: Sprite2D = $Cursor
@@ -63,4 +65,5 @@ func _on_continue_pressed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$"..".InputBlocked = false
 func _on_exit_pressed() -> void:
+	#disconnect_pressed.emit()
 	OS.kill(OS.get_process_id())

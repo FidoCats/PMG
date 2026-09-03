@@ -101,3 +101,13 @@ func _on_skin_input_item_selected(_index: int) -> void:
 
 func _on_color_overlay_color_changed(_color: Color) -> void:
 	Network.player_info.set("skin",_color)
+
+func _on_day_night_cycle_toggle_toggled(_toggled_on: bool) -> void:
+	Network.UseDayNightCycle = _toggled_on
+
+func _on_keep_inventory_toggled(_toggled_on: bool) -> void:
+	Network.KeepInventory = _toggled_on
+
+func _on_h_slider_value_changed(_value: float) -> void:
+	Network.MAX_PLAYERS = int(_value)
+	$HostPanel/HSlider/Label.text = str("MaxPlayers","\n",int(_value))

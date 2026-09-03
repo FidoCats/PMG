@@ -41,6 +41,10 @@ top_radius = 0.035
 bottom_radius = 0.025
 height = 0.65
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7lfs3"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
 height = 0.875
 radius = 0.35
@@ -274,7 +278,6 @@ collision_mask = 3
 script = ExtResource("1_x35ji")
 Species = 0
 FelmittModel = ExtResource("5_lli6r")
-ColorOverride = Color(255.0139, 0, 255.0139, 0.5019608)
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="." unique_id=515654043]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.828, 0.01)
@@ -341,6 +344,7 @@ mesh = SubResource("CylinderMesh_g4v7s")
 
 [node name="MainMesh" type="MeshInstance3D" parent="." unique_id=255328238]
 transform = Transform3D(0.32399994, 0, 0, 0, 0.32399994, 0, 0, 0, 0.32399994, -0.05, 1.1, 0)
+material_overlay = SubResource("StandardMaterial3D_7lfs3")
 mesh = ExtResource("5_lli6r")
 skeleton = NodePath("../BaseCollisionShape")
 
@@ -771,7 +775,7 @@ offset_left = -1040.0
 offset_top = 688.0
 offset_right = -930.0
 offset_bottom = 719.0
-text = "Hide Console"
+text = "Toggle Console"
 
 [node name="Cursor" type="Sprite2D" parent="UI" unique_id=2089247148]
 scale = Vector2(1.1, 1.1)
@@ -814,10 +818,10 @@ script = ExtResource("12_o8u7c")
 
 [node name="CurrentSpeed" type="Label" parent="UI/HUD/SpeedPanel" unique_id=898516763]
 layout_mode = 0
-offset_left = 74.28874
-offset_top = 26.252304
-offset_right = 257.39502
-offset_bottom = 101.252304
+offset_left = 76.3215
+offset_top = 4.693022
+offset_right = 259.42776
+offset_bottom = 89.69302
 theme = ExtResource("14_ijtlc")
 theme_override_font_sizes/font_size = 40
 text = "Speed: 
@@ -826,10 +830,10 @@ horizontal_alignment = 1
 
 [node name="Speed" type="Label" parent="UI/HUD/SpeedPanel" unique_id=678547266]
 layout_mode = 0
-offset_left = 82.4485
-offset_top = 129.9317
-offset_right = 226.12135
-offset_bottom = 184.9317
+offset_left = 82.805
+offset_top = 96.0
+offset_right = 226.47784
+offset_bottom = 161.0
 theme = ExtResource("14_ijtlc")
 theme_override_font_sizes/font_size = 30
 text = "Max: 
@@ -838,11 +842,31 @@ horizontal_alignment = 1
 
 [node name="Separator" type="Panel" parent="UI/HUD/SpeedPanel" unique_id=418153776]
 layout_mode = 0
-offset_left = 60.0
-offset_top = 120.0
-offset_right = 260.0
-offset_bottom = 125.0
+offset_left = 77.584
+offset_top = 160.0
+offset_right = 227.584
+offset_bottom = 165.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="Separator2" type="Panel" parent="UI/HUD/SpeedPanel" unique_id=1103462208]
+layout_mode = 0
+offset_left = 61.092167
+offset_top = 91.48878
+offset_right = 261.0922
+offset_bottom = 96.48878
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="CurrentAction" type="Label" parent="UI/HUD/SpeedPanel" unique_id=265178411]
+layout_mode = 0
+offset_left = 120.956
+offset_top = 166.0
+offset_right = 184.95601
+offset_bottom = 221.00002
+theme_override_fonts/font = ExtResource("16_x870h")
+theme_override_font_sizes/font_size = 25
+text = "Action:
+Bored"
+horizontal_alignment = 1
 
 [node name="HealthPanel" type="Panel" parent="UI/HUD" unique_id=1587681674]
 layout_mode = 0

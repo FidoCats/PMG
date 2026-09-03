@@ -4,6 +4,7 @@ extends Panel
 
 @onready var SpeedLabel = $Speed
 @onready var CurrentSpeedLabel = $CurrentSpeed
+@onready var ActionLabel = $CurrentAction
 
 var DesiredPosition: Vector2
 var player: Player

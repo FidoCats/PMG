@@ -191,7 +191,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.209796e-09, -0.2, -0.10534778)
 
 [node name="EjectionMarker" type="Marker3D" parent="." unique_id=1689878862]
-transform = Transform3D(-0.7071068, 1.5633728e-07, 0.7071067, -0.7071067, 2.676763e-08, -0.7071068, -1.2947473e-07, -1, 9.1619555e-08, -0.03996203, 0, -3.4935916e-09)
+transform = Transform3D(-0.2588191, 1.3372068e-07, 0.96592575, -0.96592575, 5.76387e-08, -0.2588191, -9.0284175e-08, -1, 1.14246234e-07, -0.03996203, 0, -3.4935916e-09)
 
 [node name="IsGun" type="Node3D" parent="." unique_id=1468727716 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker")]
 script = ExtResource("3_l2e0a")

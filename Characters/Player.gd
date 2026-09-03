@@ -8,6 +8,7 @@ class_name Player
 ## OnReady stuff
 @onready var FPCamera: Camera3D = $FPCamera
 @onready var LookAtRay: LookAtRayCast = $FPCamera/LookingAt
+@onready var Holding: Marker3D = $FPCamera/Holding
 @onready var UnderRay: UnderRayCast = $Under
 @onready var AboveRay: AboveRayCast = $Above
 @onready var InfrontRay: InfrontRayCast = $Infront
@@ -17,6 +18,8 @@ class_name Player
 @onready var MainMesh: MeshInstance3D = $MainMesh
 @onready var ParryArea: Area3D = $FPCamera/ParryArea
 @onready var ParryMesh: MeshInstance3D = $FPCamera/ParryArea/MeshInstance3D
+
+@onready var UI = $UI
 
 var player_inventory: PlayerInventory
 
@@ -32,7 +35,7 @@ var player_inventory: PlayerInventory
 @export var CaenireModel: Mesh
 @export var AviamnnModel: Mesh
 
-@export var UseColorOverride: bool = true
+#@export var UseColorOverride: bool = true
 @export var ColorOverride: Color = Color(0,0,255,0.5)
 
 #@onready var _bottom_mesh: MeshInstance3D = get_node("3DGodotRobot/RobotArmature/Skeleton3D/Bottom")
@@ -112,10 +115,8 @@ var CanParry: bool = true
 @export var MaxCameraPos = 15
 @export var Jumps: int = 2
 @export var MaxJumps: int = 2
-@export var WallJumps: int = 2
-@export var MaxWallJumps: int = 2
-
-@export var KeepInventory: bool = false
+@export var WallJumps: int = 4
+@export var MaxWallJumps: int = 4
 
 var HandsOccupied: bool = false
 
@@ -138,13 +139,11 @@ var PeerList
 
 var Parent: Node3D
 
-var CurrentItem = null
-
 var IsRagdolled: bool = false
 
 
 
-enum SpeciesEnum { Felmitt, Canire, Aviamn }
+enum SpeciesEnum { Felmitt }#, Canire, Aviamn }
 
 
 
@@ -227,6 +226,7 @@ func _process(_delta):
 	if Health <= 0.0:
 		Health = 0.0
 		Death()
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Dead :P")
 	
 	
 	
@@ -246,6 +246,7 @@ func _process(_delta):
 	CanMove = !IsRagdolled
 	if IsRagdolled == true:
 		position = $MutlipartBody/Skeleton3D/Botom.position
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Ragdolling")
 	else:
 		$MutlipartBody/Skeleton3D/Botom.position = position
 		$MutlipartBody/Skeleton3D/Botom.rotation = rotation
@@ -302,11 +303,13 @@ func _process(_delta):
 		if CurrentSpeed <= 0.5 and CurrentNoise >= WalkNoise:
 			CurrentNoise = 0 
 			CurrentFov = SetFov
-		
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
+		elif CurrentSpeed <= 0.5 and CurrentNoise >= WalkNoise:
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Walking")
 		
 		
 		## Get out of seats and such
-		if is_on_floor() and Input.is_action_just_pressed("Jump"):
+		if is_on_floor() and Input.is_action_just_pressed("Jump") and CanMove == false:
 			CanMove = true
 			rotation_degrees = Vector3(0,0,0)
 
@@ -468,29 +471,39 @@ func _physics_process(delta):
 				Fov = SetFov
 	
 	## Input Press
-		if Input.is_action_just_pressed("Jump"):
+		if Input.is_action_just_pressed("Jump") and not is_on_wall():
 			Jump()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		if Input.is_action_pressed("Crouch") and CurrentSpeed < RunSpeed:
 			Crouch()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
 		if Input.is_action_pressed("Run") and not IsSliding and not IsDiving and not IsCrouching and is_on_floor():
 			Run()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Running")
 		if Input.is_action_just_pressed("Crouch") and Input.is_action_pressed("Run") and is_on_floor():
 			Slide()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sliding")
 		if Input.is_action_pressed("Crouch") and CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor() and not is_on_wall():
 			Dive()
-		if Input.is_action_pressed("RMB") and CurrentItem == null:
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
+		if Input.is_action_pressed("RMB") and Holding.HandsFull == false:
 			LedgeHold()
-		if Input.is_action_just_pressed("Parry"): #and CanParry:
-			print("F Pressed")
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Clinging")
+		if Input.is_action_pressed("RMB") and is_on_wall() and not IsClinging and CurrentSpeed > CrouchSpeed:
+			WallRun()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","WallRunning")
+		if Input.is_action_just_pressed("Parry") and CanParry:
 			Parry(ParryBody)
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Punching")
 	
 	## Input Release
 		if Input.is_action_just_released("Crouch"):
 			UnCrouch()
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
 
 	## Other Movement ifs
-	if is_on_wall() and not IsClinging:
-		WallRun()
+	#if is_on_wall() and not IsClinging:
+		#WallRun()
 
 
 	move_and_slide()
@@ -613,11 +626,11 @@ func Dive():
 
 func WallRun():
 	if not Input.is_action_pressed("Jump"):
-		DesiredGravity = 5.0
+		DesiredGravity = 2.5
 		Speed = WallRunSpeed
 		CurrentNoise = RunNoise
 		IsWallRunning = true
-	elif Input.is_action_just_pressed("Jump") and WallJumps > 0 and CanWallJump:
+	elif Input.is_action_just_pressed("Jump") and WallJumps > 0 and CanWallJump and is_on_wall():
 		DesiredGravity = Gravity
 		CurrentSpeed = WallRunSpeed
 		CanMove = true
@@ -625,8 +638,9 @@ func WallRun():
 		WallJumps -= 1
 		Jumps = 1
 		CanWallJump = false
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.65).timeout
 		CanWallJump = true
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","WallJumping")
 
 
 
@@ -711,7 +725,7 @@ func Death():
 	RespawnAudioStream.stream = DeathSound
 	RespawnAudioStream.play()
 	IsRagdolled = true
-	if not KeepInventory:
+	if not Network.KeepInventory:
 		player_inventory.ClearAll()
 	
 	await get_tree().create_timer(1).timeout
@@ -778,9 +792,9 @@ func change_nick(new_nick: String):
 	if nickname:
 		nickname.text = new_nick
 
-func get_color_overlay(CurrentColorOverride: Color) -> Color:
-	#CurrentColorOverride = ColorOverride
-	return CurrentColorOverride
+#func get_color_overlay(CurrentColorOverride: Color) -> Color:
+	##CurrentColorOverride = ColorOverride
+	#return CurrentColorOverride
 
 func get_main_mesh(ChosenSpecies: SpeciesEnum) -> Mesh:
 	match ChosenSpecies:
@@ -792,16 +806,20 @@ func get_main_mesh(ChosenSpecies: SpeciesEnum) -> Mesh:
 @rpc("any_peer", "reliable")
 func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
-	get_color_overlay(SkinColor)
+	#get_color_overlay(SkinColor)
+	SkinColor = ColorOverride
 	get_main_mesh(ModelName)
 		
 
 	if SkinColor and ModelName:
 		MainMesh.mesh = get_main_mesh(ModelName)
 		var OverlayMat: StandardMaterial3D = StandardMaterial3D.new()
-		#OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		OverlayMat.albedo_color = get_color_overlay(SkinColor)
+		OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		OverlayMat.albedo_color = ColorOverride
+		#var OverlayMat = MainMesh.material_overlay
+		#OverlayMat.create_placeholder() #set(albedo_color,get_color_overlay(SkinColor))
 		MainMesh.material_overlay = OverlayMat
+		print(MainMesh.material_overlay)
 		print(str(OverlayMat))
 
 	#set_mesh_texture(_bottom_mesh, texture)

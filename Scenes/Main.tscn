@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://Scripts/level.gd" id="1_h1m7h"]
 [ext_resource type="Environment" uid="uid://c2ow3mkwudsll" path="res://Stuff/Enviroments/Morning1.tres" id="2_erwvk"]
+[ext_resource type="Script" uid="uid://hmvp7ihengkv" path="res://Scripts/skybox.gd" id="2_h1m7h"]
 [ext_resource type="PackedScene" uid="uid://w8geq2286nla" path="res://Scenes/vibe_coded_camera_system.tscn" id="3_2w5on"]
+[ext_resource type="Environment" uid="uid://cpm0wd61kth03" path="res://Stuff/Enviroments/Day1.tres" id="4_0sclb"]
 [ext_resource type="Material" uid="uid://cfappvtws40cj" path="res://Stuff/Materials/GrassButBad.tres" id="4_346fj"]
 [ext_resource type="PackedScene" uid="uid://cplfprj1u8moi" path="res://Scenes/Maps/m2_island_town.tscn" id="5_0sclb"]
+[ext_resource type="Environment" uid="uid://fimjqj5n5wva" path="res://Stuff/Enviroments/Evening1.tres" id="5_sxkr1"]
+[ext_resource type="Environment" uid="uid://bp1cgb6gpdrm0" path="res://Stuff/Enviroments/Night1.tres" id="6_fq0cl"]
 [ext_resource type="PackedScene" uid="uid://bgmeb77i768e2" path="res://Scenes/Maps/kingdoms.tscn" id="6_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="7_fq0cl"]
 [ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="8_hwpts"]
@@ -15,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="14_kpo4j"]
 [ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="15_4n42c"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(100, 1, 100)
 
@@ -22,22 +28,47 @@ size = Vector3(100, 1, 100)
 material = ExtResource("4_346fj")
 size = Vector3(100, 1, 100)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_346fj"]
+properties/0/path = NodePath(".:children")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="TestScene" type="Node3D" unique_id=1848406288]
 script = ExtResource("1_h1m7h")
 
 [node name="Enviroment" type="Node3D" parent="." unique_id=1032491403]
 
-[node name="Skybox" type="Node3D" parent="Enviroment" unique_id=671507075]
+[node name="Skybox" type="Node3D" parent="Enviroment" unique_id=671507075 node_paths=PackedStringArray("Clock", "EnviromentNode", "LightNode")]
+script = ExtResource("2_h1m7h")
+MorningEnv = ExtResource("2_erwvk")
+DayEnv = ExtResource("4_0sclb")
+EveningEnv = ExtResource("5_sxkr1")
+NightEnv = ExtResource("6_fq0cl")
+Clock = NodePath("Clock")
+EnviromentNode = NodePath("WorldEnvironment")
+LightNode = NodePath("DirectionalLight3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment/Skybox" unique_id=408711900]
 environment = ExtResource("2_erwvk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox" unique_id=1108329675]
-transform = Transform3D(1, 0, 0, 0, 0.99904823, 0.043619387, 0, -0.043619387, 0.99904823, 0, 0, 0)
 light_color = Color(1, 0.6934745, 0.534205, 1)
+light_energy = 1.5
 shadow_enabled = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox/DirectionalLight3D" unique_id=374875158]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
+light_color = Color(0.9490196, 0.98039216, 1, 1)
+light_energy = 0.25
+light_volumetric_fog_energy = 6.307
+shadow_enabled = true
+
+[node name="Clock" type="Timer" parent="Enviroment/Skybox" unique_id=96683131]
+wait_time = 60.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Enviroment/Skybox" unique_id=547535273]
+replication_config = SubResource("SceneReplicationConfig_ibmi3")
 
 [node name="BasePlatform" type="StaticBody3D" parent="Enviroment" unique_id=832190816]
 
@@ -80,6 +111,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -5)
 [node name="Box2" parent="Enviroment/Objects" unique_id=2084852687 instance=ExtResource("10_3tgeq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -5)
 
+[node name="ObjectSync" type="MultiplayerSynchronizer" parent="Enviroment" unique_id=1330905250]
+root_path = NodePath("../Objects")
+replication_config = SubResource("SceneReplicationConfig_346fj")
+
 [node name="Projectiles" type="Node3D" parent="Enviroment" unique_id=1776998517]
 
 [node name="Checkpoints" type="Node3D" parent="Enviroment" unique_id=2024622674]
@@ -96,9 +131,6 @@ spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MultiplayerProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=2033216670]
 spawn_path = NodePath("../Enviroment/Objects")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=547535273]
-replication_config = SubResource("SceneReplicationConfig_ibmi3")
 
 [node name="MainMenuUI" parent="." unique_id=1441661689 instance=ExtResource("12_aht7i")]
 visible = false

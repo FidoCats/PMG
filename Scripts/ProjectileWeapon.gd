@@ -37,6 +37,7 @@ class_name IsGun
 @export var AltReloadText: String = "-"
 @export var UseAltReloadText: bool = false
 @export var BottomlessMag: bool = false
+@export var EjectionForce: float = 1.0
 @export_category("Assets: ")
 @export var ProjPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn")
 @export var MagPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Clipazines/45ACPMag.tscn")
@@ -163,8 +164,15 @@ func Pump():
 func EjectCasing():
 	var Casing: Node3D = CasingPreload.instantiate()
 	Global.ObjectSpawner.add_child(Casing)
-	Casing.global_position = EjectionPortMarker.global_position
-	Casing.global_rotation = EjectionPortMarker.global_rotation
+	#Casing.global_position = EjectionPortMarker.global_position
+	#Casing.global_rotation = EjectionPortMarker.global_rotation
+	var camera_transform = EjectionPortMarker.global_transform
+	var Force: float = 0
+	Casing.global_transform = Casing.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-0.25 + -Force / Casing.mass))),1)
+	for i in EjectionForce:
+		Force += 0.25
+		Casing.global_transform = Casing.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-0.25 + -Force))),1)
+		await get_tree().create_timer(0.35).timeout
 
 
 

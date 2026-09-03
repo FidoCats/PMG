@@ -31,6 +31,7 @@ func _ready():
 	main_menu.host_pressed.connect(_on_host_pressed)
 	main_menu.join_pressed.connect(_on_join_pressed)
 	main_menu.quit_pressed.connect(_on_quit_pressed)
+	#player.UI.disconnect_pressed.connect(_on_disconnect_pressed)
 
 	if inventory_ui:
 		inventory_ui.inventory_closed.connect(_on_inventory_closed)
@@ -86,9 +87,13 @@ func _remove_player(id):
 		player_node.queue_free()
 
 func _on_quit_pressed() -> void:
-	get_tree().quit()
+	OS.kill(OS.get_process_id())
 
-# ---------- MULTIPLAYER CHAT ----------
+func _on_disconnect_pressed() -> void:
+	_remove_player(multiplayer.get_unique_id())
+	main_menu.visible = true
+
+## ---------- MULTIPLAYER CHAT ----------
 func toggle_chat():
 	if main_menu.is_menu_visible():
 		return

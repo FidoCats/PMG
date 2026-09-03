@@ -181,6 +181,43 @@ theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/font_size = 35
 text = "Host"
 
+[node name="DayNightCycleToggle" type="CheckButton" parent="HostPanel" unique_id=733365823]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 217.0
+offset_right = 225.0
+offset_bottom = 248.0
+button_pressed = true
+text = "DayNightCycle"
+
+[node name="KeepInventory" type="CheckButton" parent="HostPanel" unique_id=166832943]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 176.0
+offset_right = 225.0
+offset_bottom = 207.0
+text = "KeepInvetory"
+
+[node name="HSlider" type="HSlider" parent="HostPanel" unique_id=427924296]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 143.0
+offset_right = 277.0
+offset_bottom = 159.0
+tooltip_text = "MaxPlayers"
+max_value = 10.0
+value = 10.0
+
+[node name="Label" type="Label" parent="HostPanel/HSlider" unique_id=379171119]
+layout_mode = 0
+offset_left = -96.0
+offset_top = -8.0
+offset_right = -7.0
+offset_bottom = 15.0
+text = "MaxPlayers
+10"
+horizontal_alignment = 1
+
 [node name="JoinPanel" type="Panel" parent="." unique_id=1171024508]
 visible = false
 layout_mode = 0
@@ -244,7 +281,7 @@ offset_left = 344.0
 offset_top = 96.0
 offset_right = 542.0
 offset_bottom = 139.0
-allow_reselect = true
+search_bar_enabled = true
 
 [node name="ColorOverlay" type="ColorPickerButton" parent="Profile" unique_id=1389600234]
 layout_mode = 0
@@ -316,10 +353,11 @@ theme_override_styles/separator = SubResource("StyleBoxLine_npnbc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 spring_length = 50.0
 script = ExtResource("6_d34pp")
+ThresholdR = 0.0
 MousePosGetterNode = NodePath("Node2D")
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=987747069]
-transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 116, 16)
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 0, 81.55161, 113.10062)
 fov = 90.0
 
 [node name="Node2D" type="Node2D" parent="SpringArm3D" unique_id=2016161648]
@@ -331,6 +369,9 @@ fov = 90.0
 [connection signal="pressed" from="Main/Profile" to="." method="_on_profile_pressed"]
 [connection signal="pressed" from="Main/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="HostPanel/Host" to="." method="_on_host_pressed"]
+[connection signal="toggled" from="HostPanel/DayNightCycleToggle" to="." method="_on_day_night_cycle_toggle_toggled"]
+[connection signal="toggled" from="HostPanel/KeepInventory" to="." method="_on_keep_inventory_toggled"]
+[connection signal="value_changed" from="HostPanel/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="JoinPanel/Join" to="." method="_on_join_pressed"]
 [connection signal="item_selected" from="Profile/SkinInput" to="." method="_on_skin_input_item_selected"]
 [connection signal="color_changed" from="Profile/ColorOverlay" to="." method="_on_color_overlay_color_changed"]

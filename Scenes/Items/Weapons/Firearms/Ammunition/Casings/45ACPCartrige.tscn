@@ -13,6 +13,7 @@ bottom_radius = 0.01
 height = 0.025
 
 [node name="45APC Cartrige" type="RigidBody3D" unique_id=544742207]
+mass = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=636064104]
 shape = SubResource("CylinderShape3D_g4v7s")
