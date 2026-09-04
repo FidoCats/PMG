@@ -12,7 +12,10 @@ extends Resource
 @export var item_type: ItemType = ItemType.MISC
 @export var rarity: ItemRarity = ItemRarity.COMMON
 @export var value: int = 0 # price??
+@export var special_value_1: int
+@export var special_value_2: int
 
+@export var dropped_scene: PackedScene
 @export var scene: PackedScene
 
 enum ItemType {

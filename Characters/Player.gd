@@ -168,9 +168,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
 		if !InputBlocked:
 			if event is InputEventMouseMotion:
-				
 				if CameraPos == 0:
-					$FPCamera.current = is_multiplayer_authority()
 					if not IsSliding and not IsDiving: 
 						rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
 						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
@@ -180,17 +178,11 @@ func _unhandled_input(event: InputEvent) -> void:
 						#$FPCamera.rotation_degrees.y = clamp($FPCamera.rotation_degrees.y, -110, 110)
 						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
 						$FPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
-				
-				else:
-					$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
-					#if not IsSliding and not IsDiving: 
-						#rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
-						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
-						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x = clamp($FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x,-90,90)
-					#if IsSliding or IsDiving: 
-						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
-						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
-						#$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x = clamp($FPCamera/SpringArmOffset/SpringArm3D/TPCamera.rotation_degrees.x,-90,90)
+			
+			if CameraPos == 0:
+				$FPCamera.current = is_multiplayer_authority()
+			else:
+				$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
 
 
 
@@ -300,10 +292,11 @@ func _process(_delta):
 	if IsWalking and not IsSliding and not IsCrouching and not IsDiving:
 	
 		## Reset
-		if CurrentSpeed <= 0.5 and CurrentNoise >= WalkNoise:
+		if CurrentSpeed <= 0.5: # and CurrentNoise >= WalkNoise:
 			CurrentNoise = 0 
 			CurrentFov = SetFov
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
+			if is_on_floor():
+				$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
 		elif CurrentSpeed <= 0.5 and CurrentNoise >= WalkNoise:
 			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Walking")
 		
@@ -488,7 +481,6 @@ func _physics_process(delta):
 			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
 		if Input.is_action_pressed("RMB") and Holding.HandsFull == false:
 			LedgeHold()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Clinging")
 		if Input.is_action_pressed("RMB") and is_on_wall() and not IsClinging and CurrentSpeed > CrouchSpeed:
 			WallRun()
 			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","WallRunning")
@@ -576,6 +568,7 @@ func UnCrouch():
 		IsDiving = false
 		IsWalking = true
 		$FPCamera.rotation_degrees.y = 180.0
+		floor_stop_on_slope = true
 		Fov = SetFov
 
 
@@ -592,6 +585,7 @@ func Slide():
 	IsSliding = true
 	$FPCamera.position.y = lerp($FPCamera.position.y, 0.25, 0.45)
 	Fov = SetFov + SlideFov
+	floor_stop_on_slope = false
 	if CurrentNoise <= WalkNoise:
 		CurrentNoise = SlideNoise
 	if is_on_wall():
@@ -600,7 +594,7 @@ func Slide():
 	CurrentSpeed = SlideStartSpeed
 	await get_tree().create_timer(0.25).timeout
 	Speed = SlideEndSpeed
-	if CurrentSpeed <= SlideEndSpeed + 2.5:
+	if CurrentSpeed <= (SlideEndSpeed * 2.5):
 		UnCrouch()
 
 
@@ -654,6 +648,7 @@ func LedgeHold():
 			if velocity.y <= 2.5:
 				velocity.y = 0.0
 			Speed = CrouchSpeed
+			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Clinging")
 		elif Input.is_action_just_released("RMB"):
 			#DesiredGravity = Gravity
 			Speed = BaseSpeed
@@ -812,15 +807,14 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 		
 
 	if SkinColor and ModelName:
-		MainMesh.mesh = get_main_mesh(ModelName)
-		var OverlayMat: StandardMaterial3D = StandardMaterial3D.new()
-		OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		OverlayMat.albedo_color = ColorOverride
+		#MainMesh.mesh = get_main_mesh(ModelName)
+		#var OverlayMat: StandardMaterial3D = StandardMaterial3D.new()
+		#OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		#OverlayMat.albedo_color = ColorOverride
 		#var OverlayMat = MainMesh.material_overlay
 		#OverlayMat.create_placeholder() #set(albedo_color,get_color_overlay(SkinColor))
-		MainMesh.material_overlay = OverlayMat
-		print(MainMesh.material_overlay)
-		print(str(OverlayMat))
+		MainMesh.material_overlay.set("albedo_color", SkinColor)
+		#print(str(OverlayMat))
 
 	#set_mesh_texture(_bottom_mesh, texture)
 	#set_mesh_texture(_chest_mesh, texture)

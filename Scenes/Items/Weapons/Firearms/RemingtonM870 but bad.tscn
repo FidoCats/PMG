@@ -219,6 +219,7 @@ CanSwitchFR = false
 CanPump = true
 PumpTime = 0.2
 UseAltReloadText = true
+UseShells = true
 ShootSound = NodePath("../Shoot")
 ReloadSound = NodePath("../Reload")
 EmptySound = NodePath("../Empty")

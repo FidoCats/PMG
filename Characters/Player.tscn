@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cwjwrqnw0g01r" path="res://Scripts/LookingAt.gd" id="6_c3bgu"]
 [ext_resource type="Script" uid="uid://ct6m0qhmso6y0" path="res://Scripts/Above.gd" id="6_x35ji"]
 [ext_resource type="Script" uid="uid://dk5l4hj3n7y0b" path="res://Scripts/Under.gd" id="7_o8u7c"]
+[ext_resource type="ArrayMesh" uid="uid://c3ajyrmmtcyte" path="res://Stuff/Models/Felmitt_PMGAlpha2,0.mesh" id="9_icbm8"]
 [ext_resource type="Script" uid="uid://cafh3uj72q7bj" path="res://Scripts/ScriptEdit.gd" id="12_2grho"]
 [ext_resource type="Script" uid="uid://bi641j81gphat" path="res://Scripts/cursor.gd" id="12_7wf5q"]
 [ext_resource type="Script" uid="uid://bnqr61iylb8hn" path="res://Scripts/speed_panel.gd" id="12_o8u7c"]
@@ -22,7 +23,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mx45w"]
 radius = 0.35796
-height = 1.73092
+height = 1.56546
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yf5fn"]
 radius = 0.3544922
@@ -280,7 +281,7 @@ Species = 0
 FelmittModel = ExtResource("5_lli6r")
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="." unique_id=515654043]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.828, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.74527, 0.01)
 shape = SubResource("CapsuleShape3D_mx45w")
 
 [node name="CrouchCollisionShape3D" type="CollisionShape3D" parent="." unique_id=954256712]
@@ -289,12 +290,12 @@ shape = SubResource("CapsuleShape3D_yf5fn")
 disabled = true
 
 [node name="Above" type="RayCast3D" parent="." unique_id=1400252363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.614979, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.514979, 0.01)
 target_position = Vector3(0, 0.5, 0)
 script = ExtResource("6_x35ji")
 
 [node name="Under" type="RayCast3D" parent="." unique_id=591413652]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, -0.18502098, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, -0.055385545, 0.01)
 target_position = Vector3(0, -0.05, 0)
 script = ExtResource("7_o8u7c")
 
@@ -325,7 +326,7 @@ script = ExtResource("4_ygggd")
 _spring_arm = NodePath("SpringArm3D")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="FPCamera/SpringArmOffset" unique_id=2094669427]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="TPCamera" type="Camera3D" parent="FPCamera/SpringArmOffset/SpringArm3D" unique_id=1954471204]
 fov = 90.0
@@ -343,10 +344,9 @@ visible = false
 mesh = SubResource("CylinderMesh_g4v7s")
 
 [node name="MainMesh" type="MeshInstance3D" parent="." unique_id=255328238]
-transform = Transform3D(0.32399994, 0, 0, 0, 0.32399994, 0, 0, 0, 0.32399994, -0.05, 1.1, 0)
+transform = Transform3D(-5.463924e-08, 0, -1.25, 0, 1.25, 0, 1.25, 0, -5.463924e-08, -0.05, 0.70000005, 0)
 material_overlay = SubResource("StandardMaterial3D_7lfs3")
-mesh = ExtResource("5_lli6r")
-skeleton = NodePath("../BaseCollisionShape")
+mesh = ExtResource("9_icbm8")
 
 [node name="MutlipartBody" type="Node3D" parent="." unique_id=1700992245]
 transform = Transform3D(0.49170122, 0, 0, 0, 0.49170122, 0, 0, 0, 0.49170122, -0.0644093, -1.19209e-07, -0.035357)

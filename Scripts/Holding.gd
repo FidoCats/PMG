@@ -11,6 +11,8 @@ var Slot2: InventorySlot
 var Slot3: InventorySlot
 var UsableSlot: InventorySlot
 
+var IsMultiplayerAuthority: bool
+
 
 
 #func _enter_tree():
@@ -19,9 +21,9 @@ var UsableSlot: InventorySlot
 
 
 func _process(_delta: float) -> void:
+	IsMultiplayerAuthority = $"../..".is_multiplayer_authority()
 	
-	
-	if not $"../..".is_multiplayer_authority(): return # the switched guns dont work on client side !!!!
+	if not IsMultiplayerAuthority: return # the switched guns dont work on client side !!!!
 	
 	CurrentPlayerInventory = $"../..".player_inventory
 	Slot1 = CurrentPlayerInventory.get_slot(0)

@@ -30,4 +30,6 @@ LShift (on floor, hold) - Run
 LCtrl, C (in air, with momentum) - Dive
 LCtrl, C and LShift (on floor, hold) - Slide
 RMB (if a wall is in front and looking up) - Cling / Ledge Grab
-RMB (with momentum, with a wall to the side / walking on the side of the wall) - Wall Run
+SpaceBar (While Clinging) - PullUp
+RMB (with momentum, walking on the side of the wall (This works best when looking at the wall! ^^) ) - Wall Run
+SpaceBar (While WallRunning) - WallHop

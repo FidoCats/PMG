@@ -12,7 +12,6 @@ sky_material = SubResource("ProceduralSkyMaterial_d0u6y")
 [resource]
 background_mode = 2
 sky = SubResource("Sky_yf5fn")
-fog_enabled = true
 fog_light_color = Color(0.70200586, 0.73078614, 0.7755591, 1)
 fog_light_energy = 0.25
 fog_density = 0.05

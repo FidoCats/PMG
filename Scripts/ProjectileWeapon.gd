@@ -37,7 +37,10 @@ class_name IsGun
 @export var AltReloadText: String = "-"
 @export var UseAltReloadText: bool = false
 @export var BottomlessMag: bool = false
+@export var UseResivoir: bool = false
+@export var ResivoirAmmo: int = 0
 @export var EjectionForce: float = 1.0
+@export var UseShells: bool = false
 @export_category("Assets: ")
 @export var ProjPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn")
 @export var MagPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Clipazines/45ACPMag.tscn")
@@ -53,6 +56,7 @@ class_name IsGun
 @export var AmmoLabel: Label3D #= %Ammo
 @export var FRLabel: Label3D #= %FireRate
 @export var ExtraLabel: Label3D
+@export var ResivoirLabel: Label3D
 
 @export var ProjectilePosMarker: Marker3D #= %Marker3D
 @export var MagPosMarker: Marker3D #= %AmmoMarker
@@ -75,7 +79,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	PumpAmount = clamp(PumpAmount, 1, 4)
 	
-	if not is_multiplayer_authority(): return
+	#if not is_multiplayer_authority(): return
 	
 	#if get_parent().get_parent().is_class("Marker3D"):#!= Global.ObjectSpawner:
 	
@@ -146,7 +150,15 @@ func Reload():
 	Global.ProjectileSpawner.add_child(EmptyMag)
 	EmptyMag.global_transform = MagPosMarker.global_transform
 	await get_tree().create_timer(ReloadTime).timeout
-	Ammo = FullMag
+	if not UseResivoir:
+		Ammo = FullMag
+	else:
+		if ResivoirAmmo >= FullMag:
+			ResivoirAmmo -= FullMag
+			Ammo = FullMag
+		else:
+			Ammo = ResivoirAmmo
+			ResivoirAmmo -= ResivoirAmmo
 	IsReloading = false
 
 func Pump():
@@ -190,6 +202,10 @@ func ShootBullet():
 				CanFire = false
 				PumpAmount = 1
 			
+		if !UseShells:
+			for i in BulletAmount * PumpAmount:
+				EjectCasing()
+		else:
 			EjectCasing()
 		
 		if !BottomlessMag:

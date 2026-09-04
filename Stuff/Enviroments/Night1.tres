@@ -6,6 +6,7 @@ sky_horizon_color = Color(0.0336764, 0.051261857, 0.274358, 1)
 sky_energy_multiplier = 1.05
 ground_bottom_color = Color(0.059203885, 0.0058910386, 0.1058223, 1)
 ground_horizon_color = Color(0.02776864, 0.13482225, 0.3037285, 1)
+energy_multiplier = 0.0
 
 [sub_resource type="Sky" id="Sky_yf5fn"]
 sky_material = SubResource("ProceduralSkyMaterial_57qmd")
@@ -13,3 +14,7 @@ sky_material = SubResource("ProceduralSkyMaterial_57qmd")
 [resource]
 background_mode = 2
 sky = SubResource("Sky_yf5fn")
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.25
+volumetric_fog_albedo = Color(0.32024395, 0.3202442, 0.32024413, 1)
+volumetric_fog_emission = Color(0.04755766, 0.047557645, 0.047557645, 1)

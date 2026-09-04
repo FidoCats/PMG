@@ -25,3 +25,9 @@ func _unhandled_input(_event) -> void:
 			rotation_degrees = Vector3(0,0,0)
 			_spring_arm.rotation_degrees.x -= _event.screen_relative.y * 0.25 * Global.Sensitivity
 			_spring_arm.rotation_degrees.x = clamp(_spring_arm.rotation_degrees.x,-90,90)
+		
+		if Input.is_action_pressed("RMB") and not Input.is_action_pressed("MoveTPCamera") and $"../..".CameraPos != 0:
+			_spring_arm.rotation_degrees.x -= _event.screen_relative.y * 0.25 * Global.Sensitivity
+			$"../..".rotation_degrees.y -= _event.relative.x * 0.25 * Global.Sensitivity
+			
+			_spring_arm.rotation_degrees = Vector3(_spring_arm.rotation_degrees.x, 0.0, 0.0)

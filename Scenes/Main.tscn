@@ -28,11 +28,6 @@ size = Vector3(100, 1, 100)
 material = ExtResource("4_346fj")
 size = Vector3(100, 1, 100)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_346fj"]
-properties/0/path = NodePath(".:children")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [node name="TestScene" type="Node3D" unique_id=1848406288]
 script = ExtResource("1_h1m7h")
 
@@ -58,7 +53,7 @@ shadow_enabled = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox/DirectionalLight3D" unique_id=374875158]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
-light_color = Color(0.9490196, 0.98039216, 1, 1)
+light_color = Color(0.3200831, 0.4051372, 0.44099733, 1)
 light_energy = 0.25
 light_volumetric_fog_energy = 6.307
 shadow_enabled = true
@@ -111,10 +106,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -5)
 [node name="Box2" parent="Enviroment/Objects" unique_id=2084852687 instance=ExtResource("10_3tgeq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -5)
 
-[node name="ObjectSync" type="MultiplayerSynchronizer" parent="Enviroment" unique_id=1330905250]
-root_path = NodePath("../Objects")
-replication_config = SubResource("SceneReplicationConfig_346fj")
-
 [node name="Projectiles" type="Node3D" parent="Enviroment" unique_id=1776998517]
 
 [node name="Checkpoints" type="Node3D" parent="Enviroment" unique_id=2024622674]
@@ -126,7 +117,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MultiplayerObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=850132785]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v")
 spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MultiplayerProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=2033216670]

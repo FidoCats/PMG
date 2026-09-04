@@ -1,38 +1,54 @@
 [gd_scene format=3 uid="uid://n2uolf8wtyby"]
 
 [ext_resource type="Material" uid="uid://n132mcofwgfk" path="res://Stuff/Materials/Blue.tres" id="1_ocaxa"]
+[ext_resource type="Script" uid="uid://bcheb7cneqsyd" path="res://Scripts/flashlight.gd" id="1_ux8a7"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_x32u1"]
 
-[sub_resource type="TorusMesh" id="TorusMesh_g4v7s"]
+[sub_resource type="TorusMesh" id="TorusMesh_ye6sb"]
 material = ExtResource("1_ocaxa")
-inner_radius = 0.029
-outer_radius = 0.02
+inner_radius = 0.05
+outer_radius = 0.04
 rings = 32
 ring_segments = 16
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
 material = ExtResource("2_x32u1")
-top_radius = 0.029
-bottom_radius = 0.023
+top_radius = 0.05
+bottom_radius = 0.03
 height = 0.15
 radial_segments = 32
 rings = 2
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_17r2w"]
 material = ExtResource("2_x32u1")
-top_radius = 0.023
-bottom_radius = 0.029
+top_radius = 0.03
+bottom_radius = 0.035
 height = 0.1
 radial_segments = 32
 rings = 2
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wxoxw"]
 material = ExtResource("1_ocaxa")
-top_radius = 0.021
-bottom_radius = 0.018
+top_radius = 0.025
+bottom_radius = 0.02
 height = 0.01
 radial_segments = 32
 rings = 2
+
+[sub_resource type="TorusMesh" id="TorusMesh_g4v7s"]
+material = ExtResource("1_ocaxa")
+inner_radius = 0.035
+outer_radius = 0.038
+rings = 32
+ring_segments = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s51lu"]
+rim_enabled = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yf5fn"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.005
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ocaxa"]
 properties/0/path = NodePath(".:position")
@@ -51,15 +67,14 @@ properties/4/path = NodePath(".:light_energy")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="Flashlight" type="SpotLight3D" unique_id=1072705150]
-shadow_enabled = true
-distance_fade_enabled = true
-spot_range = 894.0
-spot_angle = 36.960342
+[node name="Flashlight" type="Node3D" unique_id=1812129441 node_paths=PackedStringArray("LightMesh", "SpotLight")]
+script = ExtResource("1_ux8a7")
+LightMesh = NodePath("MeshInstance3D/MeshInstance3D9")
+SpotLight = NodePath("MeshInstance3D/Flashlight")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1737239799]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.0001956895)
-mesh = SubResource("TorusMesh_g4v7s")
+mesh = SubResource("TorusMesh_ye6sb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1997135454]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.076901674, -3.3614789e-09)
@@ -98,5 +113,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17362145, -7.589236e-09
 mesh = SubResource("TorusMesh_g4v7s")
 skeleton = NodePath("../..")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1077203887]
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="MeshInstance3D" unique_id=751889275]
+material_override = SubResource("StandardMaterial3D_s51lu")
+mesh = SubResource("CylinderMesh_yf5fn")
+
+[node name="Flashlight" type="SpotLight3D" parent="MeshInstance3D" unique_id=1072705150]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+light_energy = 2.5
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 2199.0
+spot_angle = 42.471523
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="MeshInstance3D/Flashlight" unique_id=1077203887]
 replication_config = SubResource("SceneReplicationConfig_ocaxa")
