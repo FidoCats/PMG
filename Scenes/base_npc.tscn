@@ -18,8 +18,14 @@ text = "\\    /
 font_size = 25
 line_spacing = -15.0
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
+radius = 7.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
+radius = 15.0
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
-radius = 0.001
+radius = 2.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sst3"]
 properties/0/path = NodePath(".:transform")
@@ -77,12 +83,12 @@ stream = ExtResource("2_n8v3c")
 [node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
 
 [node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
-shape = SubResource("SphereShape3D_g4v7s")
+shape = SubResource("SphereShape3D_n8v3c")
 
 [node name="HearArea" type="Area3D" parent="." unique_id=1480228872]
 
 [node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
-shape = SubResource("SphereShape3D_g4v7s")
+shape = SubResource("SphereShape3D_duayq")
 
 [node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
 

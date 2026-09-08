@@ -25,19 +25,26 @@ func _ready() -> void:
 		GivenItem = ItemDatabase.get_item(ItemId)
 		Sprite.texture = GivenItem.icon
 		NameLabel.text = GivenItem.name
+		PrintSprite.texture = GivenItem.icon
 		
 		CollisionArea.body_entered.connect(Touched)
 
 
 
 func Touched(_body: Node3D):
-	if _body.is_class("Player"):
+	if _body.is_class("get_inventory"):
 		CanDispense = false
 		var UserInventory: PlayerInventory = _body.player_inventory
-		Sprite.texture = GivenItem.icon
-		NameLabel.text = GivenItem.name
+		#var UserInventory: PlayerInventory = _body.get_inventory()
+		PrintSprite.visible = true
 		UserInventory.add_item(GivenItem)
-		PrintSprite.texture = GivenItem.icon
 		await get_tree().create_timer(CoolDownTime).timeout
-		PrintSprite.texture = null
+		PrintSprite.visible = false
 		CanDispense = true
+		print("Dispensed!")
+
+
+
+func Interact(_body: Node3D):
+	Touched(_body)
+	print("Interacted")

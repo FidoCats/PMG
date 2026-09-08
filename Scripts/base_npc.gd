@@ -9,7 +9,7 @@ class_name BaseNPC
 @export_category("Prefrences: ")
 ## Hearing
 @export var HearDistance: float = 30.0 #50.0
-@export var HearChance: int = 2
+@export var HearChance: int = 1 #2
 ## Feeling
 @export var FeelDistance: float = 15.0
 @export var FeelChance: int = 1
@@ -29,6 +29,7 @@ class_name BaseNPC
 @export var MaxHealth: float = 100.0
 @export var Health: float = 100.0
 @export var AttackDamage: float = 10
+@export var Speed: float = 5.0
 
 @export_category("Nodes: ")
 @export var CollisonShape: CollisionShape3D
@@ -65,11 +66,11 @@ func _ready() -> void:
 	StateTimer.timeout.connect(StateChange)
 	BoredTimer.timeout.connect(GetBored)
 	
-	FeelAreaShape.shape.radius = FeelDistance
+	#FeelAreaShape.shape.radius = FeelDistance
 	FeelArea.body_entered.connect(AttemptFeel)
-	HearAreaShape.shape.radius = HearDistance
+	#HearAreaShape.shape.radius = HearDistance
 	HearArea.body_entered.connect(AttemptHear)
-	TouchAreaShape.shape.radius = TouchDistance
+	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(HurtPlayer)
 
 
@@ -131,17 +132,23 @@ func AttemptFeel(_body):
 func Pursue(_delta):
 	if WillPursue:
 		if PursuedPerson.has_user_signal("Noticable"):
-			global_position = Vector3(move_toward(global_position.x, PursuedPerson.global_position.x, _delta),move_toward(global_position.y, PursuedPerson.global_position.y, _delta),move_toward(global_position.z, PursuedPerson.global_position.z, _delta))
 			look_at(Vector3(PursuedPerson.global_position.x,0,PursuedPerson.global_position.z))
+			velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
+			velocity = velocity.normalized() * Speed
+			move_and_slide()
 			print("Im pursuing ", PursuedPerson)
-	#else:
-		#print(PursuedPerson, " is not interesting. :<")
+	else:
+		print(PursuedPerson, " is not interesting. :<")
 
 
 
 func Wander(_delta):
-	global_position = Vector3(move_toward(global_position.x, WanderPos.x, _delta),move_toward(global_position.y, WanderPos.y, _delta),move_toward(global_position.z, WanderPos.z, _delta))
+	#global_position = Vector3(move_toward(global_position.x, WanderPos.x, _delta),move_toward(global_position.y, WanderPos.y, _delta),move_toward(global_position.z, WanderPos.z, _delta))
+	WanderPos = Vector3(randf_range(global_position.x - 25, global_position.x + 25), global_position.y, randf_range(global_position.z - 25,global_position.z + 25))
 	look_at(WanderPos)
+	velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
+	velocity = velocity.normalized() * Speed
+	move_and_slide()
 
 
 

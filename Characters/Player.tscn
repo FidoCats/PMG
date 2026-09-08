@@ -274,7 +274,7 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf5fn"]
 bg_color = Color(0.15294118, 0.3137255, 1, 0.7529412)
 
-[node name="Player" type="CharacterBody3D" unique_id=1661719079]
+[node name="Player" type="CharacterBody3D" unique_id=1661719079 groups=["Alive"]]
 collision_mask = 3
 script = ExtResource("1_x35ji")
 Species = 0
@@ -916,6 +916,39 @@ layout_mode = 0
 offset_top = 232.0
 offset_right = 40.0
 offset_bottom = 255.0
+
+[node name="Inspector" type="Control" parent="UI" unique_id=1324892455]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InspectorPanel" type="Panel" parent="UI/Inspector" unique_id=1576156830]
+layout_mode = 0
+offset_left = 1056.0
+offset_top = 65.0
+offset_right = 1280.0
+offset_bottom = 448.0
+
+[node name="Description" type="RichTextLabel" parent="UI/Inspector/InspectorPanel" unique_id=1021761497]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 224.0
+offset_bottom = 319.0
+
+[node name="HSeparator" type="HSeparator" parent="UI/Inspector/InspectorPanel" unique_id=2038711700]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 35.0
+offset_right = 216.0
+offset_bottom = 39.0
+
+[node name="Name" type="Label" parent="UI/Inspector/InspectorPanel" unique_id=1641607877]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 216.0
+offset_bottom = 30.0
 
 [node name="SpawnMenu" type="Control" parent="." unique_id=1909990424]
 visible = false
