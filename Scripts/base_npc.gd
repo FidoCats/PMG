@@ -49,8 +49,8 @@ class_name BaseNPC
 @export var RespawnStream: AudioStream
 
 ## States
-var IsWandering: bool = true
-var IsPatroling: bool = false
+var IsWandering: bool = false #true
+var IsPatroling: bool = true #false
 var IsPursuing: bool = false
 
 var IsBored: bool = false
@@ -72,6 +72,8 @@ func _ready() -> void:
 	HearArea.body_entered.connect(AttemptHear)
 	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(HurtPlayer)
+	
+
 
 
 
@@ -87,24 +89,50 @@ func _process(_delta: float) -> void:
 	
 	if SightLine.get_collider() != null and CanSee:
 		PursuedPerson = SightLine.get_collider()
+	
+	## Path Testing
+	#if Input.is_action_pressed("ui_accept"):
+		#var PathLength: float = 22.0
+		#if $"..".progress_ratio <=  PathLength:
+	if IsPatroling:
+		$"..".progress_ratio += 0.005 * _delta * Speed
+		#print($"..".progress_ratio, ", ", $"..".progress)
+		#else:
+			#$"..".progress = 0.0
+			#$"..".progress_ratio = 0.0
+	#elif Input.is_action_pressed("ui_cancel"):
+		#$"..".progress_ratio -= 0.05 * _delta * Speed
+		#print($"..".progress_ratio, " , ", $"..".progress)
 
 
 
 func StateChange():
 	if IsBored:
 		var RandomInt: int = randi_range(0,3)
-		if RandomInt == 3:
-			IsWandering = true
-			PursuedPerson = null
+		match RandomInt:
+			1:
+				print(">w<")
+			2:
+				IsWandering = false
+				IsPatroling = true
+				PursuedPerson = null
+			3:
+				IsWandering = true
+				IsPatroling = false
+				PursuedPerson = null
 	else:
 		IsBored = true
 	StateTimer.start()
+	print(StateTimer.time_left)
 
 
 
 func GetBored():
 	IsBored = true
 	PursuedPerson = null
+	IsPursuing = false
+	IsPatroling = false
+	IsWandering = false
 	print("Im bored!")
 
 
@@ -131,11 +159,12 @@ func AttemptFeel(_body):
 
 func Pursue(_delta):
 	if WillPursue:
-		if PursuedPerson.has_user_signal("Noticable"):
-			look_at(Vector3(PursuedPerson.global_position.x,0,PursuedPerson.global_position.z))
-			velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
-			velocity = velocity.normalized() * Speed
-			move_and_slide()
+		if PursuedPerson.is_in_group("Noticable"):
+			#look_at(Vector3(PursuedPerson.global_position.x,0,PursuedPerson.global_position.z))
+			#velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
+			#velocity = velocity.normalized() * Speed
+			#move_and_slide()
+			global_position = PursuedPerson.global_position
 			print("Im pursuing ", PursuedPerson)
 	else:
 		print(PursuedPerson, " is not interesting. :<")

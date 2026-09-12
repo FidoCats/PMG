@@ -134,6 +134,32 @@ func _create_sample_items():
 	SPEAR.scene = preload("res://Scenes/Items/Weapons/Melee/spear.tscn")
 	items[SPEAR.id] = SPEAR
 
+## Deletinator
+	var DELETINATOR = Item.new()
+	DELETINATOR.id = "DELETINATOR"
+	DELETINATOR.name = "Deletinator 9000"
+	DELETINATOR.description = "Delete Tool :]."
+	DELETINATOR.item_type = Item.ItemType.WEAPON
+	DELETINATOR.rarity = Item.ItemRarity.COMMON
+	DELETINATOR.stackable = false
+	DELETINATOR.value = 1
+	DELETINATOR.icon = placeholder_icon
+	DELETINATOR.scene = preload("res://Scenes/Items/Usables/Deletinator9000.tscn")
+	items[DELETINATOR.id] = DELETINATOR
+
+## Bullshisher
+	var BULLSHISHER = Item.new()
+	BULLSHISHER.id = "BULLSHISHER"
+	BULLSHISHER.name = "BULLSHISHER"
+	BULLSHISHER.description = "MessMaker."
+	BULLSHISHER.item_type = Item.ItemType.WEAPON
+	BULLSHISHER.rarity = Item.ItemRarity.COMMON
+	BULLSHISHER.stackable = false
+	BULLSHISHER.value = 1
+	BULLSHISHER.icon = placeholder_icon
+	BULLSHISHER.scene = preload("res://Scenes/Items/Usables/RandomBullshishGo.tscn")
+	items[BULLSHISHER.id] = BULLSHISHER
+
 
 
 func add_item_to_database(item: Item) -> bool:

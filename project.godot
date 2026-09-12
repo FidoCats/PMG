@@ -42,6 +42,7 @@ window/stretch/mode="canvas_items"
 [global_group]
 
 Alive="A class for Players and NPCs."
+Undeletable="Group for objects undeletable by most player actions."
 
 [input]
 

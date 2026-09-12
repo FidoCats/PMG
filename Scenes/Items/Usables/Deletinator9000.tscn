@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://s03xi0ulgd6c"]
+
+[ext_resource type="Script" uid="uid://bqshh2orumn35" path="res://Scripts/Delete.gd" id="1_3qayq"]
+[ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="1_31jt6"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_i4q7t"]
+[ext_resource type="AudioStream" uid="uid://rsdtugb1ecia" path="res://Stuff/Sounds/Tadaa ;].mp3" id="3_3qayq"]
+[ext_resource type="Material" uid="uid://b3ilu41fng272" path="res://Stuff/Materials/Red.tres" id="3_aqmvk"]
+[ext_resource type="AudioStream" uid="uid://beya8eo5kxo4x" path="res://Stuff/Sounds/gab_Enough.ogg" id="4_i4q7t"]
+[ext_resource type="Texture2D" uid="uid://cj8pkil1c2500" path="res://Stuff/Images/MuzzleFlash1.png" id="5_aqmvk"]
+[ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="5_s6wms"]
+[ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="6_s6wms"]
+[ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="7_vk5o2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.1, 0.1, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("2_i4q7t")
+size = Vector3(0.1, 0.15, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("2_i4q7t")
+size = Vector3(0.09, 0.25, 0.08)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_57qmd"]
+material = ExtResource("3_aqmvk")
+radius = 0.05419922
+height = 0.512146
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_d0u6y"]
+material = ExtResource("1_31jt6")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.15
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vk5o2"]
+material = ExtResource("2_i4q7t")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.23750001
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_aqmvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_s6wms")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vk5o2")
+}, {
+"duration": 0.1,
+"texture": null
+}],
+"loop": 0,
+"name": &"default",
+"speed": 24.0
+}]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qul2g"]
+properties/0/path = NodePath("Shoot:playing")
+properties/0/spawn = false
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Reload:playing")
+properties/1/spawn = false
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Empty:playing")
+properties/2/spawn = false
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Ammo:text")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Firerate:text")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("BarrelMarker/FireAnimation:frame")
+properties/5/spawn = false
+properties/5/replication_mode = 1
+properties/6/path = NodePath("BarrelMarker/FireAnimation/SpotLight3D:visible")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:transform")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:position")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:scale")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+
+[node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1310180666 node_paths=PackedStringArray("Ray")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+mass = 50.0
+freeze = true
+script = ExtResource("1_3qayq")
+Ray = NodePath("BarrelMarker")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=257049623]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, 0, 0.055081412)
+shape = SubResource("BoxShape3D_g4v7s")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=653599548]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1.1499618e-08, 0, 0.1315403)
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=543554931]
+transform = Transform3D(1, -4.371139e-08, 1.171243e-08, 4.371139e-08, 0.8660254, -0.5, 1.171243e-08, 0.5, 0.8660254, 1.7484556e-08, -0.1303825, -0.2)
+mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1727083883]
+transform = Transform3D(1, 8.742278e-08, 8.742278e-08, -8.7422784e-08, -4.371139e-08, 1, 8.742278e-08, -1, -4.371138e-08, 8.976007e-09, 0.012557091, -0.102673545)
+mesh = SubResource("CapsuleMesh_57qmd")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2115243784]
+transform = Transform3D(1, 8.742278e-08, 8.742278e-08, -8.7422784e-08, -4.371139e-08, 1, 8.742278e-08, -1, -4.371138e-08, -2.6848332e-08, 0.02385201, 0.30710912)
+mesh = SubResource("CylinderMesh_d0u6y")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1971385029]
+transform = Transform3D(1, 8.7422784e-08, 8.742277e-08, -8.7422784e-08, -2.9802322e-08, 1, 8.742274e-08, -1, -2.9802315e-08, 2.9393487e-08, -0.23600452, -0.3362223)
+mesh = SubResource("CylinderMesh_vk5o2")
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="." unique_id=287257168]
+stream = ExtResource("5_s6wms")
+
+[node name="Reload" type="AudioStreamPlayer3D" parent="." unique_id=1844451035]
+stream = ExtResource("3_3qayq")
+
+[node name="Empty" type="AudioStreamPlayer3D" parent="." unique_id=1453549187]
+stream = ExtResource("4_i4q7t")
+
+[node name="Label" type="Label3D" parent="." unique_id=1912072195]
+transform = Transform3D(-1, -2.262668e-08, 8.444392e-08, 0, 0.9659258, 0.25881904, -8.742278e-08, 0.25881904, -0.9659258, -3.0388463e-09, 0.08619122, 0.03476035)
+pixel_size = 0.001
+text = "Delete"
+font_size = 30
+outline_size = 3
+
+[node name="BarrelMarker" type="RayCast3D" parent="." unique_id=324497611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9760016e-08, 0.015025623, 0.42602825)
+target_position = Vector3(0, 0, 25)
+
+[node name="FireAnimation" type="AnimatedSprite3D" parent="BarrelMarker" unique_id=553643137]
+transform = Transform3D(0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="BarrelMarker/FireAnimation" unique_id=789207740]
+transform = Transform3D(-1.0000001, 0, -8.7422784e-08, 0, 1, 0, 8.7422784e-08, 0, -1.0000001, 0, 0, 0)
+visible = false
+light_color = Color(1, 0, 0, 1)
+shadow_enabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=138157842]
+replication_config = SubResource("SceneReplicationConfig_qul2g")

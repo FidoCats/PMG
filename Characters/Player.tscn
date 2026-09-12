@@ -343,6 +343,9 @@ transform = Transform3D(0.9615164, -0.2664565, -0.06698741, -0.12940961, -0.2241
 visible = false
 mesh = SubResource("CylinderMesh_g4v7s")
 
+[node name="FPCameraOffSet" type="Node3D" parent="." unique_id=1632633464]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.066, 1.25, 0.21)
+
 [node name="MainMesh" type="MeshInstance3D" parent="." unique_id=255328238]
 transform = Transform3D(-5.463924e-08, 0, -1.25, 0, 1.25, 0, 1.25, 0, -5.463924e-08, -0.05, 0.70000005, 0)
 material_overlay = SubResource("StandardMaterial3D_7lfs3")
@@ -1064,7 +1067,10 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
+item_count = 2
 fixed_icon_size = Vector2i(64, 64)
+item_0/text = "Deletinator 9000"
+item_1/text = ":3"
 
 [node name="Maps" type="ItemList" parent="SpawnMenu" unique_id=190823131]
 layout_mode = 0

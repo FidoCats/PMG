@@ -10,6 +10,7 @@ var Slot1: InventorySlot
 var Slot2: InventorySlot
 var Slot3: InventorySlot
 var UsableSlot: InventorySlot
+var Slot1Value: float
 
 var IsMultiplayerAuthority: bool
 
@@ -23,7 +24,8 @@ var IsMultiplayerAuthority: bool
 func _process(_delta: float) -> void:
 	IsMultiplayerAuthority = $"../..".is_multiplayer_authority()
 	
-	if not IsMultiplayerAuthority: return # the switched guns dont work on client side !!!!
+	if not IsMultiplayerAuthority: return
+	if $"../..".InputBlocked: return
 	
 	CurrentPlayerInventory = $"../..".player_inventory
 	Slot1 = CurrentPlayerInventory.get_slot(0)
@@ -45,11 +47,13 @@ func _process(_delta: float) -> void:
 					var Equipable: Node3D = SlotItemScene.instantiate()
 					add_child(Equipable)
 					CurrentSlot = 0
+					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
 					#rpc(WeaponChanged(Equipable))
 				else:
 					HandsFull = false
 					CurrentSlot = -1
+					Slot1Value = SlotToId.special_value_1
 					#rpc(HandsEmptied())
 		else:
 			HandsFull = false
@@ -68,11 +72,13 @@ func _process(_delta: float) -> void:
 					var Equipable: Node3D = SlotItemScene.instantiate()
 					add_child(Equipable)
 					CurrentSlot = 1
+					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
 					#rpc(WeaponChanged(Equipable))
 				else:
-					CurrentSlot = -1
 					HandsFull = false
+					CurrentSlot = -1
+					Slot1Value = SlotToId.special_value_1
 					#rpc(HandsEmptied())
 		else:
 			CurrentSlot = -1
@@ -91,51 +97,69 @@ func _process(_delta: float) -> void:
 					var Equipable: Node3D = SlotItemScene.instantiate()
 					add_child(Equipable)
 					CurrentSlot = 2
+					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
 					#rpc(WeaponChanged(Equipable))
 				else:
-					CurrentSlot = -1
 					HandsFull = false
+					CurrentSlot = -1
+					Slot1Value = SlotToId.special_value_1
 					#rpc(HandsEmptied())
 		else:
 			HandsFull = false
 			CurrentSlot = -1
 			#rpc(HandsEmptied())
 	
-	## Usable slot
-	if Input.is_action_just_pressed("Secondary Ability"):
-		if $"../Usable".get_child_count() > 0:
-			$"../Usable".remove_child($"../Usable".get_child(0))
-		
-		if UsableSlotFull == false:
-			var SlotToId = ItemDatabase.get_item(UsableSlot.item_id)
-			if UsableSlot.item_id != "":
-				var SlotItemScene: PackedScene = SlotToId.scene
-				if UsableSlot != null and SlotItemScene != null and SlotToId != null:
-					var Usable: Node3D = SlotItemScene.instantiate()
-					$"../Usable".add_child(Usable)
-					UsableSlotFull = true
-				else:
-					UsableSlotFull = false
-		else:
-			UsableSlotFull = false
+	### Usable slot
+	#if Input.is_action_just_pressed("Secondary Ability"):
+		#if $"../Usable".get_child_count() > 0:
+			#$"../Usable".remove_child($"../Usable".get_child(0))
+		#
+		#if UsableSlotFull == false:
+			#var SlotToId = ItemDatabase.get_item(UsableSlot.item_id)
+			#if UsableSlot.item_id != "":
+				#var SlotItemScene: PackedScene = SlotToId.scene
+				#if UsableSlot != null and SlotItemScene != null and SlotToId != null:
+					#var Usable: Node3D = SlotItemScene.instantiate()
+					#$"../Usable".add_child(Usable)
+					#UsableSlotFull = true
+				#else:
+					#UsableSlotFull = false
+		#else:
+			#UsableSlotFull = false
+	
+	
 	
 	if Input.is_action_just_pressed("Drop"):
 		if HandsFull and CurrentSlot != -1:
 			var SelectedSlot = CurrentPlayerInventory.get_slot(CurrentSlot)
-			SelectedSlot.remove_item(1)
-			if get_child_count() > 0:
-				remove_child(get_child(0))
+			if not SelectedSlot.is_empty():
+				var SelectedItem = ItemDatabase.get_item(SelectedSlot.item_id)
+				if SelectedItem.dropped_scene != null:
+					var DroppedItem = SelectedItem.dropped_scene.instantiate()
+					Global.ObjectSpawner.add_child(DroppedItem)
+				SelectedSlot.remove_item(1)
+				if get_child_count() > 0:
+					remove_child(get_child(0))
 
 
-@rpc("any_peer")
+
+func ClearHands():
+	if get_child(0) != null:
+		remove_child(get_child(0))
+	CurrentSlot = -1
+	HandsFull = false
+
+
+
+
+
+
 func WeaponChanged(_Weapon: Node3D):
 	pass
 
-@rpc("any_peer")
 func HandsEmptied():
 	pass
 
-@rpc("any_peer")
 func WeaponDropped(_DroppedWeapon: Node3D):
 	pass

@@ -5,7 +5,8 @@ signal host_pressed(nickname: String, skin: String)
 signal join_pressed(nickname: String, skin: String, address: String)
 signal quit_pressed
 
-@onready var skin_input: OptionButton = $Profile/SkinInput
+@onready var mesh_input: OptionButton = $Profile/MeshInput
+@onready var color_input: ColorPickerButton
 @onready var nick_input: LineEdit = $Profile/NickInput
 @onready var address_input: LineEdit = $AddressInput
 
@@ -13,13 +14,13 @@ signal quit_pressed
 
 func _on_host_pressed():
 	var nickname = nick_input.text.strip_edges()
-	var skin = skin_input.text.strip_edges().to_lower()
+	var skin = mesh_input.get_item_text(mesh_input.get_selected_id()) #skin_input.text.strip_edges().to_lower()
 	host_pressed.emit(nickname, skin)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_join_pressed():
 	var nickname = nick_input.text.strip_edges()
-	var skin = skin_input.text.strip_edges().to_lower()
+	var skin = mesh_input.get_item_text(mesh_input.get_selected_id()) #skin_input.text.strip_edges().to_lower()
 	var address = address_input.text.strip_edges()
 	join_pressed.emit(nickname, skin, address)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -42,7 +43,8 @@ func get_nickname() -> String:
 	return nick_input.text.strip_edges()
 
 func get_skin() -> String:
-	return skin_input.text.strip_edges().to_lower()
+	#return skin_input.text.strip_edges().to_lower()
+	return mesh_input.get_item_text(mesh_input.get_selected_id())
 
 func get_address() -> String:
 	return address_input.text.strip_edges()
@@ -63,7 +65,7 @@ func _on_title_pressed() -> void:
 
 func _ready():
 	for i in Player.SpeciesEnum:
-		$Profile/SkinInput.add_item(str(i))
+		$Profile/MeshInput.add_item(str(i))
 
 
 

@@ -4,8 +4,8 @@ class_name Player
 
 
 @onready var nickname: Label3D = $PlayerNick/Nickname
+@onready var UI = $UI
 
-## OnReady stuff
 @onready var FPCamera: Camera3D = $FPCamera
 @onready var LookAtRay: LookAtRayCast = $FPCamera/LookingAt
 @onready var Holding: Marker3D = $FPCamera/Holding
@@ -13,13 +13,23 @@ class_name Player
 @onready var AboveRay: AboveRayCast = $Above
 @onready var InfrontRay: InfrontRayCast = $Infront
 @onready var TPCamera: Camera3D = $FPCamera/SpringArmOffset/SpringArm3D/TPCamera
+@onready var SpringArm: SpringArm3D = $FPCamera/SpringArmOffset/SpringArm3D
 @onready var BaseCollisionShape: CollisionShape3D = $BaseCollisionShape
 @onready var CrouchCollisionShape: CollisionShape3D = $CrouchCollisionShape3D
 @onready var MainMesh: MeshInstance3D = $MainMesh
 @onready var ParryArea: Area3D = $FPCamera/ParryArea
 @onready var ParryMesh: MeshInstance3D = $FPCamera/ParryArea/MeshInstance3D
 
-@onready var UI = $UI
+## Audio
+@onready var RespawnAudioStream: AudioStreamPlayer3D = $Respawn
+@onready var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
+@onready var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
+
+## Throwable stuff
+@onready var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
+@onready var BallArray: Array[PackedScene] = [preload("res://Scenes/small_blue_ball.tscn"),preload("res://Scenes/small_green_ball.tscn"),preload("res://Scenes/small_red_ball.tscn"),preload("res://Scenes/small_yellow_ball.tscn")]
+
+
 
 var player_inventory: PlayerInventory
 
@@ -42,15 +52,6 @@ var player_inventory: PlayerInventory
 #@onready var _chest_mesh: MeshInstance3D = get_node("3DGodotRobot/RobotArmature/Skeleton3D/Chest")
 #@onready var _face_mesh: MeshInstance3D = get_node("3DGodotRobot/RobotArmature/Skeleton3D/Face")
 #@onready var _limbs_head_mesh: MeshInstance3D = get_node("3DGodotRobot/RobotArmature/Skeleton3D/Llimbs and head")
-
-## Audio
-@onready var RespawnAudioStream: AudioStreamPlayer3D = $Respawn
-@onready var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
-@onready var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
-
-## Throwable stuff
-@onready var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
-@onready var BallArray: Array[PackedScene] = [preload("res://Scenes/small_blue_ball.tscn"),preload("res://Scenes/small_green_ball.tscn"),preload("res://Scenes/small_red_ball.tscn"),preload("res://Scenes/small_yellow_ball.tscn")]
 
 ## Movement Stuff
 const BaseSpeed: float = 7.50
@@ -151,16 +152,17 @@ func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 	#$FPCamera/SpringArmOffset/SpringArm3D/Camera3D.current = is_multiplayer_authority()
 	
-	if CameraPos == 0:
-		$FPCamera.current = is_multiplayer_authority()
-	else:
-		$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
+	if FPCamera and TPCamera:
+		if CameraPos == 0:
+			FPCamera.current = is_multiplayer_authority()
+		else:
+			TPCamera.current = is_multiplayer_authority()
 	
-	SetFov = $FPCamera.fov
-	Fov = SetFov
-	CurrentFov = Fov
-	$FPCamera.fov = Fov
-	$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.fov = Fov
+		SetFov = 90.0 #FPCamera.fov # It somehow sets itself to 0.0 and i dunno why... -Fido :[
+		Fov = SetFov
+		CurrentFov = Fov
+		FPCamera.fov = Fov
+		TPCamera.fov = Fov
 
 
 
@@ -171,25 +173,25 @@ func _unhandled_input(event: InputEvent) -> void:
 				if CameraPos == 0:
 					if not IsSliding and not IsDiving: 
 						rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
-						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
-						$FPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
+						FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
+						FPCamera.rotation_degrees.x = clamp(FPCamera.rotation_degrees.x,-90,90)
 					if IsSliding or IsDiving: 
-						$FPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
+						FPCamera.rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
 						#$FPCamera.rotation_degrees.y = clamp($FPCamera.rotation_degrees.y, -110, 110)
-						$FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
-						$FPCamera.rotation_degrees.x = clamp($FPCamera.rotation_degrees.x,-90,90)
+						FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity
+						FPCamera.rotation_degrees.x = clamp(FPCamera.rotation_degrees.x,-90,90)
 			
 			if CameraPos == 0:
-				$FPCamera.current = is_multiplayer_authority()
+				FPCamera.current = is_multiplayer_authority()
 			else:
-				$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.current = is_multiplayer_authority()
+				TPCamera.current = is_multiplayer_authority()
 
 
 
 func _ready():
 	Parent = get_parent()
 	
-	add_user_signal("Noticable")
+	#add_user_signal("Noticable")
 	
 	ParryArea.body_entered.connect(ParryAreaEntered)
 	ParryArea.body_exited.connect(ParryAreaExited)
@@ -197,7 +199,7 @@ func _ready():
 	var is_local_player = is_multiplayer_authority()
 	var local_client_id = multiplayer.get_unique_id()
 
-	SpringArmBaseLength = $FPCamera/SpringArmOffset/SpringArm3D.spring_length
+	SpringArmBaseLength = SpringArm.spring_length
 
 	print("Debug: Player ", name, " ready - authority: ", get_multiplayer_authority(), ", local client: ", local_client_id, ", is_local: ", is_local_player)
 
@@ -222,15 +224,19 @@ func _process(_delta):
 	
 	
 	
+	SetFov = 90.0
+	
+	
+	
 	if not is_multiplayer_authority(): return
 	
 	
 	
 ## Setters, Getters
 	if is_multiplayer_authority():
-		AboveRay.position.y = $FPCamera.position.y
+		AboveRay.position.y = FPCamera.position.y
 		PeerList = multiplayer.get_peers()
-		Global.FPCamera = $FPCamera
+		Global.FPCamera = FPCamera
 		#Global.ObjectDistance = ObjectDistance
 		
 
@@ -286,8 +292,10 @@ func _process(_delta):
 	
 	if CurrentFov != Fov:
 		CurrentFov = lerp(CurrentFov, Fov, 0.1)
-	$FPCamera.fov = CurrentFov
-	$FPCamera/SpringArmOffset/SpringArm3D/TPCamera.fov = CurrentFov
+	FPCamera.fov = CurrentFov
+	TPCamera.fov = CurrentFov
+	# remove later
+	#print(Fov,", ", CurrentFov,", ", FPCamera.fov,", ",SetFov)
 
 	if IsWalking and not IsSliding and not IsCrouching and not IsDiving:
 	
@@ -344,13 +352,13 @@ func _process(_delta):
 			CameraPos += 1
 			CameraPos = clamp(CameraPos, MinCameraPos, MaxCameraPos)
 			if CameraPos > 0:
-				$FPCamera/SpringArmOffset/SpringArm3D.spring_length = lerp($FPCamera/SpringArmOffset/SpringArm3D.spring_length, SpringArmBaseLength * CameraPos, 1)
+				SpringArm.spring_length = lerp(SpringArm.spring_length, SpringArmBaseLength * CameraPos, 1)
 			print(CameraPos)
 		if Input.is_action_just_pressed("Camera-"):
 			CameraPos -= 1
 			CameraPos = clamp(CameraPos, MinCameraPos, MaxCameraPos)
 			if CameraPos > 0:
-				$FPCamera/SpringArmOffset/SpringArm3D.spring_length = lerp($FPCamera/SpringArmOffset/SpringArm3D.spring_length, SpringArmBaseLength * CameraPos, 1)
+				SpringArm.spring_length = lerp(SpringArm.spring_length, SpringArmBaseLength * CameraPos, 1)
 			print(CameraPos)
 		if Input.is_action_just_pressed("CameraReset"):
 			CameraPos = 0
@@ -375,7 +383,7 @@ func _process(_delta):
 					#Grenade.global_transform.origin = $FPCamera/Holding.global_position
 					#Grenade.transform = $FPCamera/Holding.global_transform
 					#Grenade.global_basis = $FPCamera/Holding.global_basis
-					Grenade.global_transform = $FPCamera/Holding.global_transform
+					Grenade.global_transform = Holding.global_transform
 					await get_tree().create_timer(1.0).timeout
 					CanThrowThrowable = true
 				1:
@@ -383,8 +391,8 @@ func _process(_delta):
 					var BallChooser: PackedScene = BallArray[randi_range(0,2)]
 					var Ball: Node3D = BallChooser.instantiate()
 					Global.ProjectileSpawner.add_child(Ball)
-					Ball.transform = $FPCamera/Holding.global_transform
-					Ball.global_basis = $FPCamera/Holding.global_basis
+					Ball.transform = Holding.global_transform
+					Ball.global_basis = Holding.global_basis
 					await get_tree().create_timer(0.5).timeout
 					CanThrowThrowable = true
 				2:
@@ -392,8 +400,8 @@ func _process(_delta):
 					var BallChooser: PackedScene = BallArray[randi_range(0,2)]
 					var Ball: Node3D = BallChooser.instantiate()
 					Global.ProjectileSpawner.add_child(Ball)
-					Ball.transform = $FPCamera/Holding.global_transform
-					Ball.global_basis = $FPCamera/Holding.global_basis
+					Ball.transform = Holding.global_transform
+					Ball.global_basis = Holding.global_basis
 					CanThrowThrowable = true
 		if Input.is_action_just_pressed("SwitchThrowable"):
 			if Throwable <= 2 and Throwable >= 0:
@@ -552,7 +560,7 @@ func Crouch():
 	Speed = CrouchSpeed
 	BaseCollisionShape.disabled = true
 	CrouchCollisionShape.disabled = false
-	$FPCamera.position.y = lerp($FPCamera.position.y, 0.25, 0.35)
+	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.35)
 	if CurrentNoise <= WalkNoise:
 		CurrentNoise = CrouchNoise
 	Fov = SetFov - CrouchFov
@@ -561,13 +569,13 @@ func UnCrouch():
 		Speed = BaseSpeed
 		BaseCollisionShape.disabled = false
 		CrouchCollisionShape.disabled = true
-		$FPCamera.position.y = lerp($FPCamera.position.y, 1.5, 0.25)
-		$FPCamera.position.y = 1.25
+		FPCamera.position.y = lerp(FPCamera.position.y, 1.5, 0.25)
+		FPCamera.position.y = 1.25
 		IsCrouching = false
 		IsSliding = false
 		IsDiving = false
 		IsWalking = true
-		$FPCamera.rotation_degrees.y = 180.0
+		FPCamera.rotation_degrees.y = 180.0
 		floor_stop_on_slope = true
 		Fov = SetFov
 
@@ -583,7 +591,7 @@ func Run():
 
 func Slide():
 	IsSliding = true
-	$FPCamera.position.y = lerp($FPCamera.position.y, 0.25, 0.45)
+	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.45)
 	Fov = SetFov + SlideFov
 	floor_stop_on_slope = false
 	if CurrentNoise <= WalkNoise:
@@ -601,7 +609,7 @@ func Slide():
 
 func Dive():
 	IsDiving = true
-	$FPCamera.position.y = lerp($FPCamera.position.y, 0.5, 0.45)
+	FPCamera.position.y = lerp(FPCamera.position.y, 0.5, 0.45)
 	Fov = SetFov + DiveFov
 	if CurrentNoise <= WalkNoise:
 		CurrentNoise = DiveNoise
@@ -722,6 +730,7 @@ func Death():
 	IsRagdolled = true
 	if not Network.KeepInventory:
 		player_inventory.ClearAll()
+		$FPCamera/Holding.ClearHands()
 	
 	await get_tree().create_timer(1).timeout
 	#ResetCharacter()
@@ -746,7 +755,7 @@ func ResetValues():
 	CurrentSpeed = 0.0
 	velocity = Vector3.ZERO
 	rotation = Vector3(0,0,0)
-	$FPCamera.rotation = Vector3(0,deg_to_rad(180),0)
+	FPCamera.rotation = Vector3(0,deg_to_rad(180),0)
 	IsDead = false
 	InputBlocked = false
 	global_position = RespawnPos
@@ -803,8 +812,8 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
 	#get_color_overlay(SkinColor)
 	SkinColor = ColorOverride
-	get_main_mesh(ModelName)
-		
+	print(ColorOverride)
+	var PlayerModel = get_main_mesh(ModelName)
 
 	if SkinColor and ModelName:
 		#MainMesh.mesh = get_main_mesh(ModelName)
@@ -813,6 +822,7 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 		#OverlayMat.albedo_color = ColorOverride
 		#var OverlayMat = MainMesh.material_overlay
 		#OverlayMat.create_placeholder() #set(albedo_color,get_color_overlay(SkinColor))
+		MainMesh.mesh = PlayerModel
 		MainMesh.material_overlay.set("albedo_color", SkinColor)
 		#print(str(OverlayMat))
 

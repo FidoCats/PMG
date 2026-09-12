@@ -11,6 +11,7 @@
 [ext_resource type="Environment" uid="uid://bp1cgb6gpdrm0" path="res://Stuff/Enviroments/Night1.tres" id="6_fq0cl"]
 [ext_resource type="PackedScene" uid="uid://bgmeb77i768e2" path="res://Scenes/Maps/kingdoms.tscn" id="6_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="7_fq0cl"]
+[ext_resource type="PackedScene" uid="uid://ddodt0467mr32" path="res://Scenes/check_point.tscn" id="8_0sclb"]
 [ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="8_hwpts"]
 [ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/LargeBox.tscn" id="9_jyqft"]
 [ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/box.tscn" id="10_3tgeq"]
@@ -70,9 +71,18 @@ replication_config = SubResource("SceneReplicationConfig_ibmi3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/BasePlatform" unique_id=1980537199]
 shape = SubResource("BoxShape3D_g4v7s")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/BasePlatform" unique_id=86601165]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/BasePlatform" unique_id=86601165 groups=["Undeletable"]]
 layers = 7
 mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+
+[node name="CheckPoint" parent="Enviroment/Checkpoints2" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_0sclb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, 0)
+
+[node name="CheckPoint2" parent="Enviroment/Checkpoints2" unique_id=450970375 instance=ExtResource("8_0sclb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -44)
 
 [node name="Map" type="Node3D" parent="Enviroment" unique_id=52032139]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
@@ -117,9 +127,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MultiplayerObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=850132785]
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://ddodt0467mr32")
 spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MultiplayerProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=2033216670]
+_spawnable_scenes = PackedStringArray("uid://ys34y4sbos0o")
 spawn_path = NodePath("../Enviroment/Objects")
 
 [node name="MainMenuUI" parent="." unique_id=1441661689 instance=ExtResource("12_aht7i")]

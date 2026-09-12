@@ -66,7 +66,7 @@ shape = SubResource("CapsuleShape3D_g4v7s")
 debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, 0.5032229)
 target_position = Vector3(0, 0, 20)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=205937904]

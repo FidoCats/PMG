@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://bw7ku58lp3dka"]
+
+[ext_resource type="Script" uid="uid://bgpc1dfwikqm3" path="res://Scripts/bullshisher.gd" id="1_406oj"]
+[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/box.tscn" id="2_wk446"]
+[ext_resource type="PackedScene" uid="uid://dn7mmmq2bmntw" path="res://Scenes/Items/Throwables/grenade.tscn" id="3_mympl"]
+[ext_resource type="PackedScene" uid="uid://ys34y4sbos0o" path="res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn" id="4_1tl11"]
+[ext_resource type="PackedScene" uid="uid://bvufdefva0abq" path="res://Scenes/Items/Weapons/Firearms/Ammunition/Clipazines/45ACPMag.tscn" id="5_hp8mp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.1, 0.1, 0.25)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mggh7"]
+top_radius = 0.25
+bottom_radius = 0.05
+height = 1.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qul2g"]
+properties/0/path = NodePath("Shoot:playing")
+properties/0/spawn = false
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Reload:playing")
+properties/1/spawn = false
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Empty:playing")
+properties/2/spawn = false
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Ammo:text")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Firerate:text")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("BarrelMarker/FireAnimation:frame")
+properties/5/spawn = false
+properties/5/replication_mode = 1
+properties/6/path = NodePath("BarrelMarker/FireAnimation/SpotLight3D:visible")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:transform")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:position")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:rotation")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:scale")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+
+[node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1310180666 node_paths=PackedStringArray("Spawner")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
+mass = 50.0
+freeze = true
+script = ExtResource("1_406oj")
+SceneTable = Array[PackedScene]([ExtResource("2_wk446"), ExtResource("3_mympl"), ExtResource("4_1tl11"), ExtResource("5_hp8mp")])
+Spawner = NodePath("Spawner")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=257049623]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, 0, 0.055081412)
+shape = SubResource("BoxShape3D_g4v7s")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=653599548]
+transform = Transform3D(-0.5, 0, -4.371139e-08, -4.371139e-08, -2.1855694e-08, 0.5, 0, 0.5, 2.1855694e-08, 2.4041261e-08, -1.2020632e-08, -0.27499998)
+mesh = SubResource("CylinderMesh_mggh7")
+
+[node name="Spawner" type="Marker3D" parent="." unique_id=103581482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8358783e-07, 0, 2.1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=138157842]
+replication_config = SubResource("SceneReplicationConfig_qul2g")

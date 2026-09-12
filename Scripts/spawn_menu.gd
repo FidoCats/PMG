@@ -105,8 +105,17 @@ func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			var flashlight = ItemDatabase.get_item("FLASHLIGHT")
 			CurrentPlayerInventory.add_item(flashlight)
 
+#@onready var DeletinatorPreload = preload("res://Scenes/Items/Weapons/Firearms/Deletinator9000.tscn")
+#@onready var BulshisherPreload = preload("res://Scenes/Items/Weapons/Firearms/RandomBullshishGo.tscn")
 func _on_others_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	pass
+	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
+	match _index:
+		0:
+			var Deletinator = ItemDatabase.get_item("DELETINATOR")
+			CurrentPlayerInventory.add_item(Deletinator)
+		1:
+			var Bullshisher = ItemDatabase.get_item("BULLSHISHER")
+			CurrentPlayerInventory.add_item(Bullshisher)
 
 @onready var BallpitMapPreload = preload("res://Scenes/Maps/ball_pit.tscn")
 @onready var KingdomsMapPreload = preload("res://Scenes/Maps/kingdoms.tscn")

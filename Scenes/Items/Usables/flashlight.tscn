@@ -119,11 +119,12 @@ mesh = SubResource("CylinderMesh_yf5fn")
 
 [node name="Flashlight" type="SpotLight3D" parent="MeshInstance3D" unique_id=1072705150]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+visible = false
 light_energy = 2.5
 shadow_enabled = true
 distance_fade_enabled = true
-spot_range = 2199.0
-spot_angle = 42.471523
+spot_range = 50.0
+spot_angle = 55.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="MeshInstance3D/Flashlight" unique_id=1077203887]
 replication_config = SubResource("SceneReplicationConfig_ocaxa")

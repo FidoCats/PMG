@@ -5,7 +5,7 @@ var CPPos: Vector3 = Vector3(0, 0, 0)
 
 
 func _process(_delta: float) -> void:
-	CPPos = Vector3(get_parent().global_position.x, (get_parent().global_position.y + 1.0), get_parent().global_position.z)
+	CPPos = Vector3(global_position.x, (global_position.y + 1.0), global_position.z)
 
 
 

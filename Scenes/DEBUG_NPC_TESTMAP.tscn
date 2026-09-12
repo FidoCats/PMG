@@ -2,12 +2,48 @@
 
 [ext_resource type="PackedScene" uid="uid://dbhc0xc8qiy7n" path="res://Scenes/base_npc.tscn" id="1_y1gs0"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y1gs0"]
+sky_top_color = Color(0.5083298, 0.58689296, 0.8451894, 1)
+sky_horizon_color = Color(0.78669786, 0.82683206, 0.90415573, 1)
+ground_bottom_color = Color(0.10349775, 0.18547136, 0.23646954, 1)
+ground_horizon_color = Color(0.78669786, 0.82683206, 0.90415573, 1)
+
+[sub_resource type="Sky" id="Sky_xugai"]
+sky_material = SubResource("ProceduralSkyMaterial_y1gs0")
+
+[sub_resource type="Environment" id="Environment_r3hyj"]
+background_mode = 2
+sky = SubResource("Sky_xugai")
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_g4v7s"]
+
+[sub_resource type="Curve3D" id="Curve3D_y1gs0"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, -1, 0, 6.1, 0, 0, 0, 0, 0, 5.173664, -1.1365006, 14.575277, 0, 0, 0, 0, 0, 0, -22.096115, -1.1365006, 11.923021, 0, 0, 0, 0, 0, 0, -16.27566, -1.1365025, -2.6710696, 0, 0, 0, 0, 0, 0, -20.219244, -1.1365006, -20.19703, 0, 0, 0, 0, 0, 0, -2.7843738, -1.1365025, -17.637445, 0, 0, 0, 0, 0, 0, 19.18868, -1.1365006, -21.208744, 0, 0, 0, 0, 0, 0, 19.279688, -1.1364996, -13.851154, 0, 0, 0, 0, 0, 0, 10.665846, -1.1365006, -14.235493, 0, 0, 0, 0, 0, 0, 4.5479794, -1.1365006, -8.360523),
+"tilts": PackedFloat32Array(0, 0, 0, -0.5235988, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
+
 [node name="DebugNpcTestmap" type="Node3D" unique_id=841047864]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1403506370]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(0.8784314, 1, 1, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1898652323]
+environment = SubResource("Environment_r3hyj")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=28894306]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16349936, 0)
 use_collision = true
 size = Vector3(50, 1, 50)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="CSGBox3D" unique_id=1071237352]
+navigation_mesh = SubResource("NavigationMesh_g4v7s")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1241901333]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6174946, -24.318874)
@@ -109,11 +145,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.255072, 1.6174946, 4.117923
 use_collision = true
 size = Vector3(1, 2, 30)
 
-[node name="BaseNPC" parent="." unique_id=1797669239 instance=ExtResource("1_y1gs0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.86389, 1.6634994, -6.6465473)
+[node name="Path3D" type="Path3D" parent="." unique_id=134687804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+curve = SubResource("Curve3D_y1gs0")
+debug_custom_color = Color(0.06666667, 0, 0, 1)
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=1775096446]
+transform = Transform3D(-0.7909933, 0.0045317085, -0.61179686, 2.3282942e-10, 0.9998755, 0.0074075866, 0.6118162, 0.005858869, -0.7909682, 0, -1, 0)
+
+[node name="BaseNPC" parent="Path3D/PathFollow3D" unique_id=1797669239 instance=ExtResource("1_y1gs0")]
+transform = Transform3D(-0.6856087, -1.15484e-06, 0.7279703, -0.03471162, 0.99886256, -0.032690115, -0.7271423, -0.04768166, -0.6848289, 0, 0.9988959, -0.04768181)
 CanHear = false
 CanSee = false
 CanFeel = false
 CanTouch = false
 IsAgressive = false
 WillPursue = false
+
+[node name="Camera3D" type="Camera3D" parent="Path3D/PathFollow3D/BaseNPC" unique_id=604498797]
+transform = Transform3D(0.81915206, -0.28678823, 0.49673176, 0, 0.8660254, 0.5, -0.57357645, -0.40957603, 0.7094065, 2.1000023, 2.4324613, 3.702917)
