@@ -44,7 +44,7 @@ properties/4/path = NodePath(".:IsBored")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "RespawnAudioStream")]
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "RespawnAudioStream") groups=["Alive"]]
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
@@ -96,7 +96,7 @@ shape = SubResource("SphereShape3D_duayq")
 shape = SubResource("SphereShape3D_g4v7s")
 
 [node name="Timer" type="Timer" parent="." unique_id=1394477371]
-wait_time = 10.0
+wait_time = 50.0
 autostart = true
 
 [node name="Timer2" type="Timer" parent="." unique_id=1368023047]

@@ -6,7 +6,7 @@ extends Node
 
 
 
-signal Alive
+#signal Alive
 
 var object: Node3D = null
 var ObjectDistance: float = 2.5
@@ -17,19 +17,19 @@ var Sensitivity: float = 1.0
 var PlayerCharacterId: String = "Felmitt" # Default = "Felmitt"
 var UseDebug: bool = true
 
-var ProjectileSpawner: MultiplayerSpawner
-var ObjectSpawner: MultiplayerSpawner
-var MapNode: MultiplayerSpawner
+var ProjectileSpawner: Node3D #MultiplayerSpawner
+var ObjectSpawner: Node3D #MultiplayerSpawner
+var MapNode: Node3D #MultiplayerSpawner
 
+## Da Leftovers (Someone come eat them plspls)
 var Damage: float = 0
-
-# Da Leftovers (Someone come eat them plspls)
-
 
 
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 0:
 		ProjectSettings.set_setting("display/window/size/mode", 4)
+		ProjectSettings.save()
 	elif Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 4:
 		ProjectSettings.set_setting("display/window/size/mode", 0)
+		ProjectSettings.save()

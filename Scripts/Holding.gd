@@ -145,7 +145,7 @@ func _process(_delta: float) -> void:
 
 
 func ClearHands():
-	if get_child(0) != null:
+	if get_child_count() > 0:
 		remove_child(get_child(0))
 	CurrentSlot = -1
 	HandsFull = false

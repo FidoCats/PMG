@@ -1,12 +1,12 @@
-1.) Fix VCCameras Player_interacted signal not registering
+1.) ObjectSpawner works with SpawnLimit 1 and seemingly nothing else....
 2.) 
 3.) Change Shotgun bullets to Buckshot instead of .45ACP
-4.) Make Weapons be based of player_inventory slots[1,2,3]
+4.) 
 5.) Keep Weapon Ammo on equip/unequip # This could be fixed by just making them disabled and invisible
 6.) Add Noticability system
-7.) Actually change FOV with different actions
-8.) Make throwing function for held objects
-9.) Item dropping (Almost)
+7.) 
+8.) 
+9.) 
 10.) 
 11.) Fix Guns not working on client / Health not right (Health needs to be synced but what the client doesnt see cant hurt him because the instances are seprate just loosely connected)
 12.) Add PlayersPerSession chooser to lobby creation screen

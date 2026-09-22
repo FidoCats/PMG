@@ -18,9 +18,9 @@ func _ready():
 
 
 ## Setters, Getters...
-	Global.ProjectileSpawner = $MultiplayerProjectileSpawner
-	Global.ObjectSpawner = $MultiplayerObjectSpawner 
-	Global.MapNode = $MultiplayerMapSpawner
+	Global.ProjectileSpawner = $Projectiles #$MultiplayerProjectileSpawner
+	Global.ObjectSpawner = $Objects #$MultiplayerObjectSpawner 
+	Global.MapNode = $Map
 
 
 

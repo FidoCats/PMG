@@ -57,7 +57,7 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 		0:
 			var Box: Node3D = BoxPreload.instantiate()
 			Global.ObjectSpawner.add_child(Box)
-			Global.ObjectSpawner.spawn(Box)
+			#Global.ObjectSpawner.spawn(Box)
 			Box.global_position = $"../FPCamera".global_position
 			Box.global_basis = $"../FPCamera".global_basis
 			Box.global_position.z -= 2.5
@@ -70,10 +70,11 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
-	match _index:
-		0:
-			var spear = ItemDatabase.get_item("SPEAR")
-			CurrentPlayerInventory.add_item(spear)
+	if _mouse_button_index == 0:
+		match _index:
+			0:
+				var spear = ItemDatabase.get_item("SPEAR")
+				CurrentPlayerInventory.add_item(spear)
 
 func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory

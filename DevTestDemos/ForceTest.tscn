@@ -50,7 +50,7 @@ shadow_enabled = true
 environment = SubResource("Environment_lyf0x")
 
 [node name="Mesh" type="RigidBody3D" parent="." unique_id=1818766730]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -26.655115, -8.590235)
+transform = Transform3D(0.8107615, 0, 0.5853766, 0, 1, 0, -0.5853766, 0, 0.8107615, 0, -15.974815, -8.590235)
 script = ExtResource("1_fb8th")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh" unique_id=966415992]
@@ -82,5 +82,7 @@ allow_lesser = true
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=738068012]
 spawn_path = NodePath("..")
+
+[node name="Objects" type="Node3D" parent="." unique_id=1593731362]
 
 [connection signal="value_changed" from="VSlider" to="Mesh" method="_on_v_slider_value_changed"]

@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://dxuqpynjx5p5y"]
+
+[ext_resource type="PackedScene" uid="uid://b4w5h0ehpdh65" path="res://Stuff/Models/Felmitt_PMGAlpha2,0.fbx" id="1_01g67"]
+[ext_resource type="Texture2D" uid="uid://bcevtwcoa3f0i" path="res://Stuff/Images/cursor.png" id="2_3j2s5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3j2s5")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yf5fn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57qmd"]
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_g4v7s"]
+
+[sub_resource type="Animation" id="Animation_u87ky"]
+resource_name = "Idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rwrgb"]
+_data = {
+&"Idle": SubResource("Animation_u87ky")
+}
+
+[node name="Felmitt_PMGAlpha2,0" unique_id=569796499 instance=ExtResource("1_01g67")]
+
+[node name="Armature" parent="." index="0" unique_id=1036913299]
+transform = Transform3D(-1.7260264e-06, 39.486877, 4.707203e-06, 0, -4.707203e-06, 39.486877, 39.48688, 1.7260262e-06, 2.0575838e-13, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Armature" index="0" unique_id=201452819]
+bones/2/position = Vector3(-2.8818187e-18, 0.001724705, 9.341125e-10)
+bones/2/rotation = Quaternion(-0.6519982, -2.849972e-08, -9.371189e-15, 0.7582205)
+bones/2/scale = Vector3(1, 1.0000001, 1.0000001)
+bones/3/position = Vector3(8.6528006e-18, 0.010354199, 2.302036e-10)
+bones/3/rotation = Quaternion(-0.07010032, -3.0641805e-09, -4.743996e-15, 0.99753994)
+bones/3/scale = Vector3(1, 1.0000001, 1.0000001)
+bones/6/position = Vector3(-2.3643072e-15, 0.0012117663, -1.8599655e-09)
+bones/6/rotation = Quaternion(0.63353115, 3.1665098e-07, -5.286595e-07, 0.7737172)
+bones/6/scale = Vector3(1, 1.0000001, 1.0000001)
+bones/7/position = Vector3(-9.464127e-17, 0.01064016, -2.685664e-10)
+bones/7/rotation = Quaternion(0.09947903, -4.348379e-09, -3.873854e-08, 0.9950397)
+bones/7/scale = Vector3(1, 1.0000001, 1.0000001)
+
+[node name="Cube_001" parent="Armature/Skeleton3D" index="0" unique_id=970606695]
+transform = Transform3D(1, 1.4210853e-14, 2.3841855e-07, 2.383427e-07, -0.025228973, -0.99968153, 6.01505e-09, 0.99968153, -0.025228973, 0, 0, -0.0008862731)
+bone_idx = 0
+
+[node name="Cube_002" parent="Armature/Skeleton3D" index="1" unique_id=660384177]
+transform = Transform3D(1, 3.716354e-08, -4.3218105e-08, 3.7163556e-08, 0.14979665, 0.9887167, 4.3218137e-08, -0.9887167, 0.14979665, 1.7347235e-16, 0.001497657, 0.008110336)
+bone_idx = 2
+
+[node name="Cube_005" parent="Armature/Skeleton3D" index="2" unique_id=1443019454]
+transform = Transform3D(1, 4.3272205e-08, -4.370911e-08, 4.3272212e-08, 0.010046735, 0.9999495, 4.3709143e-08, -0.9999495, 0.010046735, 3.847989e-10, 0.0030486817, -0.0021270337)
+bone_idx = 3
+
+[node name="Cube_003" parent="Armature/Skeleton3D" index="3" unique_id=1862424263]
+transform = Transform3D(1, -3.508785e-08, -4.3226652e-07, 4.1684945e-07, -0.19727658, 0.9803477, -1.1967438e-07, -0.9803477, -0.19727658, 2.289835e-16, -0.0014388135, 0.008110337)
+bone_idx = 6
+
+[node name="Cube_004" parent="Armature/Skeleton3D" index="4" unique_id=767735423]
+transform = Transform3D(1, -4.3742066e-08, -4.3312568e-07, 4.331564e-07, 0.0007085055, 0.9999997, -4.3435204e-08, -0.9999997, 0.0007085055, -3.733401e-10, -0.0035378681, -0.0023207199)
+bone_idx = 7
+
+[node name="Cube_011" parent="Armature/Skeleton3D" index="5" unique_id=1698675598]
+transform = Transform3D(1, 1.44329e-14, -1.1368684e-13, -4.2632564e-14, -0.019729545, -0.9998051, -7.993606e-15, 0.99980503, -0.019729547, 1.2733509e-16, -0.00022704748, 0.008110335)
+bone_idx = 9
+
+[node name="Cube_010" parent="Armature/Skeleton3D" index="6" unique_id=1870437673]
+transform = Transform3D(1, 1.6789814e-14, -8.488979e-14, -1.4209818e-14, 0.004056338, -0.9999915, -7.7658615e-15, 0.99999136, 0.0040563345, 1.5614714e-16, -0.0002664331, 0.010106223)
+bone_idx = 10
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="0" unique_id=1896607831]
+transform = Transform3D(0.02434766, 0.046049602, -0.08855274, -0.09976736, 0.008545326, -0.02298732, 0.0029380189, -0.0914407, -0.046743497, -0.007836545, -0.004569297, -0.0037916861)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+frame_progress = 0.08725527
+
+[node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="1" unique_id=393143333]
+transform = Transform3D(-0.03205377, 0.045310184, -0.08645517, -0.097490646, -0.010381876, 0.030704197, -0.0048049325, -0.09161984, -0.04623534, -0.008005109, 0.003761749, -0.0037807561)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+frame_progress = 0.9127601
+
+[node name="AnimatedSprite3D3" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="2" unique_id=2014733300]
+transform = Transform3D(0.012715755, 9.802413e-05, -0.10194721, 1.3952281e-05, -0.10273738, -9.704318e-05, 0.101947375, 1.8340161e-06, 0.012715746, -0.0113302395, 0.001236659, 0.0024355762)
+sprite_frames = SubResource("SpriteFrames_yf5fn")
+
+[node name="AnimatedSprite3D4" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="3" unique_id=1555354820]
+transform = Transform3D(-8.755294e-07, -0.000107806496, -0.00078372745, 0.0007911083, -1.1004915e-09, -8.838097e-07, -1.1938288e-07, 0.00078372983, -0.00010780625, -0.011052646, 0.0004146609, 0.00041599944)
+sprite_frames = SubResource("SpriteFrames_57qmd")
+
+[node name="Cube_006" parent="Armature/Skeleton3D" index="7" unique_id=566275058]
+transform = Transform3D(1, 7.1054274e-14, 2.3841858e-07, -2.3821251e-07, -0.041566372, 0.99913555, 9.910281e-09, -0.9991356, -0.041566372, -7.02187e-18, 0.0019366966, -0.0004917068)
+bone_idx = 13
+
+[node name="Cube_007" parent="Armature/Skeleton3D" index="8" unique_id=562393801]
+transform = Transform3D(-0.010031722, 0.75672966, -0.65365094, -0.052038386, 0.65240276, 0.7560834, 0.9985944, 0.04159975, 0.032834258, 8.628166e-16, 0.0014278458, -0.012723013)
+bone_idx = 14
+
+[node name="Cube_008" parent="Armature/Skeleton3D" index="9" unique_id=547975433]
+transform = Transform3D(-1.0000005, 2.9904186e-09, 3.3835494e-07, -3.376029e-07, 0.058452956, -0.99829024, -2.278307e-08, -0.9982978, -0.05845452, -9.1496644e-11, -0.0017889005, -0.0007529122)
+bone_idx = 17
+
+[node name="Cube_009" parent="Armature/Skeleton3D" index="10" unique_id=880781216]
+transform = Transform3D(-0.0701583, 0.8727289, -0.48313877, -0.0023220256, -0.48447362, -0.8748029, -0.9975408, -0.06025379, 0.036015652, -5.4862517e-11, -0.0010728237, -0.01298254)
+bone_idx = 18
+
+[node name="Cube_012" parent="Armature/Skeleton3D" index="11" unique_id=2076710366]
+transform = Transform3D(-3.5762787e-07, -0.9375969, 0.34772402, 1, -3.5762784e-07, 1.6391277e-07, -4.4703484e-08, 0.347724, 0.9375969, 0, 0, -0.0008862731)
+bone_idx = 20
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="1" unique_id=592140526]
+tree_root = SubResource("AnimationRootNode_g4v7s")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2" unique_id=634966346]
+libraries/ = SubResource("AnimationLibrary_rwrgb")
+autoplay = &"Idle"

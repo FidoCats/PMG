@@ -45,6 +45,7 @@ class_name IsGun
 @export var ProjPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn")
 @export var MagPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Clipazines/45ACPMag.tscn")
 @export var CasingPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Casings/45ACPCartrige.tscn")
+@export var ItemID: String = "USPM"
 @export_category("Nodes: ")
 @export var ShootSound: AudioStreamPlayer3D #= $"../Shoot"
 @export var ReloadSound: AudioStreamPlayer3D #= $"../Reload"
@@ -62,16 +63,20 @@ class_name IsGun
 @export var MagPosMarker: Marker3D #= %AmmoMarker
 @export var EjectionPortMarker: Marker3D
 
-var Spawner: MultiplayerSpawner = Global.ProjectileSpawner #@export 
+var Spawner: Node3D = Global.ProjectileSpawner #@export 
 var IsReloading: bool = false
 var CanFire: bool = true
 #var IsHeld: bool = false
 var Parent
+var WeaponItem
 
 
 
 func _ready() -> void:
 	Parent = get_parent()
+	if ItemID != "":
+		WeaponItem = ItemDatabase.get_item(ItemID)
+	Ammo = WeaponItem.special_value_1
 	#print("Gun ready!!")
 
 
@@ -159,6 +164,7 @@ func Reload():
 		else:
 			Ammo = ResivoirAmmo
 			ResivoirAmmo -= ResivoirAmmo
+	WeaponItem.special_value_1 = Ammo
 	IsReloading = false
 
 func Pump():
@@ -210,6 +216,7 @@ func ShootBullet():
 		
 		if !BottomlessMag:
 			Ammo -= 1
+			WeaponItem.special_value_1 = Ammo
 		
 
 

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bhuxy2rcgtdhl"]
+
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="1_bqdbx"]
+[ext_resource type="Material" uid="uid://buigwqem7febr" path="res://Stuff/Enviroments/SkyThingamabob.tres" id="1_tjj8m"]
+[ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="2_tjj8m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gngh"]
+next_pass = ExtResource("1_tjj8m")
+transparency = 1
+normal_enabled = true
+clearcoat_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = SubResource("StandardMaterial3D_3gngh")
+
+[node name="SkyBlock" type="RigidBody3D" unique_id=1229239202]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2057271839]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1421977448]
+mesh = SubResource("BoxMesh_yf5fn")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=1723404413]
+script = ExtResource("1_bqdbx")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="PickUpComponent" type="Node" parent="InteractionComponent" unique_id=796843444]
+script = ExtResource("2_tjj8m")
+pickup_distance = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://ddt8rl37ck60i"

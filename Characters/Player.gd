@@ -170,7 +170,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
 		if !InputBlocked:
 			if event is InputEventMouseMotion:
-				if CameraPos == 0:
+				if CameraPos == 0 or Input.is_action_pressed("RMB") and CameraPos > 0:
 					if not IsSliding and not IsDiving: 
 						rotation_degrees.y -= event.screen_relative.x * 0.25 * Global.Sensitivity
 						FPCamera.rotation_degrees.x -= event.screen_relative.y * 0.25 * Global.Sensitivity

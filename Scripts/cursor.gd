@@ -18,6 +18,8 @@ extends Control
 
 var LookingAt: Node3D
 
+var MainMenu: MainMenuUI
+
 
 
 func _process(_delta: float) -> void:

@@ -60,6 +60,8 @@ var WanderPos: Vector3
 
 var IsDead: bool = false
 
+var Direction: Transform3D
+
 
 
 func _ready() -> void:
@@ -73,16 +75,17 @@ func _ready() -> void:
 	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(HurtPlayer)
 	
-
+	Direction = global_transform
+	Direction.origin = Vector3()
 
 
 
 func _process(_delta: float) -> void:
 	$Label3D.text = str("Bored: ", IsBored, " Pursuing: ", PursuedPerson, "WanderPos: ", WanderPos, " StateTimer: ", StateTimer.wait_time, " BoredTimer: ", BoredTimer.wait_time)
 
-	if PursuedPerson != null:
-		IsPursuing = true
-		Pursue(_delta)
+	if IsPursuing == true:
+		#if PursuedPerson != null:
+			Pursue(_delta)
 	
 	if IsBored and IsWandering and PursuedPerson != null:
 		Wander(_delta)
@@ -94,8 +97,8 @@ func _process(_delta: float) -> void:
 	#if Input.is_action_pressed("ui_accept"):
 		#var PathLength: float = 22.0
 		#if $"..".progress_ratio <=  PathLength:
-	if IsPatroling:
-		$"..".progress_ratio += 0.005 * _delta * Speed
+	#if IsPatroling:
+		#$"..".progress_ratio += 0.005 * _delta * Speed
 		#print($"..".progress_ratio, ", ", $"..".progress)
 		#else:
 			#$"..".progress = 0.0
@@ -123,17 +126,19 @@ func StateChange():
 	else:
 		IsBored = true
 	StateTimer.start()
-	print(StateTimer.time_left)
+	print("TimeLeft: ",StateTimer.time_left)
 
 
 
 func GetBored():
-	IsBored = true
-	PursuedPerson = null
-	IsPursuing = false
-	IsPatroling = false
-	IsWandering = false
-	print("Im bored!")
+	if PursuedPerson != null:
+		if global_position.distance_to(PursuedPerson.global_position) > 50:
+			IsBored = true
+			PursuedPerson = null
+			IsPursuing = false
+			IsPatroling = false
+			IsWandering = false
+			print("Im bored!")
 
 
 
@@ -149,25 +154,32 @@ func AttemptHear(_body):
 
 func AttemptFeel(_body):
 	if CanFeel:
-		var WasFelt = randi_range(1,FeelChance)
-		if WasFelt == 1:
+		#var WasFelt = randi_range(1,FeelChance)
+		#if WasFelt == 1:
 			IsBored = false
 			PursuedPerson = _body
+			IsPursuing = true
 			print("I feel ", PursuedPerson)
 
 
 
 func Pursue(_delta):
 	if WillPursue:
-		if PursuedPerson.is_in_group("Noticable"):
-			#look_at(Vector3(PursuedPerson.global_position.x,0,PursuedPerson.global_position.z))
-			#velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
-			#velocity = velocity.normalized() * Speed
-			#move_and_slide()
-			global_position = PursuedPerson.global_position
-			print("Im pursuing ", PursuedPerson)
-	else:
-		print(PursuedPerson, " is not interesting. :<")
+		if PursuedPerson != null and PursuedPerson.is_in_group("Alive") and PursuedPerson != self:
+			if global_position.distance_to(PursuedPerson.global_position) > 0.5:
+				#look_at(Vector3(PursuedPerson.global_position.x,0,PursuedPerson.global_position.z))
+				#velocity = Vector3(0,0,-1).rotated(global_rotation,global_rotation.y)
+				#velocity = velocity.normalized() * Speed
+				#move_and_slide()
+				look_at(Vector3(PursuedPerson.global_position.x,1.0,PursuedPerson.global_position.z))
+				#global_position = PursuedPerson.global_position
+				var Velocity: Vector3 = Direction.origin / _delta * Speed
+				velocity.x = Velocity.x
+				velocity.z = Velocity.z
+				velocity += get_gravity() * _delta
+				print("Im pursuing ", PursuedPerson)
+		else:
+			print(PursuedPerson, " is not interesting. :<")
 
 
 
@@ -190,6 +202,8 @@ func HurtPlayer(_body): #, UsedDamage):
 
 func TakeDamage(Damage: float):
 	Health -= Damage
+
+
 
 func Death():
 	IsDead = true
