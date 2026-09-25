@@ -12,11 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="7_fq0cl"]
 [ext_resource type="PackedScene" uid="uid://ddodt0467mr32" path="res://Scenes/check_point.tscn" id="8_0sclb"]
 [ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="8_hwpts"]
-[ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/sky_block.tscn" id="8_sxkr1"]
+[ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/SkyBall.tscn" id="8_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="12_aht7i"]
 [ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="13_5jffn"]
 [ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="14_kpo4j"]
+[ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/LargeBox.tscn" id="14_sxkr1"]
 [ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="15_4n42c"]
+[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/box.tscn" id="16_fq0cl"]
+[ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/seat_3d.tscn" id="20_hwpts"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
 
@@ -27,7 +30,7 @@ size = Vector3(100, 1, 100)
 material = ExtResource("4_346fj")
 size = Vector3(100, 1, 100)
 
-[node name="TestScene" type="Node3D" unique_id=1848406288]
+[node name="Main" type="Node3D" unique_id=1848406288]
 script = ExtResource("1_h1m7h")
 
 [node name="Enviroment" type="Node3D" parent="." unique_id=1032491403]
@@ -73,9 +76,6 @@ shape = SubResource("BoxShape3D_g4v7s")
 layers = 7
 mesh = SubResource("BoxMesh_g4v7s")
 
-[node name="SkyBlock" parent="Enviroment/BasePlatform" unique_id=1229239202 instance=ExtResource("8_sxkr1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9775262, 1, 11.747853)
-
 [node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 
@@ -105,7 +105,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, -2.8, 0)
 
 [node name="Objects" type="Node3D" parent="." unique_id=1211639819]
 
+[node name="Box5" parent="Objects" unique_id=648598193 instance=ExtResource("14_sxkr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
+[node name="SkyBlock" parent="Objects" unique_id=1229239202 instance=ExtResource("8_sxkr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9775262, 1, 11.747853)
+
+[node name="Box" parent="Objects" unique_id=260957345 instance=ExtResource("16_fq0cl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
+[node name="Box2" parent="Objects" unique_id=241990172 instance=ExtResource("16_fq0cl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
+[node name="Box3" parent="Objects" unique_id=15578633 instance=ExtResource("16_fq0cl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
+[node name="Box4" parent="Objects" unique_id=1406084355 instance=ExtResource("14_sxkr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
 [node name="Projectiles" type="Node3D" parent="." unique_id=1776998517]
+
+[node name="Blocks" type="GridMap" parent="." unique_id=296821257]
+
+[node name="Structures" type="Node3D" parent="." unique_id=462895319]
 
 [node name="Checkpoints" type="Node3D" parent="." unique_id=2024622674]
 
@@ -125,6 +147,8 @@ _spawnable_scenes = PackedStringArray("uid://ys34y4sbos0o")
 spawn_path = NodePath("../Projectiles")
 spawn_limit = 20
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1191611673]
+
 [node name="MainMenuUI" parent="." unique_id=1441661689 instance=ExtResource("12_aht7i")]
 visible = false
 
@@ -137,3 +161,6 @@ offset_left = 464.0
 offset_top = -96.0
 offset_right = 464.0
 offset_bottom = -96.0
+
+[node name="Seat3D" parent="." unique_id=988545447 instance=ExtResource("20_hwpts")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1, -21)

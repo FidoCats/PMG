@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c222mulnb3kbo"]
+
+[resource]
+transparency = 1
+metallic_specular = 0.0
+normal_enabled = true
+clearcoat_enabled = true
+refraction_enabled = true

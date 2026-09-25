@@ -22,9 +22,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 
-func FireParentScript(_body: Node3D):
+func FireParentScript(_body: Node3D, _user: Node3D):
 	if Parent.get_parent().has_method("Interact"):
-		Parent.get_parent().Interact(_body)
+		Parent.get_parent().Interact(_body, _user)
 		print("script fired")
 	else:
 		push_error("No Interact() method found in parent script!")

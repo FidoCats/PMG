@@ -9,6 +9,7 @@ var parent
 var IsPickedUp: bool = false
 var picked_up : bool = false
 var IsThrown: bool = false
+var player: Node3D
 
 const pickup_lerp : float = 0.175
 
@@ -30,18 +31,21 @@ func _notification(what: int) -> void:
 		parent = get_parent()
 		update_configuration_warnings()
 
-func update_state(interactable: Node3D) -> void:
+func update_state(interactable: Node3D, interactor: Node3D) -> void:
+	
 	if picked_up:
 		if IsPickedUp == false:
 			picked_up = false
 			Global.object = null
 			interactable.freeze = false
 			IsPickedUp = true
+			player = interactor
 	else:
 		Global.object = interactable
 		interactable.freeze = true
 		picked_up = true
 		IsPickedUp = false
+		player = null
 
 func _physics_process(_delta: float) -> void:
 	if picked_up:
@@ -54,18 +58,20 @@ func _physics_process(_delta: float) -> void:
 					IsPickedUp = false
 		if Input.is_action_just_pressed("Parry"):
 			picked_up = false
+			if Global.object.has_method("is_freeze_enabled"):
+				Global.object.freeze = false
 			Global.object = null
 			IsPickedUp = false
 	
-	## Cant pickup stuff if standing on
-	#Global.AboveRay.Above == Global.LookAtRay.LookingAt:
-		#picked_up = false
-		#Global.object = null
-		#interactable.freeze = false
-		#IsPickedUp = true
 	
 	## Other Features, so far unused
-
+		## Cant pickup stuff if standing on
+			#Global.UnderRay.Under == Global.LookAtRay.LookingAt:
+				#picked_up = false
+				#Global.object = null
+				#interactable.freeze = false
+				#IsPickedUp = true
+			
 			#IsPickedUp = false
 		#if Input.is_action_just_pressed("R"):
 			#Global.object.global_rotate(Global.CurrentAxis,45.0)

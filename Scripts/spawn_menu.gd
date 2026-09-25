@@ -52,6 +52,7 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 
 @onready var BoxPreload = preload("res://Scenes/box.tscn") 
 @onready var BigBoxPreload = preload("res://Scenes/LargeBox.tscn")
+@onready var SkyBallPreload = preload("res://Scenes/SkyBall.tscn")
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -67,6 +68,12 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			BigBox.global_position = $"../FPCamera".global_position
 			BigBox.global_basis = $"../FPCamera".global_basis
 			BigBox.global_position.z -= 2.5
+		2:
+			var SkyBall: Node3D = SkyBallPreload.instantiate()
+			Global.ObjectSpawner.add_child(SkyBall)
+			SkyBall.global_position = $"../FPCamera".global_position
+			SkyBall.global_basis = $"../FPCamera".global_basis
+			SkyBall.global_position.z -= 2.5
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory

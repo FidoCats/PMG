@@ -21,6 +21,8 @@ func _ready():
 	Global.ProjectileSpawner = $Projectiles #$MultiplayerProjectileSpawner
 	Global.ObjectSpawner = $Objects #$MultiplayerObjectSpawner 
 	Global.MapNode = $Map
+	Global.BlockGrid = $Blocks
+	Global.StructureSpawner = $Structures
 
 
 
@@ -85,6 +87,8 @@ func _remove_player(id):
 	var player_node = players_container.get_node(str(id))
 	if player_node:
 		player_node.queue_free()
+		if id == multiplayer.get_unique_id():
+			OS.kill(OS.get_process_id())
 
 func _on_quit_pressed() -> void:
 	OS.kill(OS.get_process_id())

@@ -1,27 +1,30 @@
 [gd_scene format=3 uid="uid://bhuxy2rcgtdhl"]
 
+[ext_resource type="Material" uid="uid://buigwqem7febr" path="res://Stuff/Enviroments/SkyThingamabob.tres" id="1_20m4y"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="1_bqdbx"]
-[ext_resource type="Material" uid="uid://buigwqem7febr" path="res://Stuff/Enviroments/SkyThingamabob.tres" id="1_tjj8m"]
 [ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="2_tjj8m"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_tiwcy"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gngh"]
-next_pass = ExtResource("1_tjj8m")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccfbd"]
+next_pass = ExtResource("1_20m4y")
 transparency = 1
+albedo_color = Color(1, 1, 1, 0)
 normal_enabled = true
 clearcoat_enabled = true
+refraction_enabled = true
 
-[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
-material = SubResource("StandardMaterial3D_3gngh")
+[sub_resource type="SphereMesh" id="SphereMesh_wd0lo"]
+material = SubResource("StandardMaterial3D_ccfbd")
 
-[node name="SkyBlock" type="RigidBody3D" unique_id=1229239202]
+[node name="Sky" type="RigidBody3D" unique_id=1229239202]
+mass = 0.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2057271839]
-shape = SubResource("BoxShape3D_g4v7s")
+shape = SubResource("SphereShape3D_tiwcy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1421977448]
-mesh = SubResource("BoxMesh_yf5fn")
+mesh = SubResource("SphereMesh_wd0lo")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="InteractionComponent" type="Node" parent="." unique_id=1723404413]
@@ -32,3 +35,9 @@ metadata/_custom_type_script = "uid://es8q2nkmy58y"
 script = ExtResource("2_tjj8m")
 pickup_distance = Vector3(0, 0, 0)
 metadata/_custom_type_script = "uid://ddt8rl37ck60i"
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=165079928]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=1832379852]
+transform = Transform3D(0.8660254, 0.35355344, 0.35355344, 0, 0.7071068, -0.7071068, -0.50000006, 0.61237246, 0.61237246, 0, 0, 0)
+fov = 132.1875

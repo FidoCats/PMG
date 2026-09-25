@@ -472,7 +472,7 @@ func _physics_process(delta):
 				Fov = SetFov
 	
 	## Input Press
-		if Input.is_action_just_pressed("Jump") and not is_on_wall():
+		if Input.is_action_just_pressed("Jump"): #and not is_on_wall():
 			Jump()
 			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		if Input.is_action_pressed("Crouch") and CurrentSpeed < RunSpeed:
@@ -674,10 +674,10 @@ func LedgeHold():
 func Parry(_body: Node3D):
 	CanParry = false
 	ParryMesh.visible = true
-	print(_body)
+	print("Trying to Parry: ",_body)
 	if _body != self:
-		if _body != null:
-			if LookAtRay.LookingAt != null:
+		if _body != null and _body != self:
+			if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
 				_body = LookAtRay.LookingAt
 			if _body.has_method("TakeDamage"):
 				_body.TakeDamage(ParryDamage)
@@ -714,6 +714,7 @@ func freeze():
 	velocity.x = 0
 	velocity.z = 0
 	CurrentSpeed = 0
+	CanMove = false
 	#_body.animate(Vector3.ZERO)
 
 

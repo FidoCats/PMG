@@ -20,6 +20,8 @@ var UseDebug: bool = true
 var ProjectileSpawner: Node3D #MultiplayerSpawner
 var ObjectSpawner: Node3D #MultiplayerSpawner
 var MapNode: Node3D #MultiplayerSpawner
+var BlockGrid: GridMap
+var StructureSpawner
 
 ## Da Leftovers (Someone come eat them plspls)
 var Damage: float = 0
@@ -27,9 +29,14 @@ var Damage: float = 0
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 0:
-		ProjectSettings.set_setting("display/window/size/mode", 4)
-		ProjectSettings.save()
-	elif Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 4:
-		ProjectSettings.set_setting("display/window/size/mode", 0)
-		ProjectSettings.save()
+	#if Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 0:
+		#ProjectSettings.set_setting("display/window/size/mode", 4)
+		#ProjectSettings.save()
+	#elif Input.is_action_just_pressed("Fullscreen") and ProjectSettings.get_setting("display/window/size/mode") == 4:
+		#ProjectSettings.set_setting("display/window/size/mode", 0)
+		#ProjectSettings.save()
+	
+	if Input.is_action_just_pressed("Fullscreen") and get_window().mode == Window.MODE_WINDOWED:
+		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+	elif Input.is_action_just_pressed("Fullscreen") and get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN:
+		get_window().mode = Window.MODE_WINDOWED

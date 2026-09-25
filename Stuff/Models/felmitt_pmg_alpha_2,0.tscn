@@ -76,12 +76,12 @@ transform = Transform3D(1, 1.6789814e-14, -8.488979e-14, -1.4209818e-14, 0.00405
 bone_idx = 10
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="0" unique_id=1896607831]
-transform = Transform3D(0.02434766, 0.046049602, -0.08855274, -0.09976736, 0.008545326, -0.02298732, 0.0029380189, -0.0914407, -0.046743497, -0.007836545, -0.004569297, -0.0037916861)
+transform = Transform3D(0.02434766, 0.046049602, -0.08855273, -0.09976735, 0.008545325, -0.022987317, 0.0029380186, -0.0914407, -0.046743497, -0.007836349, -0.004922866, -0.0037931092)
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 frame_progress = 0.08725527
 
 [node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="Armature/Skeleton3D/Cube_010/Cube_010" parent_id_path=PackedInt32Array(365444133) index="1" unique_id=393143333]
-transform = Transform3D(-0.03205377, 0.045310184, -0.08645517, -0.097490646, -0.010381876, 0.030704197, -0.0048049325, -0.09161984, -0.04623534, -0.008005109, 0.003761749, -0.0037807561)
+transform = Transform3D(-0.03205377, 0.045310184, -0.08645516, -0.09749063, -0.010381875, 0.030704193, -0.004804933, -0.09161984, -0.046235345, -0.008005483, 0.004441117, -0.003778033)
 sprite_frames = SubResource("SpriteFrames_g4v7s")
 frame_progress = 0.9127601
 

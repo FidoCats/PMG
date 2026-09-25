@@ -43,6 +43,7 @@ window/stretch/mode="canvas_items"
 
 Alive="A class for Players and NPCs."
 Undeletable="Group for objects undeletable by most player actions."
+Interactable="A group used for Interactable bodies other than PhysicsBodies. (See InteractionComponent)"
 
 [input]
 
