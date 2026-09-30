@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://ba7iuu0orlx4d" path="res://Scripts/ParentScriptCallComponent.gd" id="7_y6nu7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
-size = Vector3(1, 2, 0.5)
+size = Vector3(1, 2.1, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
 material = ExtResource("2_djghv")
@@ -18,6 +18,10 @@ size = Vector3(1, 2, 0.5)
 [sub_resource type="BoxMesh" id="BoxMesh_hs6a4"]
 material = ExtResource("3_gxthr")
 size = Vector3(1.1, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57qmd"]
+material = ExtResource("4_y6nu7")
+size = Vector3(0.75, 0.1, 0.1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 radius = 1.0
@@ -43,13 +47,13 @@ material = SubResource("StandardMaterial3D_yf5fn")
 size = Vector2(1, 0.75)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_55ty7"]
-properties/0/path = NodePath(".:ItemId")
+properties/0/path = NodePath(".:ItemCount")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:ItemCount")
+properties/1/path = NodePath(".:Enabled")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:Enabled")
+properties/2/path = NodePath(".:ItemId")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
@@ -60,16 +64,16 @@ CollisionArea = NodePath("toucharea")
 NameLabel = NodePath("Screen/name")
 PrintSprite = NodePath("StaticBody3D2/MeshInstance3D2/printsprite")
 
-[node name="InteractionComponent" type="Node" parent="." unique_id=1430985099]
+[node name="InteractionComponent" type="Node" parent="." unique_id=1308831285]
 script = ExtResource("6_y6nu7")
 metadata/_custom_type_script = "uid://es8q2nkmy58y"
 
-[node name="ParentScriptCallComponent" type="Node" parent="InteractionComponent" unique_id=175765636]
+[node name="ParentScriptCallComponent" type="Node" parent="InteractionComponent" unique_id=1730103378]
 script = ExtResource("7_y6nu7")
 metadata/_custom_type_script = "uid://ba7iuu0orlx4d"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1158796191]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.23572421)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.23572421)
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=716087525]
@@ -81,6 +85,10 @@ skeleton = NodePath("../CollisionShape3D")
 transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 1.0638014, -0.040994927)
 mesh = SubResource("BoxMesh_hs6a4")
 skeleton = NodePath("../CollisionShape3D")
+
+[node name="SensorBar" type="MeshInstance3D" parent="MeshInstance3D2" unique_id=428827689]
+transform = Transform3D(1, 0, 0, 0, 1.0000005, 4.4703484e-08, 0, -4.4703484e-08, 1.0000005, 0, -0.124264896, 0.38425958)
+mesh = SubResource("BoxMesh_57qmd")
 
 [node name="toucharea" type="Area3D" parent="." unique_id=1494678045]
 
@@ -124,5 +132,4 @@ font_size = 24
 outline_size = 6
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1537374854]
-root_path = NodePath("")
 replication_config = SubResource("SceneReplicationConfig_55ty7")

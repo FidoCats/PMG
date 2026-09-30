@@ -20,7 +20,7 @@ func _ready() -> void:
 	Connect_parent()
 
 func _get_configuration_warnings() -> PackedStringArray:
-	if parent is not RigidBody3D or parent is not StaticBody3D or parent is not RigidBody2D or parent is not StaticBody2D or not parent.is_in_group("Interactable"):
+	if parent is not RigidBody3D and parent is not StaticBody3D and parent is not RigidBody2D and parent is not StaticBody2D and not parent.is_in_group("Interactable"):
 		return["Parent Node is not an Aplicable Node or is null!"]
 	else:
 		return[]

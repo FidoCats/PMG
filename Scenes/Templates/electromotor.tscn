@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://b6rde8rn0156x"]
+
+[ext_resource type="Script" uid="uid://h71js61ki2ap" path="res://Scripts/electromotor.gd" id="1_alwpx"]
+[ext_resource type="Material" uid="uid://el3m2vdomtmn" path="res://Stuff/Materials/BrassMaybe.tres" id="1_yvggr"]
+[ext_resource type="PackedScene" uid="uid://deiccfwm5d2lq" path="res://Scenes/Templates/button.tscn" id="3_alwpx"]
+[ext_resource type="Material" uid="uid://b2pk3ishnsooi" path="res://Stuff/Materials/Orange.tres" id="4_36cu2"]
+[ext_resource type="Material" uid="uid://20d1p22d3785" path="res://Stuff/Materials/Bron.tres" id="5_0lsjg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.75, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_yvggr")
+size = Vector3(0.75, 0.5, 0.5)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g4v7s"]
+height = 0.25
+radius = 0.15
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.25
+
+[node name="Electromotor" type="RigidBody3D" unique_id=872733047 node_paths=PackedStringArray("Joint", "OrientationSwitch", "SpeedLabel")]
+script = ExtResource("1_alwpx")
+Joint = NodePath("Generic6DOFJoint3D")
+OrientationSwitch = NodePath("Button")
+SpeedLabel = NodePath("Speed")
+
+[node name="Stator" type="CollisionShape3D" parent="." unique_id=1459465017]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1552380908]
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="Rotor" type="RigidBody3D" parent="." unique_id=245531912]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rotor" unique_id=548560449]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("CylinderShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rotor" unique_id=2063388212]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("CylinderMesh_g4v7s")
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="." unique_id=29417534]
+node_a = NodePath("..")
+node_b = NodePath("../Rotor")
+linear_limit_x/damping = 15.0
+linear_motor_x/enabled = true
+
+[node name="Speed" type="Label3D" parent="." unique_id=789156512]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.386775, 0.13268179, -0.1)
+text = "1"
+font_size = 16
+
+[node name="Button" parent="." unique_id=664834225 instance=ExtResource("3_alwpx")]
+UpMat = ExtResource("4_36cu2")
+DownMat = ExtResource("5_0lsjg")

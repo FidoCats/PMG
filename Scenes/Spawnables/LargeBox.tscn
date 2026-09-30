@@ -31,7 +31,7 @@ properties/5/path = NodePath(".:scale")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
-[node name="Box" type="RigidBody3D" unique_id=648598193]
+[node name="LargeBox" type="RigidBody3D" unique_id=648598193]
 collision_layer = 7
 mass = 10.0
 

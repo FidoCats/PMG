@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b3kyq3jhilann"]
 
-[ext_resource type="Script" uid="uid://cxnmcqoc0e42y" path="res://Scripts/Seat.gd" id="1_knkw1"]
-[ext_resource type="Texture2D" uid="uid://t4447wmni6vd" path="res://Stuff/Images/Red_X.png" id="2_gbxot"]
+[ext_resource type="Script" uid="uid://cxnmcqoc0e42y" path="res://Scripts/Seat3D.gd" id="1_knkw1"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_qgj7m"]
 [ext_resource type="Script" uid="uid://ba7iuu0orlx4d" path="res://Scripts/ParentScriptCallComponent.gd" id="3_dyg6i"]
+[ext_resource type="Texture2D" uid="uid://t4447wmni6vd" path="res://Stuff/Images/Red_X.png" id="3_wmsq0"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="3_xvpa2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
@@ -22,7 +22,6 @@ properties/0/replication_mode = 1
 [node name="Seat3D" type="RigidBody3D" unique_id=988545447 node_paths=PackedStringArray("CollisionShape", "MeshInstance", "Sprite", "Area", "AreaCollision")]
 freeze = true
 script = ExtResource("1_knkw1")
-SpriteTexture = ExtResource("2_gbxot")
 CollisionShape = NodePath("CollisionShape3D")
 MeshInstance = NodePath("MeshInstance3D")
 Sprite = NodePath("MeshInstance3D/Sprite3D")
@@ -38,6 +37,7 @@ mesh = SubResource("BoxMesh_2jyye")
 
 [node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D" unique_id=547522912]
 transform = Transform3D(0.14400001, 0, 0, 0, -6.29444e-09, -0.18, 0, 0.14400001, -7.86805e-09, 0, 0.25688434, 0)
+texture = ExtResource("3_wmsq0")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=774005193]
 

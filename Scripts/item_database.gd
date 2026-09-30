@@ -139,10 +139,10 @@ func _create_sample_items():
 	DELETINATOR.id = "DELETINATOR"
 	DELETINATOR.name = "Deletinator 9000"
 	DELETINATOR.description = "Delete Tool :]."
-	DELETINATOR.item_type = Item.ItemType.WEAPON
-	DELETINATOR.rarity = Item.ItemRarity.COMMON
+	DELETINATOR.item_type = Item.ItemType.TOOL
+	DELETINATOR.rarity = Item.ItemRarity.DEBUG
 	DELETINATOR.stackable = false
-	DELETINATOR.value = 1
+	DELETINATOR.value = 9999999999
 	DELETINATOR.icon = placeholder_icon
 	DELETINATOR.scene = preload("res://Scenes/Items/Usables/Deletinator9000.tscn")
 	items[DELETINATOR.id] = DELETINATOR
@@ -153,12 +153,25 @@ func _create_sample_items():
 	BULLSHISHER.name = "BULLSHISHER"
 	BULLSHISHER.description = "MessMaker."
 	BULLSHISHER.item_type = Item.ItemType.WEAPON
-	BULLSHISHER.rarity = Item.ItemRarity.COMMON
+	BULLSHISHER.rarity = Item.ItemRarity.EPIC
 	BULLSHISHER.stackable = false
-	BULLSHISHER.value = 1
+	BULLSHISHER.value = 500
 	BULLSHISHER.icon = placeholder_icon
 	BULLSHISHER.scene = preload("res://Scenes/Items/Usables/RandomBullshishGo.tscn")
 	items[BULLSHISHER.id] = BULLSHISHER
+
+## BlockPlacer
+	var BLOCKPLACER = Item.new()
+	BLOCKPLACER.id = "BLOCKPLACER"
+	BLOCKPLACER.name = "block_placer"
+	BLOCKPLACER.description = "a_debug_building_tool."
+	BLOCKPLACER.item_type = Item.ItemType.TOOL
+	BLOCKPLACER.rarity = Item.ItemRarity.DEBUG
+	BLOCKPLACER.stackable = false
+	BLOCKPLACER.value = 99999999
+	BLOCKPLACER.icon = placeholder_icon
+	BLOCKPLACER.scene = preload("res://Scenes/Items/Usables/block_placer.tscn")
+	items[BLOCKPLACER.id] = BLOCKPLACER
 
 
 

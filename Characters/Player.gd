@@ -27,7 +27,7 @@ class_name Player
 
 ## Throwable stuff
 @onready var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
-@onready var BallArray: Array[PackedScene] = [preload("res://Scenes/small_blue_ball.tscn"),preload("res://Scenes/small_green_ball.tscn"),preload("res://Scenes/small_red_ball.tscn"),preload("res://Scenes/small_yellow_ball.tscn")]
+@onready var BallArray: Array[PackedScene] = [preload("res://Scenes/Spawnables/small_blue_ball.tscn"),preload("res://Scenes/Spawnables/small_green_ball.tscn"),preload("res://Scenes/Spawnables/small_red_ball.tscn"),preload("res://Scenes/Spawnables/small_yellow_ball.tscn")]
 
 
 
@@ -79,7 +79,8 @@ const LedgeGrabNoise: int = 1
 
 var Speed: float = BaseSpeed
 var CurrentSpeed: float = 0.0
-#var SpeedSlowdown: float = 0.0
+var SpeedMultiplier: float = 1.0
+var SpeedDivider: float = 1
 
 var ParryDamage: float = 5.0
 var ParryReward: float = 2.5
@@ -93,6 +94,8 @@ var CurrentFov: float
 var CurrentNoise: int
 var CurrentVisibility: int
 var Noticability: int
+var IsHiding: bool = false
+var IsSilent: bool = false
 
 var CanMove: bool = true
 var IsWalking: bool = true
@@ -119,6 +122,8 @@ var CanParry: bool = true
 @export var WallJumps: int = 4
 @export var MaxWallJumps: int = 4
 
+
+
 var HandsOccupied: bool = false
 
 var SpringArmBaseLength: float
@@ -128,6 +133,7 @@ var SpringArmBaseLength: float
 var RespawnPos = Vector3(0, 7.5, 0)
 var Gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var DesiredGravity: float = Gravity
+var GravityMultiplier: float = 1.0
 
 var InputBlocked: bool = false
 
@@ -159,6 +165,8 @@ func _enter_tree():
 			TPCamera.current = is_multiplayer_authority()
 	
 		SetFov = 90.0 #FPCamera.fov # It somehow sets itself to 0.0 and i dunno why... -Fido :[
+		#print("SetFov: ", SetFov)
+		#print("das teh FOV")
 		Fov = SetFov
 		CurrentFov = Fov
 		FPCamera.fov = Fov
@@ -222,9 +230,13 @@ func _process(_delta):
 		Death()
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Dead :P")
 	
+	if IsHiding:
+		CurrentVisibility = 0
+	if IsSilent:
+		CurrentNoise = 0
 	
 	
-	SetFov = 90.0
+	SetFov = 90.0 # Remove after fixing 0.0 issue
 	
 	
 	
@@ -234,11 +246,10 @@ func _process(_delta):
 	
 ## Setters, Getters
 	if is_multiplayer_authority():
-		AboveRay.position.y = FPCamera.position.y
+		AboveRay.position.y = FPCamera.position.y - 0.5
 		PeerList = multiplayer.get_peers()
 		Global.FPCamera = FPCamera
 		#Global.ObjectDistance = ObjectDistance
-		
 
 	$MutlipartBody.visible = IsRagdolled
 	CanMove = !IsRagdolled
@@ -286,16 +297,19 @@ func _process(_delta):
 	if IsSliding and CurrentSpeed <= 1.0:
 		UnCrouch()
 	
+	if not IsCrouching and not IsSliding and AboveRay.Above == null and CurrentSpeed <= 0.25:
+		UnCrouch()
+	
 	Noticability = CurrentNoise + CurrentVisibility
 	
 	
 	
 	if CurrentFov != Fov:
-		CurrentFov = lerp(CurrentFov, Fov, 0.1)
+		CurrentFov = lerp(CurrentFov, Fov * SpeedMultiplier / SpeedDivider, 0.1)
 	FPCamera.fov = CurrentFov
 	TPCamera.fov = CurrentFov
-	# remove later
-	#print(Fov,", ", CurrentFov,", ", FPCamera.fov,", ",SetFov)
+	## remove later
+	#print("Fov: ", Fov,", CurrentFov: ", CurrentFov,", FPCameraFov: ", FPCamera.fov,", SetFov: ",SetFov)
 
 	if IsWalking and not IsSliding and not IsCrouching and not IsDiving:
 	
@@ -376,7 +390,7 @@ func _process(_delta):
 				0:
 					CanThrowThrowable = false
 					var Grenade: Node3D = GrenadePreload.instantiate()
-					Global.ProjectileSpawner.add_child(Grenade)
+					Global.ProjectileSpawner.add_child(Grenade, true)
 					#Grenade.global_basis = $FPCamera/Holding.global_basis
 					#Grenade.global_position = $FPCamera/Holding.global_position
 					#Grenade.global_rotation = $FPCamera.global_rotation
@@ -390,7 +404,7 @@ func _process(_delta):
 					CanThrowThrowable = false
 					var BallChooser: PackedScene = BallArray[randi_range(0,2)]
 					var Ball: Node3D = BallChooser.instantiate()
-					Global.ProjectileSpawner.add_child(Ball)
+					Global.ProjectileSpawner.add_child(Ball, true)
 					Ball.transform = Holding.global_transform
 					Ball.global_basis = Holding.global_basis
 					await get_tree().create_timer(0.5).timeout
@@ -399,7 +413,7 @@ func _process(_delta):
 					CanThrowThrowable = false
 					var BallChooser: PackedScene = BallArray[randi_range(0,2)]
 					var Ball: Node3D = BallChooser.instantiate()
-					Global.ProjectileSpawner.add_child(Ball)
+					Global.ProjectileSpawner.add_child(Ball,true)
 					Ball.transform = Holding.global_transform
 					Ball.global_basis = Holding.global_basis
 					CanThrowThrowable = true
@@ -474,32 +488,24 @@ func _physics_process(delta):
 	## Input Press
 		if Input.is_action_just_pressed("Jump"): #and not is_on_wall():
 			Jump()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		if Input.is_action_pressed("Crouch") and CurrentSpeed < RunSpeed:
 			Crouch()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
 		if Input.is_action_pressed("Run") and not IsSliding and not IsDiving and not IsCrouching and is_on_floor():
 			Run()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Running")
 		if Input.is_action_just_pressed("Crouch") and Input.is_action_pressed("Run") and is_on_floor():
 			Slide()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sliding")
 		if Input.is_action_pressed("Crouch") and CurrentSpeed > BaseSpeed + 0.1 and not is_on_floor() and not is_on_wall():
 			Dive()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
 		if Input.is_action_pressed("RMB") and Holding.HandsFull == false:
 			LedgeHold()
 		if Input.is_action_pressed("RMB") and is_on_wall() and not IsClinging and CurrentSpeed > CrouchSpeed:
 			WallRun()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","WallRunning")
 		if Input.is_action_just_pressed("Parry") and CanParry:
 			Parry(ParryBody)
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Punching")
 	
 	## Input Release
-		if Input.is_action_just_released("Crouch"):
+		if Input.is_action_just_released("Crouch") and AboveRay.Above == null:
 			UnCrouch()
-			$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
 
 	## Other Movement ifs
 	#if is_on_wall() and not IsClinging:
@@ -522,8 +528,8 @@ func MovementBasic() -> void:
 			#_direction = _direction.rotated(Vector3.UP, _spring_arm_offset.rotation.y)
 
 		if _direction:
-			velocity.x = _direction.x * CurrentSpeed
-			velocity.z = _direction.z * CurrentSpeed
+			velocity.x = _direction.x * CurrentSpeed * SpeedMultiplier / SpeedDivider
+			velocity.z = _direction.z * CurrentSpeed * SpeedMultiplier / SpeedDivider
 			#if _body:
 				#_body.apply_rotation(velocity)
 			if CurrentSpeed > Speed:
@@ -552,6 +558,7 @@ func Jump():
 	if Jumps > 0:
 		velocity.y = JumpVelocity
 		Jumps -= 1
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		if CurrentNoise <= WalkNoise:
 			CurrentNoise = JumpNoise
 
@@ -560,6 +567,7 @@ func Crouch():
 	Speed = CrouchSpeed
 	BaseCollisionShape.disabled = true
 	CrouchCollisionShape.disabled = false
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.35)
 	if CurrentNoise <= WalkNoise:
 		CurrentNoise = CrouchNoise
@@ -578,11 +586,13 @@ func UnCrouch():
 		FPCamera.rotation_degrees.y = 180.0
 		floor_stop_on_slope = true
 		Fov = SetFov
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
 
 
 
 func Run():
 	Speed = RunSpeed
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Running")
 	Fov = SetFov + RunFov
 	if CurrentNoise <= WalkNoise:
 		CurrentNoise = RunNoise
@@ -591,6 +601,7 @@ func Run():
 
 func Slide():
 	IsSliding = true
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sliding")
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.45)
 	Fov = SetFov + SlideFov
 	floor_stop_on_slope = false
@@ -609,6 +620,7 @@ func Slide():
 
 func Dive():
 	IsDiving = true
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.5, 0.45)
 	Fov = SetFov + DiveFov
 	if CurrentNoise <= WalkNoise:
@@ -628,6 +640,7 @@ func Dive():
 
 func WallRun():
 	if not Input.is_action_pressed("Jump"):
+		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","WallRunning")
 		DesiredGravity = 2.5
 		Speed = WallRunSpeed
 		CurrentNoise = RunNoise
@@ -673,6 +686,7 @@ func LedgeHold():
 
 func Parry(_body: Node3D):
 	CanParry = false
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Punching")
 	ParryMesh.visible = true
 	print("Trying to Parry: ",_body)
 	if _body != self:
@@ -803,7 +817,7 @@ func change_nick(new_nick: String):
 
 func get_main_mesh(ChosenSpecies: SpeciesEnum) -> Mesh:
 	match ChosenSpecies:
-		SpeciesEnum.Felmitt: return FelmittModel
+		SpeciesEnum.Felmitt: return FelmittModel as Mesh
 		#SpeciesEnum.Canire: return CanireModel
 		#SpeciesEnum.Aviamn: return AviamnModel
 		_: return FelmittModel
@@ -813,8 +827,12 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
 	#get_color_overlay(SkinColor)
 	SkinColor = ColorOverride
-	print(ColorOverride)
+	print("ColorOverride: ", ColorOverride)
 	var PlayerModel = get_main_mesh(ModelName)
+
+	if MainMesh.mesh:
+		MainMesh.mesh = PlayerModel
+		MainMesh.material_overlay.set("albedo_color", SkinColor)
 
 	if SkinColor and ModelName:
 		#MainMesh.mesh = get_main_mesh(ModelName)

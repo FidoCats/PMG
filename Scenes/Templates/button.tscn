@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://deiccfwm5d2lq"]
+
+[ext_resource type="Script" uid="uid://c8yhih6kvs23" path="res://Scripts/InteractionButton.gd" id="1_4qdse"]
+[ext_resource type="Material" uid="uid://b2pk3ishnsooi" path="res://Stuff/Materials/Orange.tres" id="2_yue2a"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="3_ekgvp"]
+[ext_resource type="Script" uid="uid://ba7iuu0orlx4d" path="res://Scripts/ParentScriptCallComponent.gd" id="4_b3ne0"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
+height = 0.18759766
+radius = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yf5fn"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.18759766
+
+[node name="Button" type="StaticBody3D" unique_id=664834225 node_paths=PackedStringArray("MeshInstance")]
+script = ExtResource("1_4qdse")
+MeshInstance = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1410694179]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -5.1928613e-09, 0.11879881)
+shape = SubResource("CylinderShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1280832702]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -5.184322e-09, 0.11860348)
+material_override = ExtResource("2_yue2a")
+mesh = SubResource("CylinderMesh_yf5fn")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=1539619432]
+script = ExtResource("3_ekgvp")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="ParentScriptCallComponent" type="Node" parent="InteractionComponent" unique_id=1008735602]
+script = ExtResource("4_b3ne0")
+metadata/_custom_type_script = "uid://ba7iuu0orlx4d"

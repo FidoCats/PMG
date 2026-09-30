@@ -50,9 +50,9 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 
 
 
-@onready var BoxPreload = preload("res://Scenes/box.tscn") 
-@onready var BigBoxPreload = preload("res://Scenes/LargeBox.tscn")
-@onready var SkyBallPreload = preload("res://Scenes/SkyBall.tscn")
+@onready var BoxPreload = preload("res://Scenes/Spawnables/box.tscn") 
+@onready var BigBoxPreload = preload("res://Scenes/Spawnables/LargeBox.tscn")
+@onready var SkyBallPreload = preload("res://Scenes/Spawnables/SkyBall.tscn")
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -93,7 +93,7 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 			var m870 = ItemDatabase.get_item("M870")
 			CurrentPlayerInventory.add_item(m870)
 
-@onready var WeedFishPreload = preload("res://Scenes/seaweed.tscn")
+@onready var WeedFishPreload = preload("res://Scenes/Spawnables/seaweed.tscn")
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -112,18 +112,20 @@ func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 		0:
 			var flashlight = ItemDatabase.get_item("FLASHLIGHT")
 			CurrentPlayerInventory.add_item(flashlight)
+		1:
+			var deletinator = ItemDatabase.get_item("DELETINATOR")
+			CurrentPlayerInventory.add_item(deletinator)
+		2:
+			var bullshisher = ItemDatabase.get_item("BULLSHISHER")
+			CurrentPlayerInventory.add_item(bullshisher)
+		3:
+			var blockplacer = ItemDatabase.get_item("BLOCKPLACER")
+			CurrentPlayerInventory.add_item(blockplacer)
 
 #@onready var DeletinatorPreload = preload("res://Scenes/Items/Weapons/Firearms/Deletinator9000.tscn")
 #@onready var BulshisherPreload = preload("res://Scenes/Items/Weapons/Firearms/RandomBullshishGo.tscn")
 func _on_others_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
-	match _index:
-		0:
-			var Deletinator = ItemDatabase.get_item("DELETINATOR")
-			CurrentPlayerInventory.add_item(Deletinator)
-		1:
-			var Bullshisher = ItemDatabase.get_item("BULLSHISHER")
-			CurrentPlayerInventory.add_item(Bullshisher)
+	pass
 
 @onready var BallpitMapPreload = preload("res://Scenes/Maps/ball_pit.tscn")
 @onready var KingdomsMapPreload = preload("res://Scenes/Maps/kingdoms.tscn")

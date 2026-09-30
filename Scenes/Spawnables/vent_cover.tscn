@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b2mn8a81j7uej"]
+
+[ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="1_2abxh"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_tt0qg"]
+[ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_y05tl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_2abxh")
+size = Vector3(1, 1, 0.2)
+
+[node name="VentCover" type="RigidBody3D" unique_id=771416157]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=905547155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.450581e-09, 0, 0)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1826355391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0, 0)
+mesh = SubResource("BoxMesh_g4v7s")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=495906582]
+script = ExtResource("2_tt0qg")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="PickUpComponent" type="Node" parent="InteractionComponent" unique_id=2036238267]
+script = ExtResource("3_y05tl")
+pickup_distance = Vector3(0, 0, 0)
+metadata/_custom_type_script = "uid://ddt8rl37ck60i"

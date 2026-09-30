@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://bw7ku58lp3dka"]
 
 [ext_resource type="Script" uid="uid://bgpc1dfwikqm3" path="res://Scripts/bullshisher.gd" id="1_406oj"]
-[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/box.tscn" id="2_wk446"]
+[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="2_wk446"]
 [ext_resource type="PackedScene" uid="uid://dn7mmmq2bmntw" path="res://Scenes/Items/Throwables/grenade.tscn" id="3_mympl"]
 [ext_resource type="PackedScene" uid="uid://ys34y4sbos0o" path="res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn" id="4_1tl11"]
 [ext_resource type="PackedScene" uid="uid://bvufdefva0abq" path="res://Scenes/Items/Weapons/Firearms/Ammunition/Clipazines/45ACPMag.tscn" id="5_hp8mp"]
+
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(0.1, 0.1, 0.25)

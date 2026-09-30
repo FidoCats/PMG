@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://twxdxc7677oa"]
+
+[ext_resource type="PackedScene" uid="uid://b2mn8a81j7uej" path="res://Scenes/Spawnables/vent_cover.tscn" id="1_40rop"]
+[ext_resource type="PackedScene" uid="uid://bvlc5d51w5ex" path="res://Scenes/Spawnables/vent.tscn" id="2_bfdw5"]
+[ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="3_i1lvc"]
+[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="4_4b5iv"]
+
+[node name="Node3D" type="Node3D" unique_id=318543050]
+
+[node name="VentCover" parent="." unique_id=771416157 instance=ExtResource("1_40rop")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="Vent" parent="." unique_id=1237193757 instance=ExtResource("2_bfdw5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="Box" parent="." unique_id=648598193 instance=ExtResource("3_i1lvc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Box2" parent="." unique_id=1056423199 instance=ExtResource("4_4b5iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)

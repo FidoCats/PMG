@@ -24,27 +24,37 @@ func _ready() -> void:
 	if Enabled == true:
 		GivenItem = ItemDatabase.get_item(ItemId)
 		Sprite.texture = GivenItem.icon
-		NameLabel.text = GivenItem.name
+		if CanDispense:
+			NameLabel.text = GivenItem.name
+		else:
+			NameLabel.text = "Please wait..."
 		PrintSprite.texture = GivenItem.icon
 		
 		CollisionArea.body_entered.connect(Touched)
 
 
 
+func Use(_body: Node3D, _user: Node3D):
+	if CanDispense:
+		if _user.has_method("get_inventory") or _user.is_class("Player"):
+			CanDispense = false
+			#var UserInventory: PlayerInventory = _user.get_inventory()
+			var UserInventory: PlayerInventory = _user.player_inventory
+			print(UserInventory)
+			PrintSprite.visible = true
+			UserInventory.add_item(GivenItem)
+			await get_tree().create_timer(CoolDownTime).timeout
+			PrintSprite.visible = false
+			CanDispense = true
+			print("Dispensed!")
+
+
+
 func Touched(_body: Node3D):
-	if _body.is_class("get_inventory"):
-		CanDispense = false
-		var UserInventory: PlayerInventory = _body.player_inventory
-		#var UserInventory: PlayerInventory = _body.get_inventory()
-		PrintSprite.visible = true
-		UserInventory.add_item(GivenItem)
-		await get_tree().create_timer(CoolDownTime).timeout
-		PrintSprite.visible = false
-		CanDispense = true
-		print("Dispensed!")
+	Use(self, _body)
 
 
 
-func Interact(_body: Node3D):
-	Touched(_body)
-	print("Interacted")
+func Interact(_body: Node3D, _user: Node3D):
+	Use(_body, _user)
+	#print("Interacted")

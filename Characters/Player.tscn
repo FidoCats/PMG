@@ -296,7 +296,7 @@ shape = SubResource("CapsuleShape3D_yf5fn")
 disabled = true
 
 [node name="Above" type="RayCast3D" parent="." unique_id=1400252363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.514979, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.414979, 0.01)
 target_position = Vector3(0, 0.5, 0)
 script = ExtResource("6_x35ji")
 
@@ -1046,9 +1046,12 @@ layout_mode = 0
 offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
-item_count = 1
+item_count = 4
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Cheap Flashlight"
+item_1/text = "Deletinator 9000"
+item_2/text = ":3"
+item_3/text = "block_placer"
 
 [node name="Entities" type="ItemList" parent="SpawnMenu" unique_id=339947178]
 visible = false
@@ -1078,10 +1081,7 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
-item_count = 2
 fixed_icon_size = Vector2i(64, 64)
-item_0/text = "Deletinator 9000"
-item_1/text = ":3"
 
 [node name="Maps" type="ItemList" parent="SpawnMenu" unique_id=190823131]
 layout_mode = 0

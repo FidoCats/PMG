@@ -17,6 +17,17 @@ refraction_enabled = true
 [sub_resource type="SphereMesh" id="SphereMesh_wd0lo"]
 material = SubResource("StandardMaterial3D_ccfbd")
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nog33"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:mass")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("InteractionComponent/PickUpComponent:picked_up")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
 [node name="Sky" type="RigidBody3D" unique_id=1229239202]
 mass = 0.5
 
@@ -41,3 +52,6 @@ metadata/_custom_type_script = "uid://ddt8rl37ck60i"
 [node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=1832379852]
 transform = Transform3D(0.8660254, 0.35355344, 0.35355344, 0, 0.7071068, -0.7071068, -0.50000006, 0.61237246, 0.61237246, 0, 0, 0)
 fov = 132.1875
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=965034803]
+replication_config = SubResource("SceneReplicationConfig_nog33")

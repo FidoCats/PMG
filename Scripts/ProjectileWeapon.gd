@@ -199,7 +199,7 @@ func ShootBullet():
 		for i in (BulletAmount * PumpAmount):
 			var Proj = ProjPreload.instantiate()
 			
-			Global.ProjectileSpawner.add_child(Proj)
+			Global.ProjectileSpawner.add_child(Proj,true)
 			
 			Proj.global_transform = ProjectilePosMarker.global_transform
 			Proj.global_rotation += Vector3(randf_range(-Spread.x,Spread.x) * 0.15, randf_range(-Spread.y,Spread.y) * 0.15, 0)
