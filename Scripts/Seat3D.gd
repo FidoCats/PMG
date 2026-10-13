@@ -4,6 +4,10 @@ extends RigidBody3D
 class_name Seat3D
 
 
+
+signal Used(User)
+signal UnUsed(User)
+
 @export_category("Prefrences")
 @export var MeshColor: Color = Color(0.1,0.20,0.25,1)
 @export var SpriteTexture: Texture2D = preload("res://Stuff/Images/Red_X.png")
@@ -54,10 +58,12 @@ func Sit(_Who: Node3D, _OnWhat: Node3D) -> void:
 		if _Who.is_in_group("Alive") or _Who.is_class("Player"):
 			if UsedBy == null and UsedBy != self:
 				UsedBy = _Who
+				Used.emit(UsedBy)
 				UsedBy.global_position = _OnWhat.global_position
 				print("Parent: ", _OnWhat, "Player: ", _Who)
 			else:
 				UsedBy.global_position = Vector3(_OnWhat.global_position.x, _OnWhat.global_position.y + 2, _OnWhat.global_position.z)
+				UnUsed.emit(UsedBy)
 				UsedBy = null
 				print("Parent: ", _OnWhat, "Player: ", _Who)
 			print("Used By: ", UsedBy)

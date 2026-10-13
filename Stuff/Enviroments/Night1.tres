@@ -1,8 +1,8 @@
 [gd_resource type="Environment" format=3 uid="uid://bp1cgb6gpdrm0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_57qmd"]
-sky_top_color = Color(0.014191193, 0.02983582, 0.14057419, 1)
-sky_horizon_color = Color(0.0336764, 0.051261857, 0.274358, 1)
+sky_top_color = Color(0.015154899, 0.0303099, 0.13837999, 1)
+sky_horizon_color = Color(0.038765434, 0.05520171, 0.2876527, 1)
 sky_energy_multiplier = 1.05
 ground_bottom_color = Color(0.059203885, 0.0058910386, 0.1058223, 1)
 ground_horizon_color = Color(0.02776864, 0.13482225, 0.3037285, 1)
@@ -14,7 +14,7 @@ sky_material = SubResource("ProceduralSkyMaterial_57qmd")
 [resource]
 background_mode = 2
 sky = SubResource("Sky_yf5fn")
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.25
+fog_light_energy = 0.1
+volumetric_fog_density = 0.1094
 volumetric_fog_albedo = Color(0.32024395, 0.3202442, 0.32024413, 1)
 volumetric_fog_emission = Color(0.04755766, 0.047557645, 0.047557645, 1)

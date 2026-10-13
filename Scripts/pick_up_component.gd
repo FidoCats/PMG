@@ -1,4 +1,4 @@
-@tool
+#@tool
 
 extends Node
 class_name PickUpComponent 
@@ -10,6 +10,7 @@ var IsPickedUp: bool = false
 var picked_up : bool = false
 var IsThrown: bool = false
 var player: Node3D
+var object: Node3D = null
 
 const pickup_lerp : float = 0.175
 
@@ -33,15 +34,15 @@ func _notification(what: int) -> void:
 
 func update_state(interactable: Node3D, interactor: Node3D) -> void:
 	
-	if picked_up:
+	if picked_up: # this is place
 		if IsPickedUp == false:
 			picked_up = false
-			Global.object = null
+			object = null
 			interactable.freeze = false
 			IsPickedUp = true
 			player = interactor
-	else:
-		Global.object = interactable
+	else: # this is pick up
+		object = interactable
 		interactable.freeze = true
 		picked_up = true
 		IsPickedUp = false
@@ -49,34 +50,35 @@ func update_state(interactable: Node3D, interactor: Node3D) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if picked_up:
-		var camera_transform = Global.FPCamera.global_transform
-		Global.object.global_transform = Global.object.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,-Global.ObjectDistance)),pickup_lerp)
-		if Input.is_action_just_pressed("ObjectFreeze"):
-					picked_up = false
-					Global.object.global_position.z -= 0 
-					Global.object = null
-					IsPickedUp = false
-		if Input.is_action_just_pressed("Parry"):
-			picked_up = false
-			if Global.object.has_method("is_freeze_enabled"):
-				Global.object.freeze = false
-			Global.object = null
-			IsPickedUp = false
+		if object != null:
+			var camera_transform = Global.FPCamera.global_transform
+			object.global_transform = object.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,-Global.ObjectDistance)),pickup_lerp)
+			if Input.is_action_just_pressed("ObjectFreeze"):
+						picked_up = false
+						object.global_position.z -= 0 
+						object = null
+						IsPickedUp = false
+			if Input.is_action_just_pressed("Parry"):
+				picked_up = false
+				if object.has_method("is_freeze_enabled"):
+					object.freeze = false
+				object = null
+				IsPickedUp = false
 	
 	
 	## Other Features, so far unused
 		## Cant pickup stuff if standing on
 			#Global.UnderRay.Under == Global.LookAtRay.LookingAt:
 				#picked_up = false
-				#Global.object = null
+				#object = null
 				#interactable.freeze = false
 				#IsPickedUp = true
 			
 			#IsPickedUp = false
 		#if Input.is_action_just_pressed("R"):
-			#Global.object.global_rotate(Global.CurrentAxis,45.0)
-		#pickup_distance = Vector3(0,0,-Global.ObjectDistance)
+			#object.global_rotate(Global.CurrentAxis,45.0)
+		#pickup_distance = Vector3(0,0,-objectDistance)
 	#
 	#if IsThrown == true:
-		#Global.object.transform.basis = Global.FPCamera.transform.basis
-		#Global.object.global_position.z -= 1
+		#object.transform.basis = Global.FPCamera.transform.basis
+		#object.global_position.z -= 1

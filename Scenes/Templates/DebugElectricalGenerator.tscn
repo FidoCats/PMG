@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://celygdr1f32vl"]
+
+[ext_resource type="Script" uid="uid://btc15ciu3oa1u" path="res://Scripts/DebugElectricalGenerator.gd" id="1_riwrb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_riwrb"]
+albedo_color = Color(0.78039217, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = SubResource("StandardMaterial3D_riwrb")
+
+[node name="DebugGenerator" type="Node3D" unique_id=1245957997 node_paths=PackedStringArray("OutputLabel")]
+script = ExtResource("1_riwrb")
+OutputLabel = NodePath("DEBUG ELECTRICAL GENERATOR/Label3D")
+metadata/_custom_type_script = "uid://c4aoj40jm5bou"
+
+[node name="DEBUG ELECTRICAL GENERATOR" type="RigidBody3D" parent="." unique_id=1138012084]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DEBUG ELECTRICAL GENERATOR" unique_id=2071232710]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DEBUG ELECTRICAL GENERATOR/CollisionShape3D" unique_id=299113441]
+mesh = SubResource("BoxMesh_g4v7s")
+skeleton = NodePath("../../..")
+
+[node name="Label3D" type="Label3D" parent="DEBUG ELECTRICAL GENERATOR" unique_id=1672807122]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7)
+text = "Output:"

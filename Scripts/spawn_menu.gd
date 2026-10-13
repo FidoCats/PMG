@@ -53,35 +53,62 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 @onready var BoxPreload = preload("res://Scenes/Spawnables/box.tscn") 
 @onready var BigBoxPreload = preload("res://Scenes/Spawnables/LargeBox.tscn")
 @onready var SkyBallPreload = preload("res://Scenes/Spawnables/SkyBall.tscn")
+@onready var BlueBallPreload = preload("res://Scenes/Spawnables/small_blue_ball.tscn")
+@onready var RedBallPreload = preload("res://Scenes/Spawnables/small_red_ball.tscn")
+@onready var GreenBallPreload = preload("res://Scenes/Spawnables/small_green_ball.tscn")
+@onready var YellowBallPreload = preload("res://Scenes/Spawnables/small_yellow_ball.tscn")
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
 			var Box: Node3D = BoxPreload.instantiate()
-			Global.ObjectSpawner.add_child(Box)
+			Global.ObjectSpawner.add_child(Box, true)
 			#Global.ObjectSpawner.spawn(Box)
 			Box.global_position = $"../FPCamera".global_position
 			Box.global_basis = $"../FPCamera".global_basis
 			Box.global_position.z -= 2.5
 		1:
 			var BigBox: Node3D = BigBoxPreload.instantiate()
-			Global.ObjectSpawner.add_child(BigBox)
+			Global.ObjectSpawner.add_child(BigBox, true)
 			BigBox.global_position = $"../FPCamera".global_position
 			BigBox.global_basis = $"../FPCamera".global_basis
 			BigBox.global_position.z -= 2.5
 		2:
 			var SkyBall: Node3D = SkyBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(SkyBall)
+			Global.ObjectSpawner.add_child(SkyBall, true)
 			SkyBall.global_position = $"../FPCamera".global_position
 			SkyBall.global_basis = $"../FPCamera".global_basis
 			SkyBall.global_position.z -= 2.5
+		3:
+			var BlueBall: Node3D = BlueBallPreload.instantiate()
+			Global.ObjectSpawner.add_child(BlueBall, true)
+			BlueBall.global_position = $"../FPCamera".global_position
+			BlueBall.global_basis = $"../FPCamera".global_basis
+			BlueBall.global_position.z += 2.5
+		4:
+			var RedBall: Node3D = RedBallPreload.instantiate()
+			Global.ObjectSpawner.add_child(RedBall, true)
+			RedBall.global_position = $"../FPCamera".global_position
+			RedBall.global_basis = $"../FPCamera".global_basis
+			RedBall.global_position.z += 2.5
+		5:
+			var GreenBall: Node3D = GreenBallPreload.instantiate()
+			Global.ObjectSpawner.add_child(GreenBall, true)
+			GreenBall.global_position = $"../FPCamera".global_position
+			GreenBall.global_basis = $"../FPCamera".global_basis
+			GreenBall.global_position.z += 2.5
+		6:
+			var YellowBall: Node3D = YellowBallPreload.instantiate()
+			Global.ObjectSpawner.add_child(YellowBall, true)
+			YellowBall.global_position = $"../FPCamera".global_position
+			YellowBall.global_basis = $"../FPCamera".global_basis
+			YellowBall.global_position.z += 2.5
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
-	if _mouse_button_index == 0:
-		match _index:
-			0:
-				var spear = ItemDatabase.get_item("SPEAR")
-				CurrentPlayerInventory.add_item(spear)
+	match _index:
+		0:
+			var spear = ItemDatabase.get_item("SPEAR")
+			CurrentPlayerInventory.add_item(spear)
 
 func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
@@ -98,7 +125,7 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 	match _index:
 		0:
 			var WeedFish: Node3D = WeedFishPreload.instantiate()
-			Global.ObjectSpawner.add_child(WeedFish)
+			Global.ObjectSpawner.add_child(WeedFish, true)
 			WeedFish.global_position = $"../FPCamera".global_position
 			WeedFish.global_basis = $"../FPCamera".global_basis
 			WeedFish.global_position.z -= 2.5

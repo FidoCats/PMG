@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cplfprj1u8moi"]
 
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="1_as412"]
+[ext_resource type="Script" uid="uid://d1nclceswe8bd" path="res://Scripts/MeshDeRenderer.gd" id="2_21c73"]
 [ext_resource type="ArrayMesh" uid="uid://c6aqp7vabfy4a" path="res://Stuff/Models/JSH_Model.mesh" id="2_iim1q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_57qmd"]
@@ -195,6 +196,15 @@ shape = SubResource("BoxShape3D_iwmv7")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/Level/Landscape3" unique_id=1342857266]
 transform = Transform3D(0.9659258, -0.066987276, -0.24999969, 0.06698726, 0.99771804, -0.008518391, 0.24999966, -0.008518666, 0.96820843, 738.1274, 37.523964, 140.04126)
 mesh = SubResource("BoxMesh_mp3v6")
+
+[node name="MeshUnRender" type="Node3D" parent="Enviroment/Level" unique_id=244823675 node_paths=PackedStringArray("AffectedNode", "DelayTimer")]
+transform = Transform3D(-1.0000001, 0, 8.940697e-08, 0, 1.0000002, 0, -7.4505806e-08, 1.4901161e-08, -1.0000001, 4, 5.473828, 2)
+script = ExtResource("2_21c73")
+AffectedNode = NodePath("../JSH")
+DelayTimer = NodePath("Timer")
+metadata/_custom_type_script = "uid://d1nclceswe8bd"
+
+[node name="Timer" type="Timer" parent="Enviroment/Level/MeshUnRender" unique_id=389898728]
 
 [node name="JSH" type="StaticBody3D" parent="Enviroment/Level" unique_id=724336370]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1.0000001, 0, -8.742278e-08, 0, -1, 11, 0.47383124, 3)

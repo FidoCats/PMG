@@ -74,5 +74,8 @@ func _on_exit_pressed() -> void:
 	var level_scene = get_tree().get_current_scene()
 	if level_scene.has_method("_remove_player"):
 		level_scene._remove_player(multiplayer.get_unique_id()) #str(player.name).to_int())
-	await get_tree().create_timer(1).timeout
-	OS.kill(OS.get_process_id())
+	if level_scene.has_method("ToggleMenuVisibilty"):
+		level_scene.ToggleMenuVisibilty()
+	await get_tree().create_timer(0.1).timeout
+	player.queue_free()
+	#OS.kill(OS.get_process_id())

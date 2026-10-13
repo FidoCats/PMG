@@ -69,6 +69,18 @@ func _ready():
 
 
 
+func _process(_delta: float) -> void:
+	if is_menu_visible():
+		if Global.UseDebug:
+			if Input.is_action_just_pressed("QuickHost"):
+				_on_host_pressed()
+			if Input.is_action_just_pressed("QuickJoin"):
+				_on_join_pressed()
+
+## END ##
+
+
+
 func _on_create_pressed() -> void:
 	if $HostPanel.visible == false:
 		$HostPanel.visible = true

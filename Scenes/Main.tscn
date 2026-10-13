@@ -1,28 +1,33 @@
 [gd_scene format=3 uid="uid://wwd18365k1m7"]
 
-[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://Scripts/level.gd" id="1_h1m7h"]
-[ext_resource type="Environment" uid="uid://c2ow3mkwudsll" path="res://Stuff/Enviroments/Morning1.tres" id="2_erwvk"]
-[ext_resource type="Script" uid="uid://hmvp7ihengkv" path="res://Scripts/skybox.gd" id="2_h1m7h"]
-[ext_resource type="Environment" uid="uid://cpm0wd61kth03" path="res://Stuff/Enviroments/Day1.tres" id="4_0sclb"]
-[ext_resource type="Material" uid="uid://cfappvtws40cj" path="res://Stuff/Materials/GrassButBad.tres" id="4_346fj"]
-[ext_resource type="PackedScene" uid="uid://cplfprj1u8moi" path="res://Scenes/Maps/m2_island_town.tscn" id="5_0sclb"]
-[ext_resource type="Environment" uid="uid://fimjqj5n5wva" path="res://Stuff/Enviroments/Evening1.tres" id="5_sxkr1"]
-[ext_resource type="Environment" uid="uid://bp1cgb6gpdrm0" path="res://Stuff/Enviroments/Night1.tres" id="6_fq0cl"]
-[ext_resource type="PackedScene" uid="uid://bgmeb77i768e2" path="res://Scenes/Maps/kingdoms.tscn" id="6_sxkr1"]
-[ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="7_fq0cl"]
-[ext_resource type="PackedScene" uid="uid://ddodt0467mr32" path="res://Scenes/Templates/check_point.tscn" id="8_0sclb"]
-[ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="8_hwpts"]
-[ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/Spawnables/SkyBall.tscn" id="8_sxkr1"]
-[ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="12_aht7i"]
-[ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="13_5jffn"]
-[ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="14_kpo4j"]
-[ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="14_sxkr1"]
-[ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="15_4n42c"]
-[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="16_fq0cl"]
-[ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/Templates/seat_3d.tscn" id="20_hwpts"]
-[ext_resource type="PackedScene" uid="uid://b2mn8a81j7uej" path="res://Scenes/Spawnables/vent_cover.tscn" id="21_fq0cl"]
-[ext_resource type="PackedScene" uid="uid://v42r4dvek5rq" path="res://Scenes/Templates/item_giver.tscn" id="22_jyqft"]
-[ext_resource type="PackedScene" uid="uid://bvlc5d51w5ex" path="res://Scenes/Spawnables/vent.tscn" id="23_3tgeq"]
+[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://Scripts/level.gd" id="1_4n42c"]
+[ext_resource type="Script" uid="uid://hmvp7ihengkv" path="res://Scripts/skybox.gd" id="2_c5snn"]
+[ext_resource type="Environment" uid="uid://c2ow3mkwudsll" path="res://Stuff/Enviroments/Morning1.tres" id="3_xvtyr"]
+[ext_resource type="Environment" uid="uid://cpm0wd61kth03" path="res://Stuff/Enviroments/Day1.tres" id="4_u7mjy"]
+[ext_resource type="Environment" uid="uid://fimjqj5n5wva" path="res://Stuff/Enviroments/Evening1.tres" id="5_4yxf6"]
+[ext_resource type="Environment" uid="uid://bp1cgb6gpdrm0" path="res://Stuff/Enviroments/Night1.tres" id="6_qta6b"]
+[ext_resource type="Material" uid="uid://cfappvtws40cj" path="res://Stuff/Materials/GrassButBad.tres" id="7_x3rx7"]
+[ext_resource type="PackedScene" uid="uid://ddodt0467mr32" path="res://Scenes/Templates/check_point.tscn" id="8_6heos"]
+[ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/Templates/seat_3d.tscn" id="10_btbly"]
+[ext_resource type="PackedScene" uid="uid://b2mn8a81j7uej" path="res://Scenes/Spawnables/vent_cover.tscn" id="12_6ehlx"]
+[ext_resource type="PackedScene" uid="uid://e3mg8h052xbj" path="res://Scenes/Templates/electric_crank.tscn" id="13_3tgeq"]
+[ext_resource type="PackedScene" uid="uid://cplfprj1u8moi" path="res://Scenes/Maps/m2_island_town.tscn" id="13_utia5"]
+[ext_resource type="PackedScene" uid="uid://celygdr1f32vl" path="res://Scenes/Templates/DebugElectricalGenerator.tscn" id="14_5jffn"]
+[ext_resource type="PackedScene" uid="uid://bgmeb77i768e2" path="res://Scenes/Maps/kingdoms.tscn" id="14_f7hdo"]
+[ext_resource type="PackedScene" uid="uid://d3yxv8tr55jvy" path="res://Scenes/Templates/electricity_gauge.tscn" id="15_5jffn"]
+[ext_resource type="PackedScene" uid="uid://c6nrkt2wqxg5u" path="res://Scenes/Maps/ball_pit.tscn" id="15_clvyn"]
+[ext_resource type="PackedScene" uid="uid://dujneg0dxdvus" path="res://Scenes/Templates/debug_component_connect.tscn" id="15_kpo4j"]
+[ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="16_d8m2u"]
+[ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="17_5psol"]
+[ext_resource type="Script" uid="uid://d1nclceswe8bd" path="res://Scripts/MeshDeRenderer.gd" id="18_kpo4j"]
+[ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/Spawnables/SkyBall.tscn" id="18_m4llh"]
+[ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="19_lac6x"]
+[ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="20_hpjjw"]
+[ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="21_off7b"]
+[ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="23_7sj7i"]
+[ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="25_ep8v8"]
+[ext_resource type="PackedScene" uid="uid://v42r4dvek5rq" path="res://Scenes/Templates/item_giver.tscn" id="27_js5gh"]
+[ext_resource type="PackedScene" uid="uid://bvlc5d51w5ex" path="res://Scenes/Spawnables/vent.tscn" id="29_yisvs"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
 
@@ -30,28 +35,32 @@
 size = Vector3(100, 1, 100)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
-material = ExtResource("4_346fj")
+material = ExtResource("7_x3rx7")
 size = Vector3(100, 1, 100)
 
+[sub_resource type="VoxelGIData" id="VoxelGIData_g4v7s"]
+
 [node name="Main" type="Node3D" unique_id=1848406288]
-script = ExtResource("1_h1m7h")
+script = ExtResource("1_4n42c")
+metadata/scene_file_path = "res://Scenes/Main.tscn"
 
 [node name="Enviroment" type="Node3D" parent="." unique_id=1032491403]
 
 [node name="Skybox" type="Node3D" parent="Enviroment" unique_id=671507075 node_paths=PackedStringArray("Clock", "EnviromentNode", "LightNode")]
-script = ExtResource("2_h1m7h")
-MorningEnv = ExtResource("2_erwvk")
-DayEnv = ExtResource("4_0sclb")
-EveningEnv = ExtResource("5_sxkr1")
-NightEnv = ExtResource("6_fq0cl")
+script = ExtResource("2_c5snn")
+MorningEnv = ExtResource("3_xvtyr")
+DayEnv = ExtResource("4_u7mjy")
+EveningEnv = ExtResource("5_4yxf6")
+NightEnv = ExtResource("6_qta6b")
 Clock = NodePath("Clock")
 EnviromentNode = NodePath("WorldEnvironment")
 LightNode = NodePath("DirectionalLight3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment/Skybox" unique_id=408711900]
-environment = ExtResource("2_erwvk")
+environment = ExtResource("3_xvtyr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox" unique_id=1108329675]
+transform = Transform3D(1, 0, 0, 0, -0.27283707, -0.9620603, 0, 0.9620603, -0.27283707, 0, 0, 0)
 light_color = Color(1, 0.6934745, 0.534205, 1)
 light_energy = 1.5
 shadow_enabled = true
@@ -65,7 +74,6 @@ shadow_enabled = true
 
 [node name="Clock" type="Timer" parent="Enviroment/Skybox" unique_id=96683131]
 wait_time = 60.0
-autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Enviroment/Skybox" unique_id=547535273]
 replication_config = SubResource("SceneReplicationConfig_ibmi3")
@@ -82,73 +90,130 @@ mesh = SubResource("BoxMesh_g4v7s")
 [node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 
-[node name="CheckPoint" parent="Enviroment/Checkpoints2" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_0sclb")]
+[node name="CheckPoint" parent="Enviroment/Checkpoints2" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, 0)
 
-[node name="CheckPoint2" parent="Enviroment/Checkpoints2" unique_id=450970375 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint2" parent="Enviroment/Checkpoints2" unique_id=450970375 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -44)
 
-[node name="CheckPoint3" parent="Enviroment/Checkpoints2" unique_id=1933659830 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint3" parent="Enviroment/Checkpoints2" unique_id=1933659830 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.2, 213)
 
-[node name="CheckPoint4" parent="Enviroment/Checkpoints2" unique_id=1974969477 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint4" parent="Enviroment/Checkpoints2" unique_id=1974969477 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 1.2, 214)
 
-[node name="CheckPoint5" parent="Enviroment/Checkpoints2" unique_id=2082740452 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint5" parent="Enviroment/Checkpoints2" unique_id=2082740452 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 484, 0.60000014, -2)
 
-[node name="CheckPoint6" parent="Enviroment/Checkpoints2" unique_id=1697897037 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint6" parent="Enviroment/Checkpoints2" unique_id=1697897037 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 508, 6.2, 92)
 
-[node name="CheckPoint7" parent="Enviroment/Checkpoints2" unique_id=1098952694 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint7" parent="Enviroment/Checkpoints2" unique_id=1098952694 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 477, 29.2, 165)
 
-[node name="CheckPoint8" parent="Enviroment/Checkpoints2" unique_id=1020492220 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint8" parent="Enviroment/Checkpoints2" unique_id=1020492220 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 546, 80.2, 192)
 
-[node name="CheckPoint9" parent="Enviroment/Checkpoints2" unique_id=2047436294 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint9" parent="Enviroment/Checkpoints2" unique_id=2047436294 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 21.2, 200)
 
-[node name="CheckPoint10" parent="Enviroment/Checkpoints2" unique_id=848737190 instance=ExtResource("8_0sclb")]
+[node name="CheckPoint10" parent="Enviroment/Checkpoints2" unique_id=848737190 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8, -2032)
 
-[node name="Seat3D" parent="Enviroment" unique_id=988545447 instance=ExtResource("20_hwpts")]
+[node name="Seat3D" parent="Enviroment" unique_id=988545447 instance=ExtResource("10_btbly")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.75347626, -21)
 
-[node name="VentCover" parent="Enviroment" unique_id=792153120 instance=ExtResource("21_fq0cl")]
+[node name="VentCover" parent="Enviroment" unique_id=792153120 instance=ExtResource("12_6ehlx")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 32, 1, -26)
+
+[node name="MeshUnRender" type="Node3D" parent="Enviroment/VentCover" unique_id=1854740589 node_paths=PackedStringArray("AffectedNode", "DelayTimer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 5, 1)
+script = ExtResource("18_kpo4j")
+AffectedNode = NodePath("../../../Map/M2_IslandTown")
+DelayTimer = NodePath("Timer")
+metadata/_custom_type_script = "uid://d1nclceswe8bd"
+
+[node name="Timer" type="Timer" parent="Enviroment/VentCover/MeshUnRender" unique_id=163352308]
+
+[node name="ItemGver" parent="Enviroment" unique_id=696423283 instance=ExtResource("27_js5gh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, -36)
+
+[node name="Vent" parent="Enviroment" unique_id=1237193757 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.6, 1, -26)
+
+[node name="Vent2" parent="Enviroment" unique_id=2123790734 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 33.6, 1, -26)
+
+[node name="Vent3" parent="Enviroment" unique_id=1485457848 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 34.6, 1, -26)
+
+[node name="Vent4" parent="Enviroment" unique_id=959981625 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.6, 1, -26)
+
+[node name="Vent5" parent="Enviroment" unique_id=1878245002 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 36.6, 1, -26)
+
+[node name="Vent6" parent="Enviroment" unique_id=1957064128 instance=ExtResource("29_yisvs")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 37.6, 1, -26)
+
+[node name="VentCover2" parent="Enviroment" unique_id=771416157 instance=ExtResource("12_6ehlx")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 38.2, 1, -26)
+
+[node name="ElectricCrank" parent="Enviroment" unique_id=257924371 instance=ExtResource("13_3tgeq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.3, 1, -39)
+
+[node name="DebugGenerator" parent="Enviroment" unique_id=1245957997 instance=ExtResource("14_5jffn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.1, 1, -39)
+
+[node name="DEBUG COMPONENT CONNECT" parent="Enviroment" unique_id=1063198545 node_paths=PackedStringArray("NodeA", "NodeB") instance=ExtResource("15_kpo4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 1.6, -39)
+NodeA = NodePath("../DebugGenerator")
+NodeB = NodePath("../ElectricityGauge")
+
+[node name="ElectricityGauge" parent="Enviroment" unique_id=1929192181 instance=ExtResource("15_5jffn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.600002, 0.5, -39)
 
 [node name="Map" type="Node3D" parent="." unique_id=52032139]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 
-[node name="M2_IslandTown" parent="Map" unique_id=2050773774 instance=ExtResource("5_0sclb")]
+[node name="M2_IslandTown" parent="Map" unique_id=2050773774 instance=ExtResource("13_utia5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -5, -2015)
 
-[node name="Kingdoms" parent="Map" unique_id=1990018975 instance=ExtResource("6_sxkr1")]
+[node name="Kingdoms" parent="Map" unique_id=1990018975 instance=ExtResource("14_f7hdo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 200)
 
-[node name="BallPit" parent="Map" unique_id=375342194 instance=ExtResource("7_fq0cl")]
+[node name="BallPit" parent="Map" unique_id=375342194 instance=ExtResource("15_clvyn")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 5, 20, 200)
 
-[node name="M2_ParkourMap" parent="Map" unique_id=1619053211 instance=ExtResource("8_hwpts")]
+[node name="M2_ParkourMap" parent="Map" unique_id=1619053211 instance=ExtResource("16_d8m2u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 0, 104)
 
-[node name="DebugNpcTestmap" parent="Map" unique_id=841047864 instance=ExtResource("15_4n42c")]
+[node name="DebugNpcTestmap" parent="Map" unique_id=841047864 instance=ExtResource("17_5psol")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, -2.8, 0)
 
 [node name="Objects" type="Node3D" parent="." unique_id=1211639819]
 
-[node name="SkyBlock" parent="Objects" unique_id=1229239202 instance=ExtResource("8_sxkr1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9775262, 1, 11.747853)
+[node name="SkyBlock" parent="Objects" unique_id=1229239202 instance=ExtResource("18_m4llh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9775262, 0.9972778, 11.747853)
+sleeping = true
 
-[node name="Box2" parent="Objects" unique_id=241990172 instance=ExtResource("16_fq0cl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+[node name="Box2" parent="Objects" unique_id=241990172 instance=ExtResource("19_lac6x")]
+transform = Transform3D(0.99996436, -0.0018233267, 0.008246912, 0.0018261881, 0.9999983, -0.00033944214, -0.008246277, 0.00035449045, 0.99996597, -1.9449352, 1.0006732, 0.0040503447)
+sleeping = true
+linear_velocity = Vector3(-1.1270258e-05, 1.03686496e-07, 5.5291464e-05)
+angular_velocity = Vector3(0.000100869955, -3.0332842e-05, -2.7310574e-05)
 
-[node name="Box3" parent="Objects" unique_id=15578633 instance=ExtResource("16_fq0cl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+[node name="Box3" parent="Objects" unique_id=15578633 instance=ExtResource("19_lac6x")]
+transform = Transform3D(0.999969, -9.528818e-06, 0.007875934, 9.536277e-06, 1, -9.0946463e-07, -0.007875934, 9.845435e-07, 0.999969, -0.954256, 1.2383118, 0.002466279)
+sleeping = true
+linear_velocity = Vector3(-1.8136629e-05, 1.5281408e-05, 4.4374756e-05)
+angular_velocity = Vector3(5.7374415e-05, 5.6268625e-05, -1.0586089e-05)
 
-[node name="Box4" parent="Objects" unique_id=1406084355 instance=ExtResource("14_sxkr1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+[node name="Box4" parent="Objects" unique_id=1406084355 instance=ExtResource("20_hpjjw")]
+transform = Transform3D(0.9999661, -1.7126989e-06, 0.008241723, 1.7303286e-06, 1, -2.1319363e-06, -0.008241723, 2.1461246e-06, 0.9999661, 0.28878707, 1.488313, -0.00063838554)
+sleeping = true
+linear_velocity = Vector3(1.2279303e-05, 7.0780516e-08, 7.851049e-06)
+angular_velocity = Vector3(3.8754333e-05, -1.971057e-05, -2.3825574e-05)
 
 [node name="Projectiles" type="Node3D" parent="." unique_id=1776998517]
 
@@ -161,55 +226,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
 [node name="PlayersContainer" type="Node3D" parent="." unique_id=1590348892]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
-[node name="MapSpawner" type="MultiplayerSpawner" parent="." unique_id=2132142805]
-spawn_path = NodePath("../Map")
-
-[node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=159051240]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw")
-spawn_path = NodePath("../Objects")
-spawn_limit = 1
-
-[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=789164979]
-_spawnable_scenes = PackedStringArray("uid://ys34y4sbos0o")
-spawn_path = NodePath("../Projectiles")
-spawn_limit = 20
-
 [node name="BlockSpawner" type="MultiplayerSpawner" parent="." unique_id=1191611673]
 spawn_path = NodePath("../Blocks")
 
-[node name="MainMenuUI" parent="." unique_id=1441661689 instance=ExtResource("12_aht7i")]
+[node name="MainMenuUI" parent="." unique_id=1441661689 instance=ExtResource("21_off7b")]
+
+[node name="MultiplayerChatUI" parent="." unique_id=1254030085 instance=ExtResource("23_7sj7i")]
 visible = false
 
-[node name="MultiplayerChatUI" parent="." unique_id=1254030085 instance=ExtResource("13_5jffn")]
-visible = false
-
-[node name="InventoryUI" parent="." unique_id=1134889129 instance=ExtResource("14_kpo4j")]
+[node name="InventoryUI" parent="." unique_id=1134889129 instance=ExtResource("25_ep8v8")]
 visible = false
 offset_left = 464.0
 offset_top = -96.0
 offset_right = 464.0
 offset_bottom = -96.0
 
-[node name="ItemGver" parent="." unique_id=696423283 instance=ExtResource("22_jyqft")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, -36)
+[node name="MapSpawner" type="MultiplayerSpawner" parent="." unique_id=1348438294]
+spawn_path = NodePath("../Map")
 
-[node name="Vent" parent="." unique_id=1237193757 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.6, 1, -26)
+[node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=1592566850]
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73")
+spawn_path = NodePath("../Objects")
 
-[node name="Vent2" parent="." unique_id=2123790734 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 33.6, 1, -26)
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=27700166]
+_spawnable_scenes = PackedStringArray("uid://ys34y4sbos0o")
+spawn_path = NodePath("../Projectiles")
 
-[node name="Vent3" parent="." unique_id=1485457848 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 34.6, 1, -26)
-
-[node name="Vent4" parent="." unique_id=959981625 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.6, 1, -26)
-
-[node name="Vent5" parent="." unique_id=1878245002 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 36.6, 1, -26)
-
-[node name="Vent6" parent="." unique_id=1957064128 instance=ExtResource("23_3tgeq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 37.6, 1, -26)
-
-[node name="VentCover" parent="." unique_id=771416157 instance=ExtResource("21_fq0cl")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 38.2, 1, -26)
+[node name="VoxelGI" type="VoxelGI" parent="." unique_id=611248082]
+subdiv = 2
+size = Vector3(5000, 5000, 5000)
+data = SubResource("VoxelGIData_g4v7s")

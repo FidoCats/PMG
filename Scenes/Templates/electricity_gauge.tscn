@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d3yxv8tr55jvy"]
+
+[ext_resource type="Script" uid="uid://huvn6kfrxrpm" path="res://Scripts/electricity_gauge.gd" id="1_vdsds"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_57qmd"]
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_yf5fn"]
+top_radius = 0.35
+height = 0.80227053
+
+[node name="Electrical Gauge" type="RigidBody3D" unique_id=1929192181 node_paths=PackedStringArray("GaugeLabel") groups=["Electrical"]]
+script = ExtResource("1_vdsds")
+GaugeLabel = NodePath("GL")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1769728601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.40000004, 0)
+shape = SubResource("CylinderShape3D_57qmd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1564708467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.547306e-05, 0)
+mesh = SubResource("CylinderMesh_yf5fn")
+
+[node name="GL" type="Label3D" parent="." unique_id=1180892125]
+transform = Transform3D(1, 0, 0, 0, 0.9769943, 0.21326582, 0, -0.21326582, 0.9769943, 0, 0.4895538, 0.43550617)
+text = "0.0"
+
+[node name="Label3D2" type="Label3D" parent="." unique_id=13251779]
+transform = Transform3D(1, 0, 0, 0, 0.9769943, 0.21326582, 0, -0.21326582, 0.9769943, 0, 0.6, 0.39984947)
+text = "Voltage"
+font_size = 16
+outline_size = 6

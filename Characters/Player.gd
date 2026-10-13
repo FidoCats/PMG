@@ -19,6 +19,7 @@ class_name Player
 @onready var MainMesh: MeshInstance3D = $MainMesh
 @onready var ParryArea: Area3D = $FPCamera/ParryArea
 @onready var ParryMesh: MeshInstance3D = $FPCamera/ParryArea/MeshInstance3D
+@onready var DeathScreen: Panel = $UI/DeathScreen
 
 ## Audio
 @onready var RespawnAudioStream: AudioStreamPlayer3D = $Respawn
@@ -121,6 +122,10 @@ var CanParry: bool = true
 @export var MaxJumps: int = 2
 @export var WallJumps: int = 4
 @export var MaxWallJumps: int = 4
+@export var InteractCoolDown: float = 0.5
+@export var InteractDistance: float = -3.0
+@export var CanInteract: bool = true
+@export var RespawnTime: float = 5.0
 
 
 
@@ -236,7 +241,7 @@ func _process(_delta):
 		CurrentNoise = 0
 	
 	
-	SetFov = 90.0 # Remove after fixing 0.0 issue
+	SetFov = 90.0 ## Remove after fixing 0.0 issue
 	
 	
 	
@@ -354,7 +359,6 @@ func _process(_delta):
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 		if Input.is_action_just_pressed("KillBind"):
-			#Health -= randf_range(0.1,100.0)
 			TakeDamage(randf_range(0.1,100.0))
 	
 		if Input.is_action_just_pressed("Ragdoll"):
@@ -367,15 +371,29 @@ func _process(_delta):
 			CameraPos = clamp(CameraPos, MinCameraPos, MaxCameraPos)
 			if CameraPos > 0:
 				SpringArm.spring_length = lerp(SpringArm.spring_length, SpringArmBaseLength * CameraPos, 1)
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			print(CameraPos)
 		if Input.is_action_just_pressed("Camera-"):
 			CameraPos -= 1
 			CameraPos = clamp(CameraPos, MinCameraPos, MaxCameraPos)
 			if CameraPos > 0:
 				SpringArm.spring_length = lerp(SpringArm.spring_length, SpringArmBaseLength * CameraPos, 1)
+			else:
+				SpringArm.rotation_degrees = Vector3(0.0,0.0,0.0)
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			print(CameraPos)
 		if Input.is_action_just_pressed("CameraReset"):
 			CameraPos = 0
+			SpringArm.rotation_degrees = Vector3(0.0,0.0,0.0)
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		
+		
+		
+	
+	if IsDead and Input.is_action_just_pressed("LMB"):
+		#ResetCharacter()
+		ResetValues()
 	
 	if Input.is_action_just_pressed("Chat") and not InputBlocked:
 		InputBlocked = true 
@@ -514,6 +532,9 @@ func _physics_process(delta):
 
 	move_and_slide()
 
+## Movement and Player Actions ##
+
+
 
 
 
@@ -587,6 +608,8 @@ func UnCrouch():
 		floor_stop_on_slope = true
 		Fov = SetFov
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
+	else:
+		Crouch()
 
 
 
@@ -704,7 +727,7 @@ func Parry(_body: Node3D):
 						Force += 1
 						_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
 						#PickUpComponent.picked_up = false
-						Global.object = null
+						#Global.object = null
 						await get_tree().create_timer(0.015).timeout
 						if _body.get_contact_count() == 0:
 							for f in ParryForce:
@@ -712,11 +735,15 @@ func Parry(_body: Node3D):
 								Force += 1
 								_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
 								#PickUpComponent.picked_up = false
-								Global.object = null
+								if _body.has_method("set_freeze_enabled"):
+									_body.set_freeze_enabled(false)
+								#Global.object = null
 								await get_tree().create_timer(0.035).timeout
 	await get_tree().create_timer(0.1).timeout
 	ParryMesh.visible = false
 	CanParry = true
+
+## Death and Other functions ##
 
 
 
@@ -736,6 +763,8 @@ func freeze():
 func TakeDamage(Damage: float):
 	Health -= Damage
 
+
+
 func Death():
 	IsDead = true
 	freeze()
@@ -743,16 +772,18 @@ func Death():
 	RespawnAudioStream.stream = DeathSound
 	RespawnAudioStream.play()
 	IsRagdolled = true
+	DeathScreen.visible = true
 	if not Network.KeepInventory:
-		player_inventory.ClearAll()
-		$FPCamera/Holding.ClearHands()
-	
-	await get_tree().create_timer(1).timeout
-	#ResetCharacter()
-	ResetValues()
+		if player_inventory and Holding:
+			player_inventory.ClearAll()
+			Holding.ClearHands()
 	print(self, " Died!!")
-	#if Input.is_action_pressed("LMB"):
+	await get_tree().create_timer(RespawnTime).timeout
+	if IsDead:
 		#ResetCharacter()
+		ResetValues()
+
+
 
 func ResetCharacter():
 	var PlayerScene = preload("res://Characters/Player.tscn")
@@ -781,10 +812,16 @@ func ResetValues():
 	IsRagdolled = false
 	IsWalking = true
 	CanMove = true
+	DeathScreen.visible = false
 	set_process(true)
 	set_physics_process(true)
 	print(self, " Reset!")
 	print(self, " Can Process: ", can_process())
+
+## Commands and Miscallaneous Functions ##
+
+
+
 
 
 
@@ -800,6 +837,8 @@ func ParryAreaEntered(_body):
 	ParryBody = _body
 func ParryAreaExited(_body):
 	ParryBody = null
+
+## Multiplayer template stuff ##
 
 
 

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c0myorthtyol2"]
+
+[ext_resource type="Script" uid="uid://breas0oiaqrbh" path="res://Scripts/battery.gd" id="1_qx4dj"]
+[ext_resource type="Material" uid="uid://el3m2vdomtmn" path="res://Stuff/Materials/BrassMaybe.tres" id="1_wxs6a"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
+size = Vector3(0.5, 0.5, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("1_wxs6a")
+size = Vector3(0.5, 0.5, 0.75)
+
+[node name="Battery" type="RigidBody3D" unique_id=100933571]
+freeze = true
+script = ExtResource("1_qx4dj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1414985782]
+shape = SubResource("BoxShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=627756750]
+mesh = SubResource("BoxMesh_g4v7s")
+skeleton = NodePath("../..")

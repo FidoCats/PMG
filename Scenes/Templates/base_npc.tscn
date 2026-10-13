@@ -18,11 +18,11 @@ text = "\\    /
 font_size = 25
 line_spacing = -15.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
-radius = 7.0
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
 radius = 15.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
+radius = 7.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 radius = 2.0
@@ -44,7 +44,7 @@ properties/4/path = NodePath(".:IsBored")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "RespawnAudioStream") groups=["Alive"]]
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "RespawnAudioStream", "NavAgent") groups=["Alive"]]
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
@@ -59,6 +59,7 @@ TouchAreaShape = NodePath("TouchArea/TouchShape")
 BoredTimer = NodePath("Timer")
 StateTimer = NodePath("Timer2")
 RespawnAudioStream = NodePath("AudioStreamPlayer3D")
+NavAgent = NodePath("NavigationAgent3D")
 RespawnStream = ExtResource("2_duayq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353552094]
@@ -66,29 +67,30 @@ shape = SubResource("CapsuleShape3D_g4v7s")
 debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, 0.5032229)
-target_position = Vector3(0, 0, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, -0.49677712)
+target_position = Vector3(0, 0, -2.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=205937904]
 material_overlay = SubResource("StandardMaterial3D_57qmd")
+lod_bias = 0.001
 mesh = SubResource("CapsuleMesh_yf5fn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=268511833]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51844364, 0.48446292)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51844364, -0.5155371)
 mesh = SubResource("TextMesh_g4v7s")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=860896955]
 stream = ExtResource("2_n8v3c")
 
-[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
-
-[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
-shape = SubResource("SphereShape3D_n8v3c")
-
 [node name="HearArea" type="Area3D" parent="." unique_id=1480228872]
 
 [node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
 shape = SubResource("SphereShape3D_duayq")
+
+[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
+
+[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
+shape = SubResource("SphereShape3D_n8v3c")
 
 [node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
 
@@ -109,3 +111,7 @@ replication_config = SubResource("SceneReplicationConfig_3sst3")
 [node name="Label3D" type="Label3D" parent="." unique_id=1347576726]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1428099, 0)
 billboard = 1
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
+avoidance_enabled = true
+debug_enabled = true

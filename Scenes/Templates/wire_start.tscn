@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bsxovmramt6eu"]
+
+[ext_resource type="Script" uid="uid://tu6v6jnatent" path="res://Scripts/Wire.gd" id="1_3vdcy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yf5fn"]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_57qmd"]
+radius = 0.1
+height = 0.5
+
+[node name="WireStart" type="Node3D" unique_id=1605800173 node_paths=PackedStringArray("WireBody", "Pin1") groups=["Electrical"]]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_3vdcy")
+WireBody = NodePath("Wire Start")
+Pin1 = NodePath("StartPin")
+Segment = "Start"
+
+[node name="StartPin" type="PinJoint3D" parent="." unique_id=226811317]
+node_b = NodePath("../Wire Start")
+
+[node name="Wire Start" type="RigidBody3D" parent="." unique_id=2113669850]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wire Start" unique_id=169338346]
+shape = SubResource("CapsuleShape3D_yf5fn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wire Start/CollisionShape3D" unique_id=522282994]
+mesh = SubResource("CapsuleMesh_57qmd")

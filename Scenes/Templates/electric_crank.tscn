@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://e3mg8h052xbj"]
+
+[ext_resource type="Material" uid="uid://el3m2vdomtmn" path="res://Stuff/Materials/BrassMaybe.tres" id="1_lc0x5"]
+[ext_resource type="Script" uid="uid://c6w1srjdxopum" path="res://Scripts/ElectricalCrank.gd" id="2_v1eld"]
+[ext_resource type="Material" uid="uid://b47uqrhlk01l4" path="res://Stuff/Materials/Wood1.tres" id="2_ysf67"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="3_v1eld"]
+[ext_resource type="Script" uid="uid://ch4jsaiqbpwlb" path="res://Scripts/NodeScriptCallComponent.gd" id="5_ysf67"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iu28s"]
+size = Vector3(0.25, 0.75, 0.35)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ik37k"]
+material = ExtResource("2_ysf67")
+size = Vector3(0.25, 0.75, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+size = Vector3(0.1, 0.1, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_57qmd"]
+size = Vector3(0.1, 0.1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.75, 1, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("1_lc0x5")
+size = Vector3(0.75, 1, 0.75)
+
+[node name="Crank" type="RigidBody3D" unique_id=746351262 node_paths=PackedStringArray("EndTimer") groups=["Electrical"]]
+freeze = true
+freeze_mode = 1
+script = ExtResource("2_v1eld")
+EndTimer = NodePath("ElectricCrank/Timer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2102321040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.6)
+shape = SubResource("BoxShape3D_iu28s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1295051688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.100000024)
+mesh = SubResource("BoxMesh_ik37k")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D" unique_id=2099185334]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.20000005)
+mesh = SubResource("BoxMesh_g4v7s")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="CollisionShape3D" unique_id=882314708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.095)
+mesh = SubResource("BoxMesh_57qmd")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=1821106437]
+script = ExtResource("3_v1eld")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="NodeScriptCallComponent" type="Node" parent="InteractionComponent" unique_id=610309130 node_paths=PackedStringArray("DesiredNode")]
+script = ExtResource("5_ysf67")
+DesiredNode = NodePath("../..")
+metadata/_custom_type_script = "uid://ch4jsaiqbpwlb"
+
+[node name="ElectricCrank" type="RigidBody3D" parent="." unique_id=257924371]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ElectricCrank" unique_id=598195671]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ElectricCrank/CollisionShape3D" unique_id=140852180]
+mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="Timer" type="Timer" parent="ElectricCrank" unique_id=1912284770]

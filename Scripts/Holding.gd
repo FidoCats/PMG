@@ -45,7 +45,7 @@ func _process(_delta: float) -> void:
 				var SlotItemScene: PackedScene = SlotToId.scene
 				if Slot1 != null and SlotItemScene != null and SlotToId != null:
 					var Equipable: Node3D = SlotItemScene.instantiate()
-					add_child(Equipable)
+					add_child(Equipable, true)
 					CurrentSlot = 0
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
@@ -70,7 +70,7 @@ func _process(_delta: float) -> void:
 				var SlotItemScene: PackedScene = SlotToId.scene
 				if Slot2 != null and SlotItemScene != null and SlotToId != null:
 					var Equipable: Node3D = SlotItemScene.instantiate()
-					add_child(Equipable)
+					add_child(Equipable, true)
 					CurrentSlot = 1
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
@@ -95,7 +95,7 @@ func _process(_delta: float) -> void:
 				var SlotItemScene: PackedScene = SlotToId.scene
 				if Slot3 != null and SlotItemScene != null and SlotToId != null:
 					var Equipable: Node3D = SlotItemScene.instantiate()
-					add_child(Equipable)
+					add_child(Equipable, true)
 					CurrentSlot = 2
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
@@ -121,7 +121,7 @@ func _process(_delta: float) -> void:
 				#var SlotItemScene: PackedScene = SlotToId.scene
 				#if UsableSlot != null and SlotItemScene != null and SlotToId != null:
 					#var Usable: Node3D = SlotItemScene.instantiate()
-					#$"../Usable".add_child(Usable)
+					#$"../Usable".add_child(Usable, true)
 					#UsableSlotFull = true
 				#else:
 					#UsableSlotFull = false
@@ -137,10 +137,11 @@ func _process(_delta: float) -> void:
 				var SelectedItem = ItemDatabase.get_item(SelectedSlot.item_id)
 				if SelectedItem.dropped_scene != null:
 					var DroppedItem = SelectedItem.dropped_scene.instantiate()
-					Global.ObjectSpawner.add_child(DroppedItem)
+					Global.ObjectSpawner.add_child(DroppedItem, true)
 				SelectedSlot.remove_item(1)
 				if get_child_count() > 0:
 					remove_child(get_child(0))
+				HandsFull = false
 
 
 

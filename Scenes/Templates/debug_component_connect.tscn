@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dujneg0dxdvus"]
+
+[ext_resource type="Script" uid="uid://njqut00ymenj" path="res://Scripts/debug_component_connect.gd" id="1_4vbdp"]
+[ext_resource type="Material" uid="uid://b3ilu41fng272" path="res://Stuff/Materials/Red.tres" id="2_ggk0f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(0.5, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
+material = ExtResource("2_ggk0f")
+size = Vector3(0.5, 0.1, 0.1)
+
+[node name="DEBUG COMPONENT CONNECT" type="Node3D" unique_id=1063198545 node_paths=PackedStringArray("NodeLabel", "ElectricalLabel")]
+script = ExtResource("1_4vbdp")
+NodeLabel = NodePath("DEBUG COMPONENT CONNECT/NodeLabel")
+ElectricalLabel = NodePath("DEBUG COMPONENT CONNECT/ElectricityLabel")
+
+[node name="DEBUG COMPONENT CONNECT" type="RigidBody3D" parent="." unique_id=2139961230]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DEBUG COMPONENT CONNECT" unique_id=796010926]
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DEBUG COMPONENT CONNECT/CollisionShape3D" unique_id=1618735641]
+mesh = SubResource("BoxMesh_g4v7s")
+skeleton = NodePath("../../..")
+
+[node name="NodeLabel" type="Label3D" parent="DEBUG COMPONENT CONNECT" unique_id=1647275492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34734017, 0)
+text = "Nodes: "
+font_size = 16
+
+[node name="ElectricityLabel" type="Label3D" parent="DEBUG COMPONENT CONNECT" unique_id=2000397177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20650545, 0)
+text = "Electricity mhuhmm"

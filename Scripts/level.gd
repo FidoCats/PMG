@@ -23,6 +23,7 @@ func _ready():
 	Global.MapNode = $Map
 	Global.BlockGrid = $Blocks
 	Global.StructureSpawner = $Structures
+	Global.PlayerContainer = players_container
 
 
 
@@ -199,3 +200,11 @@ func _debug_print_inventory():
 		print("=====================")
 	else:
 		print("No inventory found for local player")
+
+
+
+func ToggleMenuVisibilty():
+	if main_menu.is_menu_visible():
+		main_menu.visible = false
+	else:
+		main_menu.visible = true

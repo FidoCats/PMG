@@ -253,22 +253,22 @@ properties/9/replication_mode = 2
 properties/10/path = NodePath("Respawn:playing")
 properties/10/spawn = false
 properties/10/replication_mode = 2
-properties/11/path = NodePath(".:IsDead")
+properties/11/path = NodePath(".:CanMove")
 properties/11/spawn = true
 properties/11/replication_mode = 1
-properties/12/path = NodePath(".:CanMove")
+properties/12/path = NodePath(".:IsRagdolled")
 properties/12/spawn = true
 properties/12/replication_mode = 1
-properties/13/path = NodePath(".:IsRagdolled")
+properties/13/path = NodePath("FPCamera/ParryArea/MeshInstance3D:visible")
 properties/13/spawn = true
 properties/13/replication_mode = 1
-properties/14/path = NodePath(".:Health")
+properties/14/path = NodePath("FPCamera/ParryArea:monitoring")
 properties/14/spawn = true
 properties/14/replication_mode = 1
-properties/15/path = NodePath("FPCamera/ParryArea/MeshInstance3D:visible")
+properties/15/path = NodePath(".:IsDead")
 properties/15/spawn = true
 properties/15/replication_mode = 1
-properties/16/path = NodePath("FPCamera/ParryArea:monitoring")
+properties/16/path = NodePath(".:Health")
 properties/16/spawn = true
 properties/16/replication_mode = 1
 
@@ -285,6 +285,7 @@ collision_mask = 3
 script = ExtResource("1_x35ji")
 Species = 0
 FelmittModel = ExtResource("5_lli6r")
+InteractCoolDown = 0.35
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="." unique_id=515654043]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.74527, 0.01)
@@ -322,7 +323,7 @@ script = ExtResource("6_c3bgu")
 ParentPlayer = NodePath("../..")
 
 [node name="Holding" type="Marker3D" parent="FPCamera" unique_id=1242823286]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.450581e-09, -0.25, -0.39000002)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.435)
 script = ExtResource("6_2grho")
 
 [node name="Usable" type="Marker3D" parent="FPCamera" unique_id=1457185967]
@@ -930,6 +931,16 @@ offset_top = 232.0
 offset_right = 40.0
 offset_bottom = 255.0
 
+[node name="DeathScreen" type="Panel" parent="UI" unique_id=1205315475]
+visible = false
+layout_mode = 0
+
+[node name="ColorRect" type="ColorRect" parent="UI/DeathScreen" unique_id=2056830008]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
 [node name="Inspector" type="Control" parent="UI" unique_id=1324892455]
 visible = false
 anchors_preset = 0
@@ -1012,11 +1023,15 @@ offset_top = 72.0
 offset_right = 955.0
 offset_bottom = 719.0
 theme = ExtResource("14_ijtlc")
-item_count = 3
+item_count = 7
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Box"
 item_1/text = "Large Box"
 item_2/text = "Skyball"
+item_3/text = "Blue Ball"
+item_4/text = "Red Ball"
+item_5/text = "Green Ball"
+item_6/text = "Yellow Ball"
 
 [node name="Melee" type="ItemList" parent="SpawnMenu" unique_id=1420368862]
 visible = false
@@ -1097,6 +1112,10 @@ item_1/text = "M2_ParkourCity"
 item_2/text = "M1_Kingdoms + M1_Ballpit"
 item_3/text = "M2_IslandTown"
 item_4/text = "DEBUG_NPC_TESTMAP"
+
+[node name="HoldingSpawner" type="MultiplayerSpawner" parent="." unique_id=2015834067]
+_spawnable_scenes = PackedStringArray("uid://sp40xh3l0xg5", "uid://dsnsb3sojmqq", "uid://c5i0khqufptrs", "uid://bw7ku58lp3dka", "uid://n2uolf8wtyby", "uid://s03xi0ulgd6c", "uid://dqsraaafxxcr2")
+spawn_path = NodePath("../FPCamera/Holding")
 
 [connection signal="pressed" from="UI/Menu/Continue" to="UI" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/Menu/Exit" to="UI" method="_on_exit_pressed"]
