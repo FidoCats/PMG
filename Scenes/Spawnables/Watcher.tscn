@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://c80ognwlu431w"]
+
+[ext_resource type="Script" uid="uid://b2k7wy0jttdue" path="res://Scripts/base_npc.gd" id="1_loey4"]
+[ext_resource type="Texture2D" uid="uid://0dmvad4ly88v" path="res://Stuff/Images/FelmitFace (14.10.2026)/Eye.png" id="2_qwyto"]
+[ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="3_mhl37"]
+[ext_resource type="Texture2D" uid="uid://wiq0wqif10nw" path="res://Stuff/Images/FelmitFace (14.10.2026)/Closed.png" id="3_u8y4a"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf5fn"]
+transparency = 1
+albedo_color = Color(0, 0, 0.44705883, 0.039215688)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4v7s"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.7058824)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yf5fn"]
+material = SubResource("StandardMaterial3D_g4v7s")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qwyto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u8y4a")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
+radius = 15.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
+radius = 7.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 2.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sst3"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:IsBored")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:PursuedPerson")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:CanThink")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:CanMove")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:NavLocation")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:Health")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:IsDead")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath(".:IsAgressive")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+
+[node name="Watcher" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+script = ExtResource("1_loey4")
+StopDistance = 25.0
+IsAgressive = false
+Speed = 1.0
+CanAttack = false
+CollisonShape = NodePath("CollisionShape3D")
+MainMesh = NodePath("MeshInstance3D")
+AudioPlayer = NodePath("AudioStreamPlayer3D")
+SightLine = NodePath("RayCast3D")
+FeelArea = NodePath("FeelArea")
+FeelAreaShape = NodePath("FeelArea/FeelShape")
+HearArea = NodePath("HearArea")
+HearAreaShape = NodePath("HearArea/HearShape")
+TouchArea = NodePath("TouchArea")
+TouchAreaShape = NodePath("TouchArea/TouchShape")
+BoredTimer = NodePath("Timer")
+StateTimer = NodePath("Timer2")
+NavAgent = NodePath("NavigationAgent3D")
+CanRespawn = false
+VisibilityOverride = 0
+NoiseOverride = 0
+Health = 50.0
+MaxHealth = 50.0
+RespawnSoundPlayer = NodePath("AudioStreamPlayer3D")
+RespawnAudio = ExtResource("3_mhl37")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353552094]
+shape = SubResource("CapsuleShape3D_g4v7s")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, -0.49677712)
+target_position = Vector3(0, 0, -2.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=205937904]
+material_overlay = SubResource("StandardMaterial3D_yf5fn")
+lod_bias = 0.001
+mesh = SubResource("CapsuleMesh_yf5fn")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="MeshInstance3D" unique_id=1831624934]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -0.1, 0.5, -0.5150428)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+frame_progress = 0.22319078
+
+[node name="AnimatedSprite3D3" type="AnimatedSprite3D" parent="MeshInstance3D" unique_id=311907469]
+transform = Transform3D(0.14999999, 0, 0, 0, 0.14999999, 0, 0, 0, 0.14999999, 0.20000002, 0.5, -0.5150428)
+flip_h = true
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+frame_progress = 0.34994772
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=860896955]
+stream = ExtResource("3_mhl37")
+
+[node name="HearArea" type="Area3D" parent="." unique_id=1480228872]
+
+[node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
+shape = SubResource("SphereShape3D_duayq")
+
+[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
+
+[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
+shape = SubResource("SphereShape3D_n8v3c")
+
+[node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
+
+[node name="TouchShape" type="CollisionShape3D" parent="TouchArea" unique_id=376404531]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Timer" type="Timer" parent="." unique_id=1394477371]
+wait_time = 50.0
+autostart = true
+
+[node name="Timer2" type="Timer" parent="." unique_id=1368023047]
+wait_time = 15.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1439939605]
+replication_config = SubResource("SceneReplicationConfig_3sst3")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1347576726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1428099, 0)
+billboard = 1
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
+target_desired_distance = 20.0
+avoidance_enabled = true
+debug_enabled = true

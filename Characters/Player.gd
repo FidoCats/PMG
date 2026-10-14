@@ -68,15 +68,15 @@ const CrouchFov: float = 5.0
 const RunFov: float = 12.5
 const DiveFov: float = 22.5
 const SlideFov: float = 25.0
-const WalkNoise: int = 1
-const WalkVisibility: int = 2
-const CrouchNoise: int = 0
-const CrouchVisibility: int = 1
-const JumpNoise: int = 2
-const RunNoise: int = 3
-const DiveNoise: int = 3
-const SlideNoise: int = 3
-const LedgeGrabNoise: int = 1
+const WalkNoise: int = 3
+const WalkVisibility: int = 3
+const CrouchNoise: int = 1
+const CrouchVisibility: int = 0
+const JumpNoise: int = 3
+const RunNoise: int = 5
+const DiveNoise: int = 7
+const SlideNoise: int = 7
+const LedgeGrabNoise: int = 3
 
 var Speed: float = BaseSpeed
 var CurrentSpeed: float = 0.0
@@ -320,7 +320,8 @@ func _process(_delta):
 	
 		## Reset
 		if CurrentSpeed <= 0.5: # and CurrentNoise >= WalkNoise:
-			CurrentNoise = 0 
+			CurrentNoise = 1
+			CurrentVisibility = 1
 			CurrentFov = SetFov
 			if is_on_floor():
 				$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
@@ -474,9 +475,11 @@ func _physics_process(delta):
 			freeze()
 			return
 
+	## Jump Refill
 	if is_on_floor():
 		if Jumps != MaxJumps:
 			Jumps = MaxJumps
+			CurrentNoise = 1
 		if WallJumps != MaxWallJumps:
 			WallJumps = MaxWallJumps
 		if IsWallRunning:
@@ -565,11 +568,18 @@ func MovementBasic() -> void:
 			elif not is_on_floor():
 				if CurrentSpeed < Speed * 1.25:
 					CurrentSpeed += 0.1
+			
+			## Noticability stuff
+			if not IsCrouching and CurrentNoise < RunNoise:
+				CurrentNoise = WalkNoise
+			
 		else:
 			velocity.x = move_toward(velocity.x, 0, CurrentSpeed)
 			velocity.z = move_toward(velocity.z, 0, CurrentSpeed)
 			
 			Speed = BaseSpeed
+			CurrentNoise = 1
+			#CurrentSpeed = 0
 			if CurrentSpeed > 0.0:
 				CurrentSpeed -= 0.5
 			else:
@@ -580,8 +590,7 @@ func Jump():
 		velocity.y = JumpVelocity
 		Jumps -= 1
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
-		if CurrentNoise <= WalkNoise:
-			CurrentNoise = JumpNoise
+		CurrentNoise = JumpNoise
 
 func Crouch():
 	IsCrouching = true
@@ -590,8 +599,7 @@ func Crouch():
 	CrouchCollisionShape.disabled = false
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.35)
-	if CurrentNoise <= WalkNoise:
-		CurrentNoise = CrouchNoise
+	CurrentNoise = CrouchNoise
 	Fov = SetFov - CrouchFov
 func UnCrouch():
 	if AboveRay.Above == null:
@@ -607,9 +615,13 @@ func UnCrouch():
 		FPCamera.rotation_degrees.y = 180.0
 		floor_stop_on_slope = true
 		Fov = SetFov
+		IsHiding = false
+		IsSilent = false
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Standing")
 	else:
 		Crouch()
+		IsHiding = true
+		IsSilent = true
 
 
 
@@ -617,8 +629,7 @@ func Run():
 	Speed = RunSpeed
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Running")
 	Fov = SetFov + RunFov
-	if CurrentNoise <= WalkNoise:
-		CurrentNoise = RunNoise
+	CurrentNoise = RunNoise
 
 
 
@@ -628,8 +639,7 @@ func Slide():
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.45)
 	Fov = SetFov + SlideFov
 	floor_stop_on_slope = false
-	if CurrentNoise <= WalkNoise:
-		CurrentNoise = SlideNoise
+	CurrentNoise = SlideNoise
 	if is_on_wall():
 		DesiredGravity = 1.0
 	Speed = SlideStartSpeed
@@ -646,8 +656,7 @@ func Dive():
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.5, 0.45)
 	Fov = SetFov + DiveFov
-	if CurrentNoise <= WalkNoise:
-		CurrentNoise = DiveNoise
+	CurrentNoise = DiveNoise
 	Speed = DiveStartSpeed
 	CurrentSpeed = DiveStartSpeed
 	await get_tree().create_timer(0.25).timeout
@@ -687,8 +696,7 @@ func LedgeHold():
 		if not Input.is_action_pressed("Jump"):
 			IsClinging = true
 			#DesiredGravity = 0.0
-			if CurrentNoise <= WalkNoise:
-				CurrentNoise = LedgeGrabNoise
+			CurrentNoise = LedgeGrabNoise
 			if velocity.y <= 2.5:
 				velocity.y = 0.0
 			Speed = CrouchSpeed

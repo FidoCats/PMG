@@ -5,6 +5,8 @@ extends Panel
 @onready var SpeedLabel = $Speed
 @onready var CurrentSpeedLabel = $CurrentSpeed
 @onready var ActionLabel = $CurrentAction
+@onready var InfoPanel: Panel = $"../InfoPanel"
+@onready var NoticabilityMeter: TextureProgressBar = $"../InfoPanel/Noticability"
 
 var DesiredPosition: Vector2
 var player: Player
@@ -26,5 +28,8 @@ func _process(_delta: float) -> void:
 		elif position != DesiredPosition and player.CurrentSpeed < 5.0:
 			position = lerp(position, DesiredPosition, player.velocity.x) #Vector2(player.velocity.x,player.velocity.y))
 	if player:
-		CurrentSpeedLabel.text = str("Speed: \n", player.CurrentSpeed, " m/s")
+		CurrentSpeedLabel.text = str("Speed: \n", snappedf(player.CurrentSpeed,0.01), " m/s")
 		SpeedLabel.text = str("Max: \n", player.Speed, " m/s")
+		
+		var PlayerNoticability: float = player.Noticability
+		NoticabilityMeter.value = PlayerNoticability

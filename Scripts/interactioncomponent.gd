@@ -20,7 +20,7 @@ func _ready() -> void:
 	Connect_parent()
 
 func _get_configuration_warnings() -> PackedStringArray:
-	if parent is not RigidBody3D and parent is not StaticBody3D and parent is not RigidBody2D and parent is not StaticBody2D and not parent.is_in_group("Interactable"):
+	if parent is not RigidBody3D and parent is not StaticBody3D and parent is not RigidBody2D and parent is not StaticBody2D and not parent is CharacterBody3D and not parent is CharacterBody2D and not parent.is_in_group("Interactable"):
 		return["Parent Node is not an Aplicable Node or is null!"]
 	else:
 		return[]
@@ -30,7 +30,7 @@ func _process(_delta: float) -> void:
 
 func Interact(User: Node3D) -> void:
 	Player_interacted.emit(parent, User)
-	print(User, " interacted with ", parent)
+	#print(User, " interacted with ", parent)
 
 func Connect_parent() -> void:
 	parent.add_user_signal("interacted")

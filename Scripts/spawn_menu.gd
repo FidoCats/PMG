@@ -130,8 +130,29 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 			WeedFish.global_basis = $"../FPCamera".global_basis
 			WeedFish.global_position.z -= 2.5
 
+@onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
+@onready var WatcherPreload: PackedScene = preload("res://Scenes/Spawnables/Watcher.tscn")
+@onready var RWWatcherPreorder: PackedScene = preload("res://Scenes/Spawnables/RWWatcher.tscn")
 func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	pass
+	match _index:
+		0:
+			var NPC = NPCPreload.instantiate()
+			Global.ObjectSpawner.add_child(NPC, true)
+			NPC.global_position = $"../FPCamera".global_position
+			NPC.global_basis = $"../FPCamera".global_basis
+			NPC.global_position.z += 2.5
+		1:
+			var Watcher = WatcherPreload.instantiate()
+			Global.ObjectSpawner.add_child(Watcher, true)
+			Watcher.global_position = $"../FPCamera".global_position
+			Watcher.global_basis = $"../FPCamera".global_basis
+			Watcher.global_position.z += 2.5
+		2:
+			var RWWatcher = RWWatcherPreorder.instantiate()
+			Global.ObjectSpawner.add_child(RWWatcher, true)
+			RWWatcher.global_position = $"../FPCamera".global_position
+			RWWatcher.global_basis = $"../FPCamera".global_basis
+			RWWatcher.global_position.z += 2.5
 
 func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory

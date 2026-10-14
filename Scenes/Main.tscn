@@ -31,6 +31,10 @@
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_g4v7s"]
+vertices = PackedVector3Array(-49.5, 1, -49.5, -49.5, 1, 49.5, 49.5, 1, 49.5, 49.5, 1, -49.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(100, 1, 100)
 
@@ -74,16 +78,21 @@ shadow_enabled = true
 
 [node name="Clock" type="Timer" parent="Enviroment/Skybox" unique_id=96683131]
 wait_time = 60.0
+autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Enviroment/Skybox" unique_id=547535273]
 replication_config = SubResource("SceneReplicationConfig_ibmi3")
 
-[node name="BasePlatform" type="StaticBody3D" parent="Enviroment" unique_id=832190816]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Enviroment" unique_id=1172516444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+navigation_mesh = SubResource("NavigationMesh_g4v7s")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/BasePlatform" unique_id=1980537199]
+[node name="BasePlatform" type="StaticBody3D" parent="Enviroment/NavigationRegion3D" unique_id=832190816]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/NavigationRegion3D/BasePlatform" unique_id=1980537199]
 shape = SubResource("BoxShape3D_g4v7s")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/BasePlatform" unique_id=86601165 groups=["Undeletable"]]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/NavigationRegion3D/BasePlatform" unique_id=86601165 groups=["Undeletable"]]
 layers = 7
 mesh = SubResource("BoxMesh_g4v7s")
 
@@ -245,7 +254,7 @@ offset_bottom = -96.0
 spawn_path = NodePath("../Map")
 
 [node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=1592566850]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73")
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7")
 spawn_path = NodePath("../Objects")
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=27700166]

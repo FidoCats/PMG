@@ -20,6 +20,7 @@
 [ext_resource type="FontFile" uid="uid://b07n2q4yc54cm" path="res://Stuff/Fonts/Jersey25-Regular.ttf" id="16_x870h"]
 [ext_resource type="Script" uid="uid://bwh6b4x5kpeed" path="res://Scripts/VersionLabel.gd" id="18_2grho"]
 [ext_resource type="Texture2D" uid="uid://q8k0dqk4g8un" path="res://Stuff/Images/SeaweedFaceBlink.png" id="19_2grho"]
+[ext_resource type="Texture2D" uid="uid://b64xnyu1obmps" path="res://Stuff/Images/TheCreechor.png" id="21_u0thl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mx45w"]
 radius = 0.35796
@@ -279,6 +280,20 @@ bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf5fn"]
 bg_color = Color(0.15294118, 0.3137255, 1, 0.7529412)
+
+[sub_resource type="Curve" id="Curve_uigg4"]
+_data = [Vector2(0.8352273, 0.15178573), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_r0712"]
+curve = SubResource("Curve_uigg4")
+
+[sub_resource type="Gradient" id="Gradient_u0thl"]
+colors = PackedColorArray(1, 0.42745098, 0, 1, 1, 0.89411765, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g4v7s"]
+gradient = SubResource("Gradient_u0thl")
+width = 25
 
 [node name="Player" type="CharacterBody3D" unique_id=1661719079 groups=["Alive"]]
 collision_mask = 3
@@ -904,7 +919,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/fill = SubResource("StyleBoxFlat_yf5fn")
 fill_mode = 3
 
-[node name="Panel" type="Panel" parent="UI/HUD" unique_id=82114674]
+[node name="InfoPanel" type="Panel" parent="UI/HUD" unique_id=82114674]
 layout_mode = 0
 offset_left = -835.5751
 offset_top = -29.385157
@@ -913,6 +928,26 @@ offset_bottom = 195.61484
 rotation = -0.07853982
 scale = Vector2(0.75, 0.75)
 theme = SubResource("Theme_g4v7s")
+
+[node name="HSeparator" type="HSeparator" parent="UI/HUD/InfoPanel" unique_id=76103896]
+layout_mode = 0
+offset_left = 12.902842
+offset_top = 168.71259
+offset_right = 242.82387
+offset_bottom = 172.71259
+
+[node name="Noticability" type="TextureProgressBar" parent="UI/HUD/InfoPanel" unique_id=1296895951]
+layout_mode = 0
+offset_left = 225.57854
+offset_top = 185.45053
+offset_right = 250.57854
+offset_bottom = 385.45056
+rotation = 1.5707964
+max_value = 10.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_under = SubResource("CurveTexture_r0712")
+texture_progress = SubResource("GradientTexture1D_g4v7s")
 
 [node name="VersionLabel" type="Label" parent="UI/HUD" unique_id=319302519]
 layout_mode = 0
@@ -1087,7 +1122,12 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
+item_count = 3
 fixed_icon_size = Vector2i(64, 64)
+item_0/text = "BaseNPC"
+item_0/icon = ExtResource("21_u0thl")
+item_1/text = "Watcher"
+item_2/text = "The Real Watcher"
 
 [node name="Others" type="ItemList" parent="SpawnMenu" unique_id=971748293]
 visible = false

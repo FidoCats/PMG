@@ -157,10 +157,11 @@ func is_inventory_visible() -> bool:
 # Additional helper for testing
 func _notification(what):
 	if what == NOTIFICATION_READY:
-		print("Inventory System Controls:")
-		print("  Tab - Toggle inventory")
-		print("  F1 - Add random test item (debug)")
-		print("  F2 - Print inventory contents (debug)")
+		#print("Inventory System Controls:")
+		#print("  Tab - Toggle inventory")
+		#print("  F1 - Add random test item (debug)")
+		#print("  F2 - Print inventory contents (debug)")
+		pass
 
 func _on_inventory_closed():
 	inventory_visible = false
@@ -169,7 +170,7 @@ func update_local_inventory_display():
 	if inventory_ui:
 		# Always refresh if the UI exists, regardless of visibility
 		inventory_ui.refresh_display()
-		print("Debug: Inventory display updated from server sync")
+		#print("Debug: Inventory display updated from server sync")
 
 func _get_local_player() -> Player:
 	var local_player_id = multiplayer.get_unique_id()
@@ -183,7 +184,7 @@ func _debug_add_item():
 	if local_player:
 		var test_items = ["iron_sword", "health_potion", "leather_armor", "magic_gem", "iron_pickaxe"]
 		var random_item = test_items[randi() % test_items.size()]
-		print("Debug: Requesting to add ", random_item, " to player ", local_player.name, " (authority: ", local_player.get_multiplayer_authority(), ")")
+		#print("Debug: Requesting to add ", random_item, " to player ", local_player.name, " (authority: ", local_player.get_multiplayer_authority(), ")")
 		local_player.request_add_item.rpc_id(1, random_item, 1)
 	else:
 		print("Debug: No local player found!")

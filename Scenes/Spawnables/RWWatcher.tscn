@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://big30pbtj55d7"]
+
+[ext_resource type="Script" uid="uid://b2k7wy0jttdue" path="res://Scripts/base_npc.gd" id="1_ta5gf"]
+[ext_resource type="AudioStream" uid="uid://bcngd18mv7ts7" path="res://Stuff/Sounds/metal-pipe-329305.mp3" id="2_mvpdi"]
+[ext_resource type="Texture2D" uid="uid://b3fq6fryhvgon" path="res://Stuff/Images/RWWatcher.png" id="3_fc0ot"]
+[ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="3_yu4bn"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="5_fc0ot"]
+[ext_resource type="Script" uid="uid://cmaqk4qme7dra" path="res://Scripts/TalkComponent.gd" id="6_mvpdi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+height = 1.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
+radius = 15.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
+radius = 7.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 3.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sst3"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:IsBored")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:PursuedPerson")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:CanThink")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:CanMove")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:NavLocation")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:Health")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:IsDead")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath(".:IsAgressive")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+
+[node name="Watcher R World" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+script = ExtResource("1_ta5gf")
+IsAgressive = false
+WillPursue = false
+CanAttack = false
+CollisonShape = NodePath("CollisionShape3D")
+AudioPlayer = NodePath("AudioStreamPlayer3D")
+SightLine = NodePath("RayCast3D")
+FeelArea = NodePath("FeelArea")
+FeelAreaShape = NodePath("FeelArea/FeelShape")
+HearArea = NodePath("HearArea")
+HearAreaShape = NodePath("HearArea/HearShape")
+TouchArea = NodePath("TouchArea")
+TouchAreaShape = NodePath("TouchArea/TouchShape")
+BoredTimer = NodePath("Timer")
+StateTimer = NodePath("Timer2")
+NavAgent = NodePath("NavigationAgent3D")
+Health = 10.0
+MaxHealth = 10.0
+RespawnSoundPlayer = NodePath("AudioStreamPlayer3D")
+RespawnAudio = ExtResource("2_mvpdi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353552094]
+shape = SubResource("CapsuleShape3D_g4v7s")
+debug_color = Color(0.5231447, 0.42667902, 0.97310287, 0.41960785)
+
+[node name="Sprite3D" type="Sprite3D" parent="CollisionShape3D" unique_id=337788995]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
+billboard = 1
+texture = ExtResource("3_fc0ot")
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, -0.49677712)
+target_position = Vector3(0, 0, -2.5)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=860896955]
+stream = ExtResource("3_yu4bn")
+
+[node name="HearArea" type="Area3D" parent="." unique_id=1480228872]
+
+[node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
+shape = SubResource("SphereShape3D_duayq")
+
+[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
+
+[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
+shape = SubResource("SphereShape3D_n8v3c")
+
+[node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
+
+[node name="TouchShape" type="CollisionShape3D" parent="TouchArea" unique_id=376404531]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Timer" type="Timer" parent="." unique_id=1394477371]
+wait_time = 50.0
+autostart = true
+
+[node name="Timer2" type="Timer" parent="." unique_id=1368023047]
+wait_time = 5.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1439939605]
+replication_config = SubResource("SceneReplicationConfig_3sst3")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1347576726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9428099, 0)
+billboard = 1
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
+target_desired_distance = 20.0
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=342683973]
+script = ExtResource("5_fc0ot")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="TalkComponent" type="Node" parent="InteractionComponent" unique_id=1749190001 node_paths=PackedStringArray("Area", "StopTimer", "SpeakLabel")]
+script = ExtResource("6_mvpdi")
+Lines = Array[String](["Hey, It's me Watcher Rainworld.", "Heya, I often partake in watching.", "How are you on this fine day?", "Greetings!", "Gosh... It rains a lot here, almost as if we're in some kind of Rain World."])
+Goodbye = "Farewell then."
+Area = NodePath("../../TouchArea")
+StopTimer = NodePath("../../Timer2")
+SpeakLabel = NodePath("../../Label3D")
+metadata/_custom_type_script = "uid://cmaqk4qme7dra"

@@ -43,8 +43,29 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:IsBored")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath(".:PursuedPerson")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:CanThink")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:CanMove")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:NavLocation")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:Health")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:IsDead")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath(".:IsAgressive")
+properties/11/spawn = true
+properties/11/replication_mode = 1
 
-[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "RespawnAudioStream", "NavAgent") groups=["Alive"]]
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
@@ -58,9 +79,9 @@ TouchArea = NodePath("TouchArea")
 TouchAreaShape = NodePath("TouchArea/TouchShape")
 BoredTimer = NodePath("Timer")
 StateTimer = NodePath("Timer2")
-RespawnAudioStream = NodePath("AudioStreamPlayer3D")
 NavAgent = NodePath("NavigationAgent3D")
-RespawnStream = ExtResource("2_duayq")
+RespawnSoundPlayer = NodePath("AudioStreamPlayer3D")
+RespawnAudio = ExtResource("2_duayq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353552094]
 shape = SubResource("CapsuleShape3D_g4v7s")
@@ -113,5 +134,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1428099, 0)
 billboard = 1
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
+target_desired_distance = 20.0
 avoidance_enabled = true
 debug_enabled = true
