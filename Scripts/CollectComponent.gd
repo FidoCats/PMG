@@ -3,18 +3,20 @@ class_name CollectComponent
 
 
 
+@export var Enabled: bool = false
 @export var CollectableItemID: String = "FLASHLIGHT"
-
-var CollectableItem
 
 
 
 func _ready() -> void:
-	CollectableItem = ItemDatabase.get_item(CollectableItemID)
-	
-	Player_interacted.connect(Collect)
+	if get_parent() is InteractionComponent:
+		get_parent().Player_interacted.connect(Collect)
 
 
 
-func Collect(object: Node3D):
-	
+func Collect(_Body: Node3D, _User: Node3D):
+	var item = ItemDatabase.get_item(CollectableItemID)
+	var inventory: PlayerInventory = _User.player_inventory
+	inventory.add_item(item)
+	await get_tree().create_timer(0.1).timeout
+	get_parent().get_parent().queue_free()

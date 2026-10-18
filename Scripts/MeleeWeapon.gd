@@ -4,7 +4,7 @@ class_name IsMelee
 
 
 @export_category("Prefrences: ")
-@export var Damage: float = 1.0
+@export var Damage: float = 20.0
 @export var StabTime: float = 0.25
 @export var Cooldown: float = 0.5
 @export_category("Nodes: ")
@@ -37,7 +37,7 @@ func Use():
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.has_method("TakeDamage"):
-		body.TakeDamage(50.0)
+		body.TakeDamage.rpc(Damage)
 		print("owie")
 	
 	#if body.has_method("React"):

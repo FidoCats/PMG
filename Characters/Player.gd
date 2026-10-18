@@ -83,7 +83,7 @@ var CurrentSpeed: float = 0.0
 var SpeedMultiplier: float = 1.0
 var SpeedDivider: float = 1
 
-var ParryDamage: float = 5.0
+var ParryDamage: float = 10.0
 var ParryReward: float = 2.5
 var ParryForce: float = 7.5
 var ParryBody: Node3D = null
@@ -230,7 +230,7 @@ func _ready():
 
 func _process(_delta):
 ## Stuff that needs to always process
-	if Health <= 0.0:
+	if Health <= 0.0 and not IsDead:
 		Health = 0.0
 		Death()
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Dead :P")
@@ -625,6 +625,17 @@ func UnCrouch():
 
 
 
+func Sit():
+	IsCrouching = true
+	Speed = CrouchSpeed
+	if BaseCollisionShape.disabled == false:
+		BaseCollisionShape.disabled = true
+		CrouchCollisionShape.disabled = false
+	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sitting")
+	FPCamera.position.y = lerp(FPCamera.position.y, 0.65, 0.35)
+
+
+
 func Run():
 	Speed = RunSpeed
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Running")
@@ -724,29 +735,30 @@ func Parry(_body: Node3D):
 		if _body != null and _body != self:
 			if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
 				_body = LookAtRay.LookingAt
+			
 			if _body.has_method("TakeDamage"):
-				_body.TakeDamage(ParryDamage)
+				_body.TakeDamage.rpc(ParryDamage)
 				await get_tree().create_timer(0.25).timeout
-			else:
-				if _body.is_class("RigidBody3D"): #or _body.is_class("CharacterBody3D"):
-					var camera_transform = FPCamera.global_transform
-					var Force: float = 0
-					if Force < 1:
-						Force += 1
-						_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
-						#PickUpComponent.picked_up = false
-						#Global.object = null
-						await get_tree().create_timer(0.015).timeout
-						if _body.get_contact_count() == 0:
-							for f in ParryForce:
-								#Force = lerp(Force, Force + 0.1, 10)
-								Force += 1
-								_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
-								#PickUpComponent.picked_up = false
-								if _body.has_method("set_freeze_enabled"):
-									_body.set_freeze_enabled(false)
-								#Global.object = null
-								await get_tree().create_timer(0.035).timeout
+			
+			if _body.has_method("set_freeze_enabled"): #_body.is_class("RigidBody3D"): #or _body.is_class("CharacterBody3D"):
+				var camera_transform = FPCamera.global_transform
+				var Force: float = 0
+				if Force < 1:
+					Force += 1
+					_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
+					#PickUpComponent.picked_up = false
+					#Global.object = null
+					await get_tree().create_timer(0.015).timeout
+					if _body.get_contact_count() == 0:
+						for f in ParryForce:
+							#Force = lerp(Force, Force + 0.1, 10)
+							Force += 1
+							_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
+							#PickUpComponent.picked_up = false
+							if _body.has_method("set_freeze_enabled"):
+								_body.set_freeze_enabled(false)
+							#Global.object = null
+							await get_tree().create_timer(0.035).timeout
 	await get_tree().create_timer(0.1).timeout
 	ParryMesh.visible = false
 	CanParry = true
@@ -768,18 +780,26 @@ func freeze():
 
 
 
+func Stop():
+	CanMove = false
+	CurrentSpeed = 0.0
+
+
+
+@rpc("any_peer","call_remote")
 func TakeDamage(Damage: float):
 	Health -= Damage
 
 
 
+@rpc("any_peer","call_remote")
 func Death():
 	IsDead = true
 	freeze()
 	InputBlocked = true
 	RespawnAudioStream.stream = DeathSound
 	RespawnAudioStream.play()
-	IsRagdolled = true
+	#IsRagdolled = true # Ragdolling does not work yet.
 	DeathScreen.visible = true
 	if not Network.KeepInventory:
 		if player_inventory and Holding:
@@ -793,6 +813,7 @@ func Death():
 
 
 
+@rpc("any_peer","call_remote")
 func ResetCharacter():
 	var PlayerScene = preload("res://Characters/Player.tscn")
 	var NewPlayer = PlayerScene.instantiate() as Player
@@ -810,7 +831,7 @@ func ResetValues():
 	velocity = Vector3.ZERO
 	rotation = Vector3(0,0,0)
 	FPCamera.rotation = Vector3(0,deg_to_rad(180),0)
-	IsDead = false
+	
 	InputBlocked = false
 	global_position = RespawnPos
 	#await RespawnAudioStream.finished
@@ -825,6 +846,7 @@ func ResetValues():
 	set_physics_process(true)
 	print(self, " Reset!")
 	print(self, " Can Process: ", can_process())
+	IsDead = false
 
 ## Commands and Miscallaneous Functions ##
 

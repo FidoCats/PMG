@@ -5,7 +5,7 @@ var SERVER_PORT: int = 1234 #8080
 var MAX_PLAYERS : int = 10
 
 ## Gamerules? -Fido :3
-var UseDayNightCycle: bool = true
+var UseDayNightCycle: bool = false
 var KeepInventory: bool = false
 
 var players = {}
@@ -61,10 +61,12 @@ func join_game(nickname: String, skin_color_str: String, address: String = SERVE
 	if !nickname or nickname.strip_edges() == "":
 		nickname = "Player_" + str(multiplayer.get_unique_id())
 
-	var skin_enum = skin_str_to_e(skin_color_str)
+	#var skin_enum = skin_str_to_e(skin_color_str)
+
+
 
 	player_info["nick"] = nickname
-	player_info["skin"] = skin_enum
+	player_info["skin"] = skin_color_str
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
@@ -93,6 +95,7 @@ func _on_server_disconnected():
 	players.clear()
 	server_disconnected.emit()
 
+# This could be doing something
 func skin_str_to_e(s):
 	match s.to_lower():
 		"blue": return Character.SkinColor.BLUE
@@ -100,3 +103,7 @@ func skin_str_to_e(s):
 		"green": return Character.SkinColor.GREEN
 		"red": return Character.SkinColor.RED
 		_: return Character.SkinColor.BLUE
+
+
+
+# This part is mine!!! -Fido

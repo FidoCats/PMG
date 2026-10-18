@@ -110,8 +110,6 @@ func _physics_process(_delta: float) -> void:
 	
 	
 	## Basic Process Ifs
-	if Health <= 0:
-		Death()
 	
 	
 	

@@ -9,6 +9,7 @@ class_name Projectile
 @export var FallOffDistance = 90.0
 @export var PenetrationChance: float = 5.0
 @export var RollAmount: float = 150.0
+@export var Damage: float = 25.0
 #@export_category("Nodes: ")
 #@export var DeleteTimer: Timer
 
@@ -54,7 +55,7 @@ func _on_body_entered(body):
 			#Dent.global_position = global_position
 			#Dent.global_rotation = global_rotation
 			if body.has_method("TakeDamage"):
-				body.TakeDamage(15)
+				body.TakeDamage.rpc(Damage)
 				#print("Damaged ", body)
 				#print("Health: ", body.Health)
 			if -PenetrationChance < 0.0:

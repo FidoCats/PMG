@@ -32,6 +32,7 @@ func _notification(what: int) -> void:
 		parent = get_parent()
 		update_configuration_warnings()
 
+@rpc("authority", "call_remote", "reliable", 0)
 func update_state(interactable: Node3D, interactor: Node3D) -> void:
 	
 	if picked_up: # this is place

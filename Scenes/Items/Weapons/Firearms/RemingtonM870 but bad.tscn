@@ -9,10 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://cj8pkil1c2500" path="res://Stuff/Images/MuzzleFlash1.png" id="6_dyxst"]
 [ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="7_mve4p"]
 [ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="8_4xqpx"]
-[ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/ProjectileWeapon.gd" id="9_276qf"]
+[ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/IsProjectileGun.gd" id="9_276qf"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="11_5m00b"]
+[ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="12_h40oc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
-size = Vector3(0.1, 0.1, 0.25)
+size = Vector3(0.1, 0.2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 material = ExtResource("2_ol80p")
@@ -98,16 +100,45 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath(".:transform")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath(".:Enabled")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:freeze")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
-[node name="RemingtonM870 but BAD" type="RigidBody3D" unique_id=1310180666]
+[node name="RemingtonM870 but BAD" type="RigidBody3D" unique_id=796818737 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ExtraLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker", "Collider", "Collect")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 mass = 50.0
 freeze = true
+script = ExtResource("9_276qf")
+Spread = Vector2(0.5, 0.5)
+Ammo = 8
+FullMag = 8
+CanSwitchFR = false
+CanPump = true
+UseAltReloadText = true
+UseShells = true
+ItemID = "M870"
+ShootSound = NodePath("Shoot")
+ReloadSound = NodePath("Reload")
+EmptySound = NodePath("Empty")
+MuzzleFlashSprite = NodePath("BarrelMarker/FireAnimation")
+MuzzleFlashLight = NodePath("BarrelMarker/FireAnimation/SpotLight3D")
+AmmoLabel = NodePath("Ammo")
+FRLabel = NodePath("Firerate")
+ExtraLabel = NodePath("Extra")
+ProjectilePosMarker = NodePath("BarrelMarker")
+MagPosMarker = NodePath("AmmoMarker")
+EjectionPortMarker = NodePath("CasingEject")
+Collider = NodePath("CollisionShape3D")
+Collect = NodePath("InteractionComponent/CollectComponent")
+metadata/_custom_type_script = "uid://c3ia6opicatv"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=257049623]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, 0, 0.055081412)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, -0.024999995, 0.01758141)
 shape = SubResource("BoxShape3D_g4v7s")
 disabled = true
 
@@ -208,31 +239,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7484556e-08, -0.2, -0.2)
 [node name="CasingEject" type="Marker3D" parent="." unique_id=258250103]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8744423e-09, -0.0043810606, 0.078634456)
 
-[node name="IsGun" type="Node3D" parent="." unique_id=1468727716 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ExtraLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033106253, 0.03298702, 0.016918909)
-script = ExtResource("9_276qf")
-Spread = Vector2(0.75, 0.75)
-Ammo = 8
-FullMag = 8
-ReloadTime = 1.5
-CanSwitchFR = false
-CanPump = true
-PumpTime = 0.2
-UseAltReloadText = true
-UseShells = true
-ItemID = "M870"
-ShootSound = NodePath("../Shoot")
-ReloadSound = NodePath("../Reload")
-EmptySound = NodePath("../Empty")
-MuzzleFlashSprite = NodePath("../BarrelMarker/FireAnimation")
-MuzzleFlashLight = NodePath("../BarrelMarker/FireAnimation/SpotLight3D")
-AmmoLabel = NodePath("../Ammo")
-FRLabel = NodePath("../Firerate")
-ExtraLabel = NodePath("../Extra")
-ProjectilePosMarker = NodePath("../BarrelMarker")
-MagPosMarker = NodePath("../AmmoMarker")
-EjectionPortMarker = NodePath("../CasingEject")
-metadata/_custom_type_script = "uid://c3ia6opicatv"
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1757845821]
 replication_config = SubResource("SceneReplicationConfig_ol80p")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=2065430172]
+script = ExtResource("11_5m00b")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="CollectComponent" type="Node" parent="InteractionComponent" unique_id=480478672]
+script = ExtResource("12_h40oc")
+metadata/_custom_type_script = "uid://bxhl70sf7nad0"

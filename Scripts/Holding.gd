@@ -1,5 +1,7 @@
 extends Marker3D
 
+@export var PlayerNode: Player
+
 var CurrentPlayerInventory: PlayerInventory
 var CurrentSlot: int = -1
 
@@ -21,6 +23,19 @@ var IsMultiplayerAuthority: bool
 
 
 
+#func _ready() -> void:
+	#CurrentPlayerInventory = PlayerNode.player_inventory
+	#
+	#Slot1 = CurrentPlayerInventory.get_slot(0)
+	#Slot2 = CurrentPlayerInventory.get_slot(1)
+	#Slot3 = CurrentPlayerInventory.get_slot(2)
+	#
+	#Slot1.changed.connect(UpdateSlots)
+	#Slot2.changed.connect(UpdateSlots)
+	#Slot3.changed.connect(UpdateSlots)
+
+
+
 func _process(_delta: float) -> void:
 	IsMultiplayerAuthority = $"../..".is_multiplayer_authority()
 	
@@ -32,6 +47,43 @@ func _process(_delta: float) -> void:
 	Slot2 = CurrentPlayerInventory.get_slot(1)
 	Slot3 = CurrentPlayerInventory.get_slot(2)
 	UsableSlot = CurrentPlayerInventory.get_slot(3)
+	
+	#if not Slot1.changed.is_connected(UpdateSlots):
+		#Slot1.changed.connect(UpdateSlots)
+		#Slot2.changed.connect(UpdateSlots)
+		#Slot3.changed.connect(UpdateSlots)
+	#
+	#
+	#
+	#if Input.is_action_just_pressed("1"):
+		#HandsFull = !HandsFull
+		#if get_child_count() > 0:
+			#var Equipable: Node3D = get_child(0)
+			#if Equipable != null:
+				#Equipable.visible = HandsFull
+				#if Equipable.has_method("Enable"):
+					#Equipable.Enable(HandsFull)
+	#
+	#if Input.is_action_just_pressed("2"):
+		#HandsFull = !HandsFull
+		#if get_child_count() > 0:
+			#var Equipable: Node3D = get_child(1)
+			#if Equipable != null:
+				#Equipable.visible = HandsFull
+				#if Equipable.has_method("Enable"):
+					#Equipable.Enable(HandsFull)
+	#
+	#if Input.is_action_just_pressed("3"):
+		#HandsFull = !HandsFull
+		#if get_child_count() > 0:
+			#var Equipable: Node3D = get_child(2)
+			#if Equipable != null:
+				#Equipable.visible = HandsFull
+				#if Equipable.has_method("Enable"):
+					#Equipable.Enable(HandsFull)
+	
+	
+	
 	
 	
 	
@@ -49,11 +101,13 @@ func _process(_delta: float) -> void:
 					CurrentSlot = 0
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
+					if Equipable.has_method("Enable"):
+						Equipable.Enable(true)
 					#rpc(WeaponChanged(Equipable))
 				else:
 					HandsFull = false
-					CurrentSlot = -1
 					Slot1Value = SlotToId.special_value_1
+					CurrentSlot = -1
 					#rpc(HandsEmptied())
 		else:
 			HandsFull = false
@@ -74,6 +128,8 @@ func _process(_delta: float) -> void:
 					CurrentSlot = 1
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
+					if Equipable.has_method("Enable"):
+						Equipable.Enable(HandsFull)
 					#rpc(WeaponChanged(Equipable))
 				else:
 					HandsFull = false
@@ -99,6 +155,8 @@ func _process(_delta: float) -> void:
 					CurrentSlot = 2
 					SlotToId.special_value_1 = Slot1Value
 					HandsFull = true
+					if Equipable.has_method("Enable"):
+						Equipable.Enable(HandsFull)
 					#rpc(WeaponChanged(Equipable))
 				else:
 					HandsFull = false
@@ -110,23 +168,26 @@ func _process(_delta: float) -> void:
 			CurrentSlot = -1
 			#rpc(HandsEmptied())
 	
-	### Usable slot
-	#if Input.is_action_just_pressed("Secondary Ability"):
-		#if $"../Usable".get_child_count() > 0:
-			#$"../Usable".remove_child($"../Usable".get_child(0))
-		#
-		#if UsableSlotFull == false:
-			#var SlotToId = ItemDatabase.get_item(UsableSlot.item_id)
-			#if UsableSlot.item_id != "":
-				#var SlotItemScene: PackedScene = SlotToId.scene
-				#if UsableSlot != null and SlotItemScene != null and SlotToId != null:
-					#var Usable: Node3D = SlotItemScene.instantiate()
-					#$"../Usable".add_child(Usable, true)
-					#UsableSlotFull = true
-				#else:
-					#UsableSlotFull = false
-		#else:
-			#UsableSlotFull = false
+	## Usable slot
+	if Input.is_action_just_pressed("Secondary Ability"):
+		if $"../Usable".get_child_count() > 0:
+			$"../Usable".remove_child($"../Usable".get_child(0))
+		
+		if UsableSlotFull == false:
+			var SlotToId = ItemDatabase.get_item(UsableSlot.item_id)
+			if UsableSlot.item_id != "":
+				var SlotItemScene: PackedScene = SlotToId.scene
+				if UsableSlot != null and SlotItemScene != null and SlotToId != null:
+					var Usable: Node3D = SlotItemScene.instantiate()
+					$"../Usable".add_child(Usable, true)
+					
+					UsableSlotFull = true
+					if Usable.has_method("Enable"):
+						UsableSlot.Enable(UsableSlotFull)
+				else:
+					UsableSlotFull = false
+		else:
+			UsableSlotFull = false
 	
 	
 	
@@ -135,13 +196,44 @@ func _process(_delta: float) -> void:
 			var SelectedSlot = CurrentPlayerInventory.get_slot(CurrentSlot)
 			if not SelectedSlot.is_empty():
 				var SelectedItem = ItemDatabase.get_item(SelectedSlot.item_id)
-				if SelectedItem.dropped_scene != null:
-					var DroppedItem = SelectedItem.dropped_scene.instantiate()
+				if SelectedItem.scene != null:
+					var DroppedItem: Node3D = SelectedItem.scene.instantiate()
 					Global.ObjectSpawner.add_child(DroppedItem, true)
+					DroppedItem.global_position = global_position
+					if DroppedItem.has_method("Enable"):
+						DroppedItem.Enable(false)
 				SelectedSlot.remove_item(1)
 				if get_child_count() > 0:
 					remove_child(get_child(0))
 				HandsFull = false
+
+
+
+func UpdateSlots():
+	var SlotToId = ItemDatabase.get_item(Slot1.item_id)
+	if Slot1.item_id != "":
+		var SlotItemScene: PackedScene = SlotToId.scene
+		if Slot1 != null and SlotItemScene != null and SlotToId != null:
+			var Equipable: Node3D = SlotItemScene.instantiate()
+			add_child(Equipable, true)
+			if CurrentPlayerInventory.get_slot(CurrentSlot) != Slot1:
+				Equipable.visible = false
+	SlotToId = ItemDatabase.get_item(Slot2.item_id)
+	if Slot2.item_id != "":
+		var SlotItemScene: PackedScene = SlotToId.scene
+		if Slot2 != null and SlotItemScene != null and SlotToId != null:
+			var Equipable: Node3D = SlotItemScene.instantiate()
+			add_child(Equipable, true)
+			if CurrentPlayerInventory.get_slot(CurrentSlot) != Slot2:
+				Equipable.visible = false
+	SlotToId = ItemDatabase.get_item(Slot3.item_id)
+	if Slot3.item_id != "":
+		var SlotItemScene: PackedScene = SlotToId.scene
+		if Slot3 != null and SlotItemScene != null and SlotToId != null:
+			var Equipable: Node3D = SlotItemScene.instantiate()
+			add_child(Equipable, true)
+			if CurrentPlayerInventory.get_slot(CurrentSlot) != Slot3:
+				Equipable.visible = false
 
 
 

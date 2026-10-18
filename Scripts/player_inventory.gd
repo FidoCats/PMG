@@ -19,6 +19,7 @@ func get_slot(index: int) -> InventorySlot:
 
 func add_item(item: Item, quantity: int = 1) -> int:
 	var remaining = quantity
+	
 
 	# First, try to add to existing stacks
 	if item.stackable:
@@ -40,6 +41,7 @@ func add_item(item: Item, quantity: int = 1) -> int:
 
 func remove_item(item_id: String, quantity: int = 1) -> int:
 	var removed = 0
+	
 	for slot in slots:
 		if slot.item_id == item_id:
 			var slot_removed = slot.remove_item(quantity - removed)
@@ -51,6 +53,7 @@ func remove_item(item_id: String, quantity: int = 1) -> int:
 func move_item(from_index: int, to_index: int, quantity: int = -1) -> bool:
 	var from_slot = get_slot(from_index)
 	var to_slot = get_slot(to_index)
+	
 
 	if not from_slot or not to_slot or from_slot.is_empty():
 		return false
@@ -93,6 +96,7 @@ func move_item(from_index: int, to_index: int, quantity: int = -1) -> bool:
 func swap_items(from_index: int, to_index: int) -> bool:
 	var from_slot = get_slot(from_index)
 	var to_slot = get_slot(to_index)
+	
 
 	if not from_slot or not to_slot:
 		return false
@@ -164,6 +168,7 @@ func get_free_space_for_item(item: Item) -> int:
 func try_stack_item(item: Item, quantity: int, exclude_slot: int = -1) -> int:
 	if not item.stackable:
 		return quantity
+	
 
 	var remaining = quantity
 

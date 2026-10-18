@@ -1,6 +1,8 @@
 class_name InventorySlot
 extends RefCounted
 
+signal changed
+
 var item_id: String = ""
 var quantity: int = 0
 
@@ -24,6 +26,7 @@ func add_item(item: Item, amount: int = 1) -> int:
 		var amount_to_add = min(amount, space_available)
 		quantity += amount_to_add
 		return amount - amount_to_add
+	changed.emit()
 	return amount
 
 func remove_item(amount: int = 1) -> int:
@@ -31,11 +34,13 @@ func remove_item(amount: int = 1) -> int:
 	quantity -= removed
 	if quantity <= 0:
 		clear()
+	changed.emit()
 	return removed
 
 func clear() -> void:
 	item_id = ""
 	quantity = 0
+	changed.emit()
 
 func to_dict() -> Dictionary:
 	return {"item_id": item_id, "quantity": quantity}

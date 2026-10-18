@@ -41,14 +41,20 @@ func _process(_delta: float) -> void:
 		CurrentNoise = NoiseOverride
 		CurrentVisibility = VisibilityOverride
 	Noticability = CurrentNoise + CurrentVisibility
+	
+	if Health <= 0.0 and not IsDead:
+		Death()
 
 
 
+@rpc("any_peer","call_remote")
 func TakeDamage(Damage: float):
+	#print(self, "took damage")
 	Health -= Damage
 
 
 
+@rpc("any_peer","call_remote")
 func Death():
 	IsDead = true
 	Died.emit()
@@ -61,6 +67,7 @@ func Death():
 
 
 
+@rpc("any_peer","call_remote")
 func ResetValues():
 	Health = MaxHealth
 	global_transform.origin = RespawnPos

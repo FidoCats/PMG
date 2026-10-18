@@ -15,6 +15,7 @@ signal UnUsed(User)
 @export var Size: Vector3 = Vector3(0.85,0.50,0.85)
 @export var UseTouch: bool = true
 @export var UseInteract: bool = true
+@export var JumpExit: bool = true
 #@export var CustomMesh: Mesh = null
 @export_category("Nodes")
 @export var CollisionShape: CollisionShape3D
@@ -51,22 +52,26 @@ func Interact(Parent: Node3D, User: Node3D) -> void:
 
 
 
-func Sit(_Who: Node3D, _OnWhat: Node3D) -> void:
+func Sit(_Who: Node3D, _OnWhat: Node3D = null) -> void:
 	if _OnWhat == null:
 		_OnWhat = self
 	if _Who != null:
 		if _Who.is_in_group("Alive") or _Who.is_class("Player"):
 			if UsedBy == null and UsedBy != self:
 				UsedBy = _Who
-				Used.emit(UsedBy)
+				Used.emit(_Who)
 				UsedBy.global_position = _OnWhat.global_position
-				print("Parent: ", _OnWhat, "Player: ", _Who)
+				if UsedBy.has_method("Sit"):
+					UsedBy.Sit()
+				#print("Parent: ", _OnWhat, "Player: ", _Who)
 			else:
 				UsedBy.global_position = Vector3(_OnWhat.global_position.x, _OnWhat.global_position.y + 2, _OnWhat.global_position.z)
-				UnUsed.emit(UsedBy)
+				if UsedBy.has_method("UnCrouch"):
+					UsedBy.UnCrouch()
+				UnUsed.emit(null)
 				UsedBy = null
-				print("Parent: ", _OnWhat, "Player: ", _Who)
-			print("Used By: ", UsedBy)
+				#print("Parent: ", _OnWhat, "Player: ", _Who)
+			#print("Used By: ", UsedBy)
 
 
 
@@ -83,15 +88,19 @@ func BodyExited(_body):
 
 
 func _physics_process(_delta: float) -> void:
-	if UsedBy!= null:
-		if UsedBy.is_multiplayer_authority():
-			if not Input.is_action_pressed("Jump"):
-				if UsedBy.has_method("freeze"):
-					UsedBy.freeze()
-				else:
-					UsedBy.global_position = self.global_position
-			elif Input.is_action_just_pressed("Jump"):
-				Sit(UsedBy, self)
+	if UsedBy != null:
+		if UsedBy.is_in_group("Alive") or UsedBy.is_class("Player"):
+			if UsedBy != self:
+				if UsedBy.is_multiplayer_authority():
+					if JumpExit:
+						if Input.is_action_just_pressed("Jump") and JumpExit:
+							Sit(UsedBy, self)
+					if UsedBy != null:
+						if UsedBy.has_method("Stop"):
+							UsedBy.Stop()
+							if UsedBy.has_method("Sit"):
+								UsedBy.Sit()
+						UsedBy.global_position = self.global_position
 	
 	if is_queued_for_deletion():
 		Sit(UsedBy, self)

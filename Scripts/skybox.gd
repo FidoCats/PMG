@@ -24,20 +24,20 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Network.UseDayNightCycle == true:
-		match WorldTime.CurrentCycle:
-			0:
-				if LightNode.rotation_degrees.x != 90.0:
-					LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
-			1:
-				if LightNode.rotation_degrees.x != 180.0:
-					LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
-			2:
-				if LightNode.rotation_degrees.x != 270.0:
-					LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
-			3:
-				if LightNode.rotation_degrees.x != 360.0:
-					LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
+		if Network.UseDayNightCycle == true:
+			match WorldTime.CurrentCycle:
+				0:
+					if LightNode.rotation_degrees.x != 90.0:
+						LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
+				1:
+					if LightNode.rotation_degrees.x != 180.0:
+						LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
+				2:
+					if LightNode.rotation_degrees.x != 270.0:
+						LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
+				3:
+					if LightNode.rotation_degrees.x != 360.0:
+						LightNode.rotation_degrees.x += 0.01 * Clock.wait_time * _delta
 
 
 

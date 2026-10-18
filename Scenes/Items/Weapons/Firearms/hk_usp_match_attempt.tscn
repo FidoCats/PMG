@@ -3,15 +3,17 @@
 [ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="1_pob23"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_l2e0a"]
 [ext_resource type="Texture2D" uid="uid://cj8pkil1c2500" path="res://Stuff/Images/MuzzleFlash1.png" id="3_54txr"]
-[ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/ProjectileWeapon.gd" id="3_l2e0a"]
+[ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/IsProjectileGun.gd" id="3_l2e0a"]
 [ext_resource type="AudioStream" uid="uid://df0g7alf3yo0k" path="res://Stuff/Sounds/Ricochet.ogg" id="3_qul2g"]
-[ext_resource type="AudioStream" uid="uid://rsdtugb1ecia" path="res://Stuff/Sounds/Tadaa ;].mp3" id="4_6pif8"]
 [ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="4_davte"]
+[ext_resource type="AudioStream" uid="uid://ckrmp5257p8ul" path="res://Stuff/Sounds/rock-sliding.mp3" id="5_ex5xy"]
 [ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="5_nxk41"]
 [ext_resource type="AudioStream" uid="uid://beya8eo5kxo4x" path="res://Stuff/Sounds/gab_Enough.ogg" id="5_wmt0b"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="10_lawca"]
+[ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="11_1aur5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
-size = Vector3(0.1, 0.1, 0.25)
+size = Vector3(0.1, 0.2, 0.6)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 material = ExtResource("1_pob23")
@@ -94,16 +96,41 @@ properties/9/replication_mode = 1
 properties/10/path = NodePath(".:scale")
 properties/10/spawn = true
 properties/10/replication_mode = 1
+properties/11/path = NodePath(".:Enabled")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+properties/12/path = NodePath(".:freeze")
+properties/12/spawn = true
+properties/12/replication_mode = 1
 
-[node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1310180666]
+[node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1923918731 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker", "Collider", "Collect")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-collision_layer = 2
-collision_mask = 2
-mass = 50.0
+collision_layer = 3
+collision_mask = 3
+mass = 5.0
 freeze = true
+max_contacts_reported = 1
+script = ExtResource("3_l2e0a")
+BulletAmount = 1
+Spread = Vector2(0.05, 0.05)
+Ammo = 12
+FullMag = 12
+ShootSound = NodePath("Shoot")
+ReloadSound = NodePath("Reload")
+EmptySound = NodePath("Empty")
+MuzzleFlashSprite = NodePath("BarrelMarker/FireAnimation")
+MuzzleFlashLight = NodePath("BarrelMarker/FireAnimation/SpotLight3D")
+AmmoLabel = NodePath("Ammo")
+FRLabel = NodePath("Firerate")
+ProjectilePosMarker = NodePath("BarrelMarker")
+MagPosMarker = NodePath("AmmoMarker")
+EjectionPortMarker = NodePath("EjectionMarker")
+Collider = NodePath("CollisionShape3D")
+Collect = NodePath("InteractionComponent/CollectComponent")
+metadata/_custom_type_script = "uid://c3ia6opicatv"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=257049623]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225894e-08, 0, 0.055081412)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.9225892e-08, -0.025000002, 0.017581418)
 shape = SubResource("BoxShape3D_g4v7s")
 disabled = true
 
@@ -157,7 +184,7 @@ mesh = SubResource("BoxMesh_fcnqv")
 stream = ExtResource("3_qul2g")
 
 [node name="Reload" type="AudioStreamPlayer3D" parent="." unique_id=1844451035]
-stream = ExtResource("4_6pif8")
+stream = ExtResource("5_ex5xy")
 
 [node name="Empty" type="AudioStreamPlayer3D" parent="." unique_id=1453549187]
 stream = ExtResource("5_wmt0b")
@@ -193,24 +220,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.209796e-09, -0.2, -0.105347
 [node name="EjectionMarker" type="Marker3D" parent="." unique_id=1689878862]
 transform = Transform3D(-0.2588191, 1.3372068e-07, 0.96592575, -0.96592575, 5.76387e-08, -0.2588191, -9.0284175e-08, -1, 1.14246234e-07, -0.03996203, 0, -3.4935916e-09)
 
-[node name="IsGun" type="Node3D" parent="." unique_id=1468727716 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker")]
-script = ExtResource("3_l2e0a")
-BulletAmount = 1
-Spread = Vector2(0.1, 0.1)
-Ammo = 12
-FullMag = 12
-ReloadTime = 1.0
-ShootSound = NodePath("../Shoot")
-ReloadSound = NodePath("../Reload")
-EmptySound = NodePath("../Empty")
-MuzzleFlashSprite = NodePath("../BarrelMarker/FireAnimation")
-MuzzleFlashLight = NodePath("../BarrelMarker/FireAnimation/SpotLight3D")
-AmmoLabel = NodePath("../Ammo")
-FRLabel = NodePath("../Firerate")
-ProjectilePosMarker = NodePath("../BarrelMarker")
-MagPosMarker = NodePath("../AmmoMarker")
-EjectionPortMarker = NodePath("../EjectionMarker")
-metadata/_custom_type_script = "uid://c3ia6opicatv"
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=138157842]
 replication_config = SubResource("SceneReplicationConfig_qul2g")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=317669259]
+script = ExtResource("10_lawca")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="CollectComponent" type="Node" parent="InteractionComponent" unique_id=922461837]
+script = ExtResource("11_1aur5")
+metadata/_custom_type_script = "uid://bxhl70sf7nad0"

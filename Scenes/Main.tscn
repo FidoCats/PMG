@@ -64,13 +64,11 @@ LightNode = NodePath("DirectionalLight3D")
 environment = ExtResource("3_xvtyr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox" unique_id=1108329675]
-transform = Transform3D(1, 0, 0, 0, -0.27283707, -0.9620603, 0, 0.9620603, -0.27283707, 0, 0, 0)
 light_color = Color(1, 0.6934745, 0.534205, 1)
 light_energy = 1.5
 shadow_enabled = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Enviroment/Skybox/DirectionalLight3D" unique_id=374875158]
-transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
 light_color = Color(0.3200831, 0.4051372, 0.44099733, 1)
 light_energy = 0.25
 light_volumetric_fog_energy = 6.307
@@ -254,7 +252,7 @@ offset_bottom = -96.0
 spawn_path = NodePath("../Map")
 
 [node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=1592566850]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7")
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7", "uid://cpkwsbthq0f5y", "uid://cv3lvugfs7267")
 spawn_path = NodePath("../Objects")
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=27700166]

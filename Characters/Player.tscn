@@ -337,9 +337,10 @@ target_position = Vector3(0, 0, -3)
 script = ExtResource("6_c3bgu")
 ParentPlayer = NodePath("../..")
 
-[node name="Holding" type="Marker3D" parent="FPCamera" unique_id=1242823286]
+[node name="Holding" type="Marker3D" parent="FPCamera" unique_id=1242823286 node_paths=PackedStringArray("PlayerNode")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.435)
 script = ExtResource("6_2grho")
+PlayerNode = NodePath("../..")
 
 [node name="Usable" type="Marker3D" parent="FPCamera" unique_id=1457185967]
 
@@ -1110,10 +1111,12 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
-item_count = 1
+item_count = 3
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Seaweed"
 item_0/icon = ExtResource("19_2grho")
+item_1/text = "BaseVehicle"
+item_2/text = "Pickup Truck"
 
 [node name="NPCs" type="ItemList" parent="SpawnMenu" unique_id=1360785313]
 visible = false

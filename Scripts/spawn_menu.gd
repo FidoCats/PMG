@@ -121,6 +121,8 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 			CurrentPlayerInventory.add_item(m870)
 
 @onready var WeedFishPreload = preload("res://Scenes/Spawnables/seaweed.tscn")
+@onready var BaseCarPreload = preload("res://Scenes/Templates/base_vehicle.tscn")
+@onready var PickupPreload = preload("res://Scenes/Spawnables/PickupTruck.tscn")
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -129,6 +131,16 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 			WeedFish.global_position = $"../FPCamera".global_position
 			WeedFish.global_basis = $"../FPCamera".global_basis
 			WeedFish.global_position.z -= 2.5
+		1:
+			var BaseCar = BaseCarPreload.instantiate()
+			Global.ObjectSpawner.add_child(BaseCar, true)
+			BaseCar.global_position = $"../FPCamera".global_position
+			BaseCar.global_position += Vector3(0,1,2.5)
+		2:
+			var Pickup = PickupPreload.instantiate()
+			Global.ObjectSpawner.add_child(Pickup, true)
+			Pickup.global_position = $"../FPCamera".global_position
+			Pickup.global_position += Vector3(0,1,2.5)
 
 @onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
 @onready var WatcherPreload: PackedScene = preload("res://Scenes/Spawnables/Watcher.tscn")

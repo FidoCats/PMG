@@ -40,13 +40,14 @@ func Use(_body: Node3D, _user: Node3D):
 			CanDispense = false
 			#var UserInventory: PlayerInventory = _user.get_inventory()
 			var UserInventory: PlayerInventory = _user.player_inventory
-			print(UserInventory)
-			PrintSprite.visible = true
-			UserInventory.add_item(GivenItem)
-			await get_tree().create_timer(CoolDownTime).timeout
-			PrintSprite.visible = false
-			CanDispense = true
-			print("Dispensed!")
+			print("UserInventory: ", UserInventory)
+			if UserInventory:
+				PrintSprite.visible = true
+				UserInventory.add_item(GivenItem)
+				await get_tree().create_timer(CoolDownTime).timeout
+				PrintSprite.visible = false
+				CanDispense = true
+				print("Dispensed!")
 
 
 

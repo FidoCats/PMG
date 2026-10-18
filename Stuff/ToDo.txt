@@ -7,8 +7,8 @@
 7.) 
 8.) 
 9.) 
-10.) 
-11.) Fix Guns not working on client / Health not right (Health needs to be synced but what the client doesnt see cant hurt him because the instances are seprate just loosely connected)
+10.) CANNOT DAMAGE NPCS (Something in Alive.gd)
+11.) --Fix Guns not working on client--
 12.) Add PlayersPerSession chooser to lobby creation screen
 13.) Add MapChanger
 14.) Add BaseItem Class

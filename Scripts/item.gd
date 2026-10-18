@@ -15,7 +15,6 @@ extends Resource
 @export var special_value_1: float
 @export var special_value_2: float
 
-@export var dropped_scene: PackedScene
 @export var scene: PackedScene
 
 enum ItemType {

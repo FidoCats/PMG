@@ -7,10 +7,10 @@
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="3_xvpa2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
-size = Vector3(0.85, 0.5, 0.85)
+size = Vector3(0.85, 0.3, 0.85)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2jyye"]
-size = Vector3(0.85, 0.5, 0.85)
+size = Vector3(0.85, 0.3, 0.85)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y6vpp"]
 
@@ -29,14 +29,16 @@ Area = NodePath("Area3D")
 AreaCollision = NodePath("Area3D/CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=622189439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.099999994, 0)
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=466236336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.099999994, 0)
 material_override = ExtResource("3_xvpa2")
 mesh = SubResource("BoxMesh_2jyye")
 
 [node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D" unique_id=547522912]
-transform = Transform3D(0.14400001, 0, 0, 0, -6.29444e-09, -0.18, 0, 0.14400001, -7.86805e-09, 0, 0.25688434, 0)
+transform = Transform3D(0.14400001, 0, 0, 0, -6.29444e-09, -0.18, 0, 0.14400001, -7.86805e-09, 0, 0.15688434, 0)
 texture = ExtResource("3_wmsq0")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=774005193]
