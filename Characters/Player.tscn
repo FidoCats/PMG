@@ -1125,12 +1125,13 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
-item_count = 3
+item_count = 4
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "BaseNPC"
 item_0/icon = ExtResource("21_u0thl")
 item_1/text = "Watcher"
 item_2/text = "The Real Watcher"
+item_3/text = "pigon"
 
 [node name="Others" type="ItemList" parent="SpawnMenu" unique_id=971748293]
 visible = false

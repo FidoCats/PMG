@@ -214,7 +214,8 @@ func _ready():
 
 	SpringArmBaseLength = SpringArm.spring_length
 
-	print("Debug: Player ", name, " ready - authority: ", get_multiplayer_authority(), ", local client: ", local_client_id, ", is_local: ", is_local_player)
+	if Global.UseDebug:
+		print("Debug: Player ", name, " ready - authority: ", get_multiplayer_authority(), ", local client: ", local_client_id, ", is_local: ", is_local_player)
 
 	if is_local_player:
 		player_inventory = PlayerInventory.new()
@@ -374,7 +375,8 @@ func _process(_delta):
 				SpringArm.spring_length = lerp(SpringArm.spring_length, SpringArmBaseLength * CameraPos, 1)
 			else:
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			print(CameraPos)
+			if Global.UseDebug:
+				print(CameraPos)
 		if Input.is_action_just_pressed("Camera-"):
 			CameraPos -= 1
 			CameraPos = clamp(CameraPos, MinCameraPos, MaxCameraPos)
@@ -383,7 +385,8 @@ func _process(_delta):
 			else:
 				SpringArm.rotation_degrees = Vector3(0.0,0.0,0.0)
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			print(CameraPos)
+			if Global.UseDebug:
+				print(CameraPos)
 		if Input.is_action_just_pressed("CameraReset"):
 			CameraPos = 0
 			SpringArm.rotation_degrees = Vector3(0.0,0.0,0.0)
@@ -604,8 +607,8 @@ func Crouch():
 func UnCrouch():
 	if AboveRay.Above == null:
 		Speed = BaseSpeed
-		BaseCollisionShape.disabled = false
-		CrouchCollisionShape.disabled = true
+		BaseCollisionShape.set_deferred("disabled", false)
+		CrouchCollisionShape.set_deferred("disabled", true)
 		FPCamera.position.y = lerp(FPCamera.position.y, 1.5, 0.25)
 		FPCamera.position.y = 1.25
 		IsCrouching = false
@@ -625,14 +628,14 @@ func UnCrouch():
 
 
 
-func Sit():
-	IsCrouching = true
-	Speed = CrouchSpeed
-	if BaseCollisionShape.disabled == false:
-		BaseCollisionShape.disabled = true
-		CrouchCollisionShape.disabled = false
-	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sitting")
-	FPCamera.position.y = lerp(FPCamera.position.y, 0.65, 0.35)
+#func Sit():
+	#IsCrouching = true
+	#Speed = CrouchSpeed
+	#if BaseCollisionShape.disabled == false:
+		#BaseCollisionShape.disabled = true
+		#CrouchCollisionShape.disabled = false
+	#$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sitting")
+	#FPCamera.position.y = lerp(FPCamera.position.y, 0.65, 0.35)
 
 
 
@@ -730,7 +733,8 @@ func Parry(_body: Node3D):
 	CanParry = false
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Punching")
 	ParryMesh.visible = true
-	print("Trying to Parry: ",_body)
+	if Global.UseDebug:
+		print("Trying to Parry: ",_body)
 	if _body != self:
 		if _body != null and _body != self:
 			if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
@@ -780,6 +784,7 @@ func freeze():
 
 
 
+#@rpc("any_peer","call_remote")
 func Stop():
 	CanMove = false
 	CurrentSpeed = 0.0
@@ -805,7 +810,8 @@ func Death():
 		if player_inventory and Holding:
 			player_inventory.ClearAll()
 			Holding.ClearHands()
-	print(self, " Died!!")
+	if Global.UseDebug:
+		print(self, " Died!!")
 	await get_tree().create_timer(RespawnTime).timeout
 	if IsDead:
 		#ResetCharacter()
@@ -819,11 +825,14 @@ func ResetCharacter():
 	var NewPlayer = PlayerScene.instantiate() as Player
 	Parent.add_child(NewPlayer)
 	NewPlayer.ResetValues()
-	print("Old Instance ", self)
+	if Global.UseDebug:
+		print("Old Instance ", self)
 	queue_free()
-	print(self, " Reseting...")
-	print("New Instance ", NewPlayer)
+	if Global.UseDebug:
+		print(self, " Reseting...")
+		print("New Instance ", NewPlayer)
 
+@rpc("any_peer","call_remote")
 func ResetValues():
 	Health = MaxHealth
 	global_transform.origin = RespawnPos
@@ -844,8 +853,9 @@ func ResetValues():
 	DeathScreen.visible = false
 	set_process(true)
 	set_physics_process(true)
-	print(self, " Reset!")
-	print(self, " Can Process: ", can_process())
+	if Global.UseDebug:
+		print(self, " Reset!")
+		print(self, " Can Process: ", can_process())
 	IsDead = false
 
 ## Commands and Miscallaneous Functions ##
@@ -896,7 +906,8 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
 	#get_color_overlay(SkinColor)
 	SkinColor = ColorOverride
-	print("ColorOverride: ", ColorOverride)
+	if Global.UseDebug:
+		print("ColorOverride: ", ColorOverride)
 	var PlayerModel = get_main_mesh(ModelName)
 
 	if MainMesh.mesh:
@@ -930,7 +941,8 @@ func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
 # Inventory Network Functions - Server authoritative, client-specific
 @rpc("any_peer", "call_local", "reliable")
 func request_inventory_sync():
-	print("Debug: request_inventory_sync called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
+	if Global.UseDebug:
+		print("Debug: request_inventory_sync called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
 
 	if not multiplayer.is_server():
 		return
@@ -945,7 +957,8 @@ func request_inventory_sync():
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_inventory_to_owner(inventory_data: Dictionary):
-	print("Debug: sync_inventory_to_owner called on player ", name, " (authority: ", get_multiplayer_authority(), ") - local unique id: ", multiplayer.get_unique_id(), " from: ", multiplayer.get_remote_sender_id())
+	if Global.UseDebug:
+		print("Debug: sync_inventory_to_owner called on player ", name, " (authority: ", get_multiplayer_authority(), ") - local unique id: ", multiplayer.get_unique_id(), " from: ", multiplayer.get_remote_sender_id())
 
 	if multiplayer.get_remote_sender_id() != 1:
 		return
@@ -960,20 +973,24 @@ func sync_inventory_to_owner(inventory_data: Dictionary):
 	var level_scene = get_tree().get_current_scene()
 	if level_scene:
 		if is_multiplayer_authority() or get_multiplayer_authority() == multiplayer.get_unique_id():
-			print("Debug: This is the local player, updating UI")
+			if Global.UseDebug:
+				print("Debug: This is the local player, updating UI")
 			if level_scene.has_method("update_local_inventory_display"):
 				level_scene.update_local_inventory_display()
 			if level_scene.has_node("InventoryUI"):
 				var inventory_ui = level_scene.get_node("InventoryUI")
 				if inventory_ui.visible and inventory_ui.has_method("refresh_display"):
-					print("Debug: Calling refresh_display directly on InventoryUI")
+					if Global.UseDebug:
+						print("Debug: Calling refresh_display directly on InventoryUI")
 					inventory_ui.refresh_display()
 		else:
-			print("Debug: Not the local player, skipping UI update")
+			if Global.UseDebug:
+				print("Debug: Not the local player, skipping UI update")
 
 @rpc("any_peer", "call_local", "reliable")
 func request_move_item(from_slot: int, to_slot: int, quantity: int = -1):
-	print("Debug: request_move_item called - from:", from_slot, " to:", to_slot, " on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
+	if Global.UseDebug:
+		print("Debug: request_move_item called - from:", from_slot, " to:", to_slot, " on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
 
 	if not multiplayer.is_server():
 		return
@@ -995,15 +1012,19 @@ func request_move_item(from_slot: int, to_slot: int, quantity: int = -1):
 		success = player_inventory.move_item(from_slot, to_slot)
 		if not success:
 			success = player_inventory.swap_items(from_slot, to_slot)
-			print("Debug: Swapped items between slots ", from_slot, " and ", to_slot)
+			if Global.UseDebug:
+				print("Debug: Swapped items between slots ", from_slot, " and ", to_slot)
 		else:
-			print("Debug: Moved item from slot ", from_slot, " to ", to_slot)
+			if Global.UseDebug:
+				print("Debug: Moved item from slot ", from_slot, " to ", to_slot)
 	else:
 		success = player_inventory.move_item(from_slot, to_slot, quantity)
-		print("Debug: Moved ", quantity, " items from slot ", from_slot, " to ", to_slot)
+		if Global.UseDebug:
+			print("Debug: Moved ", quantity, " items from slot ", from_slot, " to ", to_slot)
 
 	if success:
-		print("Debug: Move successful, syncing inventory to owner ", get_multiplayer_authority())
+		if Global.UseDebug:
+			print("Debug: Move successful, syncing inventory to owner ", get_multiplayer_authority())
 		var owner_id = get_multiplayer_authority()
 		if owner_id != 1:
 			sync_inventory_to_owner.rpc_id(owner_id, player_inventory.to_dict())
@@ -1012,11 +1033,13 @@ func request_move_item(from_slot: int, to_slot: int, quantity: int = -1):
 			if level_scene and level_scene.has_method("update_local_inventory_display"):
 				level_scene.update_local_inventory_display()
 	else:
-		print("Debug: Move/swap failed")
+		if Global.UseDebug:
+			print("Debug: Move/swap failed")
 
 @rpc("any_peer", "call_local", "reliable")
 func request_add_item(item_id: String, quantity: int = 1):
-	print("Debug: request_add_item called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
+	if Global.UseDebug:
+		print("Debug: request_add_item called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
 
 	if not multiplayer.is_server():
 		return
@@ -1040,11 +1063,13 @@ func request_add_item(item_id: String, quantity: int = 1):
 
 	var remaining = player_inventory.add_item(item, quantity)
 	var added = quantity - remaining
-	print("Debug: Added ", added, " ", item_id, " to inventory (", remaining, " remaining)")
+	if Global.UseDebug:
+		print("Debug: Added ", added, " ", item_id, " to inventory (", remaining, " remaining)")
 
 	if added > 0:
 		var owner_id = get_multiplayer_authority()
-		print("Debug: Syncing inventory to owner ", owner_id)
+		if Global.UseDebug:
+			print("Debug: Syncing inventory to owner ", owner_id)
 		if owner_id != 1:
 			sync_inventory_to_owner.rpc_id(owner_id, player_inventory.to_dict())
 		else:
@@ -1054,7 +1079,8 @@ func request_add_item(item_id: String, quantity: int = 1):
 
 @rpc("any_peer", "call_local", "reliable")
 func request_remove_item(item_id: String, quantity: int = 1):
-	print("Debug: request_remove_item called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
+	if Global.UseDebug:
+		print("Debug: request_remove_item called on player ", name, " (authority: ", get_multiplayer_authority(), ") by client ", multiplayer.get_remote_sender_id())
 
 	if not multiplayer.is_server():
 		return

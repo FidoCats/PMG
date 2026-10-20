@@ -27,6 +27,7 @@ class_name BaseNPC
 @export var IsAgressive: bool = true
 @export var WillPursue: bool = true
 @export var CanMove: bool = true
+@export var UseGravity: bool = true
 
 @export var StopOnAttack: bool = true
 @export var WanderDistance = 15.0
@@ -97,53 +98,55 @@ func _physics_process(_delta: float) -> void:
 	if UseLabelForDebug:
 		$Label3D.text = str("Bored: ", IsBored, " Pursuing: ", PursuedPerson, "WanderPos: ", WanderPos, " StateTimer: ", StateTimer.time_left, " BoredTimer: ", BoredTimer.time_left)
 	
-	velocity.y += get_gravity().y * _delta
+	if UseGravity:
+		velocity.y += get_gravity().y * _delta
 	move_and_slide()
 	
-	Origin = global_transform.origin
-	NavLocation = NavAgent.get_next_path_position()
-	
-	## FOR TESTING ONLY REMOVE LATER
-	#IsPursuing = true
-	#print("PursuedPerson is: ", PursuedPerson)
-	
-	
-	
-	## Basic Process Ifs
-	
-	
-	
-	if IsPursuing == true:
-		if PursuedPerson != null:
-			if PursuedPerson.is_in_group("Alive") and PursuedPerson != self:
-				Pursue(_delta, PursuedPerson)
-				#print("IsPursuing == true, Pursuing: ", PursuedPerson)
-	
-	#if IsBored and IsWandering and PursuedPerson != null:
-		#Wander(_delta)
-	
-	if SightLine.get_collider() != null:
-		if CanSee:
-			if SightLine.get_collider() != null:
-				if SightLine.get_collider().is_in_group("Alive"):
-					if SightLine.get_collider() != self:
-						if SightLine.get_collider().Noticability > 0:
-							PursuedPerson = SightLine.get_collider()
-							IsPursuing = true
-	
-	## Path Testing
-	#if Input.is_action_pressed("ui_accept"):
-		#var PathLength: float = 22.0
-		#if $"..".progress_ratio <=  PathLength:
-	#if IsPatroling:
-		#$"..".progress_ratio += 0.005 * _delta * Speed
-		#print($"..".progress_ratio, ", ", $"..".progress)
-		#else:
-			#$"..".progress = 0.0
-			#$"..".progress_ratio = 0.0
-	#elif Input.is_action_pressed("ui_cancel"):
-		#$"..".progress_ratio -= 0.05 * _delta * Speed
-		#print($"..".progress_ratio, " , ", $"..".progress)
+	if not IsDead:
+		Origin = global_transform.origin
+		NavLocation = NavAgent.get_next_path_position()
+		
+		## FOR TESTING ONLY REMOVE LATER
+		#IsPursuing = true
+		#print("PursuedPerson is: ", PursuedPerson)
+		
+		
+		
+		## Basic Process Ifs
+		
+		
+		
+		if IsPursuing == true:
+			if PursuedPerson != null:
+				if PursuedPerson.is_in_group("Alive") and PursuedPerson != self:
+					Pursue(_delta, PursuedPerson)
+					#print("IsPursuing == true, Pursuing: ", PursuedPerson)
+		
+		if IsBored and IsWandering and PursuedPerson != null:
+			Wander(_delta)
+		
+		if SightLine.get_collider() != null:
+			if CanSee:
+				if SightLine.get_collider() != null:
+					if SightLine.get_collider().is_in_group("Alive"):
+						if SightLine.get_collider() != self:
+							if SightLine.get_collider().Noticability > 0:
+								PursuedPerson = SightLine.get_collider()
+								IsPursuing = true
+		
+		## Path Testing
+		#if Input.is_action_pressed("ui_accept"):
+			#var PathLength: float = 22.0
+			#if $"..".progress_ratio <=  PathLength:
+		#if IsPatroling:
+			#$"..".progress_ratio += 0.005 * _delta * Speed
+			#print($"..".progress_ratio, ", ", $"..".progress)
+			#else:
+				#$"..".progress = 0.0
+				#$"..".progress_ratio = 0.0
+		#elif Input.is_action_pressed("ui_cancel"):
+			#$"..".progress_ratio -= 0.05 * _delta * Speed
+			#print($"..".progress_ratio, " , ", $"..".progress)
 
 
 
@@ -152,17 +155,17 @@ func StateChange():
 		if not IsPursuing:
 			var RandomInt: int = randi_range(0,3)
 			match RandomInt:
-				1:
-					print(">w<")
-				2:
-					IsWandering = false
-					IsPatroling = true
+				0:
+					## Wander
+					IsWandering = true
+					IsPatroling = false
 					IsPursuing = false
 					PursuedPerson = null
 					#print("Ima jus wander...")
-				3:
-					IsWandering = true
-					IsPatroling = false
+				1:
+					## Patrol
+					IsWandering = false
+					IsPatroling = true
 					IsPursuing = false
 					PursuedPerson = null
 					#print("On Patrol! Reporting For DUTY!!!")
@@ -230,7 +233,7 @@ func AttemptTouch(_body: Node3D):
 func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vector3.ZERO):
 	if CanThink and CanMove:
 		if not IsBored:
-			if Target:
+			if Target or TargetPos:
 				if not UsePos:
 					TargetPos = Target.global_position
 				
@@ -286,7 +289,7 @@ func Wander(_delta):
 	PursuedPerson = null
 	IsPatroling = false
 	Move(_delta,null,true,WanderPos)
-	#print("Jdu na vandr......")
+	print("Jdu na vandr......")
 
 
 

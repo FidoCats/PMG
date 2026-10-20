@@ -79,7 +79,7 @@ func _add_player(id: int, player_info : Dictionary):
 	player.set_player_skin(skin_enum, species)
 
 func get_spawn_point() -> Vector3:
-	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * 10 # spawn radius
+	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * Network.SpawnRadius # spawn radius
 	return Vector3(spawn_point.x, 0, spawn_point.y)
 
 func _remove_player(id):

@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://5peweapedbdu" path="res://Stuff/Sounds/edr-cat-purr-meow-8327.mp3" id="4_gffvb"]
 [ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="5_d34pp"]
 [ext_resource type="Script" uid="uid://x3wnhtlu2e45" path="res://Scripts/Spin.gd" id="6_d34pp"]
+[ext_resource type="Script" uid="uid://dtibrvb170fg4" path="res://Scripts/SettingsMenu.gd" id="6_lf1pv"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_g4v7s"]
 color = Color(1, 1, 1, 1)
@@ -299,12 +300,29 @@ offset_bottom = 65.0
 theme_override_font_sizes/font_size = 35
 text = "Overlay Color: "
 
-[node name="Settings" type="Panel" parent="." unique_id=699460403]
+[node name="Settings" type="Panel" parent="." unique_id=699460403 node_paths=PackedStringArray("KeyBindList", "UseDebugBox")]
 visible = false
 layout_mode = 0
-offset_top = 320.0
-offset_right = 304.0
+offset_top = 192.0
+offset_right = 384.0
 offset_bottom = 720.0
+script = ExtResource("6_lf1pv")
+KeyBindList = NodePath("ItemList")
+UseDebugBox = NodePath("UseDebug")
+
+[node name="ItemList" type="ItemList" parent="Settings" unique_id=1047179482]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 335.0
+max_columns = 2
+
+[node name="UseDebug" type="CheckBox" parent="Settings" unique_id=331267743]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 8.0
+offset_right = 379.0
+offset_bottom = 39.0
+text = "UseDebug"
 
 [node name="HSeparator1" type="HSeparator" parent="." unique_id=1714764019]
 layout_mode = 0
@@ -352,7 +370,6 @@ theme_override_styles/separator = SubResource("StyleBoxLine_npnbc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 spring_length = 50.0
 script = ExtResource("6_d34pp")
-ThresholdR = 0.0
 MousePosGetterNode = NodePath("Node2D")
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=987747069]

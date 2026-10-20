@@ -7,6 +7,7 @@ var MAX_PLAYERS : int = 10
 ## Gamerules? -Fido :3
 var UseDayNightCycle: bool = false
 var KeepInventory: bool = false
+var SpawnRadius: float = 10
 
 var players = {}
 var player_info = {

@@ -120,6 +120,7 @@ func Drive(_delta: float):
 
 
 
+@rpc("any_peer","call_remote")
 func TakeDamage(Damage: float):
 	Health -= Damage
 

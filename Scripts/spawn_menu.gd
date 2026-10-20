@@ -145,6 +145,7 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 @onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
 @onready var WatcherPreload: PackedScene = preload("res://Scenes/Spawnables/Watcher.tscn")
 @onready var RWWatcherPreorder: PackedScene = preload("res://Scenes/Spawnables/RWWatcher.tscn")
+@onready var pigonPreload: PackedScene = preload("res://Scenes/Spawnables/pigon.tscn")
 func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -165,6 +166,12 @@ func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 			RWWatcher.global_position = $"../FPCamera".global_position
 			RWWatcher.global_basis = $"../FPCamera".global_basis
 			RWWatcher.global_position.z += 2.5
+		3:
+			var pigon: Node3D = pigonPreload.instantiate()
+			Global.ObjectSpawner.add_child(pigon, true)
+			pigon.global_position = $"../FPCamera".global_position
+			pigon.global_basis = $"../FPCamera".global_basis
+			pigon.global_position.z += 2.5
 
 func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory

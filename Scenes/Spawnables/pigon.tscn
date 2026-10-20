@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://cay44tonbxxhl"]
+
+[ext_resource type="Script" uid="uid://b2k7wy0jttdue" path="res://Scripts/base_npc.gd" id="1_1tgkv"]
+[ext_resource type="AudioStream" uid="uid://bgt2qexoomilk" path="res://Stuff/Sounds/roblox old sounds bass.wav" id="2_4whua"]
+[ext_resource type="PackedScene" uid="uid://deitsubaguien" path="res://Stuff/Models/low-poly-pigeon-TenderMeatPopsicle/source/pigeon/pigeon.fbx" id="3_0qhtn"]
+[ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="3_7a6de"]
+[ext_resource type="Script" uid="uid://d1nclceswe8bd" path="res://Scripts/MeshDeRenderer.gd" id="4_8uj3y"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
+radius = 7.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 2.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sst3"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:IsBored")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:PursuedPerson")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:CanThink")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:CanMove")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:NavLocation")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:Health")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:IsDead")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath(".:IsAgressive")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+
+[node name="pigon" type="CharacterBody3D" unique_id=1506011681 node_paths=PackedStringArray("CollisonShape", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+script = ExtResource("1_1tgkv")
+CanHear = false
+CanFeel = false
+IsAgressive = false
+WillPursue = false
+UseGravity = false
+CollisonShape = NodePath("CollisionShape3D")
+AudioPlayer = NodePath("AudioStreamPlayer3D")
+SightLine = NodePath("RayCast3D")
+FeelArea = NodePath("FeelArea")
+FeelAreaShape = NodePath("FeelArea/FeelShape")
+HearArea = NodePath("HearArea")
+HearAreaShape = NodePath("HearArea/HearShape")
+TouchArea = NodePath("TouchArea")
+TouchAreaShape = NodePath("TouchArea/TouchShape")
+BoredTimer = NodePath("Timer")
+StateTimer = NodePath("Timer2")
+NavAgent = NodePath("NavigationAgent3D")
+RespawnSoundPlayer = NodePath("AudioStreamPlayer3D")
+RespawnAudio = ExtResource("2_4whua")
+metadata/_custom_type_script = "uid://d2jp6vwg2p7pa"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1353552094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049999997, 0)
+shape = SubResource("CapsuleShape3D_g4v7s")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="pigeon" parent="CollisionShape3D" unique_id=702246622 instance=ExtResource("3_0qhtn")]
+transform = Transform3D(-3.15, 0, 2.7538175e-07, 0, 3.15, 0, -2.7538175e-07, 0, -3.15, 0, -0.1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D/pigeon" unique_id=1827860908]
+
+[node name="MeshUnRender" type="Node3D" parent="CollisionShape3D/pigeon" unique_id=1610550967 node_paths=PackedStringArray("AffectedNode", "DelayTimer")]
+script = ExtResource("4_8uj3y")
+AffectedNode = NodePath("..")
+DelayTimer = NodePath("../Timer")
+metadata/_custom_type_script = "uid://d1nclceswe8bd"
+
+[node name="Timer" type="Timer" parent="CollisionShape3D/pigeon" unique_id=523250197]
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.004795462, -0.19677712)
+target_position = Vector3(0, 0, -2.5)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=860896955]
+stream = ExtResource("3_7a6de")
+
+[node name="HearArea" type="Area3D" parent="." unique_id=1480228872]
+
+[node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
+shape = SubResource("SphereShape3D_duayq")
+
+[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
+
+[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
+shape = SubResource("SphereShape3D_n8v3c")
+
+[node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
+
+[node name="TouchShape" type="CollisionShape3D" parent="TouchArea" unique_id=376404531]
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Timer" type="Timer" parent="." unique_id=1394477371]
+wait_time = 50.0
+autostart = true
+
+[node name="Timer2" type="Timer" parent="." unique_id=1368023047]
+wait_time = 15.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1439939605]
+replication_config = SubResource("SceneReplicationConfig_3sst3")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1347576726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1428099, 0)
+billboard = 1
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
+target_desired_distance = 20.0
+avoidance_enabled = true
+debug_enabled = true

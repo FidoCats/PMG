@@ -91,16 +91,14 @@ func _physics_process(_delta: float) -> void:
 	if UsedBy != null:
 		if UsedBy.is_in_group("Alive") or UsedBy.is_class("Player"):
 			if UsedBy != self:
-				if UsedBy.is_multiplayer_authority():
-					if JumpExit:
+				if JumpExit:
+					#if UsedBy.is_multiplayer_authority():
 						if Input.is_action_just_pressed("Jump") and JumpExit:
 							Sit(UsedBy, self)
-					if UsedBy != null:
-						if UsedBy.has_method("Stop"):
-							UsedBy.Stop()
-							if UsedBy.has_method("Sit"):
-								UsedBy.Sit()
-						UsedBy.global_position = self.global_position
+				if UsedBy != null:
+					if UsedBy.has_method("Stop"):
+						UsedBy.Stop()
+					UsedBy.global_position = self.global_position
 	
 	if is_queued_for_deletion():
 		Sit(UsedBy, self)

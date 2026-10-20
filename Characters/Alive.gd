@@ -49,7 +49,6 @@ func _process(_delta: float) -> void:
 
 @rpc("any_peer","call_remote")
 func TakeDamage(Damage: float):
-	#print(self, "took damage")
 	Health -= Damage
 
 
@@ -58,12 +57,13 @@ func TakeDamage(Damage: float):
 func Death():
 	IsDead = true
 	Died.emit()
-	velocity = Vector3.ZERO
-	RespawnSoundPlayer.stream = RespawnAudio
-	RespawnSoundPlayer.play()
+	if Global.UseDebug:
+		print(self, " Died!!")
 	if CanRespawn:
 		await get_tree().create_timer(RespawnTime).timeout
-		ResetValues()
+		if IsDead:
+			#ResetCharacter()
+			ResetValues()
 
 
 
@@ -73,11 +73,12 @@ func ResetValues():
 	global_transform.origin = RespawnPos
 	velocity = Vector3.ZERO
 	rotation = Vector3(0,0,0)
-	IsDead = false
 	global_position = RespawnPos
+	#await RespawnAudioStream.finished
 	RespawnSoundPlayer.stream = RespawnAudio
-	RespawnSoundPlayer.play()
 	set_process(true)
 	set_physics_process(true)
-	#print(self, " Reset!")
-	#print(self, " Can Process: ", can_process())
+	if Global.UseDebug:
+		print(self, " Reset!")
+		print(self, " Can Process: ", can_process())
+	IsDead = false
