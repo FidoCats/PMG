@@ -1,0 +1,48 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://co2nxuixtrevw"]
+
+[ext_resource type="Texture2D" uid="uid://du08l51nh0qj5" path="res://Stuff/Images/SeaweedFace.png" id="1_q1ccx"]
+[ext_resource type="Texture2D" uid="uid://q8k0dqk4g8un" path="res://Stuff/Images/SeaweedFaceBlink.png" id="2_87sox"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_87sox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_q1ccx")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 6.0
+}]

@@ -49,6 +49,7 @@ func _process(_delta: float) -> void:
 
 @rpc("any_peer","call_remote")
 func TakeDamage(Damage: float):
+	print("OWWWIEEEEEEE!!!!!!")
 	Health -= Damage
 
 
@@ -62,7 +63,6 @@ func Death():
 	if CanRespawn:
 		await get_tree().create_timer(RespawnTime).timeout
 		if IsDead:
-			#ResetCharacter()
 			ResetValues()
 
 

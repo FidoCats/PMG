@@ -3,6 +3,8 @@ class_name Player
 
 
 
+signal Died(_Who: Node3D)
+
 @onready var nickname: Label3D = $PlayerNick/Nickname
 @onready var UI = $UI
 
@@ -804,6 +806,7 @@ func Death():
 	InputBlocked = true
 	RespawnAudioStream.stream = DeathSound
 	RespawnAudioStream.play()
+	Died.emit(self)
 	#IsRagdolled = true # Ragdolling does not work yet.
 	DeathScreen.visible = true
 	if not Network.KeepInventory:

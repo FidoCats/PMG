@@ -10,7 +10,8 @@ class_name BaseVehicle
 @export var ReverseDivider: float = 1.05
 @export var SteerLimit: float = 0.5
 @export var SteerSpeed: float = 1.5
-@export var BrakeStrength: float = 7.5
+@export var BrakeStrength: float = 50
+@export var Turbo: float = 100.0
 @export var EngineOn: bool = false
 @export var EngineForce: float = 50.0
 @export var MaxHealth: float = 100.0
@@ -83,26 +84,28 @@ func Pilot(User: Node3D):
 
 func Drive(_delta: float):
 # add movement here
-	#print(UsedBy, " is driving ", self)
+	#if Global.UseDebug:
+		#print(UsedBy, " is driving ", self)
 	if UsedBy:
 		if UsedBy.is_multiplayer_authority():
 			
 			
 			if Input.is_action_just_pressed(&"Reload"):
 				EngineOn = !EngineOn
-				print("Engine: ", EngineOn)
+				if Global.UseDebug:
+					print("Engine: ", EngineOn)
 			
 			SteerTarget = Input.get_axis(&"Right",&"Left")
 			SteerTarget *= SteerLimit
 		
 			if EngineOn:
-				if Input.is_action_pressed("Up"):
+				if Input.is_action_pressed(&"Up"):
 					var Velocity = linear_velocity.length()
 					if Velocity < MaxSpeed:
-						engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput)
+						engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
 				else:
-					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput)
-				if Input.is_action_pressed("Down"):
+					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
+				if Input.is_action_pressed(&"Down"):
 					var Velocity = linear_velocity.length()
 					if Velocity < MaxSpeed:
 						engine_force = -lerpf(engine_force, MaxSpeed, Speed * 0.5 * PowerInput / ReverseDivider)
@@ -111,9 +114,15 @@ func Drive(_delta: float):
 				if Input.is_action_pressed("Jump") and not Seat.JumpExit:
 					#brake = lerp(brake, BrakeStrength, 1)
 					brake = BrakeStrength
+					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
 				else:
 					#brake = lerp(brake, 0.0, 1)
-					brake = BrakeStrength
+					brake = 0.0
+				if Input.is_action_pressed("Run"):
+					if engine_force < MaxSpeed:
+						engine_force += Turbo
+				elif not Input.is_action_pressed("Up"):
+					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
 				
 				steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
 				PreviousSpeed = linear_velocity.length()

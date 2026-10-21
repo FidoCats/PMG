@@ -19,6 +19,11 @@ func _ready() -> void:
 	parent = get_parent()
 	Connect_parent()
 
+func Connect_parent() -> void:
+	parent.add_user_signal("interacted")
+	
+	parent.connect("interacted",Callable(self, "Interact"))
+
 func _get_configuration_warnings() -> PackedStringArray:
 	if parent is not RigidBody3D and parent is not StaticBody3D and parent is not RigidBody2D and parent is not StaticBody2D and not parent is CharacterBody3D and not parent is CharacterBody2D and not parent.is_in_group("Interactable"):
 		return["Parent Node is not an Aplicable Node or is null!"]
@@ -28,11 +33,8 @@ func _get_configuration_warnings() -> PackedStringArray:
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority(): return
 
+@rpc("any_peer","call_remote")
 func Interact(User: Node3D) -> void:
 	Player_interacted.emit(parent, User)
-	#print(User, " interacted with ", parent)
-
-func Connect_parent() -> void:
-	parent.add_user_signal("interacted")
-	
-	parent.connect("interacted",Callable(self, "Interact"))
+	if Global.UseDebug:
+		print(User, " interacted with ", parent)

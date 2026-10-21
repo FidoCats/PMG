@@ -61,17 +61,29 @@ func Sit(_Who: Node3D, _OnWhat: Node3D = null) -> void:
 				UsedBy = _Who
 				Used.emit(_Who)
 				UsedBy.global_position = _OnWhat.global_position
-				if UsedBy.has_method("Sit"):
-					UsedBy.Sit()
+				if UsedBy.has_signal("Died"):
+					UsedBy.Died.connect(UserDeath)
+				#if UsedBy.has_method("Sit"):
+					#UsedBy.Sit()
 				#print("Parent: ", _OnWhat, "Player: ", _Who)
 			else:
 				UsedBy.global_position = Vector3(_OnWhat.global_position.x, _OnWhat.global_position.y + 2, _OnWhat.global_position.z)
+				
 				if UsedBy.has_method("UnCrouch"):
 					UsedBy.UnCrouch()
 				UnUsed.emit(null)
 				UsedBy = null
 				#print("Parent: ", _OnWhat, "Player: ", _Who)
 			#print("Used By: ", UsedBy)
+
+
+
+func UserDeath(_Who: Node3D):
+	UsedBy = _Who
+	if UsedBy.has_signal("Died"):
+		UsedBy.Died.disconnect(UserDeath)
+	Sit(_Who,self)
+	
 
 
 
@@ -91,14 +103,15 @@ func _physics_process(_delta: float) -> void:
 	if UsedBy != null:
 		if UsedBy.is_in_group("Alive") or UsedBy.is_class("Player"):
 			if UsedBy != self:
+				if UsedBy != null:
+					if UsedBy.has_method("Stop"):
+						UsedBy.Stop()#.rpc()
+					UsedBy.global_position = self.global_position
 				if JumpExit:
 					#if UsedBy.is_multiplayer_authority():
 						if Input.is_action_just_pressed("Jump") and JumpExit:
 							Sit(UsedBy, self)
-				if UsedBy != null:
-					if UsedBy.has_method("Stop"):
-						UsedBy.Stop()
-					UsedBy.global_position = self.global_position
+				
 	
 	if is_queued_for_deletion():
 		Sit(UsedBy, self)

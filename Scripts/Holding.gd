@@ -18,11 +18,6 @@ var IsMultiplayerAuthority: bool
 
 
 
-#func _enter_tree():
-	#set_multiplayer_authority(str(name).to_int())
-
-
-
 #func _ready() -> void:
 	#CurrentPlayerInventory = PlayerNode.player_inventory
 	#

@@ -20,6 +20,7 @@ func _process(_delta: float) -> void:
 
 
 
+#@rpc("any_peer", "call_remote")
 func interact():
 	if ParentPlayer.CanInteract:
 		if LookingAt and LookingAt.has_user_signal("interacted"): 
