@@ -742,7 +742,7 @@ func Parry(_body: Node3D):
 			if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
 				_body = LookAtRay.LookingAt
 			
-			if _body.has_method("TakeDamage"):
+			if _body.has_method("TakeDamage") or _body.is_in_group("Alive") or _body.is_class("Player") or _body.is_class("BaseNPC"):
 				_body.TakeDamage.rpc(ParryDamage)
 				await get_tree().create_timer(0.25).timeout
 			
@@ -793,13 +793,13 @@ func Stop():
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
 func TakeDamage(Damage: float):
 	Health -= Damage
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
 func Death():
 	IsDead = true
 	freeze()
@@ -822,7 +822,7 @@ func Death():
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
 func ResetCharacter():
 	var PlayerScene = preload("res://Characters/Player.tscn")
 	var NewPlayer = PlayerScene.instantiate() as Player

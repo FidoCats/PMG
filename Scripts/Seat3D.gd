@@ -62,7 +62,8 @@ func Sit(_Who: Node3D, _OnWhat: Node3D = null) -> void:
 				Used.emit(_Who)
 				UsedBy.global_position = _OnWhat.global_position
 				if UsedBy.has_signal("Died"):
-					UsedBy.Died.connect(UserDeath)
+					if not UsedBy.Died.is_connected(UserDeath):
+						UsedBy.Died.connect(UserDeath)
 				#if UsedBy.has_method("Sit"):
 					#UsedBy.Sit()
 				#print("Parent: ", _OnWhat, "Player: ", _Who)
@@ -83,7 +84,8 @@ func UserDeath(_Who: Node3D):
 	if UsedBy.has_signal("Died"):
 		UsedBy.Died.disconnect(UserDeath)
 	Sit(_Who,self)
-	
+	UsedBy = null
+
 
 
 
@@ -106,7 +108,8 @@ func _physics_process(_delta: float) -> void:
 				if UsedBy != null:
 					if UsedBy.has_method("Stop"):
 						UsedBy.Stop()#.rpc()
-					UsedBy.global_position = self.global_position
+					if UsedBy != null:
+						UsedBy.global_position = self.global_position
 				if JumpExit:
 					#if UsedBy.is_multiplayer_authority():
 						if Input.is_action_just_pressed("Jump") and JumpExit:

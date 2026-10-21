@@ -51,13 +51,18 @@ properties/9/path = NodePath(".:transform")
 properties/9/spawn = true
 properties/9/replication_mode = 1
 
-[node name="BaseVehicle" type="VehicleBody3D" unique_id=809486750 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound")]
+[sub_resource type="SphereShape3D" id="SphereShape3D_ns6mf"]
+radius = 0.90000004
+
+[node name="BaseVehicle" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound", "DamageArea")]
 physics_material_override = SubResource("PhysicsMaterial_l7i2k")
 center_of_mass_mode = 1
 script = ExtResource("1_vr678")
 Seat = NodePath("Seat3D")
 EngineSound = NodePath("Engine")
 CollideSound = NodePath("Collide")
+DamageArea = NodePath("HitArea")
+metadata/_custom_type_script = "uid://cddmbdeis15lc"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1768028682]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 5.9604645e-08)
@@ -127,3 +132,9 @@ replication_config = SubResource("SceneReplicationConfig_vr678")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.753207, -0.19999999)
 UseTouch = false
 JumpExit = false
+
+[node name="HitArea" type="Area3D" parent="." unique_id=933597007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea" unique_id=345154557]
+shape = SubResource("SphereShape3D_ns6mf")

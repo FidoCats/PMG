@@ -10,7 +10,8 @@ class_name BaseVehicle
 @export var ReverseDivider: float = 1.05
 @export var SteerLimit: float = 0.5
 @export var SteerSpeed: float = 1.5
-@export var BrakeStrength: float = 50
+@export var BrakeStrength: float = 100
+@export var BrakeDamp: float = 0.5
 @export var Turbo: float = 100.0
 @export var EngineOn: bool = false
 @export var EngineForce: float = 50.0
@@ -27,6 +28,7 @@ class_name BaseVehicle
 @export_category("Nodes")
 @export var EngineSound: AudioStreamPlayer3D
 @export var CollideSound: AudioStreamPlayer3D
+@export var DamageArea: Area3D
 
 var UsedBy: Node3D = null
 var EnginePitch: float
@@ -41,6 +43,8 @@ func _ready() -> void:
 		Seat.Used.connect(Pilot)
 		Seat.UnUsed.connect(Pilot)
 	Health = MaxHealth
+	if DamageArea:
+		DamageArea.body_entered.connect(Hit)
 
 
 
@@ -86,7 +90,7 @@ func Drive(_delta: float):
 # add movement here
 	#if Global.UseDebug:
 		#print(UsedBy, " is driving ", self)
-	if UsedBy:
+	if UsedBy != null:
 		if UsedBy.is_multiplayer_authority():
 			
 			
@@ -115,26 +119,48 @@ func Drive(_delta: float):
 					#brake = lerp(brake, BrakeStrength, 1)
 					brake = BrakeStrength
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
+					linear_damp /= linear_velocity.length()
+					linear_damp = BrakeDamp
 				else:
 					#brake = lerp(brake, 0.0, 1)
 					brake = 0.0
+					linear_damp = 0.0
 				if Input.is_action_pressed("Run"):
-					if engine_force < MaxSpeed:
-						engine_force += Turbo
-				elif not Input.is_action_pressed("Up"):
+					var Velocity = linear_velocity.length()
+					if Velocity > 0:
+						if engine_force < MaxSpeed:
+							engine_force += Turbo
+					else:
+						if EngineForce > -MaxSpeed:
+							engine_force -= Turbo
+				elif not Input.is_action_pressed("Up") and not Input.is_action_pressed("Down"):
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
 				
 				steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
 				PreviousSpeed = linear_velocity.length()
+	else:
+		engine_force = lerpf(engine_force, 0.0, 50.0)
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
+func Hit(_Body: Node3D):
+	var Velocity = linear_velocity.length()
+	if Velocity >= 10:
+		if _Body.is_class("Player") or _Body.is_in_group("Alive") or _Body.has_method("TakeDamage"):
+			if _Body != self:
+				_Body.TakeDamage.rpc(abs(Velocity) * 2)
+		TakeDamage.rpc(abs(Velocity) / 2)
+
+
+
+@rpc("any_peer","call_local")
 func TakeDamage(Damage: float):
 	Health -= Damage
 
 
 
+@rpc("any_peer","call_local")
 func Death():
 	IsDead = true
 	queue_free()

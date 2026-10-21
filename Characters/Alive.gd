@@ -47,14 +47,13 @@ func _process(_delta: float) -> void:
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local","reliable",0)
 func TakeDamage(Damage: float):
-	print("OWWWIEEEEEEE!!!!!!")
 	Health -= Damage
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
 func Death():
 	IsDead = true
 	Died.emit()
@@ -67,7 +66,7 @@ func Death():
 
 
 
-@rpc("any_peer","call_remote")
+@rpc("any_peer","call_local")
 func ResetValues():
 	Health = MaxHealth
 	global_transform.origin = RespawnPos

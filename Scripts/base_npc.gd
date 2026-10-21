@@ -30,7 +30,7 @@ class_name BaseNPC
 @export var UseGravity: bool = true
 
 @export var StopOnAttack: bool = true
-@export var WanderDistance = 15.0
+@export var WanderDistance = 5.0
 
 @export_category("Properties")
 @export var AttackDamage: float = 10
@@ -246,7 +246,7 @@ func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vec
 					velocity = velocity.move_toward(Velocity, 0.25)
 					move_and_slide()
 					
-					look_at(Vector3(NavLocation.x, 1.65, NavLocation.z))
+					look_at(Vector3(NavLocation.x, 1.70, NavLocation.z))
 					
 					#print("Moving Toward ", Target, " at Position ", Target.global_position)
 				else:

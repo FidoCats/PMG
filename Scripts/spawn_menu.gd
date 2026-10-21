@@ -120,7 +120,7 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 			var m870 = ItemDatabase.get_item("M870")
 			CurrentPlayerInventory.add_item(m870)
 
-@onready var WeedFishPreload = preload("res://Scenes/Spawnables/seaweed.tscn")
+@onready var WeedFishPreload = preload("res://Scenes/Spawnables/Seaweed.tscn")
 @onready var BaseCarPreload = preload("res://Scenes/Templates/base_vehicle.tscn")
 @onready var PickupPreload = preload("res://Scenes/Spawnables/PickupTruck.tscn")
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
