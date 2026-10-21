@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://87rsterqfrcb"]
+
+[ext_resource type="ArrayMesh" uid="uid://csrpt810dw5r4" path="res://Stuff/Models/SeaWeedPlushLowerPolyV2.mesh" id="1_44j3t"]
+[ext_resource type="SpriteFrames" uid="uid://co2nxuixtrevw" path="res://Stuff/Images/SeaweedFaceSpriteframes.tres" id="2_wybnr"]
+[ext_resource type="Script" uid="uid://d1nclceswe8bd" path="res://Scripts/MeshDeRenderer.gd" id="3_h427j"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ns6mf"]
+radius = 2.1000001
+
+[node name="Seaweed" type="RigidBody3D" unique_id=1443005100]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1613428240]
+shape = SubResource("SphereShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=37102001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0.5)
+mesh = ExtResource("1_44j3t")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="CollisionShape3D/MeshInstance3D" unique_id=1368648116]
+transform = Transform3D(0.45, 0, 0, 0, 0.4346666, 0.11646856, 0, -0.11646856, 0.4346666, 0, 1.8999999, 0.70000005)
+sprite_frames = ExtResource("2_wybnr")
+
+[node name="MeshUnRender" type="Node3D" parent="." unique_id=30062343 node_paths=PackedStringArray("AffectedNode", "DelayTimer")]
+script = ExtResource("3_h427j")
+AffectedNode = NodePath("..")
+DelayTimer = NodePath("Timer")
+metadata/_custom_type_script = "uid://d1nclceswe8bd"
+
+[node name="Timer" type="Timer" parent="MeshUnRender" unique_id=1344566452]
