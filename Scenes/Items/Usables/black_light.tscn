@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://b5v4tndax8ls5"]
+
+[ext_resource type="Script" uid="uid://bcheb7cneqsyd" path="res://Scripts/flashlight.gd" id="1_3g8q1"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="3_2pls1"]
+[ext_resource type="Material" uid="uid://dy777mbkukmj" path="res://Stuff/Materials/LightMaterial.tres" id="4_5s5jy"]
+[ext_resource type="Material" uid="uid://b3ilu41fng272" path="res://Stuff/Materials/Red.tres" id="5_cuprd"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="6_n3lfn"]
+[ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="7_b5vrl"]
+[ext_resource type="AudioStream" uid="uid://dvfr1r8sxwy6l" path="res://Stuff/Sounds/freesound_community-flashlight-switch-102792.mp3" id="8_ol6gn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ns6mf"]
+height = 0.325
+radius = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2wss0"]
+material = ExtResource("3_2pls1")
+top_radius = 0.045
+bottom_radius = 0.05
+height = 0.225
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ns6mf"]
+material = ExtResource("3_2pls1")
+top_radius = 0.065
+bottom_radius = 0.045
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fvhdo"]
+top_radius = 0.045
+bottom_radius = 0.055
+height = 0.01
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jonwe"]
+material = ExtResource("5_cuprd")
+top_radius = 0.045
+bottom_radius = 0.035
+height = 0.01
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ocaxa"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:shadow_enabled")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:light_energy")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:visible")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("Light:visible")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+
+[node name="BlackLight" type="RigidBody3D" unique_id=1114805431 node_paths=PackedStringArray("LightMesh", "SpotLight", "Collect", "Collider", "AudioPlayer")]
+script = ExtResource("1_3g8q1")
+LightMesh = NodePath("CollisionShape3D/lightmesh")
+SpotLight = NodePath("Light")
+Collect = NodePath("InteractionComponent/CollectComponent")
+Collider = NodePath("CollisionShape3D")
+AudioPlayer = NodePath("AudioStreamPlayer3D")
+OnSound = ExtResource("8_ol6gn")
+OffSound = ExtResource("8_ol6gn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1536627018]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.0074132085)
+shape = SubResource("CylinderShape3D_ns6mf")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1254867399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04938946, -2.158882e-09)
+mesh = SubResource("CylinderMesh_2wss0")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=718233276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.111873776, 4.890158e-09)
+mesh = SubResource("CylinderMesh_ns6mf")
+
+[node name="lightmesh" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1655071818]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16639292, 7.273265e-09)
+material_override = ExtResource("4_5s5jy")
+mesh = SubResource("CylinderMesh_fvhdo")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="CollisionShape3D" unique_id=726197486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16463867, -7.196586e-09)
+mesh = SubResource("CylinderMesh_jonwe")
+
+[node name="Light" type="SpotLight3D" parent="." unique_id=969776828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1620541)
+light_color = Color(0, 1, 0, 1)
+light_volumetric_fog_energy = 5.0
+light_negative = true
+shadow_enabled = true
+spot_range = 4.0
+spot_angle = 72.19418
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1563105920]
+replication_config = SubResource("SceneReplicationConfig_ocaxa")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=1375651915]
+script = ExtResource("6_n3lfn")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="CollectComponent" type="Node" parent="InteractionComponent" unique_id=706794317]
+script = ExtResource("7_b5vrl")
+metadata/_custom_type_script = "uid://bxhl70sf7nad0"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2113051267]
+stream = ExtResource("8_ol6gn")

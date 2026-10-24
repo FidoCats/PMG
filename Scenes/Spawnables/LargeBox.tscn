@@ -54,13 +54,9 @@ size = Vector3(0.25, 0.25, 0.25)
 
 [sub_resource type="Skin" id="Skin_082lb"]
 
-[node name="LargeBox" type="RigidBody3D" unique_id=648598193 node_paths=PackedStringArray("CollisionSoundPlayer", "ParticleMaker", "MeshNode")]
+[node name="LargeBox" type="RigidBody3D" unique_id=648598193]
 collision_layer = 7
 mass = 10.0
-script = ExtResource("1_hjbyv")
-CollisionSoundPlayer = NodePath("AudioStreamPlayer3D")
-ParticleMaker = NodePath("GPUParticles3D")
-MeshNode = NodePath("MeshInstance3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1599199846]
 shape = SubResource("BoxShape3D_yf5fn")
@@ -95,3 +91,11 @@ randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_kq541")
 draw_pass_1 = SubResource("BoxMesh_lus23")
 draw_skin = SubResource("Skin_082lb")
+
+[node name="CollisionNoise" type="Node3D" parent="." unique_id=761169315 node_paths=PackedStringArray("AffectedNode", "CollisionSoundPlayer", "ParticleMaker", "MeshNode")]
+script = ExtResource("1_hjbyv")
+AffectedNode = NodePath("..")
+CollisionSoundPlayer = NodePath("../AudioStreamPlayer3D")
+ParticleMaker = NodePath("../GPUParticles3D")
+MeshNode = NodePath("../MeshInstance3D")
+metadata/_custom_type_script = "uid://d3wajoccwrfbo"

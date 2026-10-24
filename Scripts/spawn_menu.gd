@@ -188,6 +188,9 @@ func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 		3:
 			var blockplacer = ItemDatabase.get_item("BLOCKPLACER")
 			CurrentPlayerInventory.add_item(blockplacer)
+		4:
+			var BlackLight = ItemDatabase.get_item("BLACKLIGHT")
+			CurrentPlayerInventory.add_item(BlackLight)
 
 #@onready var DeletinatorPreload = preload("res://Scenes/Items/Weapons/Firearms/Deletinator9000.tscn")
 #@onready var BulshisherPreload = preload("res://Scenes/Items/Weapons/Firearms/RandomBullshishGo.tscn")

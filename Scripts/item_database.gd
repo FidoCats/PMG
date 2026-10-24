@@ -173,6 +173,19 @@ func _create_sample_items():
 	BLOCKPLACER.scene = preload("res://Scenes/Items/Usables/block_placer.tscn")
 	items[BLOCKPLACER.id] = BLOCKPLACER
 
+## Blacklight
+	var Blacklight = Item.new()
+	Blacklight.id = "BLACKLIGHT"
+	Blacklight.name = "Blacklight"
+	Blacklight.description = "A simple blacklight for doing... Something...."
+	Blacklight.item_type = Item.ItemType.USABLE
+	Blacklight.rarity = Item.ItemRarity.RARE
+	Blacklight.stackable = false
+	Blacklight.value = 95
+	Blacklight.icon = preload("res://Stuff/Images/MuzzleFlash3.png")
+	Blacklight.scene = preload("res://Scenes/Items/Usables/black_light.tscn")
+	items[Blacklight.id] = Blacklight
+
 
 
 func add_item_to_database(item: Item) -> bool:

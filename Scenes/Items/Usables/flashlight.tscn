@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bcheb7cneqsyd" path="res://Scripts/flashlight.gd" id="1_ux8a7"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_x32u1"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="4_0tuas"]
+[ext_resource type="Material" uid="uid://dy777mbkukmj" path="res://Stuff/Materials/LightMaterial.tres" id="5_128va"]
 [ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="5_s51lu"]
 [ext_resource type="AudioStream" uid="uid://dvfr1r8sxwy6l" path="res://Stuff/Sounds/freesound_community-flashlight-switch-102792.mp3" id="6_s51lu"]
 
@@ -52,9 +53,6 @@ outer_radius = 0.038
 rings = 32
 ring_segments = 16
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s51lu"]
-rim_enabled = true
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_yf5fn"]
 top_radius = 0.04
 bottom_radius = 0.04
@@ -79,6 +77,9 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:visible")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath("Light:visible")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Flashlight" type="RigidBody3D" unique_id=114819202 node_paths=PackedStringArray("LightMesh", "SpotLight", "Collect", "Collider", "AudioPlayer")]
 collision_layer = 3
@@ -139,7 +140,7 @@ mesh = SubResource("TorusMesh_g4v7s")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D9" type="MeshInstance3D" parent="MeshInstance3D" unique_id=751889275]
-material_override = SubResource("StandardMaterial3D_s51lu")
+material_override = ExtResource("5_128va")
 mesh = SubResource("CylinderMesh_yf5fn")
 
 [node name="Flashlight" type="SpotLight3D" parent="MeshInstance3D" unique_id=1072705150]

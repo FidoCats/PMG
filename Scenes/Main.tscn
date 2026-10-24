@@ -257,7 +257,7 @@ offset_bottom = -96.0
 spawn_path = NodePath("../Map")
 
 [node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=1592566850]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://cnurgy2dnc50d", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7", "uid://cpkwsbthq0f5y", "uid://cv3lvugfs7267", "uid://cay44tonbxxhl")
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7", "uid://cpkwsbthq0f5y", "uid://cv3lvugfs7267", "uid://cay44tonbxxhl")
 spawn_path = NodePath("../Objects")
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=27700166]

@@ -12,11 +12,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	$"../Label1".text = str("Pos: ", global_position, "Rot: ", global_rotation_degrees)
 	if Input.is_action_just_pressed("ui_accept"):
-		var Force: Force3D = Force3D.new() #ForcePreload.instantiate() as Force3D
+		var Force: Force3D = Force3D.new()
 		add_child(Force)
-		Force.FinalPosition = Vector3(randf(),randf(),randf())
+		Force.Velocity = Vector3(randf_range(-10,10),randf_range(-10,10),randf_range(-10,10))
 		Force.SetupFinished.emit()
 		Force.Move()
+		
 		$"../Label2".text = str("Force: ", Force, "\n Force: ", Force.get_class())
 
 func _on_v_slider_value_changed(_value: float) -> void:

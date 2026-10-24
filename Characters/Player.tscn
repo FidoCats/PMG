@@ -1381,12 +1381,13 @@ layout_mode = 0
 offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
-item_count = 4
+item_count = 5
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Cheap Flashlight"
 item_1/text = "Deletinator 9000"
 item_2/text = ":3"
 item_3/text = "block_placer"
+item_4/text = "Blacklight"
 
 [node name="Entities" type="ItemList" parent="SpawnMenu" unique_id=339947178]
 visible = false

@@ -85,9 +85,9 @@ var CurrentSpeed: float = 0.0
 var SpeedMultiplier: float = 1.0
 var SpeedDivider: float = 1
 
-var ParryDamage: float = 10.0
-var ParryReward: float = 2.5
-var ParryForce: float = 7.5
+@export var ParryDamage: float = 10.0
+@export var ParryReward: float = 2.5
+@export var ParryForce: float = 15.0
 var ParryBody: Node3D = null
 
 var SetFov: float
@@ -744,27 +744,18 @@ func Parry(_body: Node3D):
 			
 			if _body.has_method("TakeDamage") or _body.is_in_group("Alive") or _body.is_class("Player") or _body.is_class("BaseNPC"):
 				_body.TakeDamage.rpc(ParryDamage)
-				await get_tree().create_timer(0.25).timeout
+				await get_tree().create_timer(0.05).timeout
 			
-			if _body.has_method("set_freeze_enabled"): #_body.is_class("RigidBody3D"): #or _body.is_class("CharacterBody3D"):
-				var camera_transform = FPCamera.global_transform
-				var Force: float = 0
-				if Force < 1:
-					Force += 1
-					_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
-					#PickUpComponent.picked_up = false
-					#Global.object = null
-					await get_tree().create_timer(0.015).timeout
-					if _body.get_contact_count() == 0:
-						for f in ParryForce:
-							#Force = lerp(Force, Force + 0.1, 10)
-							Force += 1
-							_body.global_transform = _body.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-2.5 + -Force / _body.mass))),1)
-							#PickUpComponent.picked_up = false
-							if _body.has_method("set_freeze_enabled"):
-								_body.set_freeze_enabled(false)
-							#Global.object = null
-							await get_tree().create_timer(0.035).timeout
+			if _body.has_method("set_freeze_enabled"):
+				var Force: Force3D = Force3D.new()
+				_body.add_child(Force)
+				Force.Velocity = Vector3(0.0,0.0,-1.0)
+				Force.F = ParryForce / _body.mass
+				_body.global_basis = FPCamera.global_basis
+				Force.SetupFinished.emit()
+				Force.Move()
+				await get_tree().create_timer(0.035).timeout
+	
 	await get_tree().create_timer(0.1).timeout
 	ParryMesh.visible = false
 	CanParry = true

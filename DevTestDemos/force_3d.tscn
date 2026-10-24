@@ -5,4 +5,5 @@
 [node name="Force3D" type="RayCast3D" unique_id=1897492737]
 target_position = Vector3(0, 0, 1)
 script = ExtResource("1_31nud")
+Velocity = Vector3(6, 5, 10)
 metadata/_custom_type_script = "uid://bk616p7drxqpb"
