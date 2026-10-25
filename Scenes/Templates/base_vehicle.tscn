@@ -58,6 +58,8 @@ radius = 0.90000004
 physics_material_override = SubResource("PhysicsMaterial_l7i2k")
 center_of_mass_mode = 1
 script = ExtResource("1_vr678")
+BrakeStrength = 10.0
+BrakeDamp = 1.5
 Seat = NodePath("Seat3D")
 EngineSound = NodePath("Engine")
 CollideSound = NodePath("Collide")
@@ -72,7 +74,7 @@ shape = SubResource("BoxShape3D_g4v7s")
 mesh = SubResource("BoxMesh_yf5fn")
 
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="." unique_id=608941091]
-transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0.9000003, 0, -0.8999999)
+transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, -0.86000013, 0, 1.0600001)
 use_as_traction = true
 use_as_steering = true
 wheel_friction_slip = 1.0
@@ -83,7 +85,7 @@ transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -
 mesh = SubResource("CylinderMesh_g4v7s")
 
 [node name="VehicleWheel3D2" type="VehicleWheel3D" parent="." unique_id=911719588]
-transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -0.79999995, 0, -0.9000001)
+transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, 0.8400001, 0, 1.06)
 use_as_traction = true
 use_as_steering = true
 wheel_friction_slip = 1.0
@@ -95,7 +97,7 @@ mesh = SubResource("CylinderMesh_g4v7s")
 skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="VehicleWheel3D3" type="VehicleWheel3D" parent="." unique_id=389490936]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.90000015, 0, 1.1000001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8600002, 0, -0.93999994)
 use_as_traction = true
 wheel_friction_slip = 1.0
 suspension_stiffness = 30.0
@@ -106,7 +108,7 @@ mesh = SubResource("CylinderMesh_g4v7s")
 skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="VehicleWheel3D4" type="VehicleWheel3D" parent="." unique_id=1557098395]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.90000015, 0, 1.0999999)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9400001, 0, -0.93999994)
 use_as_traction = true
 wheel_friction_slip = 1.0
 suspension_stiffness = 30.0
@@ -129,12 +131,12 @@ stream = ExtResource("5_flsga")
 replication_config = SubResource("SceneReplicationConfig_vr678")
 
 [node name="Seat3D" parent="." unique_id=988545447 instance=ExtResource("2_aabc5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.753207, -0.19999999)
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -2.0489097e-08, 0.753207, 0.4000001)
 UseTouch = false
 JumpExit = false
 
 [node name="HitArea" type="Area3D" parent="." unique_id=933597007]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.040000275, 0.8000001, 2.6599998)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea" unique_id=345154557]
 shape = SubResource("SphereShape3D_ns6mf")

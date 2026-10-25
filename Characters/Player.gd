@@ -700,6 +700,11 @@ func WallRun():
 		velocity.y = 3.25
 		WallJumps -= 1
 		Jumps = 1
+		#var Force: Force3D = Force3D.new()
+		#add_child(Force)
+		#Force.Velocity.z = -100
+		#Force.SetupFinished.emit()
+		#Force.Move()
 		CanWallJump = false
 		await get_tree().create_timer(0.65).timeout
 		CanWallJump = true
@@ -738,12 +743,21 @@ func Parry(_body: Node3D):
 	if Global.UseDebug:
 		print("Trying to Parry: ",_body)
 	if _body != self:
-		if _body != null and _body != self:
-			if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
-				_body = LookAtRay.LookingAt
-			
+		if LookAtRay.LookingAt != null and LookAtRay.LookingAt != self:
+			_body = LookAtRay.LookingAt
+		
+		if _body != null:
 			if _body.has_method("TakeDamage") or _body.is_in_group("Alive") or _body.is_class("Player") or _body.is_class("BaseNPC"):
 				_body.TakeDamage.rpc(ParryDamage)
+				if _body.is_class("CharacterBody3D"):
+					var Force: Force3D = Force3D.new()
+					_body.add_child(Force)
+					Force.Velocity = Vector3(0.0,0.0,-1.0)
+					Force.F = ParryForce / 4
+					_body.global_basis = FPCamera.global_basis
+					Force.SetupFinished.emit()
+					Force.Move()
+					await get_tree().create_timer(0.035).timeout
 				await get_tree().create_timer(0.05).timeout
 			
 			if _body.has_method("set_freeze_enabled"):
@@ -755,7 +769,7 @@ func Parry(_body: Node3D):
 				Force.SetupFinished.emit()
 				Force.Move()
 				await get_tree().create_timer(0.035).timeout
-	
+
 	await get_tree().create_timer(0.1).timeout
 	ParryMesh.visible = false
 	CanParry = true

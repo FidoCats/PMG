@@ -17,8 +17,8 @@ var Parent: Node3D
 
 
 func _enter_tree() -> void:
-	if get_parent_node_3d().has_method("set_freeze_enabled"):
-		Parent = get_parent_node_3d()
+	if get_parent().has_method("set_freeze_enabled") or get_parent().is_class("CharacterBody3D"):
+		Parent = get_parent()
 	
 	debug_shape_custom_color = Color(0.5,0.55,0.85)
 	debug_shape_thickness = 25
@@ -41,6 +41,8 @@ func Move() -> void:
 		if Parent.has_method("set_freeze_enabled"):
 			Parent.linear_velocity = UsedVelocity
 			print("UsedVelocity: \n", UsedVelocity)
+		elif Parent.is_class("CharacterBody3D"):
+			Parent.velocity = UsedVelocity
 		
 		if DeleteAfterDone:
 			await get_tree().create_timer(0.25).timeout

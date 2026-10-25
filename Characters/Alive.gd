@@ -3,7 +3,7 @@ class_name Alive
 
 
 
-signal Died
+signal Died(_Who: Node3D)
 
 @export_category("Prefrences")
 @export var CanRespawn: bool = true
@@ -56,7 +56,7 @@ func TakeDamage(Damage: float):
 @rpc("any_peer","call_local")
 func Death():
 	IsDead = true
-	Died.emit()
+	Died.emit(self)
 	if Global.UseDebug:
 		print(self, " Died!!")
 	if CanRespawn:

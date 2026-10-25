@@ -16,6 +16,8 @@ signal UnUsed(User)
 @export var UseTouch: bool = true
 @export var UseInteract: bool = true
 @export var JumpExit: bool = true
+@export var TurnWith: bool = false
+@export var TurnClamp: float = 10
 #@export var CustomMesh: Mesh = null
 @export_category("Nodes")
 @export var CollisionShape: CollisionShape3D
@@ -110,6 +112,11 @@ func _physics_process(_delta: float) -> void:
 						UsedBy.Stop()#.rpc()
 					if UsedBy != null:
 						UsedBy.global_position = self.global_position
+						if TurnWith:
+							#UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, get_parent().global_rotation_degrees.y - TurnClamp, get_parent().global_rotation_degrees.y + TurnClamp)
+							#print(global_rotation_degrees.y)
+							var Rotation = global_rotation_degrees * transform.basis
+							UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, Rotation.y -TurnClamp, Rotation.y + TurnClamp)
 				if JumpExit:
 					#if UsedBy.is_multiplayer_authority():
 						if Input.is_action_just_pressed("Jump") and JumpExit:

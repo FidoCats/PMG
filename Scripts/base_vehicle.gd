@@ -11,7 +11,7 @@ class_name BaseVehicle
 @export var SteerLimit: float = 0.5
 @export var SteerSpeed: float = 1.5
 @export var BrakeStrength: float = 100
-@export var BrakeDamp: float = 0.5
+@export var BrakeDamp: float = 1
 @export var Turbo: float = 100.0
 @export var EngineOn: bool = false
 @export var EngineForce: float = 50.0
@@ -117,10 +117,10 @@ func Drive(_delta: float):
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput)
 				if Input.is_action_pressed("Jump") and not Seat.JumpExit:
 					#brake = lerp(brake, BrakeStrength, 1)
-					brake = BrakeStrength
+					#brake = BrakeStrength
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
-					linear_damp /= linear_velocity.length()
-					linear_damp = BrakeDamp
+					#linear_damp = linear_damp * BrakeDamp * BrakeStrength / linear_velocity.length() * 500
+					linear_damp = BrakeDamp * BrakeStrength / linear_velocity.length()
 				else:
 					#brake = lerp(brake, 0.0, 1)
 					brake = 0.0
