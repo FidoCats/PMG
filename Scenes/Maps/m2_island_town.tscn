@@ -207,7 +207,7 @@ metadata/_custom_type_script = "uid://d1nclceswe8bd"
 [node name="Timer" type="Timer" parent="Enviroment/Level/MeshUnRender" unique_id=389898728]
 
 [node name="JSH" type="StaticBody3D" parent="Enviroment/Level" unique_id=724336370]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1.0000001, 0, -8.742278e-08, 0, -1, 11, 0.47383124, 3)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1.0000001, 0, -8.742278e-08, 0, -1, 11, 2.6738312, 3)
 
 [node name="JapaneseStyleHouse2" type="MeshInstance3D" parent="Enviroment/Level/JSH" unique_id=407815807]
 mesh = ExtResource("2_iim1q")

@@ -1,0 +1,243 @@
+[gd_scene format=3 uid="uid://ct88i71sanstw"]
+
+[ext_resource type="Script" uid="uid://cddmbdeis15lc" path="res://Scripts/base_vehicle.gd" id="1_33hqh"]
+[ext_resource type="Material" uid="uid://dlnfqjwhmxwoy" path="res://Stuff/Materials/Wood2.tres" id="2_237jp"]
+[ext_resource type="Texture2D" uid="uid://t4447wmni6vd" path="res://Stuff/Images/Red_X.png" id="3_p0skv"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="4_isbhr"]
+[ext_resource type="AudioStream" uid="uid://ckrmp5257p8ul" path="res://Stuff/Sounds/rock-sliding.mp3" id="5_jcaw1"]
+[ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="6_f5jvh"]
+[ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/Templates/seat_3d.tscn" id="7_ht8ng"]
+[ext_resource type="Material" uid="uid://b3ilu41fng272" path="res://Stuff/Materials/Red.tres" id="8_f6v0b"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_l7i2k"]
+friction = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
+size = Vector3(1.4, 0.3, 3.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
+material = ExtResource("2_237jp")
+size = Vector3(1.4, 0.3, 3.4)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tnexw"]
+height = 0.19999999
+radius = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2wss0"]
+material = ExtResource("2_237jp")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
+material = ExtResource("4_isbhr")
+height = 0.19999999
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vr678"]
+properties/0/path = NodePath(".:Acceleration")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:Speed")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:BrakeStrength")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:EngineOn")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:UseSeatControl")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:mass")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:engine_force")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:brake")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:steering")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:transform")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ns6mf"]
+radius = 0.90000004
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+size = Vector3(1.4, 1.3000001, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ns6mf"]
+material = ExtResource("8_f6v0b")
+size = Vector3(1.4, 1.3000001, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wen5l"]
+size = Vector3(1.4, 1, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f6v0b"]
+material = ExtResource("8_f6v0b")
+size = Vector3(1.4, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nv7by"]
+size = Vector3(1.4, 0.8, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ue7nj"]
+material = ExtResource("8_f6v0b")
+size = Vector3(1.4, 0.90000004, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6tmvs"]
+size = Vector3(1.4, 0.8, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nfent"]
+material = ExtResource("8_f6v0b")
+size = Vector3(1.4, 0.90000004, 0.2)
+
+[node name="Really Bad Rally Car" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound", "DamageArea", "SteeringWheel")]
+physics_material_override = SubResource("PhysicsMaterial_l7i2k")
+center_of_mass_mode = 1
+script = ExtResource("1_33hqh")
+Acceleration = 0.5
+MaxSpeed = 200.0
+SteerLimit = 0.6
+SteerSpeed = 1.65
+BrakeStrength = 5.0
+BrakeDamp = 1.0
+Turbo = 85.5
+MaxHealth = 90.0
+Health = 90.0
+Seat = NodePath("Seat3D")
+EnginePitchModifier = 50.0
+EngineSound = NodePath("Engine")
+CollideSound = NodePath("Collide")
+DamageArea = NodePath("HitArea")
+SteeringWheel = NodePath("Steering Wheel")
+metadata/_custom_type_script = "uid://cddmbdeis15lc"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1768028682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050000012, 0.2000001)
+shape = SubResource("BoxShape3D_g4v7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=90364758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.940697e-08)
+mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="Steering Wheel" type="RigidBody3D" parent="." unique_id=764421385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.99999994)
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Steering Wheel" unique_id=1698191638]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0, -0.19999999)
+shape = SubResource("CylinderShape3D_tnexw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Steering Wheel/CollisionShape3D" unique_id=1391676730]
+mesh = SubResource("CylinderMesh_2wss0")
+
+[node name="Sprite3D" type="Sprite3D" parent="Steering Wheel/CollisionShape3D/MeshInstance3D" unique_id=1248816868]
+transform = Transform3D(0.09, 0, 0, 0, 1.8626451e-09, -0.090000026, 0, 0.090000026, 1.8626451e-09, -0.0042601824, 0.106565535, 0.011336923)
+texture = ExtResource("3_p0skv")
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="." unique_id=608941091]
+transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, -0.86000013, 0, 1.0600001)
+use_as_traction = true
+use_as_steering = true
+wheel_friction_slip = 0.85
+suspension_stiffness = 30.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D" unique_id=324000431]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.100000024, -0.021959275, 1.1920929e-07)
+mesh = SubResource("CylinderMesh_g4v7s")
+
+[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="." unique_id=911719588]
+transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, 0.9400001, 0, 1.06)
+use_as_traction = true
+use_as_steering = true
+wheel_friction_slip = 0.85
+suspension_stiffness = 30.0
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="VehicleWheel3D2" unique_id=962248740]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.099999905, -0.021959275, 0)
+mesh = SubResource("CylinderMesh_g4v7s")
+skeleton = NodePath("../../VehicleWheel3D")
+
+[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="." unique_id=389490936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9600002, 0, -0.93999994)
+use_as_traction = true
+wheel_friction_slip = 0.85
+suspension_stiffness = 30.0
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="VehicleWheel3D3" unique_id=1967254865]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.021959275, 0)
+mesh = SubResource("CylinderMesh_g4v7s")
+skeleton = NodePath("../../VehicleWheel3D")
+
+[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="." unique_id=1557098395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9400001, 0, -0.93999994)
+use_as_traction = true
+wheel_friction_slip = 0.85
+suspension_stiffness = 30.0
+damping_compression = 0.88
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="VehicleWheel3D4" unique_id=1496596178]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.099999845, -0.021959275, 0)
+mesh = SubResource("CylinderMesh_g4v7s")
+skeleton = NodePath("../../VehicleWheel3D")
+
+[node name="Engine" type="AudioStreamPlayer3D" parent="." unique_id=398376344]
+stream = ExtResource("5_jcaw1")
+volume_db = -6.606
+parameters/looping = true
+
+[node name="Collide" type="AudioStreamPlayer3D" parent="." unique_id=2119625259]
+stream = ExtResource("6_f5jvh")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1767842390]
+replication_config = SubResource("SceneReplicationConfig_vr678")
+
+[node name="Seat3D" parent="." unique_id=988545447 instance=ExtResource("7_ht8ng")]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -2.0489097e-08, 0.45320702, 0.1000001)
+UseTouch = false
+JumpExit = false
+TurnWith = true
+TurnClamp = 0.0
+
+[node name="HitArea" type="Area3D" parent="." unique_id=933597007]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.040000275, 0.8000001, 2.6599998)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea" unique_id=345154557]
+shape = SubResource("SphereShape3D_ns6mf")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=2101609327]
+transform = Transform3D(1, 0, 0, 0, 0.8191521, 0.5735765, 0, -0.5735765, 0.8191521, -5.9604645e-08, 0.6590424, 1.4286789)
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D2" unique_id=1931421229]
+transform = Transform3D(1, 0, 0, 0, 1.0000012, -2.9802322e-08, 0, 2.9802322e-08, 1.0000012, 0, 0, 0)
+mesh = SubResource("BoxMesh_ns6mf")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1719499139]
+transform = Transform3D(1, 0, 0, 0, 0.99619466, -0.08715573, 0, 0.08715573, 0.99619466, -5.9604645e-08, 0.7931852, -1.3482361)
+shape = SubResource("BoxShape3D_wen5l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D3" unique_id=576973143]
+transform = Transform3D(1, 0, 0, 0, 1.0000011, 0, 0, 0, 1.0000011, 0, -0.0500001, 3.5762787e-07)
+mesh = SubResource("BoxMesh_f6v0b")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=188247912]
+transform = Transform3D(1, 0, 0, 0, 0.087155744, -0.99619466, 0, 0.99619466, 0.087155744, -5.9604645e-08, 1.2825689, -0.9992388)
+shape = SubResource("BoxShape3D_nv7by")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D4" unique_id=897973820]
+transform = Transform3D(1, 0, 0, 0, 1.0000012, 0, 0, 0, 1.0000012, 0, 0, 0)
+mesh = SubResource("BoxMesh_ue7nj")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1124494344]
+transform = Transform3D(1, 0, 0, 0, 0.99619466, 0.0871557, 0, -0.0871557, 0.99619466, -5.9604645e-08, 1.6825689, -0.6992388)
+shape = SubResource("BoxShape3D_6tmvs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D5" unique_id=683576114]
+transform = Transform3D(1, 0, 0, 0, 1.0000012, 0, 0, 0, 1.0000012, 0, 0, 0)
+mesh = SubResource("BoxMesh_nfent")

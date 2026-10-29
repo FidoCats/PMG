@@ -123,6 +123,7 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 @onready var WeedFishPreload = preload("res://Scenes/Spawnables/Seaweed.tscn")
 @onready var BaseCarPreload = preload("res://Scenes/Templates/base_vehicle.tscn")
 @onready var PickupPreload = preload("res://Scenes/Spawnables/PickupTruck.tscn")
+@onready var RallyCarPreload = preload("res://Scenes/Spawnables/ReallyBadRallyCar.tscn")
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -141,6 +142,11 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 			Global.ObjectSpawner.add_child(Pickup, true)
 			Pickup.global_position = $"../FPCamera".global_position
 			Pickup.global_position += Vector3(0,1,2.5)
+		3:
+			var RallyCar: Node3D = RallyCarPreload.instantiate()
+			Global.ObjectSpawner.add_child(RallyCar)
+			RallyCar.global_position = $"../FPCamera".global_position
+			RallyCar.global_position += Vector3(0,1,2.5)
 
 @onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
 @onready var WatcherPreload: PackedScene = preload("res://Scenes/Spawnables/Watcher.tscn")

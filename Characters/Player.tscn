@@ -988,6 +988,7 @@ stream = ExtResource("12_r52jx")
 replication_config = SubResource("SceneReplicationConfig_2grho")
 
 [node name="UI" type="Control" parent="." unique_id=1904571161]
+z_index = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("12_7wf5q")
@@ -1396,12 +1397,13 @@ offset_top = 68.0
 offset_right = 955.0
 offset_bottom = 723.0
 theme = ExtResource("14_ijtlc")
-item_count = 3
+item_count = 4
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Seaweed"
 item_0/icon = ExtResource("19_2grho")
 item_1/text = "BaseVehicle"
 item_2/text = "Pickup Truck"
+item_3/text = "RallyCar"
 
 [node name="NPCs" type="ItemList" parent="SpawnMenu" unique_id=1360785313]
 visible = false

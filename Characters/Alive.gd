@@ -47,7 +47,7 @@ func _process(_delta: float) -> void:
 
 
 
-@rpc("any_peer","call_local","reliable",0)
+@rpc("any_peer","call_local")
 func TakeDamage(Damage: float):
 	Health -= Damage
 

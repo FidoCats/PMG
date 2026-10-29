@@ -10,8 +10,8 @@ class_name BaseVehicle
 @export var ReverseDivider: float = 1.05
 @export var SteerLimit: float = 0.5
 @export var SteerSpeed: float = 1.5
-@export var BrakeStrength: float = 100
-@export var BrakeDamp: float = 1
+@export var BrakeStrength: float = 10.0
+@export var BrakeDamp: float = 1.5
 @export var Turbo: float = 100.0
 @export var EngineOn: bool = false
 @export var EngineForce: float = 50.0
@@ -24,11 +24,13 @@ class_name BaseVehicle
 @export var MinElectricalInput: float = 400#V
 #@export var MaxElectricalInput = 
 @export var PowerInput: float
+@export var EnginePitchModifier: float = 10.0
 @export_category("Assets")
 @export_category("Nodes")
 @export var EngineSound: AudioStreamPlayer3D
 @export var CollideSound: AudioStreamPlayer3D
 @export var DamageArea: Area3D
+@export var SteeringWheel: RigidBody3D
 
 var UsedBy: Node3D = null
 var EnginePitch: float
@@ -66,7 +68,7 @@ func _physics_process(_delta: float) -> void:
 	if EngineOn:
 		if not EngineSound.playing:
 			EngineSound.play()
-		EnginePitch = 0.05 + linear_velocity.length() / (EngineForce * 0.5) * PowerInput
+		EnginePitch = 0.05 + linear_velocity.length() / (EngineForce * 0.5) * PowerInput * (EnginePitchModifier / 10)
 		EngineSound.pitch_scale = lerpf(EngineSound.pitch_scale, EnginePitch, 0.25)
 	else:
 		EngineSound.stop()
@@ -101,8 +103,12 @@ func Drive(_delta: float):
 			
 			SteerTarget = Input.get_axis(&"Right",&"Left")
 			SteerTarget *= SteerLimit
-		
-			if EngineOn:
+			if SteeringWheel:
+				SteeringWheel.rotation.z = lerp(SteeringWheel.rotation.z, -SteerTarget, 0.25)
+			else:
+				pass
+			
+			if EngineOn == true:
 				if Input.is_action_pressed(&"Up"):
 					var Velocity = linear_velocity.length()
 					if Velocity < MaxSpeed:
@@ -130,16 +136,20 @@ func Drive(_delta: float):
 					if Velocity > 0:
 						if engine_force < MaxSpeed:
 							engine_force += Turbo
+						elif Velocity < 0:
+							if engine_force > -MaxSpeed:
+								engine_force -= Turbo
 					else:
 						if EngineForce > -MaxSpeed:
 							engine_force -= Turbo
-				elif not Input.is_action_pressed("Up") and not Input.is_action_pressed("Down"):
+				if Input.is_action_just_released("Run") and not Input.is_action_pressed("Up") and not Input.is_action_pressed("Down"):
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
 				
 				steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
 				PreviousSpeed = linear_velocity.length()
-	else:
-		engine_force = lerpf(engine_force, 0.0, 50.0)
+				
+			else:
+				engine_force = lerpf(engine_force, 0.0, 50.0)
 
 
 
@@ -150,7 +160,14 @@ func Hit(_Body: Node3D):
 		if _Body.is_class("Player") or _Body.is_in_group("Alive") or _Body.has_method("TakeDamage"):
 			if _Body != self:
 				_Body.TakeDamage.rpc(abs(Velocity) * 2)
-		TakeDamage.rpc(abs(Velocity) / 2)
+		if _Body.has_method("set_freeze_enabled") or _Body.is_class("CharacterBody3D") or _Body.is_in_group("Alive"):
+			_Body.global_rotation = DamageArea.global_rotation
+			var Force = Force3D.new()
+			_Body.add_child(Force,true)
+			#Force.global_position = _Body.global_position
+			Force.F = Velocity
+			Force.SetupFinished.emit()
+			TakeDamage.rpc(abs(Velocity) / 2)
 
 
 

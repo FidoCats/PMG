@@ -25,8 +25,10 @@ class_name BaseNPC
 @export var CanFeel: bool = true
 @export var CanTouch: bool = true
 @export var IsAgressive: bool = true
+@export var CanAttack: bool = true
 @export var WillPursue: bool = true
 @export var CanMove: bool = true
+@export var CanJump: bool = true
 @export var UseGravity: bool = true
 
 @export var StopOnAttack: bool = true
@@ -35,12 +37,18 @@ class_name BaseNPC
 @export_category("Properties")
 @export var AttackDamage: float = 10
 @export var Speed: float = 3.0
-@export var CanAttack: bool = true
-@export var AttackCoolDown: float = 1
+@export var AttackCoolDown: float = 1.0
+@export var JumpVelocity: float = 3.5
+@export var LungeForce: float = 2.5
+
 @export_category("Nodes: ")
 @export var CollisonShape: CollisionShape3D
 @export var MainMesh: MeshInstance3D
 @export var AudioPlayer: AudioStreamPlayer3D
+@export var InfrontRay: RayCast3D
+@export var FloorInfrontRay: RayCast3D
+@export var UnderRay: RayCast3D
+@export var AboveRay: RayCast3D
 @export var SightLine: RayCast3D
 @export var FeelArea: Area3D
 @export var FeelAreaShape: CollisionShape3D
@@ -99,14 +107,16 @@ func _physics_process(_delta: float) -> void:
 		$Label3D.text = str("Bored: ", IsBored, " Pursuing: ", PursuedPerson, "WanderPos: ", WanderPos, " StateTimer: ", StateTimer.time_left, " BoredTimer: ", BoredTimer.time_left)
 	
 	if UseGravity:
-		velocity.y += get_gravity().y * _delta
+		if not is_on_floor():
+			velocity.y += get_gravity().y * _delta
+	
 	move_and_slide()
 	
 	if not IsDead:
 		Origin = global_transform.origin
 		NavLocation = NavAgent.get_next_path_position()
 		
-		## FOR TESTING ONLY REMOVE LATER
+		## FOR TESTING ONLY, REMOVE LATER!
 		#IsPursuing = true
 		#print("PursuedPerson is: ", PursuedPerson)
 		
@@ -184,6 +194,7 @@ func GetBored():
 			PursuedPerson = null
 			IsPatroling = false
 			IsWandering = false
+	StateChange()
 			#print("Im bored!")
 
 
@@ -234,23 +245,57 @@ func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vec
 	if CanThink and CanMove:
 		if not IsBored:
 			if Target or TargetPos:
-				if not UsePos:
-					TargetPos = Target.global_position
-				
-				SetTargetPosition(TargetPos)#Target.global_position)
-				
-				if not global_position.distance_to(TargetPos) < StopDistance:#global_position != NavAgent.get_final_position():
+				#if UnderRay.get_collider() != null:
+					if not UsePos:
+						TargetPos = Target.global_position
 					
-					var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
+					SetTargetPosition(TargetPos)#Target.global_position)
 					
-					velocity = velocity.move_toward(Velocity, 0.25)
+					if NavAgent.is_target_reachable():
+						if not global_position.distance_to(TargetPos) < StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
+							
+							var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
+							
+							velocity = velocity.move_toward(Velocity, 0.05 * Speed)
+							rotation.x = 0.0
+						else:
+							velocity = Vector3.ZERO
+					else:
+						global_position.move_toward(NavLocation, _delta) #TargetPos)
+					
+					
+					
+					if FloorInfrontRay.get_collider() == null:
+						Jump(true)
+					if InfrontRay.get_collider() != null:
+						if InfrontRay.get_collider() != PursuedPerson:
+							if PursuedPerson:
+								if global_position.distance_to(PursuedPerson.global_position) < NavAgent.get_path_length():
+									Jump()
+							else:
+								Jump()
+					
 					move_and_slide()
 					
-					look_at(Vector3(NavLocation.x, 1.70, NavLocation.z))
-					
-					#print("Moving Toward ", Target, " at Position ", Target.global_position)
-				else:
-					velocity = Vector3.ZERO
+					if UnderRay.get_collider() != null:
+						var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+						if LookPos != Origin:
+							look_at(LookPos)
+						
+						#print("Moving Toward ", Target, " at Position ", Target.global_position)
+
+
+
+func Jump(IsLong: bool = false):
+	if is_on_floor() and  velocity.y < JumpVelocity and AboveRay.get_collider() == null:
+		if not IsLong:
+			velocity.y = JumpVelocity + (LungeForce / 2)
+		else:
+			velocity.y = JumpVelocity
+		
+		if IsLong:
+			if InfrontRay.get_collider() == null:
+				velocity -= (transform.basis * Vector3(0,0,LungeForce))
 
 
 
@@ -288,33 +333,38 @@ func Wander(_delta):
 	IsPursuing = false
 	PursuedPerson = null
 	IsPatroling = false
+	SetTargetPosition(WanderPos)
 	Move(_delta,null,true,WanderPos)
 	print("Jdu na vandr......")
 
 
 
-func SetTargetPosition(TargetPos: Vector3):
-	NavAgent.target_position = TargetPos
-	# TargetPos needs to be global_position!!
+func SetTargetPosition(TargetPos: Vector3) -> Vector3:
+	var ReturnPos: Vector3
+	if NavAgent:
+		NavAgent.target_position = TargetPos
+		ReturnPos = NavAgent.target_position
+	return ReturnPos
+	## TargetPos needs to be global_position!!
 	#print("TargetPos set to ", NavAgent.target_position)
 
 
 
-func HurtPlayer(_body): #, UsedDamage):
+func HurtPlayer(_body): #, DamageType):
 	if _body:
 		if IsAgressive:
 			if CanAttack:
 				if _body.has_method("TakeDamage"):
-					_body.TakeDamage(AttackDamage)
 					CanAttack = false
 					CanMove = false
-					
+					_body.TakeDamage.rpc(AttackDamage)
 					await get_tree().create_timer(AttackCoolDown).timeout
 					CanMove = true
 					CanAttack = true
 					if _body.Health <= 0:
 						PursuedPerson = null
 						IsPursuing = false
+						GetBored()
 
 
 

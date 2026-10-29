@@ -18,9 +18,11 @@ var PlayerCharacterId: String = "Felmitt" # Default = "Felmitt"
 var RenderDistance: float = 50
 var UseDebug: bool = true
 
-var ProjectileSpawner: Node3D #MultiplayerSpawner
-var ObjectSpawner: Node3D #MultiplayerSpawner
-var MapNode: Node3D #MultiplayerSpawner
+var ProjectileSpawner: Node3D
+var ProjectileSyncronizer: MultiplayerSpawner
+var ObjectSpawner: Node3D
+var ObjectSyncronizer: MultiplayerSpawner
+var MapNode: Node3D
 var BlockGrid: GridMap
 var StructureSpawner
 var PlayerContainer: Node3D

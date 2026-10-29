@@ -14,19 +14,27 @@ func _ready():
 	if DisplayServer.get_name() == "headless":
 		print("Dedicated server starting...")
 		Network.start_host("", "")
-
-
-
+	
+	
+	
 ## Setters, Getters...
-	Global.ProjectileSpawner = $Projectiles #$MultiplayerProjectileSpawner
-	Global.ObjectSpawner = $Objects #$MultiplayerObjectSpawner 
+	Global.ProjectileSpawner = $Projectiles
+	Global.ProjectileSyncronizer = $ProjectileSpawner
+	Global.ObjectSpawner = $Objects
+	Global.ObjectSyncronizer = $ObjectSpawner
 	Global.MapNode = $Map
 	Global.BlockGrid = $Blocks
 	Global.StructureSpawner = $Structures
 	Global.PlayerContainer = players_container
-
-
-
+	
+	
+	
+## Adding Spawnable Replication
+	AddObjectAutospawns()
+	
+	
+	
+## Other Stuff
 	multiplayer_chat.hide()
 	main_menu.show_menu()
 	multiplayer_chat.set_process_input(true)
@@ -48,16 +56,24 @@ func _ready():
 	Network.connect("player_connected", Callable(self, "_on_player_connected"))
 	multiplayer.peer_disconnected.connect(_remove_player)
 
+
+
 func _on_player_connected(peer_id, player_info):
 	_add_player(peer_id, player_info)
+
+
 
 func _on_host_pressed(nickname: String, skin: String):
 	main_menu.hide_menu()
 	Network.start_host(nickname, skin)
 
+
+
 func _on_join_pressed(nickname: String, skin: String, address: String):
 	main_menu.hide_menu()
 	Network.join_game(nickname, skin, address)
+
+
 
 func _add_player(id: int, player_info : Dictionary):
 	if DisplayServer.get_name() == "headless" and id == 1:
@@ -78,9 +94,13 @@ func _add_player(id: int, player_info : Dictionary):
 	var species = player_info["species"]
 	player.set_player_skin(skin_enum, species)
 
+
+
 func get_spawn_point() -> Vector3:
 	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * Network.SpawnRadius # spawn radius
 	return Vector3(spawn_point.x, 0, spawn_point.y)
+
+
 
 func _remove_player(id):
 	if not multiplayer.is_server() or not players_container.has_node(str(id)):
@@ -91,12 +111,18 @@ func _remove_player(id):
 		if id == multiplayer.get_unique_id():
 			OS.kill(OS.get_process_id())
 
+
+
 func _on_quit_pressed() -> void:
 	OS.kill(OS.get_process_id())
+
+
 
 func _on_disconnect_pressed() -> void:
 	_remove_player(multiplayer.get_unique_id())
 	main_menu.visible = true
+
+
 
 ## ---------- MULTIPLAYER CHAT ----------
 func toggle_chat():
@@ -106,8 +132,12 @@ func toggle_chat():
 	multiplayer_chat.toggle_chat()
 	chat_visible = multiplayer_chat.is_chat_visible()
 
+
+
 func is_chat_visible() -> bool:
 	return multiplayer_chat.is_chat_visible()
+
+
 
 func _input(event):
 	if event.is_action_pressed("Chat"):
@@ -123,6 +153,8 @@ func _input(event):
 	elif event is InputEventKey and event.pressed and event.keycode == KEY_F2:
 		_debug_print_inventory()
 
+
+
 func _on_chat_message_sent(message_text: String) -> void:
 	var trimmed_message = message_text.strip_edges()
 	if trimmed_message == "":
@@ -132,11 +164,15 @@ func _on_chat_message_sent(message_text: String) -> void:
 	var color = Network.players[multiplayer.get_unique_id()]["team_color"]
 	rpc("msg_rpc", nick, trimmed_message, color)
 
+
+
 @rpc("any_peer", "call_local")
 func msg_rpc(nick, msg, color):
 	multiplayer_chat.add_message(nick, msg, color)
 
-# ---------- INVENTORY SYSTEM ----------
+
+
+## ---------- INVENTORY SYSTEM ----------
 func toggle_inventory():
 	if main_menu.is_menu_visible():
 		return
@@ -151,8 +187,12 @@ func toggle_inventory():
 	else:
 		inventory_ui.close_inventory()
 
+
+
 func is_inventory_visible() -> bool:
 	return inventory_visible
+
+
 
 # Additional helper for testing
 func _notification(what):
@@ -163,8 +203,12 @@ func _notification(what):
 		#print("  F2 - Print inventory contents (debug)")
 		pass
 
+
+
 func _on_inventory_closed():
 	inventory_visible = false
+
+
 
 func update_local_inventory_display():
 	if inventory_ui:
@@ -172,13 +216,17 @@ func update_local_inventory_display():
 		inventory_ui.refresh_display()
 		#print("Debug: Inventory display updated from server sync")
 
+
+
 func _get_local_player() -> Player:
 	var local_player_id = multiplayer.get_unique_id()
 	if players_container.has_node(str(local_player_id)):
 		return players_container.get_node(str(local_player_id)) as Player
 	return null
 
-# Debug functions for testing inventory system
+
+
+## Debug functions for testing inventory system
 func _debug_add_item():
 	var local_player = _get_local_player()
 	if local_player:
@@ -188,6 +236,8 @@ func _debug_add_item():
 		local_player.request_add_item.rpc_id(1, random_item, 1)
 	else:
 		print("Debug: No local player found!")
+
+
 
 func _debug_print_inventory():
 	var local_player = _get_local_player()
@@ -209,3 +259,19 @@ func ToggleMenuVisibilty():
 		main_menu.visible = false
 	else:
 		main_menu.visible = true
+
+
+
+func AddObjectAutospawns():
+	var SpawnableFolder = DirAccess.open("res://Scenes/Spawnables/",)
+	for i in SpawnableFolder.list_dir_begin():
+		var Scene: String = SpawnableFolder.get_next()
+		if Scene != "":
+			Global.ObjectSyncronizer.add_spawnable_scene(Scene)
+			print(Scene)
+	var TemplateFolder = DirAccess.open("res://Scenes/Templates/",)
+	for i in SpawnableFolder.list_dir_begin():
+		var Scene: String = TemplateFolder.get_next()
+		if Scene != "":
+			Global.ObjectSyncronizer.add_spawnable_scene(Scene)
+			print(Scene)

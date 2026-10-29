@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cddmbdeis15lc" path="res://Scripts/base_vehicle.gd" id="1_vr678"]
 [ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/Templates/seat_3d.tscn" id="2_aabc5"]
+[ext_resource type="Material" uid="uid://dlnfqjwhmxwoy" path="res://Stuff/Materials/Wood2.tres" id="2_f366a"]
+[ext_resource type="Texture2D" uid="uid://t4447wmni6vd" path="res://Stuff/Images/Red_X.png" id="3_16e38"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="3_flsga"]
 [ext_resource type="AudioStream" uid="uid://ckrmp5257p8ul" path="res://Stuff/Sounds/rock-sliding.mp3" id="4_aabc5"]
 [ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="5_flsga"]
@@ -14,6 +16,16 @@ size = Vector3(1.4, 0.5, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_yf5fn"]
 size = Vector3(1.4, 0.5, 3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tnexw"]
+height = 0.19999999
+radius = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2wss0"]
+material = ExtResource("2_f366a")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.2
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g4v7s"]
 material = ExtResource("3_flsga")
@@ -54,7 +66,7 @@ properties/9/replication_mode = 1
 [sub_resource type="SphereShape3D" id="SphereShape3D_ns6mf"]
 radius = 0.90000004
 
-[node name="BaseVehicle" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound", "DamageArea")]
+[node name="BaseVehicle" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound", "DamageArea", "SteeringWheel")]
 physics_material_override = SubResource("PhysicsMaterial_l7i2k")
 center_of_mass_mode = 1
 script = ExtResource("1_vr678")
@@ -64,6 +76,7 @@ Seat = NodePath("Seat3D")
 EngineSound = NodePath("Engine")
 CollideSound = NodePath("Collide")
 DamageArea = NodePath("HitArea")
+SteeringWheel = NodePath("Steering Wheel")
 metadata/_custom_type_script = "uid://cddmbdeis15lc"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1768028682]
@@ -72,6 +85,21 @@ shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=90364758]
 mesh = SubResource("BoxMesh_yf5fn")
+
+[node name="Steering Wheel" type="RigidBody3D" parent="." unique_id=764421385]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, 1.1999999)
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Steering Wheel" unique_id=1698191638]
+transform = Transform3D(1, 0, 0, 0, 0.25881907, 0.9659258, 0, -0.9659258, 0.25881907, 0, 0, 0)
+shape = SubResource("CylinderShape3D_tnexw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Steering Wheel/CollisionShape3D" unique_id=1391676730]
+mesh = SubResource("CylinderMesh_2wss0")
+
+[node name="Sprite3D" type="Sprite3D" parent="Steering Wheel/CollisionShape3D/MeshInstance3D" unique_id=1248816868]
+transform = Transform3D(0.09, 0, 0, 0, 1.8626451e-09, -0.090000026, 0, 0.090000026, 1.8626451e-09, -0.0042601824, 0.106565535, 0.011336923)
+texture = ExtResource("3_16e38")
 
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="." unique_id=608941091]
 transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, -0.86000013, 0, 1.0600001)
@@ -131,7 +159,7 @@ stream = ExtResource("5_flsga")
 replication_config = SubResource("SceneReplicationConfig_vr678")
 
 [node name="Seat3D" parent="." unique_id=988545447 instance=ExtResource("2_aabc5")]
-transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -2.0489097e-08, 0.753207, 0.4000001)
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -2.0489097e-08, 0.753207, 0.3000001)
 UseTouch = false
 JumpExit = false
 

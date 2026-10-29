@@ -19,7 +19,6 @@
 [ext_resource type="PackedScene" uid="uid://dujneg0dxdvus" path="res://Scenes/Templates/debug_component_connect.tscn" id="15_kpo4j"]
 [ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="16_d8m2u"]
 [ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="17_5psol"]
-[ext_resource type="Script" uid="uid://d1nclceswe8bd" path="res://Scripts/MeshDeRenderer.gd" id="18_kpo4j"]
 [ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/Spawnables/SkyBall.tscn" id="18_m4llh"]
 [ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="19_lac6x"]
 [ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="20_hpjjw"]
@@ -27,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="23_7sj7i"]
 [ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="25_ep8v8"]
 [ext_resource type="PackedScene" uid="uid://v42r4dvek5rq" path="res://Scenes/Templates/item_giver.tscn" id="27_js5gh"]
+[ext_resource type="PackedScene" uid="uid://dbhc0xc8qiy7n" path="res://Scenes/Templates/base_npc.tscn" id="29_4n42c"]
 [ext_resource type="PackedScene" uid="uid://bvlc5d51w5ex" path="res://Scenes/Spawnables/vent.tscn" id="29_yisvs"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
@@ -34,6 +34,7 @@
 [sub_resource type="NavigationMesh" id="NavigationMesh_g4v7s"]
 vertices = PackedVector3Array(-49.5, 1, -49.5, -49.5, 1, 49.5, 49.5, 1, 49.5, 49.5, 1, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+agent_max_slope = 75.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
 size = Vector3(100, 1, 100)
@@ -41,6 +42,44 @@ size = Vector3(100, 1, 100)
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
 material = ExtResource("7_x3rx7")
 size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kpo4j"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2wss0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4n42c"]
+size = Vector3(2, 1, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c5snn"]
+size = Vector3(2.5, 1, 5)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_kpo4j"]
+vertices = PackedVector3Array(-4.5, 0.9999991, -14.5385, -4.5, 0.9999991, 14.4615, 4.5, 0.9999991, 14.4615, 4.5, 0.9999991, -14.5385)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+size = Vector3(10, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ns6mf"]
+size = Vector3(10, 1, 30.077)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_4n42c"]
+vertices = PackedVector3Array(-4.5, 1.0667205, -14.760925, -4.5, 0.8167205, 14.489075, 4.5, 0.8167205, 14.489075, 4.5, 1.0667205, -14.760925)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_c5snn"]
+vertices = PackedVector3Array(-14.5, 0.9637451, -4.563465, -14.5, 0.9637451, 4.436535, 14.5, 0.9637451, 4.436535, 14.5, 0.9637451, -4.563465)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2wss0"]
+size = Vector3(30, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tnexw"]
+size = Vector3(30, 1, 10)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_xvtyr"]
+vertices = PackedVector3Array(-14.5, 0.9637451, -4.563465, -14.5, 0.9637451, 4.436535, 14.5, 0.9637451, 4.436535, 14.5, 0.9637451, -4.563465)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="VoxelGIData" id="VoxelGIData_g4v7s"]
 
@@ -133,15 +172,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.75347626, -21)
 [node name="VentCover" parent="Enviroment" unique_id=792153120 instance=ExtResource("12_6ehlx")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 32, 1, -26)
 
-[node name="MeshUnRender" type="Node3D" parent="Enviroment/VentCover" unique_id=1854740589 node_paths=PackedStringArray("AffectedNode", "DelayTimer")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 5, 1)
-script = ExtResource("18_kpo4j")
-AffectedNode = NodePath("../../../Map/M2_IslandTown")
-DelayTimer = NodePath("Timer")
-metadata/_custom_type_script = "uid://d1nclceswe8bd"
-
-[node name="Timer" type="Timer" parent="Enviroment/VentCover/MeshUnRender" unique_id=163352308]
-
 [node name="ItemGver" parent="Enviroment" unique_id=696423283 instance=ExtResource("27_js5gh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, -36)
 
@@ -184,6 +214,93 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.600002, 0.5, -39)
 transform = Transform3D(0.9497779, -0.31292507, -1.4901161e-08, 0.31292498, 0.949778, -1.4200078e-08, 3.7252903e-08, -1.1175871e-08, 1, -21.999996, 0.5, -44.8)
 use_collision = true
 size = Vector3(15, 5, 7.5)
+
+[node name="GeometryCourse" type="Node3D" parent="." unique_id=434128034]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1, -40.9, 0, 20)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="GeometryCourse" unique_id=1221675575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.577419, 0.9999999, -12.130844)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/StaticBody3D" unique_id=764896686]
+shape = SubResource("BoxShape3D_kpo4j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/StaticBody3D/CollisionShape3D" unique_id=573821409]
+mesh = SubResource("BoxMesh_2wss0")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="GeometryCourse/StaticBody3D" unique_id=1846210253]
+radius = 1.0
+height = 0.0
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="GeometryCourse" unique_id=1770037887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.577419, 0.9999999, -18.130844)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/StaticBody3D2" unique_id=616828198]
+shape = SubResource("BoxShape3D_4n42c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/StaticBody3D2/CollisionShape3D" unique_id=1488709802]
+mesh = SubResource("BoxMesh_c5snn")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="GeometryCourse/StaticBody3D2" unique_id=676696412]
+radius = 3.0
+height = 0.0
+
+[node name="Ramp" type="NavigationRegion3D" parent="GeometryCourse" unique_id=1850816963]
+transform = Transform3D(1, 0, 0, 0, 0.960816, 0.27718735, 0, -0.2771874, 0.96081585, 0, 3.89, 8.478001)
+navigation_mesh = SubResource("NavigationMesh_kpo4j")
+
+[node name="RAMP" type="StaticBody3D" parent="GeometryCourse/Ramp" unique_id=260047293]
+transform = Transform3D(1, 0, 0, 0, 1, -2.9802322e-08, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/Ramp/RAMP" unique_id=872286456]
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/Ramp/RAMP/CollisionShape3D" unique_id=833600574]
+mesh = SubResource("BoxMesh_ns6mf")
+
+[node name="Ramp2" type="NavigationRegion3D" parent="GeometryCourse" unique_id=1739052565]
+transform = Transform3D(-1, 2.3521212e-08, -8.4199094e-08, 0, 0.96312565, 0.26905134, 8.742278e-08, 0.26905128, -0.96312535, 52, 12.093265, 8.107515)
+navigation_mesh = SubResource("NavigationMesh_4n42c")
+
+[node name="RAMP2" type="StaticBody3D" parent="GeometryCourse/Ramp2" unique_id=405744237]
+transform = Transform3D(1, 1.7763568e-15, 0, -1.7763568e-15, 0.9829106, -0.18408571, 0, 0.1840857, 0.98291063, 0, -0.024181366, -0.25645828)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/Ramp2/RAMP2" unique_id=1871181419]
+transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 0, 0)
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/Ramp2/RAMP2/CollisionShape3D" unique_id=618989610]
+transform = Transform3D(1, 0, 0, 0, 0.99994344, 0.01060839, 0, -0.010608375, 0.9999434, 0, 0.026899815, 0.25618744)
+mesh = SubResource("BoxMesh_ns6mf")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="GeometryCourse" unique_id=464301520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 8.036255, 27.763466)
+navigation_mesh = SubResource("NavigationMesh_c5snn")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="GeometryCourse/NavigationRegion3D" unique_id=443023130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0362549, 2.936535)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/NavigationRegion3D/StaticBody3D3" unique_id=1016249732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+shape = SubResource("BoxShape3D_2wss0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/NavigationRegion3D/StaticBody3D3/CollisionShape3D" unique_id=1880229469]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036254883, 0.06346512)
+mesh = SubResource("BoxMesh_tnexw")
+
+[node name="NavigationRegion3D2" type="NavigationRegion3D" parent="GeometryCourse" unique_id=125656285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 8.036255, 27.763466)
+navigation_mesh = SubResource("NavigationMesh_xvtyr")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="GeometryCourse/NavigationRegion3D2" unique_id=423699005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0362549, 2.936535)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeometryCourse/NavigationRegion3D2/StaticBody3D4" unique_id=14932800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+shape = SubResource("BoxShape3D_2wss0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GeometryCourse/NavigationRegion3D2/StaticBody3D4/CollisionShape3D" unique_id=1003510771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036254883, 0.06346512)
+mesh = SubResource("BoxMesh_tnexw")
 
 [node name="Map" type="Node3D" parent="." unique_id=52032139]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
@@ -257,7 +374,7 @@ offset_bottom = -96.0
 spawn_path = NodePath("../Map")
 
 [node name="ObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=1592566850]
-_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7", "uid://cpkwsbthq0f5y", "uid://cv3lvugfs7267", "uid://cay44tonbxxhl")
+_spawnable_scenes = PackedStringArray("uid://c2da27wehav8v", "uid://bqr134nqkmgdw", "uid://bhuxy2rcgtdhl", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://dbhc0xc8qiy7n", "uid://c6qn0qge0kmd1", "uid://b3xcavobasjlm", "uid://du7pc5cdkp0tt", "uid://bduuex11pvb73", "uid://c80ognwlu431w", "uid://big30pbtj55d7", "uid://cpkwsbthq0f5y", "uid://cv3lvugfs7267", "uid://cay44tonbxxhl", "uid://dsnsb3sojmqq", "uid://c5i0khqufptrs", "uid://ct88i71sanstw")
 spawn_path = NodePath("../Objects")
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." unique_id=27700166]
@@ -268,3 +385,6 @@ spawn_path = NodePath("../Projectiles")
 subdiv = 2
 size = Vector3(5000, 5000, 5000)
 data = SubResource("VoxelGIData_g4v7s")
+
+[node name="BaseNPC" parent="." unique_id=1176638673 instance=ExtResource("29_4n42c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 19, 47)

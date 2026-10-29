@@ -760,15 +760,16 @@ func Parry(_body: Node3D):
 					await get_tree().create_timer(0.035).timeout
 				await get_tree().create_timer(0.05).timeout
 			
-			if _body.has_method("set_freeze_enabled"):
-				var Force: Force3D = Force3D.new()
-				_body.add_child(Force)
-				Force.Velocity = Vector3(0.0,0.0,-1.0)
-				Force.F = ParryForce / _body.mass
-				_body.global_basis = FPCamera.global_basis
-				Force.SetupFinished.emit()
-				Force.Move()
-				await get_tree().create_timer(0.035).timeout
+			if _body:
+				if _body.has_method("set_freeze_enabled"):
+					var Force: Force3D = Force3D.new()
+					_body.add_child(Force,true)
+					Force.Velocity = Vector3(0.0,0.0,-1.0)
+					Force.F = ParryForce / _body.mass
+					_body.global_basis = FPCamera.global_basis
+					Force.SetupFinished.emit()
+					Force.Move()
+					await get_tree().create_timer(0.035).timeout
 
 	await get_tree().create_timer(0.1).timeout
 	ParryMesh.visible = false
