@@ -3,6 +3,9 @@ class_name BaseVehicle
 
 
 
+@export_category("Debug")
+@export var GearLabel: Label3D
+@export var EngineLabel: Label3D
 @export_category("Prefrences")
 @export var Acceleration: float = 1.0
 @export var Speed: float = 1.0
@@ -17,6 +20,7 @@ class_name BaseVehicle
 @export var EngineForce: float = 50.0
 @export var MaxHealth: float = 100.0
 @export var Health: float = 100.0
+@export var Manual: bool = false
 @export var UseSeatControl: bool = true
 @export var Seat: Seat3D
 @export var UseElectricity: bool = false
@@ -36,7 +40,10 @@ var UsedBy: Node3D = null
 var EnginePitch: float
 var SteerTarget: float = 0.0
 var PreviousSpeed: float = 0.0
+var Gear: int = GearEnum.Neutral
 var IsDead: bool = false
+
+enum GearEnum {Reverse = 0, Park = 1, Neutral = 2, Forward = 3}
 
 
 
@@ -59,6 +66,10 @@ func _physics_process(_delta: float) -> void:
 	if Health <= 0.0 and not IsDead:
 		Death()
 	
+	if linear_velocity.length() > MaxSpeed * 2:
+		linear_velocity = Vector3.ZERO
+		global_position = Vector3.ZERO
+	
 	if ElectricalInput > 0.0:
 		PowerInput = ElectricalInput
 	else:
@@ -73,8 +84,14 @@ func _physics_process(_delta: float) -> void:
 	else:
 		EngineSound.stop()
 	
-	if abs(linear_velocity.length() - PreviousSpeed) > 1.0:
-		CollideSound.play()
+	#if abs(linear_velocity.length() - PreviousSpeed) > 1.0:
+		#CollideSound.play()
+	
+	## Debug! Remove Later
+	if GearLabel:
+		GearLabel.text = str("Gear: ", Gear)
+	if EngineLabel:
+		EngineLabel.text = str("Engine: ", EngineOn)
 
 
 
@@ -96,31 +113,55 @@ func Drive(_delta: float):
 		if UsedBy.is_multiplayer_authority():
 			
 			
-			if Input.is_action_just_pressed(&"Reload"):
-				EngineOn = !EngineOn
-				if Global.UseDebug:
-					print("Engine: ", EngineOn)
 			
-			SteerTarget = Input.get_axis(&"Right",&"Left")
-			SteerTarget *= SteerLimit
+			#SteerTarget = Input.get_axis(&"Right",&"Left")
+			#SteerTarget *= SteerLimit
+			
+			var SteerInput = Input.get_axis(&"Right",&"Left")
+			if SteerInput != 0:
+				SteerTarget += SteerInput
+				SteerTarget = clamp(SteerTarget,-SteerLimit,SteerLimit)
+			else:
+				SteerTarget = move_toward(SteerTarget, 0.0, _delta)
+			
 			if SteeringWheel:
 				SteeringWheel.rotation.z = lerp(SteeringWheel.rotation.z, -SteerTarget, 0.25)
-			else:
-				pass
+			#else:
+				#pass
+			
+			if Input.is_action_pressed("Jump") and Manual:
+				if Input.is_action_just_pressed("WheelUp"):
+					Gear += 1
+					Gear = clamp(Gear, 0, 3)
+				elif Input.is_action_just_pressed("WheelDown"):
+					Gear -= 1
+					Gear = clamp(Gear, 0, 3)
 			
 			if EngineOn == true:
 				if Input.is_action_pressed(&"Up"):
-					var Velocity = linear_velocity.length()
-					if Velocity < MaxSpeed:
-						engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
+					if not Manual:
+						var Velocity = linear_velocity.length()
+						if Velocity < MaxSpeed:
+							engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
+					elif Gear == GearEnum.Forward:
+						var Velocity = linear_velocity.length()
+						if Velocity < MaxSpeed:
+							engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
+					elif Gear == GearEnum.Reverse:
+						var Velocity = linear_velocity.length()
+						if Velocity < MaxSpeed:
+							engine_force = -lerpf(engine_force, MaxSpeed, Speed * 0.5 * PowerInput / ReverseDivider)
 				else:
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
+				
 				if Input.is_action_pressed(&"Down"):
-					var Velocity = linear_velocity.length()
-					if Velocity < MaxSpeed:
-						engine_force = -lerpf(engine_force, MaxSpeed, Speed * 0.5 * PowerInput / ReverseDivider)
+					if not Manual:
+						var Velocity = linear_velocity.length()
+						if Velocity < MaxSpeed:
+							engine_force = -lerpf(engine_force, MaxSpeed, Speed * 0.5 * PowerInput / ReverseDivider)
 				else:
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput)
+				
 				if Input.is_action_pressed("Jump") and not Seat.JumpExit:
 					#brake = lerp(brake, BrakeStrength, 1)
 					#brake = BrakeStrength
@@ -131,25 +172,42 @@ func Drive(_delta: float):
 					#brake = lerp(brake, 0.0, 1)
 					brake = 0.0
 					linear_damp = 0.0
-				if Input.is_action_pressed("Run"):
+				if Input.is_action_pressed("Run") and not Manual:
 					var Velocity = linear_velocity.length()
 					if Velocity > 0:
 						if engine_force < MaxSpeed:
 							engine_force += Turbo
-						elif Velocity < 0:
-							if engine_force > -MaxSpeed:
-								engine_force -= Turbo
+					elif Velocity < 0:
+						if engine_force > -MaxSpeed:
+							engine_force -= Turbo
 					else:
 						if EngineForce > -MaxSpeed:
 							engine_force -= Turbo
 				if Input.is_action_just_released("Run") and not Input.is_action_pressed("Up") and not Input.is_action_pressed("Down"):
 					engine_force = lerpf(engine_force, 0.0, Speed * 0.1 * PowerInput * Acceleration)
-				
-				steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
-				PreviousSpeed = linear_velocity.length()
-				
+			
 			else:
 				engine_force = lerpf(engine_force, 0.0, 50.0)
+			
+			
+			
+			## Steer Setter
+			steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
+			PreviousSpeed = linear_velocity.length()
+			
+			## Engine On/Off
+			if Input.is_action_just_pressed("Reload"):
+				if linear_velocity.is_normalized(): # not
+					EngineOn = !EngineOn
+					linear_velocity = Vector3.ZERO
+					if Global.UseDebug:
+						print("Engine: ", EngineOn)
+			
+			if Gear == GearEnum.Park:
+				linear_damp = 100
+				engine_force = 0
+				if Input.is_action_pressed("Jump"):
+					linear_damp = 0
 
 
 

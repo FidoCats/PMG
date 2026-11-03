@@ -96,10 +96,12 @@ size = Vector3(1.4, 0.8, 0.2)
 material = ExtResource("8_f6v0b")
 size = Vector3(1.4, 0.90000004, 0.2)
 
-[node name="Really Bad Rally Car" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("Seat", "EngineSound", "CollideSound", "DamageArea", "SteeringWheel")]
+[node name="Really Bad Rally Car" type="VehicleBody3D" unique_id=356776445 node_paths=PackedStringArray("GearLabel", "EngineLabel", "Seat", "EngineSound", "CollideSound", "DamageArea", "SteeringWheel")]
 physics_material_override = SubResource("PhysicsMaterial_l7i2k")
 center_of_mass_mode = 1
 script = ExtResource("1_33hqh")
+GearLabel = NodePath("Label3D2")
+EngineLabel = NodePath("Label3D")
 Acceleration = 0.5
 MaxSpeed = 200.0
 SteerLimit = 0.6
@@ -107,8 +109,10 @@ SteerSpeed = 1.65
 BrakeStrength = 5.0
 BrakeDamp = 1.0
 Turbo = 85.5
+EngineOn = true
 MaxHealth = 90.0
 Health = 90.0
+Manual = true
 Seat = NodePath("Seat3D")
 EnginePitchModifier = 50.0
 EngineSound = NodePath("Engine")
@@ -188,7 +192,7 @@ skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="Engine" type="AudioStreamPlayer3D" parent="." unique_id=398376344]
 stream = ExtResource("5_jcaw1")
-volume_db = -6.606
+volume_db = -20.0
 parameters/looping = true
 
 [node name="Collide" type="AudioStreamPlayer3D" parent="." unique_id=2119625259]
@@ -241,3 +245,11 @@ shape = SubResource("BoxShape3D_6tmvs")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D5" unique_id=683576114]
 transform = Transform3D(1, 0, 0, 0, 1.0000012, 0, 0, 0, 1.0000012, 0, 0, 0)
 mesh = SubResource("BoxMesh_nfent")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=267733710]
+transform = Transform3D(-1, 0, 8.742278e-08, -6.181724e-08, 0.70710677, -0.70710677, -6.181724e-08, -0.70710677, -0.70710677, 0, 2.4853554, 1.2646447)
+text = "a"
+
+[node name="Label3D2" type="Label3D" parent="." unique_id=379442288]
+transform = Transform3D(-1, 0, 8.742278e-08, -6.181724e-08, 0.70710677, -0.70710677, -6.181724e-08, -0.70710677, -0.70710677, 0, 2.4146447, 1.3353554)
+text = "a"

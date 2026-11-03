@@ -29,17 +29,18 @@ class_name BaseNPC
 @export var WillPursue: bool = true
 @export var CanMove: bool = true
 @export var CanJump: bool = true
+@export var UseWindJump: bool = true
 @export var UseGravity: bool = true
-
 @export var StopOnAttack: bool = true
-@export var WanderDistance = 5.0
 
 @export_category("Properties")
 @export var AttackDamage: float = 10
 @export var Speed: float = 3.0
 @export var AttackCoolDown: float = 1.0
-@export var JumpVelocity: float = 3.5
+@export var JumpVelocity: float = 5.5
 @export var LungeForce: float = 2.5
+@export var JumpWindup: float = 0.25
+@export var WanderDistance = 5.0
 
 @export_category("Nodes: ")
 @export var CollisonShape: CollisionShape3D
@@ -84,6 +85,8 @@ var Direction: Transform3D
 func _ready() -> void:
 	StateTimer.timeout.connect(StateChange)
 	BoredTimer.timeout.connect(GetBored)
+	
+	#NavAgent.target_reached.connect(Stop)
 	
 	#FeelAreaShape.shape.radius = FeelDistance
 	FeelArea.body_entered.connect(AttemptFeel)
@@ -245,57 +248,77 @@ func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vec
 	if CanThink and CanMove:
 		if not IsBored:
 			if Target or TargetPos:
-				#if UnderRay.get_collider() != null:
-					if not UsePos:
-						TargetPos = Target.global_position
-					
-					SetTargetPosition(TargetPos)#Target.global_position)
-					
-					if NavAgent.is_target_reachable():
-						if not global_position.distance_to(TargetPos) < StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
-							
-							var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
-							
-							velocity = velocity.move_toward(Velocity, 0.05 * Speed)
-							rotation.x = 0.0
-						else:
-							velocity = Vector3.ZERO
-					else:
-						global_position.move_toward(NavLocation, _delta) #TargetPos)
-					
-					
-					
-					if FloorInfrontRay.get_collider() == null:
-						Jump(true)
-					if InfrontRay.get_collider() != null:
-						if InfrontRay.get_collider() != PursuedPerson:
-							if PursuedPerson:
-								if global_position.distance_to(PursuedPerson.global_position) < NavAgent.get_path_length():
-									Jump()
-							else:
-								Jump()
-					
-					move_and_slide()
-					
-					if UnderRay.get_collider() != null:
-						var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
-						if LookPos != Origin:
-							look_at(LookPos)
+				
+				if not UsePos:
+					TargetPos = Target.global_position
+				
+				
+				
+				SetTargetPosition(TargetPos)#Target.global_position)
+				
+				
+				
+				## Movement
+				if NavAgent.get_navigation_map() != null:
+					if not global_position.distance_to(TargetPos) < StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
 						
-						#print("Moving Toward ", Target, " at Position ", Target.global_position)
+						var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
+						
+						velocity = velocity.move_toward(Velocity, 0.05 * Speed)
+						rotation.x = 0.0
+					else:
+						velocity = Vector3.ZERO
+					move_and_slide()
+				else:
+					global_position.move_toward(TargetPos, _delta) #NavLocation)
+				
+				
+				
+				## Jump
+				if FloorInfrontRay.get_collider() == null:
+					Jump(true)
+				if InfrontRay.get_collider() != null:
+					if InfrontRay.get_collider() != PursuedPerson:
+						if PursuedPerson:
+							if global_position.distance_to(PursuedPerson.global_position) < NavAgent.get_path_length():
+								Jump()
+						else:
+							Jump()
+				
+				
+				
+				## LookAt
+				if UnderRay.get_collider() != null:
+					var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+					if LookPos != Origin:
+						look_at(LookPos)
+					
+					#print("Moving Toward ", Target, " at Position ", Target.global_position)
 
 
 
 func Jump(IsLong: bool = false):
-	if is_on_floor() and  velocity.y < JumpVelocity and AboveRay.get_collider() == null:
-		if not IsLong:
-			velocity.y = JumpVelocity + (LungeForce / 2)
-		else:
-			velocity.y = JumpVelocity
+	if CanJump:
 		
-		if IsLong:
-			if InfrontRay.get_collider() == null:
-				velocity -= (transform.basis * Vector3(0,0,LungeForce))
+		if UseWindJump:
+			Stop(JumpWindup)
+		
+		if is_on_floor() and  velocity.y < JumpVelocity and AboveRay.get_collider() == null:
+			if not IsLong:
+				velocity.y = JumpVelocity + (LungeForce / 2)
+			else:
+				velocity.y = JumpVelocity
+			
+			if IsLong:
+				if InfrontRay.get_collider() == null:
+					velocity -= (transform.basis * Vector3(0,0,LungeForce))
+
+
+
+func Stop(StopTime: float = 1):
+	CanMove = false
+	await get_tree().create_timer(StopTime).timeout
+	CanMove = true
 
 
 

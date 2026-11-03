@@ -221,7 +221,7 @@ outline_size = 3
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.051814817, 0)
 
 [node name="BarrelMarker" type="Marker3D" parent="." unique_id=1407823146]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1386021e-08, 0, 0.3302409)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.531173e-08, 0, 0.3751458)
 
 [node name="FireAnimation" type="AnimatedSprite3D" parent="BarrelMarker" unique_id=553643137]
 transform = Transform3D(0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, 0, 0, 0)

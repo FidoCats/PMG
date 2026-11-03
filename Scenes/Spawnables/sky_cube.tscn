@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cgllf110vj8pt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2wss0"]
+transparency = 1
+albedo_color = Color(0.8352941, 0.92941177, 1, 1)
+metallic = 0.85
+roughness = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ns6mf"]
+material = SubResource("StandardMaterial3D_2wss0")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhs7p"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:basis")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="SkyCube" type="RigidBody3D" unique_id=256020329]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1856713158]
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=462308039]
+mesh = SubResource("BoxMesh_ns6mf")
+skeleton = NodePath("")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1004458365]
+replication_config = SubResource("SceneReplicationConfig_qhs7p")

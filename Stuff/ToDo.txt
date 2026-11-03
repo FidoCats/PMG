@@ -6,13 +6,13 @@
 6.) Add Noticability system
 7.) 
 8.) 
-9.) 
-10.) CANNOT DAMAGE NPCS (Something in Alive.gd)
+9.)  Make PickupComponent only work if RigidBody is unfrozen
+10.)
 11.) --Fix Guns not working on client--
 12.) Add PlayersPerSession chooser to lobby creation screen
 13.) Add MapChanger
 14.) Add BaseItem Class
-15.) Make BaseNPC
+15.) 
 16.) Make BaseFluid Class
 17.) Make Better Weapon Models
 18.) Make B&T APC

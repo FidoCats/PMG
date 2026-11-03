@@ -128,6 +128,7 @@ var CanParry: bool = true
 @export var InteractDistance: float = -3.0
 @export var CanInteract: bool = true
 @export var RespawnTime: float = 5.0
+@export var JumpCharge: float = 0
 
 
 
@@ -592,10 +593,11 @@ func MovementBasic() -> void:
 
 func Jump():
 	if Jumps > 0:
-		velocity.y = JumpVelocity
+		velocity.y = JumpVelocity + JumpCharge
 		Jumps -= 1
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		CurrentNoise = JumpNoise
+		JumpCharge = 0
 
 func Crouch():
 	IsCrouching = true
@@ -606,6 +608,14 @@ func Crouch():
 	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.35)
 	CurrentNoise = CrouchNoise
 	Fov = SetFov - CrouchFov
+	
+	if IsCrouching:
+		await get_tree().create_timer(0.55).timeout
+	else:
+		JumpCharge = 0
+	if IsCrouching:
+		JumpCharge = 2.5
+	#sprint("JumpCharge: ", JumpCharge)
 func UnCrouch():
 	if AboveRay.Above == null:
 		Speed = BaseSpeed
@@ -762,6 +772,7 @@ func Parry(_body: Node3D):
 			
 			if _body:
 				if _body.has_method("set_freeze_enabled"):
+					_body.set_freeze_enabled(false)
 					var Force: Force3D = Force3D.new()
 					_body.add_child(Force,true)
 					Force.Velocity = Vector3(0.0,0.0,-1.0)
