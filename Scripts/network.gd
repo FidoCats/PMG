@@ -5,7 +5,7 @@ var SERVER_PORT: int = 1234 #8080
 var MAX_PLAYERS : int = 10
 
 ## Gamerules? -Fido :3
-var UseDayNightCycle: bool = false
+var UseDayNightCycle: bool = true
 var KeepInventory: bool = false
 var SpawnRadius: float = 10
 
@@ -32,7 +32,7 @@ func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 
-func start_host(nickname: String, skin_color_str: String):
+func start_host(nickname: String, skin_color_str: Color):#, species: Player.SpeciesEnum):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(SERVER_PORT, MAX_PLAYERS)
 	if error:
@@ -43,7 +43,8 @@ func start_host(nickname: String, skin_color_str: String):
 		nickname = "Host_" + str(multiplayer.get_unique_id())
 
 	player_info["nick"] = nickname
-	player_info["skin"] = skin_str_to_e(skin_color_str)
+	player_info["skin"] = skin_color_str #skin_str_to_e(skin_color_str)
+#	player_info["species"] = species
 	
 	if DisplayServer.get_name() == "headless":
 		return
@@ -51,7 +52,7 @@ func start_host(nickname: String, skin_color_str: String):
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 
-func join_game(nickname: String, skin_color_str: String, address: String = SERVER_ADDRESS):
+func join_game(nickname: String, skin_color_str: Color, address: String = SERVER_ADDRESS):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(address, SERVER_PORT)
 	if error:
@@ -68,6 +69,7 @@ func join_game(nickname: String, skin_color_str: String, address: String = SERVE
 
 	player_info["nick"] = nickname
 	player_info["skin"] = skin_color_str
+	#player_info["species"] = species
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()

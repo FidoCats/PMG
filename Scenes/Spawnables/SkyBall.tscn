@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="2_tjj8m"]
 [ext_resource type="Script" uid="uid://d3wajoccwrfbo" path="res://Scripts/CollisionNoise.gd" id="4_vcgp6"]
 [ext_resource type="AudioStream" uid="uid://5peweapedbdu" path="res://Stuff/Sounds/edr-cat-purr-meow-8327.mp3" id="5_ug5nd"]
+[ext_resource type="Texture2D" uid="uid://cxeo0n545ommo" path="res://Stuff/Images/FelmitFace (14.10.2026)/SadOpen.png" id="6_ug5nd"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tiwcy"]
 
@@ -103,3 +104,7 @@ randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_8l2w2")
 draw_pass_1 = SubResource("SphereMesh_2wss0")
 draw_skin = SubResource("Skin_4j6l5")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1291029781]
+transform = Transform3D(0.5, 0, 0, 0, 0.46984628, -0.17101009, 0, 0.17101009, 0.46984628, 0.1, -0.09999999, 0.5)
+texture = ExtResource("6_ug5nd")

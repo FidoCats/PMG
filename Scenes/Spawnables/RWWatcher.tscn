@@ -60,8 +60,8 @@ properties/11/replication_mode = 1
 [node name="Watcher R World" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_ta5gf")
 IsAgressive = false
-WillPursue = false
 CanAttack = false
+WillPursue = false
 CollisonShape = NodePath("CollisionShape3D")
 AudioPlayer = NodePath("AudioStreamPlayer3D")
 SightLine = NodePath("RayCast3D")
@@ -128,7 +128,6 @@ billboard = 1
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
 target_desired_distance = 20.0
 avoidance_enabled = true
-debug_enabled = true
 
 [node name="InteractionComponent" type="Node" parent="." unique_id=342683973]
 script = ExtResource("5_fc0ot")

@@ -13,7 +13,7 @@ var inventory_visible = false
 func _ready():
 	if DisplayServer.get_name() == "headless":
 		print("Dedicated server starting...")
-		Network.start_host("", "")
+		Network.start_host("", Color.TRANSPARENT)#, Player.SpeciesEnum.Felmitt)
 	
 	
 	
@@ -63,13 +63,13 @@ func _on_player_connected(peer_id, player_info):
 
 
 
-func _on_host_pressed(nickname: String, skin: String):
+func _on_host_pressed(nickname: String, skin: Color):#, species: Player.SpeciesEnum):
 	main_menu.hide_menu()
-	Network.start_host(nickname, skin)
+	Network.start_host(nickname, skin)#, species)
 
 
 
-func _on_join_pressed(nickname: String, skin: String, address: String):
+func _on_join_pressed(nickname: String, skin: Color, address: String):
 	main_menu.hide_menu()
 	Network.join_game(nickname, skin, address)
 

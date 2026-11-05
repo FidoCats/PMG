@@ -19,10 +19,10 @@ font_size = 25
 line_spacing = -15.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_duayq"]
-radius = 15.0
+radius = 30.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_n8v3c"]
-radius = 7.0
+radius = 15.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
 radius = 2.0
@@ -65,7 +65,7 @@ properties/11/path = NodePath(".:IsAgressive")
 properties/11/spawn = true
 properties/11/replication_mode = 1
 
-[node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
@@ -75,8 +75,8 @@ FloorInfrontRay = NodePath("FloorInfront")
 UnderRay = NodePath("Under")
 AboveRay = NodePath("Above")
 SightLine = NodePath("LookAt")
-FeelArea = NodePath("FeelArea")
-FeelAreaShape = NodePath("FeelArea/FeelShape")
+SenseArea = NodePath("SenseArea")
+SenseAreaShape = NodePath("SenseArea/SenseShape")
 HearArea = NodePath("HearArea")
 HearAreaShape = NodePath("HearArea/HearShape")
 TouchArea = NodePath("TouchArea")
@@ -95,7 +95,7 @@ debug_color = Color(1, 0, 0, 0.41960785)
 
 [node name="LookAt" type="RayCast3D" parent="." unique_id=134919240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39520457, -0.49677712)
-target_position = Vector3(0, 0, -2.5)
+target_position = Vector3(0, 0, -50)
 
 [node name="Infront" type="RayCast3D" parent="." unique_id=1966231872]
 transform = Transform3D(1, 0, 0, 0, 1, -9.685755e-08, 0, 9.685755e-08, 1, 0, -0.19999999, -0.5)
@@ -132,10 +132,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 [node name="HearShape" type="CollisionShape3D" parent="HearArea" unique_id=956566015]
 shape = SubResource("SphereShape3D_duayq")
 
-[node name="FeelArea" type="Area3D" parent="." unique_id=1157887383]
+[node name="SenseArea" type="Area3D" parent="." unique_id=1157887383]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
-[node name="FeelShape" type="CollisionShape3D" parent="FeelArea" unique_id=814768888]
+[node name="SenseShape" type="CollisionShape3D" parent="SenseArea" unique_id=814768888]
 shape = SubResource("SphereShape3D_n8v3c")
 
 [node name="TouchArea" type="Area3D" parent="." unique_id=451940152]
@@ -162,4 +162,3 @@ billboard = 1
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
 target_desired_distance = 20.0
 avoidance_enabled = true
-debug_enabled = true

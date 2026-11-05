@@ -132,10 +132,10 @@ func Drive(_delta: float):
 			if Input.is_action_pressed("Jump") and Manual:
 				if Input.is_action_just_pressed("WheelUp"):
 					Gear += 1
-					Gear = clamp(Gear, 0, 3)
+					Gear = clamp(Gear, 0, GearEnum.size())
 				elif Input.is_action_just_pressed("WheelDown"):
 					Gear -= 1
-					Gear = clamp(Gear, 0, 3)
+					Gear = clamp(Gear, 0, GearEnum.size())
 			
 			if EngineOn == true:
 				if Input.is_action_pressed(&"Up"):
@@ -204,10 +204,12 @@ func Drive(_delta: float):
 						print("Engine: ", EngineOn)
 			
 			if Gear == GearEnum.Park:
-				linear_damp = 100
+				#linear_damp = 100
 				engine_force = 0
+				brake = 500
 				if Input.is_action_pressed("Jump"):
-					linear_damp = 0
+					#linear_damp = 0
+					brake = 0
 
 
 

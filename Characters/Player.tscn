@@ -582,7 +582,6 @@ width = 25
 [node name="Player" type="CharacterBody3D" unique_id=1661719079 groups=["Alive"]]
 collision_mask = 3
 script = ExtResource("1_x35ji")
-Species = 0
 FelmittModel = SubResource("ArrayMesh_icbm8")
 InteractCoolDown = 0.35
 
@@ -1344,7 +1343,7 @@ offset_top = 72.0
 offset_right = 955.0
 offset_bottom = 719.0
 theme = ExtResource("14_ijtlc")
-item_count = 7
+item_count = 8
 fixed_icon_size = Vector2i(64, 64)
 item_0/text = "Box"
 item_1/text = "Large Box"
@@ -1353,6 +1352,7 @@ item_3/text = "Blue Ball"
 item_4/text = "Red Ball"
 item_5/text = "Green Ball"
 item_6/text = "Yellow Ball"
+item_7/text = "SkyCube"
 
 [node name="Melee" type="ItemList" parent="SpawnMenu" unique_id=1420368862]
 visible = false

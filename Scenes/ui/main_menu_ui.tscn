@@ -272,6 +272,7 @@ offset_left = 344.0
 offset_top = 96.0
 offset_right = 542.0
 offset_bottom = 139.0
+allow_reselect = true
 search_bar_enabled = true
 
 [node name="Label2" type="Label" parent="Profile/MeshInput" unique_id=490348323]
@@ -389,5 +390,5 @@ fov = 90.0
 [connection signal="toggled" from="HostPanel/KeepInventory" to="." method="_on_keep_inventory_toggled"]
 [connection signal="value_changed" from="HostPanel/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="JoinPanel/Join" to="." method="_on_join_pressed"]
-[connection signal="item_selected" from="Profile/MeshInput" to="." method="_on_mesh_input_item_selected"]
+[connection signal="item_selected" from="Profile/MeshInput" to="." method="_on_skin_input_item_selected"]
 [connection signal="color_changed" from="Profile/ColorOverlay" to="." method="_on_color_overlay_color_changed"]

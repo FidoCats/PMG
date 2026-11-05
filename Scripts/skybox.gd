@@ -14,12 +14,12 @@ extends Node3D
 
 
 
-
-
 func _ready() -> void:
-	if Network.UseDayNightCycle == true:
-		Clock.timeout.connect(Switch)
-		Switch()
+	if Network.UseDayNightCycle == true: # Make this different later coz UseDayNightCycle only really works on start
+		Clock.autostart = true
+		Clock.timeout.connect(WorldTime.AddTime)
+		WorldTime.CycleChange.connect(UpdateCycle)
+		#Switch()
 
 
 
@@ -41,23 +41,24 @@ func _process(_delta: float) -> void:
 
 
 
-func Switch():
-	if not WorldTime.CurrentCycle > WorldTime.Cycles.size():
-		WorldTime.CurrentCycle += 1
-	else: WorldTime.CurrentCycle = 0
+@rpc("any_peer","call_local")
+func UpdateCycle(DesiredCycle: WorldTime.Cycles):
+	#if not WorldTime.CurrentCycle > WorldTime.Cycles.size():
+		#WorldTime.CurrentCycle += 1
+	#else: WorldTime.CurrentCycle = 0
 	
 	
 	
-	match WorldTime.CurrentCycle:
+	match DesiredCycle:
 		0:
-			LightNode.rotation_degrees.x = 0.0
+			LightNode.rotation_degrees.x = lerp(LightNode.rotation_degrees, 0.0, 0.25)
 			EnviromentNode.environment = MorningEnv
 		1:
-			LightNode.rotation_degrees.x = -90.0
+			LightNode.rotation_degrees.x = lerp(LightNode.rotation_degrees, -90.0, 0.25)
 			EnviromentNode.environment = DayEnv
 		2:
-			LightNode.rotation_degrees.x = 180.0
+			LightNode.rotation_degrees.x = lerp(LightNode.rotation_degrees, 180.0, 0.25)
 			EnviromentNode.environment = EveningEnv
 		3:
-			LightNode.rotation_degrees.x = 90.0
+			LightNode.rotation_degrees.x = lerp(LightNode.rotation_degrees, 90.0, 0.25)
 			EnviromentNode.environment = NightEnv

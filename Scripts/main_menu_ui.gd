@@ -1,27 +1,33 @@
 extends Control
 class_name MainMenuUI
 
-signal host_pressed(nickname: String, skin: String)
-signal join_pressed(nickname: String, skin: String, address: String)
+signal host_pressed(nickname: String, skin: Color)#, species: Player.SpeciesEnum)
+signal join_pressed(nickname: String, skin: Color, address: String)
 signal quit_pressed
 
 @onready var mesh_input: OptionButton = $Profile/MeshInput
-@onready var color_input: ColorPickerButton
+@onready var color_input: ColorPickerButton = $Profile/ColorOverlay
+@onready var species_input: OptionButton = $Profile/MeshInput
 @onready var nick_input: LineEdit = $Profile/NickInput
 @onready var address_input: LineEdit = $AddressInput
 
 
 
 func _on_host_pressed():
-	var nickname = nick_input.text.strip_edges()
-	var skin = mesh_input.get_item_text(mesh_input.get_selected_id()) #skin_input.text.strip_edges().to_lower()
-	host_pressed.emit(nickname, skin)
+	var nickname: String = nick_input.text.strip_edges()
+	var skin: Color = color_input.color #skin_input.text.strip_edges().to_lower()
+	#print(Player.SpeciesEnum.get(0))#mesh_input.selected))
+	#await get_tree().create_timer(0.1).timeout
+	#var species: Player.SpeciesEnum = Player.SpeciesEnum.get(mesh_input.selected)
+	
+	host_pressed.emit(nickname, skin)#, species)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_join_pressed():
-	var nickname = nick_input.text.strip_edges()
-	var skin = mesh_input.get_item_text(mesh_input.get_selected_id()) #skin_input.text.strip_edges().to_lower()
-	var address = address_input.text.strip_edges()
+	var nickname: String = nick_input.text.strip_edges()
+	var skin: Color = color_input.color #skin_input.text.strip_edges().to_lower()
+	#var species: Player.SpeciesEnum = Player.SpeciesEnum.get(mesh_input.selected)
+	var address: String = address_input.text.strip_edges()
 	join_pressed.emit(nickname, skin, address)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -112,6 +118,7 @@ func _on_settings_pressed() -> void:
 
 func _on_skin_input_item_selected(_index: int) -> void:
 	Network.player_info.set("species", Player.SpeciesEnum.get(_index))
+	print(Player.SpeciesEnum.get(_index), Network.player_info.get("species"), mesh_input.get_selected_id())
 
 func _on_color_overlay_color_changed(_color: Color) -> void:
 	Network.player_info.set("skin",_color)

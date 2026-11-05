@@ -110,8 +110,8 @@ properties/11/replication_mode = 1
 script = ExtResource("1_loey4")
 StopDistance = 25.0
 IsAgressive = false
-Speed = 1.0
 CanAttack = false
+Speed = 1.0
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
 AudioPlayer = NodePath("AudioStreamPlayer3D")
@@ -193,4 +193,3 @@ billboard = 1
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1455408462]
 target_desired_distance = 20.0
 avoidance_enabled = true
-debug_enabled = true

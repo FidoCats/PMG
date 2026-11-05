@@ -57,6 +57,7 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 @onready var RedBallPreload = preload("res://Scenes/Spawnables/small_red_ball.tscn")
 @onready var GreenBallPreload = preload("res://Scenes/Spawnables/small_green_ball.tscn")
 @onready var YellowBallPreload = preload("res://Scenes/Spawnables/small_yellow_ball.tscn")
+@onready var SkyCubePreload = preload("res://Scenes/Spawnables/sky_cube.tscn")
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
@@ -102,6 +103,11 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			YellowBall.global_position = $"../FPCamera".global_position
 			YellowBall.global_basis = $"../FPCamera".global_basis
 			YellowBall.global_position.z += 2.5
+		7:
+			var SkyCube: Node3D = SkyCubePreload.instantiate()
+			Global.ObjectSpawner.add_child(SkyCube, true)
+			SkyCube.global_basis = $"../FPCamera".global_basis
+			SkyCube.global_position = $"../FPCamera".global_position + Vector3(0,0,2.5)
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory

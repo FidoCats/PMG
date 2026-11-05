@@ -42,7 +42,7 @@ var player_inventory: PlayerInventory
 #@export var _spring_arm_offset: Node3D = null
 
 @export_category("Player Model Stuff: ")
-@export_enum("Felmitt", "Canire", "Aviamn") var Species: int = 1
+#@export_enum("Felmitt", "Canire", "Aviamn") var Species: int = 1
 
 @export var FelmittModel: Mesh
 @export var CaenireModel: Mesh
@@ -71,9 +71,9 @@ const RunFov: float = 12.5
 const DiveFov: float = 22.5
 const SlideFov: float = 25.0
 const WalkNoise: int = 3
-const WalkVisibility: int = 3
-const CrouchNoise: int = 1
-const CrouchVisibility: int = 0
+const WalkVisibility: int = 2
+const CrouchNoise: int = 0
+const CrouchVisibility: int = 1
 const JumpNoise: int = 3
 const RunNoise: int = 5
 const DiveNoise: int = 7
@@ -782,9 +782,15 @@ func Parry(_body: Node3D):
 					Force.Move()
 					await get_tree().create_timer(0.035).timeout
 
+	CurrentNoise = 5
+	CurrentVisibility = 3
 	await get_tree().create_timer(0.1).timeout
+	CurrentNoise = 1
+	CurrentVisibility = 1
 	ParryMesh.visible = false
 	CanParry = true
+
+
 
 ## Death and Other functions ##
 

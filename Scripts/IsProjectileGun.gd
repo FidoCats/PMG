@@ -136,7 +136,7 @@ func _process(_delta: float) -> void:
 				Firerate = "Auto"
 			elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Auto" and CanSwitchFR == true:
 				Firerate = "Safety"
-			elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Safety" and CanSwitchFR == true:
+			elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Safety" and CanSwitchFR == true: #FirerateEnum.size()
 				Firerate = "Semi"
 	
 	if Collect:

@@ -11,7 +11,7 @@ signal Died(_Who: Node3D)
 @export var RespawnTime: float = 1.5
 @export var UseNoticableOverride: bool = true
 @export var VisibilityOverride: int = 3
-@export var NoiseOverride: int = 3 
+@export var NoiseOverride: int = 3
 @export_category("Properties")
 @export var Health: float = 100.0
 @export var MaxHealth: float = 100.0

@@ -3,6 +3,8 @@ class_name BaseNPC
 
 
 
+signal Sense(_Body: Node3D)
+
 @export_category("Debug: ")
 @export var UseLabelForDebug: bool = false
 @export var CanThink: bool = true
@@ -10,9 +12,9 @@ class_name BaseNPC
 ## Hearing
 @export var HearDistance: float = 50.0
 @export var HearChance: int = 2
-## Feeling
-@export var FeelDistance: float = 30.0
-@export var FeelChance: int = 1
+## Sensing
+@export var SenseDistance: float = 30.0
+@export var SenseChance: int = 1
 ## Too close
 @export var TouchDistance = 2.5
 ## Attacking
@@ -22,7 +24,7 @@ class_name BaseNPC
 ## Other
 @export var CanHear: bool = true
 @export var CanSee: bool = true
-@export var CanFeel: bool = true
+@export var CanSense: bool = true
 @export var CanTouch: bool = true
 @export var IsAgressive: bool = true
 @export var CanAttack: bool = true
@@ -51,8 +53,8 @@ class_name BaseNPC
 @export var UnderRay: RayCast3D
 @export var AboveRay: RayCast3D
 @export var SightLine: RayCast3D
-@export var FeelArea: Area3D
-@export var FeelAreaShape: CollisionShape3D
+@export var SenseArea: Area3D
+@export var SenseAreaShape: CollisionShape3D
 @export var HearArea: Area3D
 @export var HearAreaShape: CollisionShape3D
 @export var TouchArea: Area3D
@@ -88,9 +90,10 @@ func _ready() -> void:
 	
 	#NavAgent.target_reached.connect(Stop)
 	
-	#FeelAreaShape.shape.radius = FeelDistance
-	FeelArea.body_entered.connect(AttemptFeel)
+	#SenseAreaShape.shape.radius = SenseDistance
+	SenseArea.body_entered.connect(AttemptSense)
 	#HearAreaShape.shape.radius = HearDistance
+	Sense.connect(AttemptSense)
 	HearArea.body_entered.connect(AttemptHear)
 	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(AttemptTouch)
@@ -191,7 +194,7 @@ func StateChange():
 
 func GetBored():
 	if PursuedPerson != null:
-		if global_position.distance_to(PursuedPerson.global_position) > FeelDistance:
+		if global_position.distance_to(PursuedPerson.global_position) > SenseDistance:
 			IsBored = true
 			IsPursuing = false
 			PursuedPerson = null
@@ -207,28 +210,29 @@ func AttemptHear(_body):
 		if _body != null:
 			if _body.is_in_group("Alive"):
 				if _body != self:
-					var HasHeard = randi_range(1,HearChance)
-					if HasHeard == 1 and CanHear:
-						if _body.CurrentNoise >= 1:
-							IsBored = false
-							PursuedPerson = _body
-							IsPursuing = true
-							#print("I hear ", PursuedPerson)
+					if _body.CurrentNoise > 0:
+						var HasHeard = randf_range(1, HearChance / _body.CurrentNoise)
+						if HasHeard == 1 and CanHear:
+							if _body.CurrentNoise >= 1:
+								IsBored = false
+								PursuedPerson = _body
+								IsPursuing = true
+								#print("I hear ", PursuedPerson)
 
 
 
-func AttemptFeel(_body):
-	if CanFeel:
+func AttemptSense(_body):
+	if CanSense:
 		if _body != null:
 			if _body.is_in_group("Alive"):
 				if _body != self:
-					if _body.CurrentNoise >= 1:
-						var WasFelt = randi_range(1,FeelChance)
+					if _body.Noticability >= 1:
+						var WasFelt = randf_range(1,SenseChance / _body.Noticability)
 						if WasFelt == 1:
 							IsBored = false
 							PursuedPerson = _body
 							IsPursuing = true
-							#print("I feel ", PursuedPerson)
+							#print("I Sense ", PursuedPerson)
 
 
 
@@ -259,7 +263,7 @@ func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vec
 				
 				
 				## Movement
-				if NavAgent.get_navigation_map() != null:
+				if NavAgent.get_navigation_map().is_valid():
 					if not global_position.distance_to(TargetPos) < StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
 						
 						var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
@@ -334,7 +338,7 @@ func Pursue(_delta, Target: Node3D):
 					if Target.is_in_group("Alive") and not Target.is_in_group("Neutral"):
 						if Target != self:
 							if Target.Noticability != 0:
-								if global_position.distance_to(Target.global_position) < FeelDistance:
+								if global_position.distance_to(Target.global_position) < SenseDistance:
 									IsBored = false
 									Move(_delta,Target)
 									BoredTimer.start()
