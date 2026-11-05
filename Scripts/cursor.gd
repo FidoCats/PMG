@@ -3,15 +3,16 @@ extends Control
 
 
 #signal disconnect_pressed
+@onready var player = $".."
 
 @onready var NameLabel: Label = $Cursor/LookAtName
 @onready var TypeLabel: Label = $Cursor/Tip
 @onready var Cursor: Sprite2D = $Cursor
 @onready var PeerLabel: RichTextLabel = $Menu/PeerLabel
 
-@onready var LookAtRay: LookAtRayCast = $"../FPCamera/LookingAt"
+@onready var LookAtRay: LookAtRayCast = player.LookAtRay
 
-@onready var player = $".."
+
 
 @onready var BaseCursor = preload("res://Stuff/Images/cursor.png")
 @onready var InteractCursor = preload("res://Stuff/Images/CursorInteract.png")
@@ -72,10 +73,13 @@ func _on_continue_pressed() -> void:
 func _on_exit_pressed() -> void:
 	#disconnect_pressed.emit()
 	var level_scene = get_tree().get_current_scene()
-	if level_scene.has_method("_remove_player"):
-		level_scene._remove_player(multiplayer.get_unique_id()) #str(player.name).to_int())
-	if level_scene.has_method("ToggleMenuVisibilty"):
-		level_scene.ToggleMenuVisibilty()
-	await get_tree().create_timer(0.1).timeout
-	player.queue_free()
+	#if level_scene.has_method("_remove_player"):
+		#level_scene._remove_player(multiplayer.get_unique_id()) #str(player.name).to_int())
+	#if level_scene.has_method("ToggleMenuVisibilty"):
+		#level_scene.ToggleMenuVisibilty()
+	#await get_tree().create_timer(0.1).timeout
+	#player.queue_free()
 	#OS.kill(OS.get_process_id())
+	
+	if level_scene.has_method("Disconnect"):
+		level_scene.Disconnect()

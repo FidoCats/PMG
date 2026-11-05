@@ -32,12 +32,12 @@ var IsMultiplayerAuthority: bool
 
 
 func _process(_delta: float) -> void:
-	IsMultiplayerAuthority = $"../..".is_multiplayer_authority()
+	IsMultiplayerAuthority = PlayerNode.is_multiplayer_authority()
 	
 	if not IsMultiplayerAuthority: return
-	if $"../..".InputBlocked: return
+	if PlayerNode.InputBlocked: return
 	
-	CurrentPlayerInventory = $"../..".player_inventory
+	CurrentPlayerInventory = PlayerNode.player_inventory
 	Slot1 = CurrentPlayerInventory.get_slot(0)
 	Slot2 = CurrentPlayerInventory.get_slot(1)
 	Slot3 = CurrentPlayerInventory.get_slot(2)

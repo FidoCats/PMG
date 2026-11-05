@@ -579,9 +579,27 @@ colors = PackedColorArray(1, 0.42745098, 0, 1, 1, 0.89411765, 0, 1)
 gradient = SubResource("Gradient_u0thl")
 width = 25
 
-[node name="Player" type="CharacterBody3D" unique_id=1661719079 groups=["Alive"]]
+[node name="Player" type="CharacterBody3D" unique_id=1661719079 node_paths=PackedStringArray("nickname", "UI", "FPCamera", "CamOffset", "LookAtRay", "Holding", "UnderRay", "AboveRay", "InfrontRay", "TPCamera", "SpringArm", "BaseCollisionShape", "CrouchCollisionShape", "MainMesh", "ParryArea", "ParryMesh", "DeathScreen", "RespawnAudioStream") groups=["Alive"]]
 collision_mask = 3
 script = ExtResource("1_x35ji")
+nickname = NodePath("PlayerNick/Nickname")
+UI = NodePath("UI")
+FPCamera = NodePath("CameraOffset/FPCamera")
+CamOffset = NodePath("CameraOffset")
+LookAtRay = NodePath("CameraOffset/FPCamera/LookingAt")
+Holding = NodePath("CameraOffset/FPCamera/Holding")
+UnderRay = NodePath("Under")
+AboveRay = NodePath("Above")
+InfrontRay = NodePath("Infront")
+TPCamera = NodePath("CameraOffset/FPCamera/SpringArmOffset/SpringArm3D/TPCamera")
+SpringArm = NodePath("CameraOffset/FPCamera/SpringArmOffset/SpringArm3D")
+BaseCollisionShape = NodePath("BaseCollisionShape")
+CrouchCollisionShape = NodePath("CrouchCollisionShape3D")
+MainMesh = NodePath("MainMesh")
+ParryArea = NodePath("CameraOffset/FPCamera/ParryArea")
+ParryMesh = NodePath("CameraOffset/FPCamera/ParryArea/MeshInstance3D")
+DeathScreen = NodePath("UI/DeathScreen")
+RespawnAudioStream = NodePath("Respawn")
 FelmittModel = SubResource("ArrayMesh_icbm8")
 InteractCoolDown = 0.35
 
@@ -609,43 +627,46 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
 target_position = Vector3(0, 0, 1.5)
 script = ExtResource("4_x870h")
 
-[node name="FPCamera" type="Camera3D" parent="." unique_id=536479190]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.066, 1.25, 0.21)
+[node name="CameraOffset" type="Node3D" parent="." unique_id=34522468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.25, 0.2)
+
+[node name="FPCamera" type="Camera3D" parent="CameraOffset" unique_id=536479190]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 attributes = SubResource("CameraAttributesPractical_yf5fn")
 current = true
 fov = 90.0
 
-[node name="LookingAt" type="RayCast3D" parent="FPCamera" unique_id=843091635 node_paths=PackedStringArray("ParentPlayer")]
+[node name="LookingAt" type="RayCast3D" parent="CameraOffset/FPCamera" unique_id=843091635 node_paths=PackedStringArray("ParentPlayer")]
 target_position = Vector3(0, 0, -3)
 script = ExtResource("6_c3bgu")
-ParentPlayer = NodePath("../..")
+ParentPlayer = NodePath("../../..")
 
-[node name="Holding" type="Marker3D" parent="FPCamera" unique_id=1242823286 node_paths=PackedStringArray("PlayerNode")]
+[node name="Holding" type="Marker3D" parent="CameraOffset/FPCamera" unique_id=1242823286 node_paths=PackedStringArray("PlayerNode")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.435)
 script = ExtResource("6_2grho")
-PlayerNode = NodePath("../..")
+PlayerNode = NodePath("../../..")
 
-[node name="Usable" type="Marker3D" parent="FPCamera" unique_id=1457185967]
+[node name="Usable" type="Marker3D" parent="CameraOffset/FPCamera" unique_id=1457185967]
 
-[node name="SpringArmOffset" type="Node3D" parent="FPCamera" unique_id=1966386440 node_paths=PackedStringArray("_spring_arm")]
+[node name="SpringArmOffset" type="Node3D" parent="CameraOffset/FPCamera" unique_id=1966386440 node_paths=PackedStringArray("_spring_arm")]
 transform = Transform3D(1, 0, 1.7484558e-07, 0, 1, 0, -1.7484558e-07, 0, 1, -0.065999985, -1.25, 0.21)
 script = ExtResource("4_ygggd")
 _spring_arm = NodePath("SpringArm3D")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="FPCamera/SpringArmOffset" unique_id=2094669427]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraOffset/FPCamera/SpringArmOffset" unique_id=2094669427]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
-[node name="TPCamera" type="Camera3D" parent="FPCamera/SpringArmOffset/SpringArm3D" unique_id=1954471204]
+[node name="TPCamera" type="Camera3D" parent="CameraOffset/FPCamera/SpringArmOffset/SpringArm3D" unique_id=1954471204]
 fov = 90.0
 
-[node name="ParryArea" type="Area3D" parent="FPCamera" unique_id=1679698604]
+[node name="ParryArea" type="Area3D" parent="CameraOffset/FPCamera" unique_id=1679698604]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4703484e-08, 0, -0.26327825)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FPCamera/ParryArea" unique_id=1780320987]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraOffset/FPCamera/ParryArea" unique_id=1780320987]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2154064e-08, 0, -0.7000001)
 shape = SubResource("SphereShape3D_yf5fn")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FPCamera/ParryArea" unique_id=681518529]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraOffset/FPCamera/ParryArea" unique_id=681518529]
 transform = Transform3D(0.9615164, -0.2664565, -0.06698741, -0.12940961, -0.2241439, -0.9659258, 0.24236241, 0.9374223, -0.2500001, -0.17939922, -0.17261755, -0.19637845)
 visible = false
 mesh = SubResource("CylinderMesh_g4v7s")
@@ -991,6 +1012,7 @@ z_index = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("12_7wf5q")
+metadata/_edit_use_anchors_ = true
 
 [node name="Menu" type="Panel" parent="UI" unique_id=1573966987]
 unique_name_in_owner = true
@@ -1294,7 +1316,7 @@ offset_top = 7.0
 offset_right = 216.0
 offset_bottom = 30.0
 
-[node name="SpawnMenu" type="Control" parent="." unique_id=1909990424]
+[node name="SpawnMenu" type="Control" parent="." unique_id=1909990424 node_paths=PackedStringArray("PlayerNode", "FPCamera")]
 visible = false
 z_index = 3
 layout_mode = 3
@@ -1304,6 +1326,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("15_r52jx")
+PlayerNode = NodePath("..")
+FPCamera = NodePath("../CameraOffset/FPCamera")
 
 [node name="Categories" type="TabBar" parent="SpawnMenu" unique_id=1619994858]
 layout_mode = 0
@@ -1446,7 +1470,7 @@ item_4/text = "DEBUG_NPC_TESTMAP"
 
 [node name="HoldingSpawner" type="MultiplayerSpawner" parent="." unique_id=2015834067]
 _spawnable_scenes = PackedStringArray("uid://sp40xh3l0xg5", "uid://dsnsb3sojmqq", "uid://c5i0khqufptrs", "uid://bw7ku58lp3dka", "uid://n2uolf8wtyby", "uid://s03xi0ulgd6c", "uid://dqsraaafxxcr2")
-spawn_path = NodePath("../FPCamera/Holding")
+spawn_path = NodePath("../CameraOffset/FPCamera/Holding")
 
 [connection signal="pressed" from="UI/Menu/Continue" to="UI" method="_on_continue_pressed"]
 [connection signal="pressed" from="UI/Menu/Exit" to="UI" method="_on_exit_pressed"]

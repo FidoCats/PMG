@@ -262,6 +262,11 @@ func ToggleMenuVisibilty():
 
 
 
+func Disconnect():
+	_on_disconnect_pressed()
+
+
+
 func AddObjectAutospawns():
 	var SpawnableFolder = DirAccess.open("res://Scenes/Spawnables/",)
 	for i in SpawnableFolder.list_dir_begin():

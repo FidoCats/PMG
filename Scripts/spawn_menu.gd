@@ -2,12 +2,17 @@ extends Control
 
 
 
+@export var PlayerNode: Player
+@export var FPCamera: Camera3D
+
+
+
 func _process(_delta: float) -> void:
-	if not $"..".is_multiplayer_authority():
+	if not PlayerNode.is_multiplayer_authority():
 		visible = false
 		return
 	
-	if $"..".InputBlocked == false:
+	if PlayerNode.InputBlocked == false:
 		if Input.is_action_just_pressed("Spawnmenu") and visible == false:
 			visible = true
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -64,60 +69,60 @@ func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_in
 			var Box: Node3D = BoxPreload.instantiate()
 			Global.ObjectSpawner.add_child(Box, true)
 			#Global.ObjectSpawner.spawn(Box)
-			Box.global_position = $"../FPCamera".global_position
-			Box.global_basis = $"../FPCamera".global_basis
+			Box.global_position = FPCamera.global_position
+			Box.global_basis = FPCamera.global_basis
 			Box.global_position.z -= 2.5
 		1:
 			var BigBox: Node3D = BigBoxPreload.instantiate()
 			Global.ObjectSpawner.add_child(BigBox, true)
-			BigBox.global_position = $"../FPCamera".global_position
-			BigBox.global_basis = $"../FPCamera".global_basis
+			BigBox.global_position = FPCamera.global_position
+			BigBox.global_basis = FPCamera.global_basis
 			BigBox.global_position.z -= 2.5
 		2:
 			var SkyBall: Node3D = SkyBallPreload.instantiate()
 			Global.ObjectSpawner.add_child(SkyBall, true)
-			SkyBall.global_position = $"../FPCamera".global_position
-			SkyBall.global_basis = $"../FPCamera".global_basis
+			SkyBall.global_position = FPCamera.global_position
+			SkyBall.global_basis = FPCamera.global_basis
 			SkyBall.global_position.z -= 2.5
 		3:
 			var BlueBall: Node3D = BlueBallPreload.instantiate()
 			Global.ObjectSpawner.add_child(BlueBall, true)
-			BlueBall.global_position = $"../FPCamera".global_position
-			BlueBall.global_basis = $"../FPCamera".global_basis
+			BlueBall.global_position = FPCamera.global_position
+			BlueBall.global_basis = FPCamera.global_basis
 			BlueBall.global_position.z += 2.5
 		4:
 			var RedBall: Node3D = RedBallPreload.instantiate()
 			Global.ObjectSpawner.add_child(RedBall, true)
-			RedBall.global_position = $"../FPCamera".global_position
-			RedBall.global_basis = $"../FPCamera".global_basis
+			RedBall.global_position = FPCamera.global_position
+			RedBall.global_basis = FPCamera.global_basis
 			RedBall.global_position.z += 2.5
 		5:
 			var GreenBall: Node3D = GreenBallPreload.instantiate()
 			Global.ObjectSpawner.add_child(GreenBall, true)
-			GreenBall.global_position = $"../FPCamera".global_position
-			GreenBall.global_basis = $"../FPCamera".global_basis
+			GreenBall.global_position = FPCamera.global_position
+			GreenBall.global_basis = FPCamera.global_basis
 			GreenBall.global_position.z += 2.5
 		6:
 			var YellowBall: Node3D = YellowBallPreload.instantiate()
 			Global.ObjectSpawner.add_child(YellowBall, true)
-			YellowBall.global_position = $"../FPCamera".global_position
-			YellowBall.global_basis = $"../FPCamera".global_basis
+			YellowBall.global_position = FPCamera.global_position
+			YellowBall.global_basis = FPCamera.global_basis
 			YellowBall.global_position.z += 2.5
 		7:
 			var SkyCube: Node3D = SkyCubePreload.instantiate()
 			Global.ObjectSpawner.add_child(SkyCube, true)
-			SkyCube.global_basis = $"../FPCamera".global_basis
-			SkyCube.global_position = $"../FPCamera".global_position + Vector3(0,0,2.5)
+			SkyCube.global_basis = FPCamera.global_basis
+			SkyCube.global_position = FPCamera.global_position + Vector3(0,0,2.5)
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
+	var CurrentPlayerInventory: PlayerInventory = PlayerNode.player_inventory
 	match _index:
 		0:
 			var spear = ItemDatabase.get_item("SPEAR")
 			CurrentPlayerInventory.add_item(spear)
 
 func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
+	var CurrentPlayerInventory: PlayerInventory = PlayerNode.player_inventory
 	match _index:
 		0:
 			var uspm = ItemDatabase.get_item("USPM")
@@ -135,23 +140,23 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 		0:
 			var WeedFish: Node3D = WeedFishPreload.instantiate()
 			Global.ObjectSpawner.add_child(WeedFish, true)
-			WeedFish.global_position = $"../FPCamera".global_position
-			WeedFish.global_basis = $"../FPCamera".global_basis
+			WeedFish.global_position = FPCamera.global_position
+			WeedFish.global_basis = FPCamera.global_basis
 			WeedFish.global_position.z -= 2.5
 		1:
 			var BaseCar = BaseCarPreload.instantiate()
 			Global.ObjectSpawner.add_child(BaseCar, true)
-			BaseCar.global_position = $"../FPCamera".global_position
+			BaseCar.global_position = FPCamera.global_position
 			BaseCar.global_position += Vector3(0,1,2.5)
 		2:
 			var Pickup = PickupPreload.instantiate()
 			Global.ObjectSpawner.add_child(Pickup, true)
-			Pickup.global_position = $"../FPCamera".global_position
+			Pickup.global_position = FPCamera.global_position
 			Pickup.global_position += Vector3(0,1,2.5)
 		3:
 			var RallyCar: Node3D = RallyCarPreload.instantiate()
 			Global.ObjectSpawner.add_child(RallyCar)
-			RallyCar.global_position = $"../FPCamera".global_position
+			RallyCar.global_position = FPCamera.global_position
 			RallyCar.global_position += Vector3(0,1,2.5)
 
 @onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
@@ -163,30 +168,30 @@ func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 		0:
 			var NPC = NPCPreload.instantiate()
 			Global.ObjectSpawner.add_child(NPC, true)
-			NPC.global_position = $"../FPCamera".global_position
-			NPC.global_basis = $"../FPCamera".global_basis
+			NPC.global_position = FPCamera.global_position
+			NPC.global_basis = FPCamera.global_basis
 			NPC.global_position.z += 2.5
 		1:
 			var Watcher = WatcherPreload.instantiate()
 			Global.ObjectSpawner.add_child(Watcher, true)
-			Watcher.global_position = $"../FPCamera".global_position
-			Watcher.global_basis = $"../FPCamera".global_basis
+			Watcher.global_position = FPCamera.global_position
+			Watcher.global_basis = FPCamera.global_basis
 			Watcher.global_position.z += 2.5
 		2:
 			var RWWatcher = RWWatcherPreorder.instantiate()
 			Global.ObjectSpawner.add_child(RWWatcher, true)
-			RWWatcher.global_position = $"../FPCamera".global_position
-			RWWatcher.global_basis = $"../FPCamera".global_basis
+			RWWatcher.global_position = FPCamera.global_position
+			RWWatcher.global_basis = FPCamera.global_basis
 			RWWatcher.global_position.z += 2.5
 		3:
 			var pigon: Node3D = pigonPreload.instantiate()
 			Global.ObjectSpawner.add_child(pigon, true)
-			pigon.global_position = $"../FPCamera".global_position
-			pigon.global_basis = $"../FPCamera".global_basis
+			pigon.global_position = FPCamera.global_position
+			pigon.global_basis = FPCamera.global_basis
 			pigon.global_position.z += 2.5
 
 func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	var CurrentPlayerInventory: PlayerInventory = $"..".player_inventory
+	var CurrentPlayerInventory: PlayerInventory = PlayerNode.player_inventory
 	match _index:
 		0:
 			var flashlight = ItemDatabase.get_item("FLASHLIGHT")
@@ -213,37 +218,37 @@ func _on_others_item_clicked(_index: int, _at_position: Vector2, _mouse_button_i
 @onready var KingdomsMapPreload = preload("res://Scenes/Maps/kingdoms.tscn")
 @onready var IslandTownPreload = preload("res://Scenes/Maps/m2_island_town.tscn")
 func _on_maps_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	#if $"..".IsAdmin == true:
+	#if PlayerNode.IsAdmin == true:
 		match _index:
 			0:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))
 				#var MapNode: Node3D = Global.MapNode.spawn_path
-				$"..".Teleport($"..", Vector3(0,25,0))
+				PlayerNode.Teleport(PlayerNode, Vector3(0,25,0))
 			1:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))
 				#var BallpitMap: Node3D = BallpitMapPreload.instantiate()
 				#Global.MapNode.add_child(BallpitMap)
-				$"..".Teleport($"..", Vector3(500,5,0))
+				PlayerNode.Teleport(PlayerNode, Vector3(500,5,0))
 			2:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))
 				#var KingdomsMap: Node3D = KingdomsMapPreload.instantiate()
 				#Global.MapNode.add_child(KingdomsMap)
-				$"..".Teleport($"..", Vector3(0,25,200))
+				PlayerNode.Teleport(PlayerNode, Vector3(0,25,200))
 			3:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))
 				#var IslandTown: Node3D = IslandTownPreload.instantiate()
 				#Global.MapNode.add_child(IslandTown)
-				$"..".Teleport($"..", Vector3(0,25,-2000))
+				PlayerNode.Teleport(PlayerNode, Vector3(0,25,-2000))
 			4:
 				#if Global.MapNode.get_child_count() > 0:
 					#Global.MapNode.remove_child(get_child(0))
 				#var IslandTown: Node3D = IslandTownPreload.instantiate()
 				#Global.MapNode.add_child(IslandTown)
-				$"..".Teleport($"..", Vector3(-200,25,0))
+				PlayerNode.Teleport(PlayerNode, Vector3(-200,25,0))
 
 
 

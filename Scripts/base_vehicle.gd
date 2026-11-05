@@ -132,10 +132,10 @@ func Drive(_delta: float):
 			if Input.is_action_pressed("Jump") and Manual:
 				if Input.is_action_just_pressed("WheelUp"):
 					Gear += 1
-					Gear = clamp(Gear, 0, GearEnum.size())
+					Gear = clamp(Gear, 0, GearEnum.size() - 1)
 				elif Input.is_action_just_pressed("WheelDown"):
 					Gear -= 1
-					Gear = clamp(Gear, 0, GearEnum.size())
+					Gear = clamp(Gear, 0, GearEnum.size() - 1)
 			
 			if EngineOn == true:
 				if Input.is_action_pressed(&"Up"):

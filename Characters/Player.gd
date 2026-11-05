@@ -5,32 +5,34 @@ class_name Player
 
 signal Died(_Who: Node3D)
 
-@onready var nickname: Label3D = $PlayerNick/Nickname
-@onready var UI = $UI
+@export_category("Nodes")
+@export var nickname: Label3D# = $PlayerNick/Nickname
+@export var UI: Control# = $UI
 
-@onready var FPCamera: Camera3D = $FPCamera
-@onready var LookAtRay: LookAtRayCast = $FPCamera/LookingAt
-@onready var Holding: Marker3D = $FPCamera/Holding
-@onready var UnderRay: UnderRayCast = $Under
-@onready var AboveRay: AboveRayCast = $Above
-@onready var InfrontRay: InfrontRayCast = $Infront
-@onready var TPCamera: Camera3D = $FPCamera/SpringArmOffset/SpringArm3D/TPCamera
-@onready var SpringArm: SpringArm3D = $FPCamera/SpringArmOffset/SpringArm3D
-@onready var BaseCollisionShape: CollisionShape3D = $BaseCollisionShape
-@onready var CrouchCollisionShape: CollisionShape3D = $CrouchCollisionShape3D
-@onready var MainMesh: MeshInstance3D = $MainMesh
-@onready var ParryArea: Area3D = $FPCamera/ParryArea
-@onready var ParryMesh: MeshInstance3D = $FPCamera/ParryArea/MeshInstance3D
-@onready var DeathScreen: Panel = $UI/DeathScreen
+@export var FPCamera: Camera3D# = $FPCamera
+@export var CamOffset: Node3D
+@export var LookAtRay: LookAtRayCast# = $FPCamera/LookingAt
+@export var Holding: Marker3D #= $FPCamera/Holding
+@export var UnderRay: UnderRayCast# = $Under
+@export var AboveRay: AboveRayCast# = $Above
+@export var InfrontRay: InfrontRayCast# = $Infront
+@export var TPCamera: Camera3D# = $FPCamera/SpringArmOffset/SpringArm3D/TPCamera
+@export var SpringArm: SpringArm3D# = $FPCamera/SpringArmOffset/SpringArm3D
+@export var BaseCollisionShape: CollisionShape3D #= $BaseCollisionShape
+@export var CrouchCollisionShape: CollisionShape3D# = $CrouchCollisionShape3D
+@export var MainMesh: MeshInstance3D# = $MainMesh
+@export var ParryArea: Area3D# = $FPCamera/ParryArea
+@export var ParryMesh: MeshInstance3D# = $FPCamera/ParryArea/MeshInstance3D
+@export var DeathScreen: Panel# = $UI/DeathScreen
 
 ## Audio
-@onready var RespawnAudioStream: AudioStreamPlayer3D = $Respawn
-@onready var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
-@onready var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
+@export var RespawnAudioStream: AudioStreamPlayer3D# = $Respawn
+@export var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
+@export var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
 
 ## Throwable stuff
-@onready var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
-@onready var BallArray: Array[PackedScene] = [preload("res://Scenes/Spawnables/small_blue_ball.tscn"),preload("res://Scenes/Spawnables/small_green_ball.tscn"),preload("res://Scenes/Spawnables/small_red_ball.tscn"),preload("res://Scenes/Spawnables/small_yellow_ball.tscn")]
+@export var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
+@export var BallArray: Array[PackedScene] = [preload("res://Scenes/Spawnables/small_blue_ball.tscn"),preload("res://Scenes/Spawnables/small_green_ball.tscn"),preload("res://Scenes/Spawnables/small_red_ball.tscn"),preload("res://Scenes/Spawnables/small_yellow_ball.tscn")]
 
 
 
@@ -255,7 +257,7 @@ func _process(_delta):
 	
 ## Setters, Getters
 	if is_multiplayer_authority():
-		AboveRay.position.y = FPCamera.position.y - 0.5
+		AboveRay.position.y = FPCamera.position.y + 0.5
 		PeerList = multiplayer.get_peers()
 		Global.FPCamera = FPCamera
 		#Global.ObjectDistance = ObjectDistance
@@ -337,6 +339,23 @@ func _process(_delta):
 		if is_on_floor() and Input.is_action_just_pressed("Jump") and CanMove == false:
 			CanMove = true
 			rotation_degrees = Vector3(0,0,0)
+	
+	
+	
+	## Camera Effects
+	#var MovementDirection: Vector3 = velocity * transform.basis
+	##if MovementDirection != Vector3.ZERO:
+	#if MovementDirection.z != 0:
+		#CamOffset.rotation.z += -MovementDirection.x * 0.0015 #move_toward(CamOffset.rotation.z, -MovementDirection.x * 0.0015, _delta)
+		#CamOffset.rotation.z = clamp(CamOffset.rotation.z, -15, 15)
+	#else:
+		#CamOffset.rotation.z = move_toward(CamOffset.rotation.z, 0.0, _delta)
+	#
+	##if MovementDirection.y != 0.0:
+		##CamOffset.rotation.x += MovementDirection.y * 0.0005
+		###CamOffset.rotation.x = clamp(CamOffset.rotation.x, 10, 10)
+		
+	
 
 
 
@@ -605,7 +624,7 @@ func Crouch():
 	BaseCollisionShape.disabled = true
 	CrouchCollisionShape.disabled = false
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
-	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.35)
+	FPCamera.position.y = lerp(FPCamera.position.y, -0.75, 0.35)
 	CurrentNoise = CrouchNoise
 	Fov = SetFov - CrouchFov
 	
@@ -621,8 +640,8 @@ func UnCrouch():
 		Speed = BaseSpeed
 		BaseCollisionShape.set_deferred("disabled", false)
 		CrouchCollisionShape.set_deferred("disabled", true)
-		FPCamera.position.y = lerp(FPCamera.position.y, 1.5, 0.25)
-		FPCamera.position.y = 1.25
+		FPCamera.position.y = lerp(FPCamera.position.y, 0.0, 0.75)
+		FPCamera.position.y = 0.0
 		IsCrouching = false
 		IsSliding = false
 		IsDiving = false
@@ -662,7 +681,7 @@ func Run():
 func Slide():
 	IsSliding = true
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Sliding")
-	FPCamera.position.y = lerp(FPCamera.position.y, 0.25, 0.45)
+	FPCamera.position.y = lerp(FPCamera.position.y, -0.75, 0.45)
 	Fov = SetFov + SlideFov
 	floor_stop_on_slope = false
 	CurrentNoise = SlideNoise
@@ -680,7 +699,7 @@ func Slide():
 func Dive():
 	IsDiving = true
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Diving")
-	FPCamera.position.y = lerp(FPCamera.position.y, 0.5, 0.45)
+	FPCamera.position.y = lerp(FPCamera.position.y, -0.55, 0.45)
 	Fov = SetFov + DiveFov
 	CurrentNoise = DiveNoise
 	Speed = DiveStartSpeed

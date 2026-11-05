@@ -108,6 +108,7 @@ metadata/_custom_type_script = "uid://es8q2nkmy58y"
 
 [node name="CollectComponent" type="Node" parent="InteractionComponent" unique_id=706794317]
 script = ExtResource("7_b5vrl")
+CollectableItemID = "BLACKLIGHT"
 metadata/_custom_type_script = "uid://bxhl70sf7nad0"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2113051267]
