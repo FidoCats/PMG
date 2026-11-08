@@ -83,3 +83,6 @@ func _on_exit_pressed() -> void:
 	
 	if level_scene.has_method("Disconnect"):
 		level_scene.Disconnect()
+		player.FPCamera.current = false
+	%Menu.visible = false
+	player.InputBlocked = false

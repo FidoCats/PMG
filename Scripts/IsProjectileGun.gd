@@ -6,7 +6,7 @@ class_name IsProjectileGun
 @export_category("Enabled?")
 @export var Enabled: bool = false
 @export_category("Properties: ")
-@export_enum("Semi", "Auto", "Safety") var FirerateEnum: Array[String]
+@export_enum("Semi", "Auto", "Safety") var FirerateEnum
 @export var Firerate: String = "Semi"
 @export var RPM: float = 420 #This is not realistic, because it is inverted.... ':[
 @export var BulletAmount: int = 8
@@ -24,7 +24,7 @@ class_name IsProjectileGun
 @export var BottomlessMag: bool = false
 @export var UseResivoir: bool = false
 @export var ResivoirAmmo: int = 0
-@export var EjectionForce: float = 1.0
+@export var EjectionForce: float = 5.0
 @export var UseShells: bool = false
 @export_category("Assets: ")
 @export var ProjPreload: PackedScene = preload("res://Scenes/Items/Weapons/Firearms/Ammunition/Pellets/45ACPPellet.tscn")
@@ -35,6 +35,7 @@ class_name IsProjectileGun
 @export var ShootSound: AudioStreamPlayer3D #= $"../Shoot"
 @export var ReloadSound: AudioStreamPlayer3D #= $"../Reload"
 @export var EmptySound: AudioStreamPlayer3D #= $"../Empty"
+@export var PumpSound: AudioStreamPlayer3D
 
 @export var MuzzleFlashSprite: AnimatedSprite3D #= %sprite1
 @export var MuzzleFlashLight: SpotLight3D #= $"../MeshInstance3D/Marker3D/sprite1/SpotLight3D"
@@ -114,14 +115,14 @@ func _process(_delta: float) -> void:
 					else:
 						EmptySound.play()
 				
-					if CanPump:
-						CanFire = false
+					#if CanPump:
+						#CanFire = false
 			
 			## Pump
 			if CanPump and PumpAmount < 4:
 				if Input.is_action_just_pressed("RMB") and Firerate != "Safety":
 					Pump()
-					CanFire = true
+					#CanFire = true
 			
 			## Reload
 				if Input.is_action_just_pressed("Reload") and Firerate != "Safety" and Ammo < FullMag:
@@ -146,6 +147,7 @@ func _process(_delta: float) -> void:
 
 func Reload():
 	IsReloading = true
+	ReloadSound.play()
 	var EmptyMag = MagPreload.instantiate()
 	Global.ProjectileSpawner.add_child(EmptyMag)
 	EmptyMag.global_transform = MagPosMarker.global_transform
@@ -164,6 +166,7 @@ func Reload():
 
 func Pump():
 	IsReloading = true
+	PumpSound.play()
 	await get_tree().create_timer(PumpTime).timeout
 	if PumpAmount < 4:
 		PumpAmount += 1
@@ -176,16 +179,15 @@ func Pump():
 
 func EjectCasing():
 	var Casing: Node3D = CasingPreload.instantiate()
-	Global.ObjectSpawner.add_child(Casing)
-	#Casing.global_position = EjectionPortMarker.global_position
-	#Casing.global_rotation = EjectionPortMarker.global_rotation
-	var camera_transform = EjectionPortMarker.global_transform
-	var Force: float = 0
-	Casing.global_transform = Casing.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-0.25 + -Force / Casing.mass))),1)
-	for i in EjectionForce:
-		Force += 0.25
-		Casing.global_transform = Casing.global_transform.interpolate_with(camera_transform.translated_local(Vector3(0,0,(-0.25 + -Force))),1)
-		await get_tree().create_timer(0.35).timeout
+	Global.ObjectSpawner.add_child(Casing, true)
+	Casing.global_position = EjectionPortMarker.global_position
+	var Force: Force3D = Force3D.new()
+	Casing.add_child(Force,true)
+	Force.Velocity = Vector3(0.0,0.0,-1.0)
+	Force.F = EjectionForce / Casing.mass
+	Casing.global_basis = EjectionPortMarker.global_basis
+	Force.SetupFinished.emit()
+	#Force.Move()
 
 
 
@@ -201,11 +203,11 @@ func ShootBullet(CurrentFirerate: String):
 				Proj.global_transform = ProjectilePosMarker.global_transform
 				Proj.global_rotation += Vector3(randf_range(-Spread.x,Spread.x) * 0.15, randf_range(-Spread.y,Spread.y) * 0.15, 0)
 				
-				if CanPump == true:
-					CanFire = false
-					PumpAmount = 1
+			if CanPump == true:
+				CanFire = false
+				PumpAmount = 1
 				
-			if !UseShells:
+			if not CanPump:
 				for i in BulletAmount * PumpAmount:
 					EjectCasing()
 			else:
@@ -225,7 +227,8 @@ func ShootBullet(CurrentFirerate: String):
 			elif CurrentFirerate == "Semi":
 				await get_tree().create_timer(0.1).timeout
 			MuzzleFlashLight.visible = false
-			CanFire = true
+			if not CanPump:
+				CanFire = true
 		
 	else:
 		EmptySound.play()

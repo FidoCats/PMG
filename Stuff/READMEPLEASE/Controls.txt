@@ -33,3 +33,4 @@ RMB (if a wall is in front and looking up) - Cling / Ledge Grab
 SpaceBar (While Clinging) - PullUp
 RMB (with momentum, walking on the side of the wall (This works best when looking at the wall! ^^) ) - Wall Run
 SpaceBar (While WallRunning) - WallHop
+LCtrl, C (Then Space after a 0.5s) - High Jump

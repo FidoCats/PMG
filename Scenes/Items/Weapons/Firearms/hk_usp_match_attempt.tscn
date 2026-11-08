@@ -6,9 +6,10 @@
 [ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/IsProjectileGun.gd" id="3_l2e0a"]
 [ext_resource type="AudioStream" uid="uid://df0g7alf3yo0k" path="res://Stuff/Sounds/Ricochet.ogg" id="3_qul2g"]
 [ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="4_davte"]
-[ext_resource type="AudioStream" uid="uid://ckrmp5257p8ul" path="res://Stuff/Sounds/rock-sliding.mp3" id="5_ex5xy"]
+[ext_resource type="AudioStream" uid="uid://rsdtugb1ecia" path="res://Stuff/Sounds/Tadaa ;].mp3" id="5_lawca"]
 [ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="5_nxk41"]
 [ext_resource type="AudioStream" uid="uid://beya8eo5kxo4x" path="res://Stuff/Sounds/gab_Enough.ogg" id="5_wmt0b"]
+[ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="6_1aur5"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="10_lawca"]
 [ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="11_1aur5"]
 
@@ -102,6 +103,12 @@ properties/11/replication_mode = 1
 properties/12/path = NodePath(".:freeze")
 properties/12/spawn = true
 properties/12/replication_mode = 1
+properties/13/path = NodePath(".:Firerate")
+properties/13/spawn = true
+properties/13/replication_mode = 1
+properties/14/path = NodePath(".:BulletAmount")
+properties/14/spawn = true
+properties/14/replication_mode = 1
 
 [node name="HKUspMatchAttempt" type="RigidBody3D" unique_id=1923918731 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker", "Collider", "Collect")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -111,6 +118,7 @@ mass = 5.0
 freeze = true
 max_contacts_reported = 1
 script = ExtResource("3_l2e0a")
+FirerateEnum = 0
 BulletAmount = 1
 Spread = Vector2(0.05, 0.05)
 Ammo = 12
@@ -184,7 +192,11 @@ mesh = SubResource("BoxMesh_fcnqv")
 stream = ExtResource("3_qul2g")
 
 [node name="Reload" type="AudioStreamPlayer3D" parent="." unique_id=1844451035]
-stream = ExtResource("5_ex5xy")
+stream = ExtResource("5_lawca")
+volume_db = -13.694
+
+[node name="Pump" type="AudioStreamPlayer3D" parent="." unique_id=970943930]
+stream = ExtResource("6_1aur5")
 
 [node name="Empty" type="AudioStreamPlayer3D" parent="." unique_id=1453549187]
 stream = ExtResource("5_wmt0b")

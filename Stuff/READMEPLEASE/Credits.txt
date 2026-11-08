@@ -1,5 +1,10 @@
 Free GDAssetLib Assets
 - Multiplayer Network Template with Inventory (Too stupid to make that myself. :3)
+- Prototype Textures by PiCode
+- TeamCreate
+
+Sketchfab Assets
+- Low Poly Pigeon
 
 Fido
 - Programming

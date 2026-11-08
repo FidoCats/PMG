@@ -3,12 +3,13 @@
 [ext_resource type="Material" uid="uid://cps3p5iiiqt1o" path="res://Stuff/Materials/SilverThing.tres" id="1_0ur8x"]
 [ext_resource type="Material" uid="uid://20d1p22d3785" path="res://Stuff/Materials/Bron.tres" id="2_3dc4f"]
 [ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_ol80p"]
-[ext_resource type="AudioStream" uid="uid://df0g7alf3yo0k" path="res://Stuff/Sounds/Ricochet.ogg" id="3_3dc4f"]
 [ext_resource type="AudioStream" uid="uid://rsdtugb1ecia" path="res://Stuff/Sounds/Tadaa ;].mp3" id="4_468jh"]
 [ext_resource type="AudioStream" uid="uid://beya8eo5kxo4x" path="res://Stuff/Sounds/gab_Enough.ogg" id="5_csfi7"]
+[ext_resource type="AudioStream" uid="uid://dasvywracl37c" path="res://Stuff/Sounds/AltRevolverShoot1B.ogg" id="5_h40oc"]
 [ext_resource type="Texture2D" uid="uid://cj8pkil1c2500" path="res://Stuff/Images/MuzzleFlash1.png" id="6_dyxst"]
 [ext_resource type="Texture2D" uid="uid://2bfrh2crcs70" path="res://Stuff/Images/MuzzleFlash2.png" id="7_mve4p"]
 [ext_resource type="Texture2D" uid="uid://skoki7pe8aic" path="res://Stuff/Images/MuzzleFlash3.png" id="8_4xqpx"]
+[ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="8_rpnia"]
 [ext_resource type="Script" uid="uid://c3ia6opicatv" path="res://Scripts/IsProjectileGun.gd" id="9_276qf"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="11_5m00b"]
 [ext_resource type="Script" uid="uid://bxhl70sf7nad0" path="res://Scripts/CollectComponent.gd" id="12_h40oc"]
@@ -107,7 +108,7 @@ properties/9/path = NodePath(".:freeze")
 properties/9/spawn = true
 properties/9/replication_mode = 1
 
-[node name="RemingtonM870 but BAD" type="RigidBody3D" unique_id=796818737 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ExtraLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker", "Collider", "Collect")]
+[node name="RemingtonM870 but BAD" type="RigidBody3D" unique_id=796818737 node_paths=PackedStringArray("ShootSound", "ReloadSound", "EmptySound", "PumpSound", "MuzzleFlashSprite", "MuzzleFlashLight", "AmmoLabel", "FRLabel", "ExtraLabel", "ProjectilePosMarker", "MagPosMarker", "EjectionPortMarker", "Collider", "Collect")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 collision_layer = 3
 collision_mask = 3
@@ -125,6 +126,7 @@ ItemID = "M870"
 ShootSound = NodePath("Shoot")
 ReloadSound = NodePath("Reload")
 EmptySound = NodePath("Empty")
+PumpSound = NodePath("Pump")
 MuzzleFlashSprite = NodePath("BarrelMarker/FireAnimation")
 MuzzleFlashLight = NodePath("BarrelMarker/FireAnimation/SpotLight3D")
 AmmoLabel = NodePath("Ammo")
@@ -197,13 +199,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0038211048, 0.0034241714, 
 mesh = SubResource("BoxMesh_csfi7")
 
 [node name="Shoot" type="AudioStreamPlayer3D" parent="." unique_id=287257168]
-stream = ExtResource("3_3dc4f")
+stream = ExtResource("5_h40oc")
 
 [node name="Reload" type="AudioStreamPlayer3D" parent="." unique_id=1844451035]
 stream = ExtResource("4_468jh")
 
 [node name="Empty" type="AudioStreamPlayer3D" parent="." unique_id=1453549187]
 stream = ExtResource("5_csfi7")
+
+[node name="Pump" type="AudioStreamPlayer3D" parent="." unique_id=1480694366]
+stream = ExtResource("8_rpnia")
 
 [node name="Ammo" type="Label3D" parent="." unique_id=1912072195]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -3.0388463e-09, 0.08619122, 0.03476035)
@@ -237,7 +242,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7484556e-08, -0.2, -0.2)
 
 [node name="CasingEject" type="Marker3D" parent="." unique_id=258250103]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8744423e-09, -0.0043810606, 0.078634456)
+transform = Transform3D(-3.924309e-08, 0.25881904, 0.9659258, 3.394002e-08, 0.9659258, -0.25881904, -1, 2.262668e-08, -4.669024e-08, -0.1, 0.045, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1757845821]
 replication_config = SubResource("SceneReplicationConfig_ol80p")

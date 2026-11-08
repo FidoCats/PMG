@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bf5648hghqprx"]
+
+[ext_resource type="Texture2D" uid="uid://cjkorex7q8v23" path="res://addons/godot-prototype-texture/PNG/checker_512x512/checker_black_512x512.png" id="1_eease"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_d0u6y"]
+
+[resource]
+albedo_texture = ExtResource("1_eease")
+roughness_texture = SubResource("ImageTexture_d0u6y")
+uv1_triplanar = true

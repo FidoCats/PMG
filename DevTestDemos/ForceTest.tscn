@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bw2l62uncoixp"]
 
 [ext_resource type="Script" uid="uid://cqtlnm8wqd0h6" path="res://DevTestDemos/force_test.gd" id="1_fb8th"]
-[ext_resource type="Material" uid="uid://dw4mpuaq0iyln" path="res://Stuff/Materials/Green.tres" id="2_euv34"]
+[ext_resource type="Material" uid="uid://cfappvtws40cj" path="res://Stuff/Materials/GrassButBad.tres" id="2_euv34"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_euv34"]
 sky_top_color = Color(0.5083298, 0.58689296, 0.8451894, 1)

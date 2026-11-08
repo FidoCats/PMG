@@ -6,8 +6,10 @@
 [ext_resource type="Environment" uid="uid://cpm0wd61kth03" path="res://Stuff/Enviroments/Day1.tres" id="4_u7mjy"]
 [ext_resource type="Environment" uid="uid://fimjqj5n5wva" path="res://Stuff/Enviroments/Evening1.tres" id="5_4yxf6"]
 [ext_resource type="Environment" uid="uid://bp1cgb6gpdrm0" path="res://Stuff/Enviroments/Night1.tres" id="6_qta6b"]
-[ext_resource type="Material" uid="uid://cfappvtws40cj" path="res://Stuff/Materials/GrassButBad.tres" id="7_x3rx7"]
+[ext_resource type="Material" uid="uid://bf5648hghqprx" path="res://Stuff/Materials/BASEPLATE.tres" id="7_c5snn"]
 [ext_resource type="PackedScene" uid="uid://ddodt0467mr32" path="res://Scenes/Templates/check_point.tscn" id="8_6heos"]
+[ext_resource type="Material" uid="uid://c2lyd2aj4n2ke" path="res://Stuff/Materials/ProtoRed.tres" id="8_u7mjy"]
+[ext_resource type="Material" uid="uid://d4cwadrta5ecl" path="res://Stuff/Materials/ProtoOrange.tres" id="9_4yxf6"]
 [ext_resource type="PackedScene" uid="uid://b3kyq3jhilann" path="res://Scenes/Templates/seat_3d.tscn" id="10_btbly"]
 [ext_resource type="PackedScene" uid="uid://b2mn8a81j7uej" path="res://Scenes/Spawnables/vent_cover.tscn" id="12_6ehlx"]
 [ext_resource type="PackedScene" uid="uid://e3mg8h052xbj" path="res://Scenes/Templates/electric_crank.tscn" id="13_3tgeq"]
@@ -22,7 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="17_5psol"]
 [ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/Spawnables/SkyBall.tscn" id="18_m4llh"]
 [ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="19_lac6x"]
+[ext_resource type="PackedScene" uid="uid://bspwj55wsuo0v" path="res://Scenes/Templates/bounce_pad.tscn" id="20_4yxf6"]
 [ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="20_hpjjw"]
+[ext_resource type="Material" uid="uid://dq2itjc3qynis" path="res://Stuff/Materials/ProtoBlue.tres" id="20_qta6b"]
 [ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="21_off7b"]
 [ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="23_7sj7i"]
 [ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="25_ep8v8"]
@@ -41,8 +45,15 @@ agent_max_slope = 75.0
 size = Vector3(100, 1, 100)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g4v7s"]
-material = ExtResource("7_x3rx7")
+material = ExtResource("7_c5snn")
 size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tnexw"]
+size = Vector3(5, 0.1, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bn4a2"]
+material = ExtResource("9_4yxf6")
+size = Vector3(5, 0.1, 5)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_kpo4j"]
 vertices = PackedVector3Array(11.75, 6.0045133, -28.157904, 11.75, 5.0045133, -24.157904, 13.5, 5.0045133, -24.157904, 13.5, 6.0045133, -28.157904, -4.5, 0.75451326, 13.092096, 4.5, 0.75451326, 13.092096, 4.5, 0.75451326, -14.657904, -4.5, 0.75451326, -14.657904, 47.5, 2.2545133, 13.092096, 56.5, 2.2545133, 13.092096, 56.5, 16.504513, -10.157904, 47.5, 16.504513, -10.157904, 50.510494, 7.5045133, 4.067568, 6, -1.7454867, 24.092096, 6.25, 0.75451326, 15.342096, 4.5, 0.75451326, 15.092096, -4.5, -1.7454867, 24.092096, -4.5, 0.75451326, 15.842096, 47.5, 1.0045133, 15.092096, 45.75, 0.75451326, 15.342096, 46, -1.7454867, 24.092096, 56.5, -1.7454867, 24.092096, 56.5, 0.25451326, 17.217096, 55.00006, 0.50451326, 16.072031, 24.5, -1.7454867, 24.092096, 24.5, 0.75451326, 15.342096, 27.5, 0.75451326, 15.342096, 27.5, -1.7454867, 24.092096)
@@ -52,6 +63,7 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Arr
 size = Vector3(10, 1, 30)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ns6mf"]
+material = ExtResource("20_qta6b")
 size = Vector3(10, 1, 30.077)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4n42c"]
@@ -68,6 +80,7 @@ size = Vector3(2.5, 1, 5)
 size = Vector3(30, 1, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tnexw"]
+material = ExtResource("20_qta6b")
 size = Vector3(30, 1, 10)
 
 [sub_resource type="VoxelGIData" id="VoxelGIData_g4v7s"]
@@ -124,12 +137,23 @@ mesh = SubResource("BoxMesh_g4v7s")
 transform = Transform3D(0.9497779, -0.31292507, -1.4901161e-08, 0.31292498, 0.949778, -1.4200078e-08, 3.7252903e-08, -1.1175871e-08, 1, -22.999996, 0.5, -43.8)
 use_collision = true
 size = Vector3(15, 5, 7.5)
+material = ExtResource("8_u7mjy")
+
+[node name="Middle" type="StaticBody3D" parent="Enviroment/NavigationRegion3D" unique_id=2035552895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/NavigationRegion3D/Middle" unique_id=1632728048]
+shape = SubResource("BoxShape3D_tnexw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enviroment/NavigationRegion3D/Middle/CollisionShape3D" unique_id=1028880199]
+mesh = SubResource("BoxMesh_bn4a2")
+skeleton = NodePath("../..")
 
 [node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
 
 [node name="CheckPoint" parent="Enviroment/Checkpoints2" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_6heos")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -5)
 
 [node name="CheckPoint2" parent="Enviroment/Checkpoints2" unique_id=450970375 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -44)
@@ -204,6 +228,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.600002, 0.5, -39)
 
 [node name="SkyCube" parent="Enviroment" unique_id=256020329 instance=ExtResource("17_4n42c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 8, 42)
+
+[node name="BouncePad" parent="Enviroment" unique_id=915535841 instance=ExtResource("20_4yxf6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.7, 0.6, -3)
 
 [node name="GeometryCourse" type="Node3D" parent="." unique_id=434128034]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1, -40.9, 0, 20)
@@ -297,19 +324,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9775262, 0.9972778, 11.7478
 sleeping = true
 
 [node name="Box2" parent="Objects" unique_id=241990172 instance=ExtResource("19_lac6x")]
-transform = Transform3D(0.99996436, -0.0018233267, 0.008246912, 0.0018261881, 0.9999983, -0.00033944214, -0.008246277, 0.00035449045, 0.99996597, -1.9449352, 1.0006732, 0.0040503447)
+transform = Transform3D(0.99996436, -0.0018233267, 0.008246912, 0.0018261881, 0.9999983, -0.00033944214, -0.008246277, 0.00035449045, 0.99996597, -1.9449352, 1.0006732, 13.00405)
 sleeping = true
 linear_velocity = Vector3(-1.1270258e-05, 1.03686496e-07, 5.5291464e-05)
 angular_velocity = Vector3(0.000100869955, -3.0332842e-05, -2.7310574e-05)
 
 [node name="Box3" parent="Objects" unique_id=15578633 instance=ExtResource("19_lac6x")]
-transform = Transform3D(0.999969, -9.528818e-06, 0.007875934, 9.536277e-06, 1, -9.0946463e-07, -0.007875934, 9.845435e-07, 0.999969, -0.954256, 1.2383118, 0.002466279)
+transform = Transform3D(0.999969, -9.528818e-06, 0.007875934, 9.536277e-06, 1, -9.0946463e-07, -0.007875934, 9.845435e-07, 0.999969, 0, 1.238, 9.002)
 sleeping = true
 linear_velocity = Vector3(-1.8136629e-05, 1.5281408e-05, 4.4374756e-05)
 angular_velocity = Vector3(5.7374415e-05, 5.6268625e-05, -1.0586089e-05)
 
 [node name="Box4" parent="Objects" unique_id=1406084355 instance=ExtResource("20_hpjjw")]
-transform = Transform3D(0.9999661, -1.7126989e-06, 0.008241723, 1.7303286e-06, 1, -2.1319363e-06, -0.008241723, 2.1461246e-06, 0.9999661, 0.28878707, 1.488313, -0.00063838554)
+transform = Transform3D(0.9999661, -1.7126989e-06, 0.008241723, 1.7303286e-06, 1, -2.1319363e-06, -0.008241723, 2.1461246e-06, 0.9999661, 0.28878707, 1.488313, 12.999361)
 sleeping = true
 linear_velocity = Vector3(1.2279303e-05, 7.0780516e-08, 7.851049e-06)
 angular_velocity = Vector3(3.8754333e-05, -1.971057e-05, -2.3825574e-05)

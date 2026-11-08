@@ -3,5 +3,5 @@
 [sub_resource type="ImageTexture" id="ImageTexture_d0u6y"]
 
 [resource]
-albedo_color = Color(0.39541486, 0.39541486, 0.39541486, 1)
+albedo_color = Color(0.23921569, 0.6, 0.22745098, 1)
 roughness_texture = SubResource("ImageTexture_d0u6y")

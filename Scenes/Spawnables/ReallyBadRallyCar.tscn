@@ -109,7 +109,6 @@ SteerSpeed = 1.65
 BrakeStrength = 5.0
 BrakeDamp = 1.0
 Turbo = 85.5
-EngineOn = true
 MaxHealth = 90.0
 Health = 90.0
 Manual = true

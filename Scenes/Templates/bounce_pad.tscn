@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bspwj55wsuo0v"]
+
+[ext_resource type="Script" uid="uid://fgoxo7oyagmv" path="res://Scripts/VelocityPad.gd" id="1_lra42"]
+[ext_resource type="Material" uid="uid://c8dd44r7ar4k5" path="res://Stuff/Materials/ProtoGreen.tres" id="2_surbp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2wss0"]
+material = ExtResource("2_surbp")
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tnexw"]
+size = Vector3(2, 2, 2)
+
+[node name="BouncePad" type="RigidBody3D" unique_id=915535841 node_paths=PackedStringArray("Area")]
+mass = 5.0
+freeze = true
+script = ExtResource("1_lra42")
+Area = NodePath("Area3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1261623615]
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=569577833]
+mesh = SubResource("BoxMesh_2wss0")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=690532548]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1408853723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+shape = SubResource("BoxShape3D_tnexw")

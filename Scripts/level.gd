@@ -269,11 +269,11 @@ func Disconnect():
 
 func AddObjectAutospawns():
 	var SpawnableFolder = DirAccess.open("res://Scenes/Spawnables/",)
-	for i in SpawnableFolder.list_dir_begin():
+	for i in SpawnableFolder.get_files():#list_dir_begin():
 		var Scene: String = SpawnableFolder.get_next()
 		if Scene != "":
 			Global.ObjectSyncronizer.add_spawnable_scene(Scene)
-			print(Scene)
+			print("Added: ", Scene)
 	var TemplateFolder = DirAccess.open("res://Scenes/Templates/",)
 	for i in SpawnableFolder.list_dir_begin():
 		var Scene: String = TemplateFolder.get_next()

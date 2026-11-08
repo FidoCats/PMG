@@ -47,10 +47,10 @@ func Move() -> void:
 		look_at(-Velocity)
 		var UsedVelocity = Parent.transform.basis * Velocity * F
 		if Parent.has_method("set_freeze_enabled"):
-			Parent.linear_velocity = UsedVelocity
+			Parent.linear_velocity += UsedVelocity
 			#print("UsedVelocity: \n", UsedVelocity)
 		elif Parent.is_class("CharacterBody3D"):
-			Parent.velocity = UsedVelocity
+			Parent.velocity += UsedVelocity
 		
 		if DeleteAfterDone:
 			await get_tree().create_timer(0.25).timeout

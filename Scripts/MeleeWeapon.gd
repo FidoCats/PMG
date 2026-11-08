@@ -1,4 +1,4 @@
-extends Node3D
+extends RigidBody3D
 class_name IsMelee
 
 
@@ -8,30 +8,32 @@ class_name IsMelee
 @export var StabTime: float = 0.25
 @export var Cooldown: float = 0.5
 @export_category("Nodes: ")
-@export_category("(You still need to connect the body entered signal!!)")
 @export var DamageArea: Area3D
 
 var CanUse: bool = true
 
 
 
+func _ready() -> void:
+	DamageArea.body_entered.connect(_on_area_3d_body_entered)
+
+
+
 func _process(_delta: float) -> void:
-	if not is_multiplayer_authority(): return
-	
 	if Input.is_action_just_pressed("LMB"):
-		if CanUse:
-			Use()
+		Use()
 
 
 
 func Use():
-	CanUse = false
-	DamageArea.monitoring = true
-	await get_tree().create_timer(StabTime).timeout
-	DamageArea.monitoring = false
-	print("on cooldown")
-	await get_tree().create_timer(Cooldown).timeout
-	CanUse = true
+	if CanUse:
+		CanUse = false
+		DamageArea.monitoring = true
+		await get_tree().create_timer(StabTime).timeout
+		DamageArea.monitoring = false
+		print("on cooldown")
+		await get_tree().create_timer(Cooldown).timeout
+		CanUse = true
 
 
 

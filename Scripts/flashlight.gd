@@ -3,7 +3,9 @@ class_name Flashlight
 
 
 
+@export_category("Enabled?")
 @export var Enabled: bool = false
+@export_category("Nodes")
 @export var LightMesh: MeshInstance3D
 @export var SpotLight: SpotLight3D
 @export var Collect: CollectComponent

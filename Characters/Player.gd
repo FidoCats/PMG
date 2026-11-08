@@ -305,6 +305,10 @@ func _process(_delta):
 	if is_on_floor() and not CanMove or is_on_wall() and not CanMove:
 		CanMove = true
 	
+	if is_on_floor() and not Input.is_action_pressed("Jump") and not Input.is_action_pressed("Crouch"):
+		await get_tree().create_timer(0.5).timeout
+		JumpCharge = 0.0
+	
 	if IsSliding and CurrentSpeed <= 1.0:
 		UnCrouch()
 	
@@ -780,9 +784,9 @@ func Parry(_body: Node3D):
 				_body.TakeDamage.rpc(ParryDamage)
 				if _body.is_class("CharacterBody3D"):
 					var Force: Force3D = Force3D.new()
-					_body.add_child(Force)
+					_body.add_child(Force,true)
 					Force.Velocity = Vector3(0.0,0.0,-1.0)
-					Force.F = ParryForce / 4
+					Force.F = ParryForce / 4.0
 					_body.global_basis = FPCamera.global_basis
 					Force.SetupFinished.emit()
 					Force.Move()

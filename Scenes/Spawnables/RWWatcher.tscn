@@ -57,16 +57,20 @@ properties/11/path = NodePath(".:IsAgressive")
 properties/11/spawn = true
 properties/11/replication_mode = 1
 
-[node name="Watcher R World" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "AudioPlayer", "SightLine", "FeelArea", "FeelAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+[node name="Watcher R World" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_ta5gf")
 IsAgressive = false
 CanAttack = false
 WillPursue = false
 CollisonShape = NodePath("CollisionShape3D")
 AudioPlayer = NodePath("AudioStreamPlayer3D")
+InfrontRay = NodePath("Infront")
+FloorInfrontRay = NodePath("FloorInfront")
+UnderRay = NodePath("Under")
+AboveRay = NodePath("Above")
 SightLine = NodePath("RayCast3D")
-FeelArea = NodePath("FeelArea")
-FeelAreaShape = NodePath("FeelArea/FeelShape")
+SenseArea = NodePath("FeelArea")
+SenseAreaShape = NodePath("FeelArea/FeelShape")
 HearArea = NodePath("HearArea")
 HearAreaShape = NodePath("HearArea/HearShape")
 TouchArea = NodePath("TouchArea")
@@ -91,6 +95,21 @@ texture = ExtResource("3_fc0ot")
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, -0.49677712)
 target_position = Vector3(0, 0, -2.5)
+
+[node name="Infront" type="RayCast3D" parent="." unique_id=638887238]
+transform = Transform3D(1, 0, 0, 0, 1, -9.685755e-08, 0, 9.685755e-08, 1, 0, -0.19999999, -0.5)
+target_position = Vector3(0, 0, -1.5)
+
+[node name="FloorInfront" type="RayCast3D" parent="." unique_id=973818813]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -0.4, -1.1)
+target_position = Vector3(0, -1.25, 0)
+
+[node name="Under" type="RayCast3D" parent="." unique_id=1603018482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0)
+
+[node name="Above" type="RayCast3D" parent="." unique_id=1986036684]
+transform = Transform3D(1, 0, 0, 0, 0.9659257, 0.25881907, 0, -0.25881907, 0.9659257, 0, 0.9, 0)
+target_position = Vector3(0, 1, 0)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=860896955]
 stream = ExtResource("3_yu4bn")

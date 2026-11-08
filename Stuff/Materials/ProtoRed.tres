@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c2lyd2aj4n2ke"]
+
+[ext_resource type="Texture2D" uid="uid://bktkgwtro0p05" path="res://addons/godot-prototype-texture/PNG/checker_512x512/checker_red_512x512.png" id="1_41dqy"]
+
+[resource]
+albedo_texture = ExtResource("1_41dqy")
+uv1_triplanar = true

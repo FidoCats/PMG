@@ -114,8 +114,20 @@ func Drive(_delta: float):
 			
 			
 			
+			## Engine On/Off
+			if Input.is_action_just_pressed(&"Reload"):
+				#if linear_velocity.is_normalized(): # not
+					EngineOn = !EngineOn
+					linear_velocity = Vector3.ZERO
+					if Global.UseDebug:
+						print("Engine: ", EngineOn)
+			
+			
+			
 			#SteerTarget = Input.get_axis(&"Right",&"Left")
 			#SteerTarget *= SteerLimit
+			
+			
 			
 			var SteerInput = Input.get_axis(&"Right",&"Left")
 			if SteerInput != 0:
@@ -195,13 +207,7 @@ func Drive(_delta: float):
 			steering = move_toward(steering, SteerTarget, SteerSpeed * _delta)
 			PreviousSpeed = linear_velocity.length()
 			
-			## Engine On/Off
-			if Input.is_action_just_pressed("Reload"):
-				if linear_velocity.is_normalized(): # not
-					EngineOn = !EngineOn
-					linear_velocity = Vector3.ZERO
-					if Global.UseDebug:
-						print("Engine: ", EngineOn)
+			
 			
 			if Gear == GearEnum.Park:
 				#linear_damp = 100

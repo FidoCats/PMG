@@ -32,7 +32,9 @@ func _ready() -> void:
 	if not is_in_group("Alive"):
 		add_to_group("Alive")
 	
-	RespawnPos += global_position
+	#RespawnPos += global_position
+	if RespawnPos == Vector3(0,15,0):
+		RespawnPos = global_position
 
 
 
