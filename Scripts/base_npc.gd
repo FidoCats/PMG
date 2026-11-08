@@ -211,9 +211,9 @@ func AttemptHear(_body):
 			if _body.is_in_group("Alive"):
 				if _body != self:
 					if _body.CurrentNoise > 0:
-						var HasHeard = randf_range(1, HearChance / _body.CurrentNoise)
-						if HasHeard == 1 and CanHear:
-							if _body.CurrentNoise >= 1:
+						var HasHeard = randf_range(0, HearChance / _body.CurrentNoise)
+						if HasHeard == 0 and CanHear:
+							if _body.CurrentNoise > 0:
 								IsBored = false
 								PursuedPerson = _body
 								IsPursuing = true
@@ -226,9 +226,9 @@ func AttemptSense(_body):
 		if _body != null:
 			if _body.is_in_group("Alive"):
 				if _body != self:
-					if _body.Noticability >= 1:
-						var WasFelt = randf_range(1,SenseChance / _body.Noticability)
-						if WasFelt == 1:
+					if _body.Noticability > 0:
+						var WasFelt = randf_range(0, SenseChance / _body.Noticability)
+						if WasFelt == 0:
 							IsBored = false
 							PursuedPerson = _body
 							IsPursuing = true
@@ -241,7 +241,7 @@ func AttemptTouch(_body: Node3D):
 		if _body != null:
 			if _body.is_in_group("Alive"):
 				if _body != self:
-					if _body.Noticability >= 1:
+					if _body.Noticability > 0:
 						IsBored = false
 						IsPursuing = true
 						PursuedPerson = _body

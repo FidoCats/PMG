@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://mdvmh0yc7jpu" path="res://Stuff/Sounds/8bitAhh.ogg" id="12_r52jx"]
 [ext_resource type="Texture2D" uid="uid://bcevtwcoa3f0i" path="res://Stuff/Images/cursor.png" id="13_r52jx"]
 [ext_resource type="Theme" uid="uid://difq8blxx5te1" path="res://Stuff/Styles/YellowedPlasticTheme.tres" id="14_ijtlc"]
+[ext_resource type="Script" uid="uid://b6psnfdm2j0sh" path="res://Scripts/hud.gd" id="14_u0thl"]
 [ext_resource type="Script" uid="uid://jgcbt52jos3t" path="res://Scripts/spawn_menu.gd" id="15_r52jx"]
 [ext_resource type="Script" uid="uid://dncr2ghxxviyr" path="res://Scripts/health_panel.gd" id="15_wbcqo"]
 [ext_resource type="FontFile" uid="uid://b07n2q4yc54cm" path="res://Stuff/Fonts/Jersey25-Regular.ttf" id="16_x870h"]
@@ -1128,12 +1129,24 @@ theme = ExtResource("14_ijtlc")
 theme_override_font_sizes/font_size = 15
 horizontal_alignment = 1
 
-[node name="HUD" type="Panel" parent="UI" unique_id=1225561048]
+[node name="VersionLabel" type="Label" parent="UI" unique_id=319302519]
+layout_mode = 0
+offset_top = 698.0
+offset_right = 150.0
+offset_bottom = 720.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.4862745)
+theme_override_font_sizes/font_size = 15
+text = "Version: '\\(° .°)/'"
+script = ExtResource("18_2grho")
+
+[node name="HUD" type="Panel" parent="UI" unique_id=1225561048 node_paths=PackedStringArray("PlayerNode")]
 layout_mode = 0
 offset_left = 960.0
 offset_top = 544.0
 offset_right = 960.0
 offset_bottom = 544.0
+script = ExtResource("14_u0thl")
+PlayerNode = NodePath("../..")
 
 [node name="SpeedPanel" type="Panel" parent="UI/HUD" unique_id=688765383]
 layout_mode = 0
@@ -1249,17 +1262,6 @@ fill_mode = 1
 nine_patch_stretch = true
 texture_under = SubResource("CurveTexture_r0712")
 texture_progress = SubResource("GradientTexture1D_g4v7s")
-
-[node name="VersionLabel" type="Label" parent="UI/HUD" unique_id=319302519]
-layout_mode = 0
-offset_left = -960.0
-offset_top = 154.0
-offset_right = -810.0
-offset_bottom = 176.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.4862745)
-theme_override_font_sizes/font_size = 15
-text = "Version: '\\(° .°)/'"
-script = ExtResource("18_2grho")
 
 [node name="Label" type="Label" parent="UI" unique_id=1125765481]
 layout_mode = 0
