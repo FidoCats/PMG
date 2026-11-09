@@ -62,6 +62,7 @@ signal Sense(_Body: Node3D)
 @export var BoredTimer: Timer
 @export var StateTimer: Timer
 @export var NavAgent: NavigationAgent3D
+@export var AlertAudioPlayer: AudioStreamPlayer3D
 @export_category("Resources: ")
 
 ## States
@@ -213,7 +214,9 @@ func AttemptHear(_body):
 					if _body.CurrentNoise > 0:
 						var HasHeard = randf_range(0, HearChance / _body.CurrentNoise)
 						if HasHeard == 0 and CanHear:
-							if _body.CurrentNoise > 0:
+							#if _body.CurrentNoise > 0:
+								if AlertAudioPlayer:
+									AlertAudioPlayer.play()
 								IsBored = false
 								PursuedPerson = _body
 								IsPursuing = true
@@ -229,10 +232,13 @@ func AttemptSense(_body):
 					if _body.Noticability > 0:
 						var WasFelt = randf_range(0, SenseChance / _body.Noticability)
 						if WasFelt == 0:
-							IsBored = false
-							PursuedPerson = _body
-							IsPursuing = true
-							#print("I Sense ", PursuedPerson)
+							#if _body.Noticability > 0:
+								if AlertAudioPlayer:
+									AlertAudioPlayer.play()
+								IsBored = false
+								PursuedPerson = _body
+								IsPursuing = true
+								#print("I Sense ", PursuedPerson)
 
 
 
@@ -242,6 +248,8 @@ func AttemptTouch(_body: Node3D):
 			if _body.is_in_group("Alive"):
 				if _body != self:
 					if _body.Noticability > 0:
+						if AlertAudioPlayer:
+							AlertAudioPlayer.play()
 						IsBored = false
 						IsPursuing = true
 						PursuedPerson = _body
@@ -382,6 +390,8 @@ func HurtPlayer(_body): #, DamageType):
 		if IsAgressive:
 			if CanAttack:
 				if _body.has_method("TakeDamage"):
+					if AlertAudioPlayer:
+						AlertAudioPlayer.play()
 					CanAttack = false
 					CanMove = false
 					_body.TakeDamage.rpc(AttackDamage)

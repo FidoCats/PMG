@@ -106,12 +106,12 @@ func _process(_delta: float) -> void:
 			if CanFire:
 				if Input.is_action_just_pressed("LMB") and not IsReloading:
 					if Ammo > 0:
-						ShootBullet(Firerate)
+						ShootBullet.rpc(Firerate)
 					else:
 						EmptySound.play()
 				elif Input.is_action_pressed("LMB") and Firerate == "Auto" and not IsReloading:
 					if Ammo > 0:
-						ShootBullet(Firerate)
+						ShootBullet.rpc(Firerate)
 					else:
 						EmptySound.play()
 				
@@ -148,9 +148,10 @@ func _process(_delta: float) -> void:
 func Reload():
 	IsReloading = true
 	ReloadSound.play()
-	var EmptyMag = MagPreload.instantiate()
-	Global.ProjectileSpawner.add_child(EmptyMag)
-	EmptyMag.global_transform = MagPosMarker.global_transform
+	if MagPreload != null:
+		var EmptyMag = MagPreload.instantiate()
+		Global.ProjectileSpawner.add_child(EmptyMag)
+		EmptyMag.global_transform = MagPosMarker.global_transform
 	await get_tree().create_timer(ReloadTime).timeout
 	if not UseResivoir:
 		Ammo = FullMag
@@ -165,18 +166,20 @@ func Reload():
 	IsReloading = false
 
 func Pump():
-	IsReloading = true
-	PumpSound.play()
-	await get_tree().create_timer(PumpTime).timeout
-	if PumpAmount < 4:
-		PumpAmount += 1
-		EjectCasing()
-	CanFire = true
-	IsReloading = false
-	#print("Can Fire: ", CanFire, "\n Pump Amount: ", PumpAmount)
+		IsReloading = true
+		PumpSound.play()
+		await get_tree().create_timer(PumpTime).timeout
+		if PumpAmount < 4:
+			PumpAmount += 1
+			if Ammo > 0:
+				EjectCasing.rpc()
+		CanFire = true
+		IsReloading = false
+		#print("Can Fire: ", CanFire, "\n Pump Amount: ", PumpAmount)
 
 
 
+@rpc("any_peer","call_local")
 func EjectCasing():
 	var Casing: Node3D = CasingPreload.instantiate()
 	Global.ObjectSpawner.add_child(Casing, true)
@@ -191,6 +194,7 @@ func EjectCasing():
 
 
 
+@rpc("any_peer","call_local")
 func ShootBullet(CurrentFirerate: String):
 	if CanFire:
 		if CurrentFirerate != "Safety":
@@ -209,12 +213,17 @@ func ShootBullet(CurrentFirerate: String):
 				
 			if not CanPump:
 				for i in BulletAmount * PumpAmount:
-					EjectCasing()
-			else:
-				EjectCasing()
+					EjectCasing.rpc()
+			#else:
+				#EjectCasing.rpc()
 			
 			if !BottomlessMag:
-				Ammo -= 1
+				if CanPump:
+					Ammo -= (1 * PumpAmount)
+					if Ammo < 0:
+						Ammo = 0
+				else:
+					Ammo -= 1
 				WeaponItem.special_value_1 = Ammo
 			
 

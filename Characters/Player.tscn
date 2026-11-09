@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cwjwrqnw0g01r" path="res://Scripts/LookingAt.gd" id="6_c3bgu"]
 [ext_resource type="Script" uid="uid://ct6m0qhmso6y0" path="res://Scripts/Above.gd" id="6_x35ji"]
 [ext_resource type="Script" uid="uid://dk5l4hj3n7y0b" path="res://Scripts/Under.gd" id="7_o8u7c"]
+[ext_resource type="Script" uid="uid://baxs6um3nuk4s" path="res://Scripts/AdvancedAudioPlayer3D.gd" id="10_j4b6j"]
 [ext_resource type="PackedScene" uid="uid://dxuqpynjx5p5y" path="res://Stuff/Models/felmitt_pmg_alpha_2,0.tscn" id="10_u0thl"]
 [ext_resource type="Script" uid="uid://cafh3uj72q7bj" path="res://Scripts/ScriptEdit.gd" id="12_2grho"]
 [ext_resource type="Script" uid="uid://bi641j81gphat" path="res://Scripts/cursor.gd" id="12_7wf5q"]
@@ -316,7 +317,6 @@ radius = 0.3544922
 height = 0.71276855
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_yf5fn"]
-dof_blur_far_enabled = true
 dof_blur_far_distance = 50.0
 dof_blur_amount = 0.05
 
@@ -574,7 +574,7 @@ colors = PackedColorArray(1, 0.42745098, 0, 1, 1, 0.89411765, 0, 1)
 gradient = SubResource("Gradient_u0thl")
 width = 25
 
-[node name="Player" type="CharacterBody3D" unique_id=1661719079 node_paths=PackedStringArray("nickname", "UI", "FPCamera", "CamOffset", "LookAtRay", "Holding", "UnderRay", "AboveRay", "InfrontRay", "TPCamera", "SpringArm", "BaseCollisionShape", "CrouchCollisionShape", "MainMesh", "ParryArea", "ParryMesh", "DeathScreen", "RespawnAudioStream") groups=["Alive"]]
+[node name="Player" type="CharacterBody3D" unique_id=1661719079 node_paths=PackedStringArray("nickname", "UI", "FPCamera", "CamOffset", "LookAtRay", "Holding", "UnderRay", "AboveRay", "InfrontRay", "LeftRay", "RightRay", "TPCamera", "SpringArm", "BaseCollisionShape", "CrouchCollisionShape", "MainMesh", "ParryArea", "ParryMesh", "DeathScreen", "RespawnAudioStream", "MovementAudioPlayer") groups=["Alive"]]
 collision_mask = 3
 script = ExtResource("1_x35ji")
 nickname = NodePath("PlayerNick/Nickname")
@@ -586,6 +586,8 @@ Holding = NodePath("CameraOffset/FPCamera/Holding")
 UnderRay = NodePath("Under")
 AboveRay = NodePath("Above")
 InfrontRay = NodePath("Infront")
+LeftRay = NodePath("Left")
+RightRay = NodePath("Right")
 TPCamera = NodePath("CameraOffset/FPCamera/SpringArmOffset/SpringArm3D/TPCamera")
 SpringArm = NodePath("CameraOffset/FPCamera/SpringArmOffset/SpringArm3D")
 BaseCollisionShape = NodePath("BaseCollisionShape")
@@ -595,6 +597,7 @@ ParryArea = NodePath("CameraOffset/FPCamera/ParryArea")
 ParryMesh = NodePath("CameraOffset/FPCamera/ParryArea/ParryMesh")
 DeathScreen = NodePath("UI/DeathScreen")
 RespawnAudioStream = NodePath("Respawn")
+MovementAudioPlayer = NodePath("MovementNoise")
 FelmittModel = SubResource("ArrayMesh_icbm8")
 InteractCoolDown = 0.35
 
@@ -620,6 +623,16 @@ script = ExtResource("7_o8u7c")
 [node name="Infront" type="RayCast3D" parent="." unique_id=587617790]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
 target_position = Vector3(0, 0, 1.5)
+script = ExtResource("4_x870h")
+
+[node name="Left" type="RayCast3D" parent="." unique_id=591670778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
+target_position = Vector3(1, 0, 0)
+script = ExtResource("4_x870h")
+
+[node name="Right" type="RayCast3D" parent="." unique_id=1425405161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
+target_position = Vector3(-1, 0, 0)
 script = ExtResource("4_x870h")
 
 [node name="CameraOffset" type="Node3D" parent="." unique_id=34522468]
@@ -998,6 +1011,14 @@ text = "P-Layer :3"
 [node name="Respawn" type="AudioStreamPlayer3D" parent="." unique_id=752810011]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 stream = ExtResource("12_r52jx")
+
+[node name="MovementNoise" type="AudioStreamPlayer3D" parent="." unique_id=683312283]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("10_j4b6j")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"
+
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="." unique_id=544315380]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1643142499]
 replication_config = SubResource("SceneReplicationConfig_2grho")

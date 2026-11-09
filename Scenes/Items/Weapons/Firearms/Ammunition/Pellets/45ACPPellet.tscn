@@ -9,19 +9,17 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
 material = ExtResource("2_6afsh")
+radius = 0.35
+height = 0.7
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_yf5fn"]
 material = ExtResource("3_odot3")
+top_radius = 0.35
+bottom_radius = 0.35
 height = 0.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fcnqv"]
-transparency = 1
-albedo_color = Color(1, 1, 1, 0.34117648)
-
-[sub_resource type="SphereMesh" id="SphereMesh_3gngh"]
-material = SubResource("StandardMaterial3D_fcnqv")
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_yf5fn"]
+radius = 0.45
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6afsh"]
 properties/0/path = NodePath(".:position")
@@ -46,9 +44,10 @@ properties/6/path = NodePath(".:is_queued_for_deletion")
 properties/6/spawn = true
 properties/6/replication_mode = 1
 
-[node name="45ACP" type="RigidBody3D" unique_id=1749067713]
+[node name="45ACP" type="RigidBody3D" unique_id=114121511]
 mass = 5.0
 script = ExtResource("1_oduel")
+metadata/_custom_type_script = "uid://dxra3fulo7ifd"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=576569594]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
@@ -64,11 +63,6 @@ mesh = SubResource("CylinderMesh_yf5fn")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=523718796]
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Area3D" unique_id=578620394]
-visible = false
-mesh = SubResource("SphereMesh_3gngh")
-skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=90657577]
 transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 0, 0, 0)

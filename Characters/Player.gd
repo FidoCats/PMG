@@ -16,6 +16,8 @@ signal Died(_Who: Node3D)
 @export var UnderRay: UnderRayCast# = $Under
 @export var AboveRay: AboveRayCast# = $Above
 @export var InfrontRay: InfrontRayCast# = $Infront
+@export var LeftRay: RayCast3D
+@export var RightRay: RayCast3D
 @export var TPCamera: Camera3D# = $FPCamera/SpringArmOffset/SpringArm3D/TPCamera
 @export var SpringArm: SpringArm3D# = $FPCamera/SpringArmOffset/SpringArm3D
 @export var BaseCollisionShape: CollisionShape3D #= $BaseCollisionShape
@@ -29,6 +31,7 @@ signal Died(_Who: Node3D)
 @export var RespawnAudioStream: AudioStreamPlayer3D# = $Respawn
 @export var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
 @export var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
+@export var MovementAudioPlayer: AdvancedAudioPlayer3D
 
 ## Throwable stuff
 @export var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
@@ -64,7 +67,7 @@ const RunSpeed: float = 10.0
 const CrouchSpeed: float = 2.5
 const JumpVelocity: float = 4.5
 const SlideStartSpeed: float = 12.5
-const SlideEndSpeed: float = 2.0
+const SlideEndSpeed: float = 0.1#2.0
 const DiveStartSpeed: float = 17.5
 const DiveEndSpeed: float = 15.0
 const WallRunSpeed: float = 10.5
@@ -108,6 +111,7 @@ var IsCrouching: bool = false
 var IsSliding: bool = false
 var IsDiving: bool = false
 var IsClinging: bool = false
+var IsQuickFalling: bool = false
 var CanCling: bool = true
 var IsWallRunning: bool = true
 var CanWallJump: bool = true
@@ -504,16 +508,19 @@ func _physics_process(delta):
 			freeze()
 			return
 
-	## Jump Refill
+	## Jump Reset
 	if is_on_floor():
 		if Jumps != MaxJumps:
 			Jumps = MaxJumps
 			CurrentNoise = 1
+			var Stream = preload("res://Stuff/Sounds/universfield-game-character-fall-131797.mp3")
+			if not MovementAudioPlayer.playing:
+				MovementAudioPlayer.Play(Stream)
 		if WallJumps != MaxWallJumps:
 			WallJumps = MaxWallJumps
 		if IsWallRunning:
 			IsWallRunning = false
-	
+
 	if not is_on_floor():
 		velocity.y -= DesiredGravity * delta
 	
@@ -538,7 +545,7 @@ func _physics_process(delta):
 	## Input Press
 		if Input.is_action_just_pressed("Jump"): #and not is_on_wall():
 			Jump()
-		if Input.is_action_pressed("Crouch") and CurrentSpeed < RunSpeed:
+		if Input.is_action_pressed("Crouch") and not IsSliding and not IsDiving and CurrentSpeed < RunSpeed and not IsQuickFalling:# and not IsCrouching:
 			Crouch()
 		if Input.is_action_pressed("Run") and not IsSliding and not IsDiving and not IsCrouching and is_on_floor():
 			Run()
@@ -548,10 +555,14 @@ func _physics_process(delta):
 			Dive()
 		if Input.is_action_pressed("RMB") and Holding.HandsFull == false:
 			LedgeHold()
-		if Input.is_action_pressed("RMB") and is_on_wall() and not IsClinging and CurrentSpeed > CrouchSpeed:
-			WallRun()
+		if Input.is_action_pressed("RMB") and not IsClinging and CurrentSpeed > CrouchSpeed:
+			if RightRay.get_collider() != null or LeftRay.get_collider() != null:
+				WallRun()
 		if Input.is_action_just_pressed("Parry") and CanParry:
 			Parry(ParryBody)
+		if Input.is_action_pressed("Crouch") and velocity.y < 0 and not is_on_wall() and not IsSliding and not IsDiving and CurrentSpeed < RunSpeed:
+			QuickFall()
+			print(velocity.y)
 	
 	## Input Release
 		if Input.is_action_just_released("Crouch") and AboveRay.Above == null:
@@ -606,8 +617,9 @@ func MovementBasic() -> void:
 			velocity.x = move_toward(velocity.x, 0, CurrentSpeed)
 			velocity.z = move_toward(velocity.z, 0, CurrentSpeed)
 			
-			Speed = BaseSpeed
-			CurrentNoise = 1
+			if not IsCrouching:
+				Speed = BaseSpeed
+				CurrentNoise = 1
 			#CurrentSpeed = 0
 			if CurrentSpeed > 0.0:
 				CurrentSpeed -= 0.5
@@ -621,6 +633,9 @@ func Jump():
 		$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Jumping")
 		CurrentNoise = JumpNoise
 		JumpCharge = 0
+		var Stream = preload("res://Stuff/Sounds/ClothesSwoosh.mp3")
+		if not MovementAudioPlayer.playing:
+			MovementAudioPlayer.Play(Stream)
 
 func Crouch():
 	IsCrouching = true
@@ -628,7 +643,7 @@ func Crouch():
 	BaseCollisionShape.disabled = true
 	CrouchCollisionShape.disabled = false
 	$UI/HUD/SpeedPanel/CurrentAction.text = str("Action:","\n","Crouching")
-	FPCamera.position.y = lerp(FPCamera.position.y, -0.75, 0.35)
+	FPCamera.position.y = lerp(FPCamera.position.y, -0.75, 0.25)
 	CurrentNoise = CrouchNoise
 	Fov = SetFov - CrouchFov
 	
@@ -650,6 +665,7 @@ func UnCrouch():
 		IsSliding = false
 		IsDiving = false
 		IsWalking = true
+		IsQuickFalling = false
 		FPCamera.rotation_degrees.y = 180.0
 		floor_stop_on_slope = true
 		Fov = SetFov
@@ -693,8 +709,14 @@ func Slide():
 		DesiredGravity = 1.0
 	Speed = SlideStartSpeed
 	CurrentSpeed = SlideStartSpeed
+	var Stream = preload("res://Stuff/Sounds/freesound_community-magazine-slide-100131.mp3")
+	if CurrentSpeed == SlideStartSpeed:
+		MovementAudioPlayer.Play(Stream)
 	await get_tree().create_timer(0.25).timeout
-	Speed = SlideEndSpeed
+	if Input.is_action_pressed("Crouch"):
+		Speed = SlideEndSpeed
+	else:
+		Speed = BaseSpeed
 	if CurrentSpeed <= (SlideEndSpeed * 2.5):
 		UnCrouch()
 
@@ -733,11 +755,23 @@ func WallRun():
 		velocity.y = 3.25
 		WallJumps -= 1
 		Jumps = 1
+		
+		var Stream: AudioStream = preload("res://Stuff/Sounds/ClothesSwoosh.mp3")
+		MovementAudioPlayer.Play(Stream)
+		
 		#var Force: Force3D = Force3D.new()
 		#add_child(Force)
-		#Force.Velocity.z = -100
+		var PlayerVelocity = velocity * transform.basis
+		if RightRay.get_collider() != null:
+			PlayerVelocity.x += 5.0
+		if LeftRay.get_collider() != null:
+			PlayerVelocity.x -= 5.0
+		#Force.Velocity.x = -PlayerVelocity.x
+		#print(-PlayerVelocity)
+		#Force.F = 10
 		#Force.SetupFinished.emit()
 		#Force.Move()
+		
 		CanWallJump = false
 		await get_tree().create_timer(0.65).timeout
 		CanWallJump = true
@@ -745,8 +779,29 @@ func WallRun():
 
 
 
+func QuickFall():
+	if not is_on_floor():
+		IsQuickFalling = true
+		DesiredGravity += 5
+		JumpCharge += 0.01
+		FPCamera.position.y = lerp(FPCamera.position.y, -0.5, 0.25)
+	else:
+		DesiredGravity = Gravity
+		UnCrouch()
+		await get_tree().create_timer(0.5).timeout
+		JumpCharge = 0.0
+		var Stream: AudioStream = preload("res://Stuff/Sounds/alert.ogg")
+		MovementAudioPlayer.Play(Stream)
+		
+
+
+
 func LedgeHold():
 	if InfrontRay.Infront != null and LookAtRay.LookingAt == null and FPCamera.rotation_degrees.x > 2.5 and FPCamera.rotation_degrees.x < 85 and CanCling:
+		if not IsClinging:
+			var Stream = preload("res://Stuff/Sounds/Wallet1.mp3")
+			MovementAudioPlayer.Play(Stream)
+		
 		if not Input.is_action_pressed("Jump"):
 			IsClinging = true
 			#DesiredGravity = 0.0

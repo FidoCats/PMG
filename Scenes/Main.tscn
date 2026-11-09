@@ -37,8 +37,8 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ibmi3"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_g4v7s"]
-vertices = PackedVector3Array(-30.5, 0.77861786, -48.25, -28.75, 0.77861786, -48.25, -29, 0.77861786, -49.5, -49.5, 0.77861786, -49.5, -16.25, 0.77861786, -49.5, -16.5, 0.77861786, -48.25, -14.5, 0.77861786, -48, 49.5, 0.77861786, -49.5, -30.5, 1.0286179, -40.5, -28.75, 1.7786179, -40.5, -28.75, 1.7786179, -47.25, -30.5, 1.0286179, -47.25, -14.75, 0.77861786, -39.5, -30.5, 0.77861786, -39.5, -49.5, 0.77861786, 49.5, 49.5, 0.77861786, 49.5, -17, 5.528618, -40.5, -17, 5.528618, -47.25, -25.75, 0.77861786, -47, -25.75, 0.77861786, -40.75, -16.25, 0.77861786, -40.75, -16.25, 0.77861786, -47)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(11, 10, 8), PackedInt32Array(8, 10, 9), PackedInt32Array(14, 13, 12), PackedInt32Array(12, 6, 7), PackedInt32Array(3, 0, 11), PackedInt32Array(3, 11, 8), PackedInt32Array(8, 13, 3), PackedInt32Array(3, 13, 14), PackedInt32Array(7, 15, 12), PackedInt32Array(12, 15, 14), PackedInt32Array(1, 2, 5), PackedInt32Array(5, 2, 4), PackedInt32Array(10, 17, 9), PackedInt32Array(9, 17, 16), PackedInt32Array(21, 20, 18), PackedInt32Array(18, 20, 19)]
+vertices = PackedVector3Array(-30.5, 0.77861786, -48.25, -28.75, 0.77861786, -48.25, -29, 0.77861786, -49.5, -49.5, 0.77861786, -49.5, -30.5, 1.0286179, -40.5, -28.75, 1.7786179, -40.5, -28.75, 1.7786179, -47.25, -30.5, 1.0286179, -47.25, 13, 0.77861786, 49.5, 13, 0.77861786, -19, 12, 0.77861786, -19.25, -15, 0.77861786, -39.5, -30.5, 0.77861786, -39.5, -49.5, 0.77861786, 49.5, 12, 0.77861786, -20.5, -14.75, 0.77861786, -48.25, 13, 0.77861786, -49.5, -14.5, 0.77861786, -39.75, 12.25, 0.77861786, -21, 13, 0.77861786, -21, 13.75, 0.77861786, -21, 14, 0.77861786, -20, 49.5, 0.77861786, -20, 49.5, 0.77861786, -49.5, -17, 5.528618, -40.5, -17, 5.528618, -47.25, -25.75, 0.77861786, -47, -25.75, 0.77861786, -40.75, -16.25, 0.77861786, -40.75, -16.25, 0.77861786, -47, 13.75, 0.77861786, -19, 49.5, 0.77861786, 49.5)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5), PackedInt32Array(8, 10, 9), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 8), PackedInt32Array(12, 8, 13), PackedInt32Array(3, 0, 7), PackedInt32Array(3, 7, 4), PackedInt32Array(4, 12, 3), PackedInt32Array(3, 12, 13), PackedInt32Array(11, 14, 10), PackedInt32Array(1, 2, 15), PackedInt32Array(15, 2, 16), PackedInt32Array(17, 15, 16), PackedInt32Array(16, 19, 18), PackedInt32Array(18, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(17, 14, 11), PackedInt32Array(20, 19, 16), PackedInt32Array(20, 16, 21), PackedInt32Array(21, 16, 22), PackedInt32Array(22, 16, 23), PackedInt32Array(6, 25, 5), PackedInt32Array(5, 25, 24), PackedInt32Array(29, 28, 26), PackedInt32Array(26, 28, 27), PackedInt32Array(21, 22, 30), PackedInt32Array(30, 22, 31), PackedInt32Array(30, 31, 8), PackedInt32Array(8, 9, 30)]
 agent_max_slope = 75.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g4v7s"]
@@ -149,14 +149,17 @@ shape = SubResource("BoxShape3D_tnexw")
 mesh = SubResource("BoxMesh_bn4a2")
 skeleton = NodePath("../..")
 
+[node name="CheckPoint" parent="Enviroment/NavigationRegion3D" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_6heos")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.6233115, -4)
+
+[node name="CheckPoint2" parent="Enviroment/NavigationRegion3D" unique_id=450970375 instance=ExtResource("8_6heos")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.6233115, -43)
+
+[node name="Seat3D" parent="Enviroment/NavigationRegion3D" unique_id=988545447 instance=ExtResource("10_btbly")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.75347626, -20)
+
 [node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
-
-[node name="CheckPoint" parent="Enviroment/Checkpoints2" unique_id=603104596 groups=["Undeletable"] instance=ExtResource("8_6heos")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -5)
-
-[node name="CheckPoint2" parent="Enviroment/Checkpoints2" unique_id=450970375 instance=ExtResource("8_6heos")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.1766884, -44)
 
 [node name="CheckPoint3" parent="Enviroment/Checkpoints2" unique_id=1933659830 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1.2, 213)
@@ -181,9 +184,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 21.2, 200)
 
 [node name="CheckPoint10" parent="Enviroment/Checkpoints2" unique_id=848737190 instance=ExtResource("8_6heos")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8, -2032)
-
-[node name="Seat3D" parent="Enviroment" unique_id=988545447 instance=ExtResource("10_btbly")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.75347626, -21)
 
 [node name="VentCover" parent="Enviroment" unique_id=792153120 instance=ExtResource("12_6ehlx")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 32, 1, -26)

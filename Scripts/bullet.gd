@@ -1,13 +1,13 @@
 #@tool
 
 extends RigidBody3D
-class_name Projectile
+class_name ProjectileBullet
 
 @export_category("Prefrences: ")
-@export var SPEED = 35.0
+@export var SPEED = 50.0
 @export var RANGE = 150.0
 @export var FallOffDistance = 90.0
-@export var PenetrationChance: float = 5.0
+@export var PenetrationChance: float = 10.0
 @export var RollAmount: float = 150.0
 @export var Damage: float = 25.0
 #@export_category("Nodes: ")
@@ -15,7 +15,7 @@ class_name Projectile
 
 var travelled_distance = 0.0
 
-var CanKill:bool = false
+var CanKill: bool = false
 
 var PosiOrNot: bool
 

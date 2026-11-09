@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b2k7wy0jttdue" path="res://Scripts/base_npc.gd" id="1_3sst3"]
 [ext_resource type="AudioStream" uid="uid://bgt2qexoomilk" path="res://Stuff/Sounds/roblox old sounds bass.wav" id="2_duayq"]
 [ext_resource type="AudioStream" uid="uid://gujtlvbj38q5" path="res://Stuff/Sounds/hl2-stalker-scream.mp3" id="2_n8v3c"]
+[ext_resource type="AudioStream" uid="uid://ckqkwwsy7l3b8" path="res://Stuff/Sounds/alert.ogg" id="4_oaqeo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
 
@@ -65,7 +66,7 @@ properties/11/path = NodePath(".:IsAgressive")
 properties/11/spawn = true
 properties/11/replication_mode = 1
 
-[node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+[node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "AlertAudioPlayer", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")
@@ -84,6 +85,7 @@ TouchAreaShape = NodePath("TouchArea/TouchShape")
 BoredTimer = NodePath("Timer")
 StateTimer = NodePath("Timer2")
 NavAgent = NodePath("NavigationAgent3D")
+AlertAudioPlayer = NodePath("Alert")
 RespawnSoundPlayer = NodePath("AudioStreamPlayer3D")
 RespawnAudio = ExtResource("2_duayq")
 metadata/_custom_type_script = "uid://b2k7wy0jttdue"
@@ -143,6 +145,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
 [node name="TouchShape" type="CollisionShape3D" parent="TouchArea" unique_id=376404531]
 shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="Alert" type="AudioStreamPlayer3D" parent="." unique_id=268731361]
+stream = ExtResource("4_oaqeo")
 
 [node name="Timer" type="Timer" parent="." unique_id=1394477371]
 wait_time = 50.0
