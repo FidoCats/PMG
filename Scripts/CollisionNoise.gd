@@ -7,13 +7,15 @@ signal Sense(_Body: Node3D)
 
 @export var AffectedNode: RigidBody3D
 @export var MaxCollisonCount: int = 1
-@export var CollisionSoundPlayer: AudioStreamPlayer3D
+@export var CanDamage: bool = true
+@export var Stream: AudioStream = preload("res://Stuff/Sounds/metal_solid_impact_soft1.wav")
+@export var CollisionSoundPlayer: AdvancedAudioPlayer3D
 @export var ParticleMaker: GPUParticles3D
 @export var MeshNode: MeshInstance3D
 
-var CurrentNoise: int = 0
+#var CurrentNoise: int = 0
 #var CurrentVisibility: int = 0
-var Noticability: int = 0
+#var Noticability: int = 0
 
 
 
@@ -22,33 +24,39 @@ func _ready() -> void:
 		AffectedNode.contact_monitor = true
 		AffectedNode.max_contacts_reported = MaxCollisonCount
 		AffectedNode.body_entered.connect(Collide)
-		AffectedNode.add_user_signal("Sense")
+		#AffectedNode.add_user_signal("Sense", [_Body: Node3D])
+		AffectedNode.add_to_group("Noticable")
 	if ParticleMaker:
 		ParticleMaker.one_shot = true
 		if MeshNode:
 			ParticleMaker.draw_pass_1.surface_set_material(0,MeshNode.mesh.get("material"))
 	if CollisionSoundPlayer:
-		CollisionSoundPlayer.finished.connect(EndSound)
-	add_to_group("Alive")
+		if CollisionSoundPlayer.stream == null:
+			CollisionSoundPlayer.stream = Stream 
+		#CollisionSoundPlayer.finished.connect(EndSound)
 
 
 
 func Collide(_body: Node3D):
-	if AffectedNode.linear_velocity.length() > 5 / AffectedNode.mass:
-		if _body.has_method("TakeDamage"):
-			_body.TakeDamage.rpc(AffectedNode.linear_velocity.length() * AffectedNode.mass / 4)
+	if CanDamage:
+		if AffectedNode.linear_velocity.length() > 5 / AffectedNode.mass:
+			if _body.has_method("TakeDamage"):
+				_body.TakeDamage.rpc(AffectedNode.linear_velocity.length() * AffectedNode.mass / 4)
+	
+	Sense.emit(AffectedNode)
+	print("Emitted!")
 	
 	if CollisionSoundPlayer:
 		if AffectedNode.has_method("set_linear_velocity"):
 			if AffectedNode.linear_velocity.length() > 1:
-				CollisionSoundPlayer.play()
+				CollisionSoundPlayer.Play.rpc()
 		else:
-			CollisionSoundPlayer.play()
+			CollisionSoundPlayer.Play.rpc()
 	if ParticleMaker:
 		ParticleMaker.restart()
 	
-	CurrentNoise = 5
-	Noticability = CurrentNoise
+	#CurrentNoise = 5
+	#Noticability = CurrentNoise
 	#print(AffectedNode.Noticability)
 	#if AffectedNode.is_in_group("Alive"):
 		#print("I AM ALIVE")
@@ -58,6 +66,6 @@ func Collide(_body: Node3D):
 
 
 ## The Node is Undetectable, it needs to Be a CollisionBody
-func EndSound():
-	CurrentNoise = 0
-	Noticability = CurrentNoise
+#func EndSound():
+	#CurrentNoise = 0
+	#Noticability = CurrentNoise

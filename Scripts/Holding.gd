@@ -183,6 +183,8 @@ func Equip(Slot: int = 1):
 				CurrentSlot = Slot - 1
 				#SlotToId.special_value_1 = UsedSlotValue
 				HandsFull = true
+				if Equipable.has_method("SetUser"):
+					Equipable.SetUser(PlayerNode)
 				if Equipable.has_method("Enable"):
 					Equipable.Enable(true)
 			else:
@@ -196,6 +198,7 @@ func Equip(Slot: int = 1):
 	
 	
 	print("Slot ", Slot, " equipped: ", HandsFull)
+	print("MP Auth: ", get_multiplayer_authority())
 
 
 
@@ -236,6 +239,8 @@ func Drop():
 				var DroppedItem: Node3D = SelectedItem.scene.instantiate()
 				Global.ObjectSpawner.add_child(DroppedItem, true)
 				DroppedItem.global_position = global_position
+				if DroppedItem.has_method("SetUser"):
+					DroppedItem.SetUser(null)
 				if DroppedItem.has_method("Enable"):
 					DroppedItem.Enable(false)
 			SelectedSlot.remove_item(1)

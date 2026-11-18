@@ -574,7 +574,7 @@ colors = PackedColorArray(1, 0.42745098, 0, 1, 1, 0.89411765, 0, 1)
 gradient = SubResource("Gradient_u0thl")
 width = 25
 
-[node name="Player" type="CharacterBody3D" unique_id=1661719079 node_paths=PackedStringArray("nickname", "UI", "FPCamera", "CamOffset", "LookAtRay", "Holding", "UnderRay", "AboveRay", "InfrontRay", "LeftRay", "RightRay", "TPCamera", "SpringArm", "BaseCollisionShape", "CrouchCollisionShape", "MainMesh", "ParryArea", "ParryMesh", "DeathScreen", "RespawnAudioStream", "MovementAudioPlayer") groups=["Alive"]]
+[node name="Player" type="CharacterBody3D" unique_id=1661719079 node_paths=PackedStringArray("nickname", "UI", "FPCamera", "CamOffset", "LookAtRay", "Holding", "UnderRay", "AboveRay", "InfrontRay", "LeftRay", "RightRay", "TPCamera", "SpringArm", "BaseCollisionShape", "CrouchCollisionShape", "MainMesh", "ParryArea", "ParryMesh", "DeathScreen", "RespawnAudioStream", "MovementAudioPlayer", "FootstepPlayer") groups=["Alive"]]
 collision_mask = 3
 script = ExtResource("1_x35ji")
 nickname = NodePath("PlayerNick/Nickname")
@@ -598,15 +598,16 @@ ParryMesh = NodePath("CameraOffset/FPCamera/ParryArea/ParryMesh")
 DeathScreen = NodePath("UI/DeathScreen")
 RespawnAudioStream = NodePath("Respawn")
 MovementAudioPlayer = NodePath("MovementNoise")
+FootstepPlayer = NodePath("Footsteps")
 FelmittModel = SubResource("ArrayMesh_icbm8")
 InteractCoolDown = 0.35
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="." unique_id=515654043]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.74527, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.745, 0.01)
 shape = SubResource("CapsuleShape3D_mx45w")
 
 [node name="CrouchCollisionShape3D" type="CollisionShape3D" parent="." unique_id=954256712]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 0.31497902, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.315, 0.01)
 shape = SubResource("CapsuleShape3D_yf5fn")
 disabled = true
 
@@ -616,8 +617,8 @@ target_position = Vector3(0, 0.5, 0)
 script = ExtResource("6_x35ji")
 
 [node name="Under" type="RayCast3D" parent="." unique_id=591413652]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, -0.055385545, 0.01)
-target_position = Vector3(0, -0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, -0.065, 0.01)
+target_position = Vector3(0, -0.5, 0)
 script = ExtResource("7_o8u7c")
 
 [node name="Infront" type="RayCast3D" parent="." unique_id=587617790]
@@ -627,16 +628,16 @@ script = ExtResource("4_x870h")
 
 [node name="Left" type="RayCast3D" parent="." unique_id=591670778]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
-target_position = Vector3(1, 0, 0)
+target_position = Vector3(1.25, 0, 0)
 script = ExtResource("4_x870h")
 
 [node name="Right" type="RayCast3D" parent="." unique_id=1425405161]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.0149791, 0.01)
-target_position = Vector3(-1, 0, 0)
+target_position = Vector3(-1.25, 0, 0)
 script = ExtResource("4_x870h")
 
 [node name="CameraOffset" type="Node3D" parent="." unique_id=34522468]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.066, 1.25, 0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.2)
 
 [node name="FPCamera" type="Camera3D" parent="CameraOffset" unique_id=536479190]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
@@ -679,16 +680,12 @@ transform = Transform3D(0.9615164, -0.2664565, -0.06698741, -0.12940961, -0.2241
 visible = false
 mesh = SubResource("CylinderMesh_g4v7s")
 
-[node name="FPCameraOffSet" type="Node3D" parent="." unique_id=1632633464]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.066, 1.25, 0.21)
-
 [node name="MainMesh" type="MeshInstance3D" parent="." unique_id=255328238]
-transform = Transform3D(-5.463924e-08, 0, -1.25, 0, 1.25, 0, 1.25, 0, -5.463924e-08, -0.05, 0.70000005, 0)
-visible = false
+transform = Transform3D(-5.463924e-08, 0, -1.25, 0, 1.25, 0, 1.25, 0, -5.463924e-08, -0.05, 1.7, 0)
 material_overlay = SubResource("StandardMaterial3D_7lfs3")
 
 [node name="Felmitt_PMGAlpha2,0" parent="." unique_id=569796499 instance=ExtResource("10_u0thl")]
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, -0.05, 0.7, 0)
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0.7, 0)
 
 [node name="MutlipartBody" type="Node3D" parent="." unique_id=1700992245]
 transform = Transform3D(0.49170122, 0, 0, 0, 0.49170122, 0, 0, 0, 0.49170122, -0.0644093, 4, -0.035357)
@@ -1017,8 +1014,10 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 
 script = ExtResource("10_j4b6j")
 metadata/_custom_type_script = "uid://baxs6um3nuk4s"
 
-[node name="Footsteps" type="AudioStreamPlayer3D" parent="." unique_id=544315380]
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="." unique_id=582121846]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("10_j4b6j")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1643142499]
 replication_config = SubResource("SceneReplicationConfig_2grho")

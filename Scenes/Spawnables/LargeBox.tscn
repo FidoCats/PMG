@@ -4,7 +4,8 @@
 [ext_resource type="Material" uid="uid://bjejskr20banr" path="res://Stuff/Materials/Yell.tres" id="1_ww801"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_lrwln"]
 [ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_2a60i"]
-[ext_resource type="AudioStream" uid="uid://b4qf3v7hpjqll" path="res://Stuff/Sounds/philly-hit.mp3" id="5_0uh7q"]
+[ext_resource type="AudioStream" uid="uid://81b33hqteild" path="res://Stuff/Sounds/metal_solid_impact_hard1 (1).wav" id="4_0uh7q"]
+[ext_resource type="Script" uid="uid://baxs6um3nuk4s" path="res://Scripts/AdvancedAudioPlayer3D.gd" id="5_kq541"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
 size = Vector3(1.5, 1.5, 1.5)
@@ -76,9 +77,10 @@ metadata/_custom_type_script = "uid://ddt8rl37ck60i"
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1788380738]
 replication_config = SubResource("SceneReplicationConfig_2jyye")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=365540241]
-stream = ExtResource("5_0uh7q")
-volume_db = -11.009
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=185062123]
+stream = ExtResource("4_0uh7q")
+script = ExtResource("5_kq541")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=794420947]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)

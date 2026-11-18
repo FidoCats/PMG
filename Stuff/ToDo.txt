@@ -1,21 +1,21 @@
-1.) ObjectSpawner works with SpawnLimit 1 and seemingly nothing else....
-2.) 
-3.) Change Shotgun bullets to Buckshot instead of .45ACP
-4.) 
-5.) Keep Weapon Ammo on equip/unequip # This could be fixed by just making them disabled and invisible
-6.) Add Noticability system
+1.)
+2.) Make ItemContainer Class
+3.)
+4.) Make MusicPlayer Class
+5.)
+6.) Make B&T USW
 7.) 
 8.) 
 9.)  Make PickupComponent only work if RigidBody is unfrozen
 10.)
 11.) --Fix Guns not working on client--
-12.) Add PlayersPerSession chooser to lobby creation screen
+12.)
 13.) Add MapChanger
 14.) Add BaseItem Class
 15.) 
 16.) Make BaseFluid Class
 17.) Make Better Weapon Models
-18.) Make B&T APC
+18.) Make B&T APC9
 19.) Finish M2_IslandTown
 20.) Make the games systems in a way where you can just mess around with the settings and such by being able to shove certain stuff in a folder and it just works
 

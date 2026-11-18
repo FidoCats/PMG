@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c7qc0eoglvgtg"]
+
+[ext_resource type="Script" uid="uid://gaepebolddcr" path="res://Scripts/SoundEmitter.gd" id="1_0kwxc"]
+[ext_resource type="Material" uid="uid://bnjxyk031cxem" path="res://Stuff/Materials/MatteReallyBlack.tres" id="2_vcpyn"]
+[ext_resource type="Texture2D" uid="uid://c5b3qswi10xip" path="res://addons/godot-prototype-texture/PNG/grid_512x512/grid_black_512x512.png" id="3_g4v6q"]
+[ext_resource type="Script" uid="uid://baxs6um3nuk4s" path="res://Scripts/AdvancedAudioPlayer3D.gd" id="4_luus0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+size = Vector3(0.75, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2wss0"]
+material = ExtResource("2_vcpyn")
+size = Vector3(0.75, 1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwn1v"]
+albedo_texture = ExtResource("3_g4v6q")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_h12dc"]
+material = SubResource("StandardMaterial3D_cwn1v")
+size = Vector3(0.7, 0.9, 0.1)
+
+[node name="SoundEmitter" type="RigidBody3D" unique_id=1744396886 node_paths=PackedStringArray("AudioPlayer")]
+script = ExtResource("1_0kwxc")
+Looping = true
+AudioPlayer = NodePath("MeshInstance3D2/AdvancedAudioPlayer3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=973142658]
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=926101732]
+mesh = SubResource("BoxMesh_2wss0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=196374620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+mesh = SubResource("BoxMesh_h12dc")
+
+[node name="AdvancedAudioPlayer3D" type="AudioStreamPlayer3D" parent="MeshInstance3D2" unique_id=459568906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+script = ExtResource("4_luus0")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"

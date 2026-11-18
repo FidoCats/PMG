@@ -1,4 +1,5 @@
 extends Node3D
+class_name Main
 
 @onready var players_container: Node3D = $PlayersContainer
 @onready var main_menu: MainMenuUI = $MainMenuUI
@@ -13,7 +14,7 @@ var inventory_visible = false
 func _ready():
 	if DisplayServer.get_name() == "headless":
 		print("Dedicated server starting...")
-		Network.start_host("", Color.TRANSPARENT)#, Player.SpeciesEnum.Felmitt)
+		Network.HostGame("", Color.TRANSPARENT, Player.SpeciesEnum.Felmitt)
 	
 	
 	
@@ -53,7 +54,8 @@ func _ready():
 	if not multiplayer.is_server():
 		return
 
-	Network.connect("player_connected", Callable(self, "_on_player_connected"))
+	#Network.connect("player_connected", Callable(self, "_on_player_connected"))
+	Network.connect("PlayerConnect", Callable(self, "_on_player_connected"))
 	multiplayer.peer_disconnected.connect(_remove_player)
 
 
@@ -63,15 +65,18 @@ func _on_player_connected(peer_id, player_info):
 
 
 
-func _on_host_pressed(nickname: String, skin: Color):#, species: Player.SpeciesEnum):
+func _on_host_pressed(nickname: String, skin: Color, species: Player.SpeciesEnum):
 	main_menu.hide_menu()
-	Network.start_host(nickname, skin)#, species)
+	print("host pressed")
+	Network.HostGame(nickname,skin,species)
+	#Network.start_host(nickname, skin)#, species)
 
 
 
-func _on_join_pressed(nickname: String, skin: Color, address: String):
+func _on_join_pressed(nickname: String, skin: Color, species: Player.SpeciesEnum,address: String):
 	main_menu.hide_menu()
-	Network.join_game(nickname, skin, address)
+	#Network.join_game(nickname, skin, address)
+	Network.JoinGame(nickname,skin,species,address)
 
 
 
@@ -80,47 +85,62 @@ func _add_player(id: int, player_info : Dictionary):
 		return
 
 	if players_container.has_node(str(id)):
+		print("Player Already Exists")
+		main_menu.show()
 		return
+	else:
+		main_menu.hide()
+		main_menu.hide_menu()
+	
+	
+	Network.AddPlayer(id,player_info)
+	
+	#var player = player_scene.instantiate()
+	#player.name = str(id)
+	#player.position = get_spawn_point()
+	#players_container.add_child(player, true)
+#
+	#var nick = Network.players[id]["nick"]
+	#player.nickname.text = nick
+#
+	#var skin_enum = player_info["skin"]
+	#var species = player_info["species"]
+	#player.set_player_skin(skin_enum, species)
 
-	var player = player_scene.instantiate()
-	player.name = str(id)
-	player.position = get_spawn_point()
-	players_container.add_child(player, true)
-
-	var nick = Network.players[id]["nick"]
-	player.nickname.text = nick
-
-	var skin_enum = player_info["skin"]
-	var species = player_info["species"]
-	player.set_player_skin(skin_enum, species)
 
 
-
-func get_spawn_point() -> Vector3:
-	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * Network.SpawnRadius # spawn radius
-	return Vector3(spawn_point.x, 0, spawn_point.y)
+#func get_spawn_point() -> Vector3:
+	#var spawn_point = Vector2.from_angle(randf() * 2 * PI) * Network.SpawnRadius # spawn radius
+	#return Vector3(spawn_point.x, 0, spawn_point.y)
 
 
 
 func _remove_player(id):
 	if not multiplayer.is_server() or not players_container.has_node(str(id)):
 		return
-	var player_node = players_container.get_node(str(id))
-	if player_node:
-		player_node.queue_free()
-		if id == multiplayer.get_unique_id():
-			OS.kill(OS.get_process_id())
+	
+	Network.RemovePlayer(id)
+	
+	#var player_node = players_container.get_node(str(id))
+	#if player_node:
+		#player_node.queue_free()
+		#if id == multiplayer.get_unique_id():
+			#OS.kill(OS.get_process_id())
 
 
 
 func _on_quit_pressed() -> void:
+	print("quit pressed")
 	OS.kill(OS.get_process_id())
 
 
 
 func _on_disconnect_pressed() -> void:
-	_remove_player(multiplayer.get_unique_id())
-	main_menu.visible = true
+	#_remove_player(multiplayer.get_unique_id())
+	#main_menu.visible = true
+	
+	Network.RemovePlayer(multiplayer.get_unique_id())
+	main_menu.show_menu()
 
 
 

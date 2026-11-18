@@ -1,8 +1,8 @@
 extends Control
 class_name MainMenuUI
 
-signal host_pressed(nickname: String, skin: Color)#, species: Player.SpeciesEnum)
-signal join_pressed(nickname: String, skin: Color, address: String)
+signal host_pressed(nickname: String, skin: Color, species: Player.SpeciesEnum)
+signal join_pressed(nickname: String, skin: Color, species: Player.SpeciesEnum, address: String)
 signal quit_pressed
 
 @onready var mesh_input: OptionButton = $Profile/MeshInput
@@ -18,17 +18,19 @@ func _on_host_pressed():
 	var skin: Color = color_input.color #skin_input.text.strip_edges().to_lower()
 	#print(Player.SpeciesEnum.get(0))#mesh_input.selected))
 	#await get_tree().create_timer(0.1).timeout
-	#var species: Player.SpeciesEnum = Player.SpeciesEnum.get(mesh_input.selected)
+	var species: Player.SpeciesEnum = Player.SpeciesEnum.Felmitt #Player.SpeciesEnum[mesh_input.get_selected_id()] #Player.SpeciesEnum.get(mesh_input.selected)
 	
-	host_pressed.emit(nickname, skin)#, species)
+	host_pressed.emit(nickname, skin, species)
+	print("host button pressed")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_join_pressed():
 	var nickname: String = nick_input.text.strip_edges()
 	var skin: Color = color_input.color #skin_input.text.strip_edges().to_lower()
-	#var species: Player.SpeciesEnum = Player.SpeciesEnum.get(mesh_input.selected)
+	var species: Player.SpeciesEnum = Player.SpeciesEnum.Felmitt#get(mesh_input.selected)
 	var address: String = address_input.text.strip_edges()
-	join_pressed.emit(nickname, skin, address)
+	join_pressed.emit(nickname, skin, species, address)
+	hide_menu()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_quit_pressed():

@@ -59,11 +59,13 @@ var CanFire: bool = true
 #var IsHeld: bool = false
 var Parent
 var WeaponItem
+var User: Node3D = null
 
 
 
 func _ready() -> void:
 	Parent = get_parent()
+	
 	if ItemID != "":
 		WeaponItem = ItemDatabase.get_item(ItemID)
 		if Collect:
@@ -74,74 +76,80 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Enabled:
-		PumpAmount = clamp(PumpAmount, 1, MaxPump)
-		
-		
-		
-		if Ammo < 0:
-			Ammo = 0
-		elif Ammo > FullMag:
-			Ammo = FullMag 
-
-
-
-		# Ammo Counter
-		if IsReloading == false:
-			AmmoLabel.text = str(Ammo,"/",FullMag)
-		elif IsReloading == true:
-			if !UseAltReloadText:
-				AmmoLabel.text = "Reloading"
-			else:
-				AmmoLabel.text = AltReloadText
-		
-		## Firerate label
-		if CanSwitchFR:
-			FRLabel.text = str(Firerate)
-
-		## Input Recognition
-		
-		if Enabled:
-			## Shoot
-			if CanFire:
-				if Input.is_action_just_pressed("LMB") and not IsReloading:
-					if Ammo > 0:
-						ShootBullet.rpc(Firerate)
-					else:
-						EmptySound.play()
-				elif Input.is_action_pressed("LMB") and Firerate == "Auto" and not IsReloading:
-					if Ammo > 0:
-						ShootBullet.rpc(Firerate)
-					else:
-						EmptySound.play()
-				
-					#if CanPump:
-						#CanFire = false
-			
-			## Pump
-			if CanPump and PumpAmount < 4:
-				if Input.is_action_just_pressed("RMB") and Firerate != "Safety":
-					Pump()
-					#CanFire = true
-			
-			## Reload
-				if Input.is_action_just_pressed("Reload") and Firerate != "Safety" and Ammo < FullMag:
-					Reload()
-			
-			else:
-				if Input.is_action_just_pressed("Reload") and Firerate != "Safety" and Ammo < FullMag:
-					Reload()
-				
-			## Firerate Switching
-			if Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Semi" and CanSwitchFR == true:
-				Firerate = "Auto"
-			elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Auto" and CanSwitchFR == true:
-				Firerate = "Safety"
-			elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Safety" and CanSwitchFR == true: #FirerateEnum.size()
-				Firerate = "Semi"
+	if User == null:
+		Enable(false)
 	
-	if Collect:
-		Collect.Enabled = Enabled
+	if Enabled and User:
+		if User.is_multiplayer_authority() and not User.InputBlocked:
+			
+			
+			#print("Gun MP Auth: ", get_multiplayer_authority())
+			
+			
+			
+			if Ammo < 0:
+				Ammo = 0
+			elif Ammo > FullMag:
+				Ammo = FullMag 
+
+
+
+			# Ammo Counter
+			if IsReloading == false:
+				AmmoLabel.text = str(Ammo,"/",FullMag)
+			elif IsReloading == true:
+				if !UseAltReloadText:
+					AmmoLabel.text = "Reloading"
+				else:
+					AmmoLabel.text = AltReloadText
+			
+			## Firerate label
+			if CanSwitchFR:
+				FRLabel.text = str(Firerate)
+
+			## Input Recognition
+			
+			if Enabled:
+				## Shoot
+				if CanFire:
+					if Input.is_action_just_pressed("LMB") and not IsReloading:
+						if Ammo > 0:
+							ShootBullet.rpc(Firerate)
+						else:
+							EmptySound.play()
+					elif Input.is_action_pressed("LMB") and Firerate == "Auto" and not IsReloading:
+						if Ammo > 0:
+							ShootBullet.rpc(Firerate)
+						else:
+							EmptySound.play()
+					
+						#if CanPump:
+							#CanFire = false
+				
+				## Pump
+				if CanPump and PumpAmount < 4:
+					if Input.is_action_just_pressed("RMB") and Firerate != "Safety":
+						Pump()
+						#CanFire = true
+				
+				## Reload
+					if Input.is_action_just_pressed("Reload") and Firerate != "Safety" and Ammo < FullMag:
+						Reload()
+				
+				else:
+					if Input.is_action_just_pressed("Reload") and Firerate != "Safety" and Ammo < FullMag:
+						Reload()
+					
+				## Firerate Switching
+				if Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Semi" and CanSwitchFR == true:
+					Firerate = "Auto"
+				elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Auto" and CanSwitchFR == true:
+					Firerate = "Safety"
+				elif Input.is_action_just_pressed("SwitchFiremode") and Firerate == "Safety" and CanSwitchFR == true: #FirerateEnum.size()
+					Firerate = "Semi"
+		
+		if Collect:
+			Collect.Enabled = Enabled
 
 
 
@@ -173,6 +181,7 @@ func Pump():
 			PumpAmount += 1
 			if Ammo > 0:
 				EjectCasing.rpc()
+		PumpAmount = clamp(PumpAmount, 1, MaxPump)
 		CanFire = true
 		IsReloading = false
 		#print("Can Fire: ", CanFire, "\n Pump Amount: ", PumpAmount)
@@ -187,7 +196,7 @@ func EjectCasing():
 	var Force: Force3D = Force3D.new()
 	Casing.add_child(Force,true)
 	Force.Velocity = Vector3(0.0,0.0,-1.0)
-	Force.F = EjectionForce / Casing.mass
+	Force.F = randf_range(EjectionForce / Casing.mass, EjectionForce + 1.0 / Casing.mass)
 	Casing.global_basis = EjectionPortMarker.global_basis
 	Force.SetupFinished.emit()
 	#Force.Move()
@@ -244,8 +253,17 @@ func ShootBullet(CurrentFirerate: String):
 
 
 
+func SetUser(NewUser: Node3D):
+	User = NewUser
+	if NewUser != null:
+		set_multiplayer_authority(User.multiplayer.get_unique_id())
+
+
+
 func Enable(On: bool = false) -> bool:
 	Enabled = On
+	if Enabled == false:
+		User = null
 	if Collect:
 		Collect.Enabled = !On
 	if is_class("RigidBody3D"):

@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://d3wajoccwrfbo" path="res://Scripts/CollisionNoise.gd" id="1_ylo88"]
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="2_37xgf"]
 [ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="3_att6g"]
-[ext_resource type="AudioStream" uid="uid://df0g7alf3yo0k" path="res://Stuff/Sounds/Ricochet.ogg" id="5_ylo88"]
+[ext_resource type="AudioStream" uid="uid://un7aqq1r7lbn" path="res://Stuff/Sounds/metal_solid_impact_soft1.wav" id="4_6lelu"]
+[ext_resource type="Script" uid="uid://baxs6um3nuk4s" path="res://Scripts/AdvancedAudioPlayer3D.gd" id="5_yrujk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yf5fn"]
 
@@ -58,7 +59,7 @@ size = Vector3(0.25, 0.25, 0.25)
 
 [sub_resource type="Skin" id="Skin_g4v7s"]
 
-[node name="Box" type="RigidBody3D" unique_id=648598193]
+[node name="Box" type="RigidBody3D" unique_id=648598193 groups=["Noticable"]]
 collision_layer = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1599199846]
@@ -79,9 +80,10 @@ metadata/_custom_type_script = "uid://ddt8rl37ck60i"
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1788380738]
 replication_config = SubResource("SceneReplicationConfig_2jyye")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2117318225]
-stream = ExtResource("5_ylo88")
-volume_db = -13.211
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=98380625]
+stream = ExtResource("4_6lelu")
+script = ExtResource("5_yrujk")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=2071630628]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)

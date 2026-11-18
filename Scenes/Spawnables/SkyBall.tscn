@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="1_bqdbx"]
 [ext_resource type="Script" uid="uid://ddt8rl37ck60i" path="res://Scripts/pick_up_component.gd" id="2_tjj8m"]
 [ext_resource type="Script" uid="uid://d3wajoccwrfbo" path="res://Scripts/CollisionNoise.gd" id="4_vcgp6"]
-[ext_resource type="AudioStream" uid="uid://5peweapedbdu" path="res://Stuff/Sounds/edr-cat-purr-meow-8327.mp3" id="5_ug5nd"]
+[ext_resource type="AudioStream" uid="uid://un7aqq1r7lbn" path="res://Stuff/Sounds/metal_solid_impact_soft1.wav" id="5_8l2w2"]
+[ext_resource type="Script" uid="uid://baxs6um3nuk4s" path="res://Scripts/AdvancedAudioPlayer3D.gd" id="6_4j6l5"]
 [ext_resource type="Texture2D" uid="uid://cxeo0n545ommo" path="res://Stuff/Images/FelmitFace (14.10.2026)/SadOpen.png" id="6_ug5nd"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tiwcy"]
@@ -89,9 +90,10 @@ ParticleMaker = NodePath("../GPUParticles3D")
 MeshNode = NodePath("../MeshInstance3D")
 metadata/_custom_type_script = "uid://d3wajoccwrfbo"
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1875508451]
-stream = ExtResource("5_ug5nd")
-volume_db = -24.022
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=349778062]
+stream = ExtResource("5_8l2w2")
+script = ExtResource("6_4j6l5")
+metadata/_custom_type_script = "uid://baxs6um3nuk4s"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1998462607]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)

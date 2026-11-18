@@ -40,10 +40,11 @@ var UsedBy: Node3D = null
 var EnginePitch: float
 var SteerTarget: float = 0.0
 var PreviousSpeed: float = 0.0
-var Gear: int = GearEnum.Neutral
+var Gear: int = 0 #GearEnum.Neutral
 var IsDead: bool = false
 
-enum GearEnum {Reverse = 0, Park = 1, Neutral = 2, Forward = 3}
+#enum GearEnum {Reverse = 0, Park = 1, Neutral = 2, Forward = 3}
+var Gears: Array[int] = [-1,0,0,1,2,3]
 
 
 
@@ -118,7 +119,7 @@ func Drive(_delta: float):
 			if Input.is_action_just_pressed(&"Reload"):
 				#if linear_velocity.is_normalized(): # not
 					EngineOn = !EngineOn
-					linear_velocity = Vector3.ZERO
+					#linear_velocity = Vector3.ZERO
 					if Global.UseDebug:
 						print("Engine: ", EngineOn)
 			
@@ -141,13 +142,15 @@ func Drive(_delta: float):
 			#else:
 				#pass
 			
-			if Input.is_action_pressed("Jump") and Manual:
+			if Input.is_action_pressed("Run") and Manual:
 				if Input.is_action_just_pressed("WheelUp"):
 					Gear += 1
-					Gear = clamp(Gear, 0, GearEnum.size() - 1)
+					#Gear = clamp(Gear, 0, GearEnum.size() - 1)
+					Gear = clamp(Gear,Gears.min(),Gears.max())
 				elif Input.is_action_just_pressed("WheelDown"):
 					Gear -= 1
-					Gear = clamp(Gear, 0, GearEnum.size() - 1)
+					#Gear = clamp(Gear, 0, GearEnum.size() - 1)
+					Gear = clamp(Gear,Gears.min(),Gears.max())
 			
 			if EngineOn == true:
 				if Input.is_action_pressed(&"Up"):
@@ -155,11 +158,11 @@ func Drive(_delta: float):
 						var Velocity = linear_velocity.length()
 						if Velocity < MaxSpeed:
 							engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
-					elif Gear == GearEnum.Forward:
+					elif Gear > 0:# == GearEnum.Forward:
 						var Velocity = linear_velocity.length()
 						if Velocity < MaxSpeed:
-							engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration)
-					elif Gear == GearEnum.Reverse:
+							engine_force = lerpf(engine_force, MaxSpeed, Speed * 0.1 * PowerInput * Acceleration * Gears.get(Gear))
+					elif Gear < 0:# == GearEnum.Reverse:
 						var Velocity = linear_velocity.length()
 						if Velocity < MaxSpeed:
 							engine_force = -lerpf(engine_force, MaxSpeed, Speed * 0.5 * PowerInput / ReverseDivider)
@@ -209,7 +212,7 @@ func Drive(_delta: float):
 			
 			
 			
-			if Gear == GearEnum.Park:
+			if Gear == Gears.get(1):#== GearEnum.Park:
 				#linear_damp = 100
 				engine_force = 0
 				brake = 500

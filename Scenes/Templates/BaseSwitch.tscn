@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://c1lqaa3pq0bdn"]
+
+[ext_resource type="Script" uid="uid://jai07sjpxfmv" path="res://BaseSwitch.gd" id="1_senr7"]
+[ext_resource type="Material" uid="uid://bl6qyhs53a6ob" path="res://Stuff/Materials/ProtoBlack.tres" id="2_mdcvt"]
+[ext_resource type="Material" uid="uid://c2lyd2aj4n2ke" path="res://Stuff/Materials/ProtoRed.tres" id="3_w758n"]
+[ext_resource type="Script" uid="uid://es8q2nkmy58y" path="res://Scripts/interactioncomponent.gd" id="4_piykl"]
+[ext_resource type="Script" uid="uid://ch4jsaiqbpwlb" path="res://Scripts/NodeScriptCallComponent.gd" id="5_8heiu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ns6mf"]
+size = Vector3(0.75, 0.5, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2wss0"]
+material = ExtResource("2_mdcvt")
+size = Vector3(0.75, 0.25, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wi2jw"]
+material = ExtResource("3_w758n")
+size = Vector3(0.5, 0.25, 0.5)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdcvt"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:On")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("CollisionShape3D/ButtonMesh:position:y")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="BaseSwitch" type="RigidBody3D" unique_id=1456058050 node_paths=PackedStringArray("ButtonMesh")]
+script = ExtResource("1_senr7")
+ButtonMesh = NodePath("CollisionShape3D/ButtonMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=164839959]
+shape = SubResource("BoxShape3D_ns6mf")
+
+[node name="BaseMesh" type="MeshInstance3D" parent="CollisionShape3D" unique_id=580265376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+mesh = SubResource("BoxMesh_2wss0")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1183731107]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+mesh = SubResource("BoxMesh_wi2jw")
+
+[node name="InteractionComponent" type="Node" parent="." unique_id=48382935]
+script = ExtResource("4_piykl")
+metadata/_custom_type_script = "uid://es8q2nkmy58y"
+
+[node name="NodeScriptCallComponent" type="Node" parent="InteractionComponent" unique_id=1190316150 node_paths=PackedStringArray("DesiredNode")]
+script = ExtResource("5_8heiu")
+DesiredNode = NodePath("../..")
+metadata/_custom_type_script = "uid://ch4jsaiqbpwlb"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1739961295]
+replication_config = SubResource("SceneReplicationConfig_mdcvt")

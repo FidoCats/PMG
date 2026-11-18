@@ -42,7 +42,7 @@ signal Sense(_Body: Node3D)
 @export var JumpVelocity: float = 5.5
 @export var LungeForce: float = 2.5
 @export var JumpWindup: float = 0.25
-@export var WanderDistance = 5.0
+@export var WanderDistance = 25.0
 
 @export_category("Nodes: ")
 @export var CollisonShape: CollisionShape3D
@@ -78,6 +78,8 @@ var WanderPos: Vector3
 var Origin: Vector3
 var NavLocation: Vector3
 
+var WanderTarget: Node3D
+
 
 
 # Leftovers for tommorows linner. :3
@@ -94,18 +96,27 @@ func _ready() -> void:
 	#SenseAreaShape.shape.radius = SenseDistance
 	SenseArea.body_entered.connect(AttemptSense)
 	#HearAreaShape.shape.radius = HearDistance
-	Sense.connect(AttemptSense)
+	#Sense.connect(AttemptSense)
 	HearArea.body_entered.connect(AttemptHear)
 	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(AttemptTouch)
 	
-	#NavAgent.target_reached.connect(HurtPlayer)
+	#Sense.connect(Pursue)
+	
+	#NavAgent.target_reached.connect(Reached)
 	# Change NavAgent.target_desired_distance to make NPC stay away. (ranged enemies)
 	
 	#NavAgent.velocity_computed.connect(NavAgentAvoidanceCalculator)
 	# Also this code does not account for avoidance being enabled. :]
 	
 	NavAgent.max_speed = Speed
+	
+	await get_tree().create_timer(0.01 * get_process_delta_time()).timeout
+	
+	WanderTarget = Marker3D.new()#Marker3D.new()
+	get_parent().add_child(WanderTarget)
+	
+	Wander(get_process_delta_time())
 
 
 
@@ -135,11 +146,15 @@ func _physics_process(_delta: float) -> void:
 		
 		if IsPursuing == true:
 			if PursuedPerson != null:
-				if PursuedPerson.is_in_group("Alive") and PursuedPerson != self:
-					Pursue(_delta, PursuedPerson)
-					#print("IsPursuing == true, Pursuing: ", PursuedPerson)
+				if PursuedPerson != self:
+					if PursuedPerson.is_in_group("Alive"):
+						Pursue(_delta, PursuedPerson)
+					elif PursuedPerson.is_in_group("Noticable"):
+						Pursue(_delta, PursuedPerson)
+						print("IsPursuing == true, Pursuing: ", PursuedPerson)
 		
-		if IsBored and IsWandering and PursuedPerson != null:
+		if IsWandering and PursuedPerson == null:
+			WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
 			Wander(_delta)
 		
 		if SightLine.get_collider() != null:
@@ -178,6 +193,7 @@ func StateChange():
 					IsPatroling = false
 					IsPursuing = false
 					PursuedPerson = null
+					Wander(get_process_delta_time())
 					#print("Ima jus wander...")
 				1:
 					## Patrol
@@ -209,8 +225,8 @@ func GetBored():
 func AttemptHear(_body):
 	if CanHear:
 		if _body != null:
-			if _body.is_in_group("Alive"):
-				if _body != self:
+			if _body != self:
+				if _body.is_in_group("Alive"):
 					if _body.CurrentNoise > 0:
 						var HasHeard = randf_range(0, HearChance / _body.CurrentNoise)
 						if HasHeard == 0 and CanHear:
@@ -221,6 +237,16 @@ func AttemptHear(_body):
 								PursuedPerson = _body
 								IsPursuing = true
 								#print("I hear ", PursuedPerson)
+				if _body.is_in_group("Noticable"):
+					var HasHeard = randf_range(0, HearChance)
+					if HasHeard == 0 and CanHear:
+						if AlertAudioPlayer:
+							AlertAudioPlayer.play()
+							IsBored = false
+							PursuedPerson = _body
+							IsPursuing = true
+							Pursue(get_process_delta_time(), PursuedPerson)
+							print("I heard you!!!!! Oh youre nothing")
 
 
 
@@ -245,45 +271,58 @@ func AttemptSense(_body):
 func AttemptTouch(_body: Node3D):
 	if CanTouch:
 		if _body != null:
-			if _body.is_in_group("Alive"):
-				if _body != self:
+			if _body != self:
+				if _body.is_in_group("Alive"):
 					if _body.Noticability > 0:
 						if AlertAudioPlayer:
 							AlertAudioPlayer.play()
 						IsBored = false
 						IsPursuing = true
 						PursuedPerson = _body
+				elif is_in_group("Noticable"):
+					if AlertAudioPlayer:
+							AlertAudioPlayer.play()
+					IsBored = false
+					IsPursuing = true
+					PursuedPerson = _body
+					print("WUHH!?!?!")
 
 
 
-func Move(_delta, Target: Node3D, UsePos: bool = false, TargetPos: Vector3 = Vector3.ZERO):
+#@rpc("any_peer","call_local")
+func Move(_delta, Target: Node3D, TargetPos: Vector3 = Target.global_position):#, UsePos: bool = false, TargetPos: Vector3 = Vector3.ZERO):
+	## PROBABLY WILL CAUSE PROBLEMS PLEASE REMOVE
+	#set_multiplayer_authority(str(Target.name).to_int())
+	
 	if CanThink and CanMove:
 		if not IsBored:
-			if Target or TargetPos:
+			#if Target or TargetPos:
+				#
+				#if not UsePos:
+					#TargetPos = Target.global_position
 				
-				if not UsePos:
-					TargetPos = Target.global_position
 				
 				
-				
-				SetTargetPosition(TargetPos)#Target.global_position)
+				SetTargetPosition(TargetPos)#TargetPos)
 				
 				
 				
 				## Movement
 				if NavAgent.get_navigation_map().is_valid():
-					if not global_position.distance_to(TargetPos) < StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
+					if global_position.distance_to(TargetPos) > StopDistance and NavAgent.is_target_reachable():#global_position != NavAgent.get_final_position():
 						
 						var Velocity: Vector3 = (NavLocation - Origin).normalized() * Speed
 						
 						velocity = velocity.move_toward(Velocity, 0.05 * Speed)
 						rotation.x = 0.0
+						#print("schmove")
 					else:
 						velocity = Vector3.ZERO
 					move_and_slide()
 				else:
-					global_position.move_toward(TargetPos, _delta) #NavLocation)
-				
+					global_position.move_toward(NavLocation, _delta) #Target.global_position)
+					#print("schmove but altfire")
+					move_and_slide()
 				
 				
 				## Jump
@@ -333,44 +372,73 @@ func Stop(StopTime: float = 1):
 	CanMove = true
 
 
+#func Reached():
+	#if IsWandering:
+		#Wander(_delta)
+
+
 
 #func NavAgentAvoidanceCalculator(SafeVelocity):
 	#velocity = velocity.move_toward(SafeVelocity, 0.25)
 	#move_and_slide()
 
-
+#@rpc("any_peer","call_local")
 func Pursue(_delta, Target: Node3D):
 	if IsPursuing:
-			if WillPursue:
-				if Target != null:
+		if WillPursue:
+			if Target != null:
+				if Target != self:
 					if Target.is_in_group("Alive") and not Target.is_in_group("Neutral"):
-						if Target != self:
-							if Target.Noticability != 0:
-								if global_position.distance_to(Target.global_position) < SenseDistance:
-									IsBored = false
-									Move(_delta,Target)
-									BoredTimer.start()
-									#print("Noticability: ", Target.Noticability)
-									#print("Im pursuing ", Target)
-									if global_position.distance_to(Target.global_position) < AttackDistance:
-										HurtPlayer(Target)
-										#print("I just hit ", Target)
-								else:
-									Wander(_delta)
-									#print(Target, " is not interesting. :<")
+						if Target.Noticability != 0:
+							if global_position.distance_to(Target.global_position) < SenseDistance:
+								IsBored = false
+								Move(_delta,Target)
+								BoredTimer.start()
+								#print("Noticability: ", Target.Noticability)
+								#print("Im pursuing ", Target)
+								if global_position.distance_to(Target.global_position) < AttackDistance:
+									HurtPlayer(Target)
+									#print("I just hit ", Target)
 							else:
-								GetBored()
+								velocity = Vector3(0,velocity.y,0)
+								WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
+								Wander(_delta)
+								#print(Target, " is not interesting. :<")
+						else:
+							GetBored()
+					elif Target.is_in_group("Noticable"):
+						if global_position.distance_to(Target.global_position) < SenseDistance:
+							print("Hoh? Wuhs dis???")
+							IsBored = false
+							Move(_delta,Target)
+							BoredTimer.start()
+							if global_position.distance_to(Target.global_position) < AttackDistance:
+								HurtPlayer(Target)
+								await get_tree().create_timer(5).timeout
+								Wander(_delta)
+						else:
+							velocity = Vector3(0,velocity.y,0)
+							WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
+							Wander(_delta)
+
 
 
 
 func Wander(_delta):
-	WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
-	IsPursuing = false
-	PursuedPerson = null
-	IsPatroling = false
-	SetTargetPosition(WanderPos)
-	Move(_delta,null,true,WanderPos)
-	print("Jdu na vandr......")
+	if global_position.distance_to(WanderPos) <= 0.5:
+		WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
+		IsBored = false
+		IsWandering = true
+		IsPursuing = false
+		PursuedPerson = null
+		IsPatroling = false
+		WanderTarget.position = WanderPos
+	else:
+		if PursuedPerson == null:
+			SetTargetPosition(WanderTarget.position)
+			Move(_delta,WanderTarget)
+	
+	#print("Jdu na vandr......")
 
 
 
@@ -402,6 +470,8 @@ func HurtPlayer(_body): #, DamageType):
 						PursuedPerson = null
 						IsPursuing = false
 						GetBored()
+				else:
+					GetBored()
 
 
 

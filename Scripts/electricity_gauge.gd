@@ -17,10 +17,11 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if GaugeLabel.text != str(ElectricalInput):
-		GaugeLabel.text = str(ElectricalInput)
-		ElectricalOutput = ElectricalInput
-	
 	ElectricalOutput = ElectricalInput
+	#if GaugeLabel.text != str(ElectricalInput):
+	GaugeLabel.text = str(ElectricalInput)
+	#ElectricalOutput = ElectricalInput
+	
+	
 	
 	#print(ElectricalInput)

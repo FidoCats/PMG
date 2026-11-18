@@ -66,53 +66,61 @@ func _on_categories_tab_clicked(_tab: int) -> void:
 func _on_props_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
-			var Box: Node3D = BoxPreload.instantiate()
-			Global.ObjectSpawner.add_child(Box, true)
-			#Global.ObjectSpawner.spawn(Box)
-			Box.global_position = FPCamera.global_position
-			Box.global_basis = FPCamera.global_basis
-			Box.global_position.z -= 2.5
+			SpawnObject.rpc_id(1,BoxPreload)
+			#var Box: Node3D = BoxPreload.instantiate()
+			#Global.ObjectSpawner.add_child(Box, true)
+			##Global.ObjectSpawner.spawn(Box)
+			#Box.global_position = FPCamera.global_position
+			#Box.global_basis = FPCamera.global_basis
+			#Box.global_position.z -= 2.5
 		1:
-			var BigBox: Node3D = BigBoxPreload.instantiate()
-			Global.ObjectSpawner.add_child(BigBox, true)
-			BigBox.global_position = FPCamera.global_position
-			BigBox.global_basis = FPCamera.global_basis
-			BigBox.global_position.z -= 2.5
+			SpawnObject.rpc_id(1,BigBoxPreload)
+			#var BigBox: Node3D = BigBoxPreload.instantiate()
+			#Global.ObjectSpawner.add_child(BigBox, true)
+			#BigBox.global_position = FPCamera.global_position
+			#BigBox.global_basis = FPCamera.global_basis
+			#BigBox.global_position.z -= 2.5
 		2:
-			var SkyBall: Node3D = SkyBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(SkyBall, true)
-			SkyBall.global_position = FPCamera.global_position
-			SkyBall.global_basis = FPCamera.global_basis
-			SkyBall.global_position.z -= 2.5
+			SpawnObject.rpc_id(1,SkyBallPreload)
+			#var SkyBall: Node3D = SkyBallPreload.instantiate()
+			#Global.ObjectSpawner.add_child(SkyBall, true)
+			#SkyBall.global_position = FPCamera.global_position
+			#SkyBall.global_basis = FPCamera.global_basis
+			#SkyBall.global_position.z -= 2.5
 		3:
-			var BlueBall: Node3D = BlueBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(BlueBall, true)
-			BlueBall.global_position = FPCamera.global_position
-			BlueBall.global_basis = FPCamera.global_basis
-			BlueBall.global_position.z += 2.5
+			SpawnObject.rpc_id(1,BlueBallPreload)
+			#var BlueBall: Node3D = BlueBallPreload.instantiate()
+			#Global.ObjectSpawner.add_child(BlueBall, true)
+			#BlueBall.global_position = FPCamera.global_position
+			#BlueBall.global_basis = FPCamera.global_basis
+			#BlueBall.global_position.z += 2.5
 		4:
-			var RedBall: Node3D = RedBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(RedBall, true)
-			RedBall.global_position = FPCamera.global_position
-			RedBall.global_basis = FPCamera.global_basis
-			RedBall.global_position.z += 2.5
+			SpawnObject.rpc_id(1,RedBallPreload)
+			#var RedBall: Node3D = RedBallPreload.instantiate()
+			#Global.ObjectSpawner.add_child(RedBall, true)
+			#RedBall.global_position = FPCamera.global_position
+			#RedBall.global_basis = FPCamera.global_basis
+			#RedBall.global_position.z += 2.5
 		5:
-			var GreenBall: Node3D = GreenBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(GreenBall, true)
-			GreenBall.global_position = FPCamera.global_position
-			GreenBall.global_basis = FPCamera.global_basis
-			GreenBall.global_position.z += 2.5
+			SpawnObject.rpc_id(1,GreenBallPreload)
+			#var GreenBall: Node3D = GreenBallPreload.instantiate()
+			#Global.ObjectSpawner.add_child(GreenBall, true)
+			#GreenBall.global_position = FPCamera.global_position
+			#GreenBall.global_basis = FPCamera.global_basis
+			#GreenBall.global_position.z += 2.5
 		6:
-			var YellowBall: Node3D = YellowBallPreload.instantiate()
-			Global.ObjectSpawner.add_child(YellowBall, true)
-			YellowBall.global_position = FPCamera.global_position
-			YellowBall.global_basis = FPCamera.global_basis
-			YellowBall.global_position.z += 2.5
+			SpawnObject.rpc_id(1,YellowBallPreload)
+			#var YellowBall: Node3D = YellowBallPreload.instantiate()
+			#Global.ObjectSpawner.add_child(YellowBall, true)
+			#YellowBall.global_position = FPCamera.global_position
+			#YellowBall.global_basis = FPCamera.global_basis
+			#YellowBall.global_position.z += 2.5
 		7:
-			var SkyCube: Node3D = SkyCubePreload.instantiate()
-			Global.ObjectSpawner.add_child(SkyCube, true)
-			SkyCube.global_basis = FPCamera.global_basis
-			SkyCube.global_position = FPCamera.global_position + Vector3(0,0,2.5)
+			SpawnObject.rpc_id(1,SkyCubePreload)
+			#var SkyCube: Node3D = SkyCubePreload.instantiate()
+			#Global.ObjectSpawner.add_child(SkyCube, true)
+			#SkyCube.global_basis = FPCamera.global_basis
+			#SkyCube.global_position = FPCamera.global_position + Vector3(0,0,2.5)
 
 func _on_melee_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = PlayerNode.player_inventory
@@ -138,26 +146,30 @@ func _on_guns_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
-			var WeedFish: Node3D = WeedFishPreload.instantiate()
-			Global.ObjectSpawner.add_child(WeedFish, true)
-			WeedFish.global_position = FPCamera.global_position
-			WeedFish.global_basis = FPCamera.global_basis
-			WeedFish.global_position.z -= 2.5
+			SpawnObject.rpc_id(1,WeedFishPreload)
+			#var WeedFish: Node3D = WeedFishPreload.instantiate()
+			#Global.ObjectSpawner.add_child(WeedFish, true)
+			#WeedFish.global_position = FPCamera.global_position
+			#WeedFish.global_basis = FPCamera.global_basis
+			#WeedFish.global_position.z -= 2.5
 		1:
-			var BaseCar = BaseCarPreload.instantiate()
-			Global.ObjectSpawner.add_child(BaseCar, true)
-			BaseCar.global_position = FPCamera.global_position
-			BaseCar.global_position += Vector3(0,1,2.5)
+			SpawnObject.rpc_id(1,BaseCarPreload)
+			#var BaseCar = BaseCarPreload.instantiate()
+			#Global.ObjectSpawner.add_child(BaseCar, true)
+			#BaseCar.global_position = FPCamera.global_position
+			#BaseCar.global_position += Vector3(0,1,2.5)
 		2:
-			var Pickup = PickupPreload.instantiate()
-			Global.ObjectSpawner.add_child(Pickup, true)
-			Pickup.global_position = FPCamera.global_position
-			Pickup.global_position += Vector3(0,1,2.5)
+			SpawnObject.rpc_id(1,PickupPreload)
+			#var Pickup = PickupPreload.instantiate()
+			#Global.ObjectSpawner.add_child(Pickup, true)
+			#Pickup.global_position = FPCamera.global_position
+			#Pickup.global_position += Vector3(0,1,2.5)
 		3:
-			var RallyCar: Node3D = RallyCarPreload.instantiate()
-			Global.ObjectSpawner.add_child(RallyCar)
-			RallyCar.global_position = FPCamera.global_position
-			RallyCar.global_position += Vector3(0,1,2.5)
+			SpawnObject.rpc_id(1,RallyCarPreload)
+			#var RallyCar: Node3D = RallyCarPreload.instantiate()
+			#Global.ObjectSpawner.add_child(RallyCar)
+			#RallyCar.global_position = FPCamera.global_position
+			#RallyCar.global_position += Vector3(0,1,2.5)
 
 @onready var NPCPreload: PackedScene = preload("res://Scenes/Templates/base_npc.tscn")
 @onready var WatcherPreload: PackedScene = preload("res://Scenes/Spawnables/Watcher.tscn")
@@ -166,29 +178,33 @@ func _on_entities_item_clicked(_index: int, _at_position: Vector2, _mouse_button
 func _on_npcs_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	match _index:
 		0:
-			var NPC = NPCPreload.instantiate()
-			Global.ObjectSpawner.add_child(NPC, true)
-			NPC.global_position = FPCamera.global_position
-			NPC.global_basis = FPCamera.global_basis
-			NPC.global_position.z += 2.5
+			SpawnObject.rpc_id(1,NPCPreload)
+			#var NPC = NPCPreload.instantiate()
+			#Global.ObjectSpawner.add_child(NPC, true)
+			#NPC.global_position = FPCamera.global_position
+			#NPC.global_basis = FPCamera.global_basis
+			#NPC.global_position.z += 2.5
 		1:
-			var Watcher = WatcherPreload.instantiate()
-			Global.ObjectSpawner.add_child(Watcher, true)
-			Watcher.global_position = FPCamera.global_position
-			Watcher.global_basis = FPCamera.global_basis
-			Watcher.global_position.z += 2.5
+			SpawnObject.rpc_id(1,WatcherPreload)
+			#var Watcher = WatcherPreload.instantiate()
+			#Global.ObjectSpawner.add_child(Watcher, true)
+			#Watcher.global_position = FPCamera.global_position
+			#Watcher.global_basis = FPCamera.global_basis
+			#Watcher.global_position.z += 2.5
 		2:
-			var RWWatcher = RWWatcherPreorder.instantiate()
-			Global.ObjectSpawner.add_child(RWWatcher, true)
-			RWWatcher.global_position = FPCamera.global_position
-			RWWatcher.global_basis = FPCamera.global_basis
-			RWWatcher.global_position.z += 2.5
+			SpawnObject.rpc_id(1,RWWatcherPreorder)
+			#var RWWatcher = RWWatcherPreorder.instantiate()
+			#Global.ObjectSpawner.add_child(RWWatcher, true)
+			#RWWatcher.global_position = FPCamera.global_position
+			#RWWatcher.global_basis = FPCamera.global_basis
+			#RWWatcher.global_position.z += 2.5
 		3:
-			var pigon: Node3D = pigonPreload.instantiate()
-			Global.ObjectSpawner.add_child(pigon, true)
-			pigon.global_position = FPCamera.global_position
-			pigon.global_basis = FPCamera.global_basis
-			pigon.global_position.z += 2.5
+			SpawnObject.rpc_id(1,pigonPreload)
+			#var pigon: Node3D = pigonPreload.instantiate()
+			#Global.ObjectSpawner.add_child(pigon, true)
+			#pigon.global_position = FPCamera.global_position
+			#pigon.global_basis = FPCamera.global_basis
+			#pigon.global_position.z += 2.5
 
 func _on_items_item_clicked(_index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
 	var CurrentPlayerInventory: PlayerInventory = PlayerNode.player_inventory
@@ -250,6 +266,15 @@ func _on_maps_item_clicked(_index: int, _at_position: Vector2, _mouse_button_ind
 				#Global.MapNode.add_child(IslandTown)
 				PlayerNode.Teleport(PlayerNode, Vector3(-200,25,0))
 
+
+
+@rpc("any_peer","call_local")
+func SpawnObject(Preload: PackedScene = BoxPreload):
+	var Obj: Node3D = Preload.instantiate()
+	Global.ObjectSpawner.add_child(Obj, true)
+	var UsedPos = PlayerNode.global_position
+	UsedPos.z += -2.5
+	Obj.position = UsedPos
 
 
 

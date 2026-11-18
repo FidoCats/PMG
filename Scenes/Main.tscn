@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wwd18365k1m7"]
 
-[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://Scripts/level.gd" id="1_4n42c"]
+[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://Scripts/Main.gd" id="1_4n42c"]
 [ext_resource type="Script" uid="uid://hmvp7ihengkv" path="res://Scripts/skybox.gd" id="2_c5snn"]
 [ext_resource type="Environment" uid="uid://c2ow3mkwudsll" path="res://Stuff/Enviroments/Morning1.tres" id="3_xvtyr"]
 [ext_resource type="Environment" uid="uid://cpm0wd61kth03" path="res://Stuff/Enviroments/Day1.tres" id="4_u7mjy"]
@@ -22,13 +22,17 @@
 [ext_resource type="PackedScene" uid="uid://bv7ie6gyxcvua" path="res://Scenes/Maps/M2_ParkourCity.tscn" id="16_d8m2u"]
 [ext_resource type="PackedScene" uid="uid://cgllf110vj8pt" path="res://Scenes/Spawnables/sky_cube.tscn" id="17_4n42c"]
 [ext_resource type="PackedScene" uid="uid://dkvne1cfd1ene" path="res://Scenes/DEBUG_NPC_TESTMAP.tscn" id="17_5psol"]
+[ext_resource type="PackedScene" uid="uid://c1lqaa3pq0bdn" path="res://Scenes/Templates/BaseSwitch.tscn" id="18_6heos"]
 [ext_resource type="PackedScene" uid="uid://bhuxy2rcgtdhl" path="res://Scenes/Spawnables/SkyBall.tscn" id="18_m4llh"]
 [ext_resource type="PackedScene" uid="uid://c2da27wehav8v" path="res://Scenes/Spawnables/box.tscn" id="19_lac6x"]
 [ext_resource type="PackedScene" uid="uid://bspwj55wsuo0v" path="res://Scenes/Templates/bounce_pad.tscn" id="20_4yxf6"]
 [ext_resource type="PackedScene" uid="uid://bqr134nqkmgdw" path="res://Scenes/Spawnables/LargeBox.tscn" id="20_hpjjw"]
 [ext_resource type="Material" uid="uid://dq2itjc3qynis" path="res://Stuff/Materials/ProtoBlue.tres" id="20_qta6b"]
 [ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://Scenes/ui/main_menu_ui.tscn" id="21_off7b"]
+[ext_resource type="PackedScene" uid="uid://c7qc0eoglvgtg" path="res://Scenes/Templates/SoundEmitter.tscn" id="21_x3rx7"]
+[ext_resource type="AudioStream" uid="uid://bki07vls84hel" path="res://Stuff/Sounds/take-him-down-hl2-metro-cop_raKWooR.mp3" id="22_6heos"]
 [ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://Scenes/ui/multiplayer_chat_ui.tscn" id="23_7sj7i"]
+[ext_resource type="PackedScene" uid="uid://bdlqc45sdjyn6" path="res://Scenes/Templates/wire_middle.tscn" id="24_vvnwx"]
 [ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://Scenes/ui/inventory_ui.tscn" id="25_ep8v8"]
 [ext_resource type="PackedScene" uid="uid://v42r4dvek5rq" path="res://Scenes/Templates/item_giver.tscn" id="27_js5gh"]
 [ext_resource type="PackedScene" uid="uid://dbhc0xc8qiy7n" path="res://Scenes/Templates/base_npc.tscn" id="29_4n42c"]
@@ -115,6 +119,7 @@ light_color = Color(0.5019608, 0.52156866, 0.8627451, 1)
 shadow_enabled = true
 
 [node name="Clock" type="Timer" parent="Enviroment/Skybox" unique_id=96683131]
+wait_time = 0.001
 autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Enviroment/Skybox" unique_id=547535273]
@@ -157,6 +162,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.6233115, -43)
 
 [node name="Seat3D" parent="Enviroment/NavigationRegion3D" unique_id=988545447 instance=ExtResource("10_btbly")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.75347626, -20)
+TurnClamp = 10.0
 
 [node name="Checkpoints2" type="Node3D" parent="Enviroment" unique_id=308980657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
@@ -218,19 +224,63 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.3, 1, -39)
 [node name="DebugGenerator" parent="Enviroment" unique_id=1245957997 instance=ExtResource("14_5jffn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.1, 1, -39)
 
-[node name="DEBUG COMPONENT CONNECT" parent="Enviroment" unique_id=1063198545 node_paths=PackedStringArray("NodeA", "NodeB") instance=ExtResource("15_kpo4j")]
+[node name="DEBUG COMPONENT CONNECT" parent="Enviroment" unique_id=1063198545 node_paths=PackedStringArray("InNode", "OutNode") instance=ExtResource("15_kpo4j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 1.6, -39)
-NodeA = NodePath("../DebugGenerator")
-NodeB = NodePath("../ElectricityGauge")
+InNode = NodePath("../DebugGenerator")
+OutNode = NodePath("../ElectricityGauge")
+
+[node name="DEBUG COMPONENT CONNECT2" parent="Enviroment" unique_id=446976098 node_paths=PackedStringArray("InNode", "OutNode") instance=ExtResource("15_kpo4j")]
+transform = Transform3D(0.258819, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, 0.258819, 31.399998, 1.6, -38)
+InNode = NodePath("../BaseSwitch")
+OutNode = NodePath("../SoundEmitter")
+
+[node name="DEBUG COMPONENT CONNECT3" parent="Enviroment" unique_id=261370834 node_paths=PackedStringArray("InNode", "OutNode") instance=ExtResource("15_kpo4j")]
+transform = Transform3D(0.86602545, 0, 0.5, 0, 1, 0, -0.5, 0, 0.86602545, 31.999998, 1.6, -40)
+InNode = NodePath("../ElectricityGauge")
+OutNode = NodePath("../BaseSwitch")
+
+[node name="BaseSwitch" parent="Enviroment" unique_id=1456058050 instance=ExtResource("18_6heos")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0.8, -39)
+ButtonTravelAmount = 0.2
 
 [node name="ElectricityGauge" parent="Enviroment" unique_id=1929192181 instance=ExtResource("15_5jffn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.600002, 0.5, -39)
+
+[node name="ElectricityGauge2" parent="Enviroment" unique_id=1341291459 instance=ExtResource("15_5jffn")]
+transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, 33.724266, 0.5, -35.9)
 
 [node name="SkyCube" parent="Enviroment" unique_id=256020329 instance=ExtResource("17_4n42c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 8, 42)
 
 [node name="BouncePad" parent="Enviroment" unique_id=915535841 instance=ExtResource("20_4yxf6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.7, 0.6, -3)
+
+[node name="SoundEmitter" parent="Enviroment" unique_id=1744396886 instance=ExtResource("21_x3rx7")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 31.400002, 1, -36.4)
+Looping = false
+Stream = ExtResource("22_6heos")
+MinInput = 10.0
+MaxInput = 12.0
+
+[node name="WireMiddle" parent="Enviroment" unique_id=1605800173 node_paths=PackedStringArray("InNode", "OutNode") instance=ExtResource("24_vvnwx")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 32.875736, 1, -35.899998)
+InNode = NodePath("../BaseSwitch")
+OutNode = NodePath("../ElectricityGauge2")
+
+[node name="ElectricCrank2" parent="Enviroment" unique_id=746351262 instance=ExtResource("13_3tgeq")]
+transform = Transform3D(0.25881907, 0, 0.9659258, 0, 1, 0, -0.9659258, 0, 0.25881907, 29.408148, 1, -30.271965)
+
+[node name="SoundEmitter2" parent="Enviroment" unique_id=164142393 instance=ExtResource("21_x3rx7")]
+transform = Transform3D(0.9659258, 0, -0.2588191, 0, 1, 0, 0.2588191, 0, 0.9659258, 30.65134, 1, -27.866001)
+Looping = false
+Stream = ExtResource("22_6heos")
+MinInput = 10.0
+MaxInput = 12.0
+
+[node name="WireMiddle2" parent="Enviroment" unique_id=522705215 node_paths=PackedStringArray("InNode", "OutNode") instance=ExtResource("24_vvnwx")]
+transform = Transform3D(-0.49999994, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.49999994, 30.416256, 1, -29.16204)
+InNode = NodePath("../ElectricCrank2")
+OutNode = NodePath("../SoundEmitter2")
 
 [node name="GeometryCourse" type="Node3D" parent="." unique_id=434128034]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1, -40.9, 0, 20)

@@ -19,6 +19,7 @@ func _ready() -> void:
 		Clock.autostart = true
 		Clock.timeout.connect(WorldTime.AddTime)
 		WorldTime.CycleChange.connect(UpdateCycle)
+		Clock.start()
 		#Switch()
 
 
@@ -47,7 +48,7 @@ func UpdateCycle(DesiredCycle: WorldTime.Cycles):
 		#WorldTime.CurrentCycle += 1
 	#else: WorldTime.CurrentCycle = 0
 	
-	
+	print("SIGNAL GOT")
 	
 	match DesiredCycle:
 		0:

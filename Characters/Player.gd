@@ -32,6 +32,8 @@ signal Died(_Who: Node3D)
 @export var DeathSound = preload("res://Stuff/Sounds/8bitAhh.ogg")
 @export var RespawnSound = preload("res://Stuff/Sounds/roblox old sounds bass.wav")
 @export var MovementAudioPlayer: AdvancedAudioPlayer3D
+@export var FootstepPlayer: AdvancedAudioPlayer3D
+@export var FootstepSound = preload("res://Stuff/Sounds/weapon_footstep1.wav")
 
 ## Throwable stuff
 @export var GrenadePreload = preload("res://Scenes/Items/Throwables/grenade.tscn")
@@ -98,6 +100,9 @@ var ParryBody: Node3D = null
 var SetFov: float
 var Fov: float
 var CurrentFov: float
+
+var BobAmount: float = 0.0
+var BobIndex: float = 0.0
 
 var CurrentNoise: int
 var CurrentVisibility: int
@@ -213,6 +218,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready():
 	Parent = get_parent()
 	
+	RespawnPos = global_position + Vector3(randf_range(0.0,Network.SpawnRadius),RespawnPos.y,randf_range(0.0,Network.SpawnRadius))
+	
 	#add_user_signal("Noticable")
 	
 	ParryArea.body_entered.connect(ParryAreaEntered)
@@ -235,6 +242,8 @@ func _ready():
 	else:
 		if get_multiplayer_authority() == local_client_id:
 			request_inventory_sync.rpc_id(1)
+	
+	ResetValues()
 
 
 
@@ -348,6 +357,9 @@ func _process(_delta):
 			CanMove = true
 			rotation_degrees = Vector3(0,0,0)
 	
+		## Headbob
+		#position.x = lerp(CamOffset.position.x, 0.0, 1 * (BobAmount * get_process_delta_time()))
+
 	
 	
 	## Camera Effects
@@ -514,7 +526,7 @@ func _physics_process(delta):
 			Jumps = MaxJumps
 			CurrentNoise = 1
 			var Stream = preload("res://Stuff/Sounds/universfield-game-character-fall-131797.mp3")
-			if not MovementAudioPlayer.playing:
+			if not MovementAudioPlayer.playing and not IsQuickFalling:
 				MovementAudioPlayer.Play(Stream)
 		if WallJumps != MaxWallJumps:
 			WallJumps = MaxWallJumps
@@ -562,15 +574,16 @@ func _physics_process(delta):
 			Parry(ParryBody)
 		if Input.is_action_pressed("Crouch") and velocity.y < 0 and not is_on_wall() and not IsSliding and not IsDiving and CurrentSpeed < RunSpeed:
 			QuickFall()
-			print(velocity.y)
+			#print(velocity.y)
 	
 	## Input Release
 		if Input.is_action_just_released("Crouch") and AboveRay.Above == null:
 			UnCrouch()
+		if Input.is_action_just_released("Run") and not IsSliding and not IsDiving:
+			Speed = BaseSpeed
 
 	## Other Movement ifs
-	#if is_on_wall() and not IsClinging:
-		#WallRun()
+
 
 
 	move_and_slide()
@@ -601,17 +614,32 @@ func MovementBasic() -> void:
 				if CurrentSpeed > Speed and CurrentSpeed < Speed + 0.11:
 					CurrentSpeed = Speed
 			
-			
-			
 			if CurrentSpeed < Speed:
 				CurrentSpeed += 0.1
 			elif not is_on_floor():
 				if CurrentSpeed < Speed * 1.25:
 					CurrentSpeed += 0.1
 			
-			## Noticability stuff
-			if not IsCrouching and CurrentNoise < RunNoise:
-				CurrentNoise = WalkNoise
+			
+			
+			## HeadBob
+			if is_on_floor() and not IsSliding and not IsDiving and not IsClinging:
+				BobIndex += 0.025 * CurrentSpeed
+				
+				if CamOffset.position.y < 1.255 and not FootstepPlayer.playing:
+					Footstep()
+				var XBob = sin(BobIndex / 2)
+				var YBob = sin(BobIndex)
+				CamOffset.position.x = (XBob / 25)
+				CamOffset.position.y = 1.25 + (YBob / 25)
+				
+				## Noticability stuff
+				if not IsCrouching and CurrentNoise < RunNoise:
+					CurrentNoise = WalkNoise
+				
+			else:
+				CamOffset.position.x = 0.0
+				CamOffset.position.y = 1.25
 			
 		else:
 			velocity.x = move_toward(velocity.x, 0, CurrentSpeed)
@@ -625,6 +653,16 @@ func MovementBasic() -> void:
 				CurrentSpeed -= 0.5
 			else:
 				CurrentSpeed = 0.0
+			
+			## HeadBob
+			BobIndex = lerp(BobIndex,0.0,1)
+			CamOffset.position.x = 0.0
+			CamOffset.position.y = 1.25
+			
+			## Noticability
+			if not IsCrouching and CurrentNoise < RunNoise:
+				CurrentNoise = 0
+
 
 func Jump():
 	if Jumps > 0:
@@ -782,16 +820,17 @@ func WallRun():
 func QuickFall():
 	if not is_on_floor():
 		IsQuickFalling = true
-		DesiredGravity += 5
-		JumpCharge += 0.01
+		DesiredGravity += 25
+		JumpCharge += 0.075
 		FPCamera.position.y = lerp(FPCamera.position.y, -0.5, 0.25)
 	else:
 		DesiredGravity = Gravity
 		UnCrouch()
 		await get_tree().create_timer(0.5).timeout
-		JumpCharge = 0.0
-		var Stream: AudioStream = preload("res://Stuff/Sounds/alert.ogg")
-		MovementAudioPlayer.Play(Stream)
+		if not IsCrouching and not IsQuickFalling:
+			JumpCharge = 0.0
+			var Stream: AudioStream = preload("res://Stuff/Sounds/freesound_community-land2-43790.mp3")
+			MovementAudioPlayer.Play(Stream)
 		
 
 
@@ -844,7 +883,7 @@ func Parry(_body: Node3D):
 					Force.F = ParryForce / 4.0
 					_body.global_basis = FPCamera.global_basis
 					Force.SetupFinished.emit()
-					Force.Move()
+					#Force.Move()
 					await get_tree().create_timer(0.035).timeout
 				await get_tree().create_timer(0.05).timeout
 			
@@ -962,6 +1001,19 @@ func ResetValues():
 		print(self, " Can Process: ", can_process())
 	IsDead = false
 
+
+
+func Footstep():
+	var Stream: AudioStream
+	var Floor: Node3D = UnderRay.Under
+	if Floor != null:
+		if  Floor.has_node("CollisionNoise"):
+			Stream = Floor.get_node("CollisionNoise").Stream
+			FootstepPlayer.Play.rpc(Stream,0.0,0.1 * CurrentSpeed)
+		else:
+			Stream = FootstepSound
+			FootstepPlayer.Play.rpc(Stream,0.0,0.1 * CurrentSpeed)
+
 ## Commands and Miscallaneous Functions ##
 
 
@@ -1006,27 +1058,27 @@ func get_main_mesh(ChosenSpecies: SpeciesEnum) -> Mesh:
 		_: return FelmittModel
 
 @rpc("any_peer", "reliable")
-func set_player_skin(SkinColor: Color, ModelName: SpeciesEnum) -> void:
+func set_player_skin(SkinColor: Color, Species: SpeciesEnum) -> void:
 	#var OverlayColor = get_color_overlay
 	#get_color_overlay(SkinColor)
 	SkinColor = ColorOverride
 	if Global.UseDebug:
 		print("ColorOverride: ", ColorOverride)
-	var PlayerModel = get_main_mesh(ModelName)
-
+	#var PlayerModel = get_main_mesh(ModelName)
+	
 	if MainMesh.mesh:
-		MainMesh.mesh = PlayerModel
+		#MainMesh.mesh = PlayerModel
 		MainMesh.material_overlay.set("albedo_color", SkinColor)
 
-	if SkinColor and ModelName:
+	#if SkinColor and ModelName:
 		#MainMesh.mesh = get_main_mesh(ModelName)
 		#var OverlayMat: StandardMaterial3D = StandardMaterial3D.new()
 		#OverlayMat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		#OverlayMat.albedo_color = ColorOverride
 		#var OverlayMat = MainMesh.material_overlay
 		#OverlayMat.create_placeholder() #set(albedo_color,get_color_overlay(SkinColor))
-		MainMesh.mesh = PlayerModel
-		MainMesh.material_overlay.set("albedo_color", SkinColor)
+		#MainMesh.mesh = PlayerModel
+		#MainMesh.material_overlay.set("albedo_color", SkinColor)
 		#print(str(OverlayMat))
 
 	#set_mesh_texture(_bottom_mesh, texture)

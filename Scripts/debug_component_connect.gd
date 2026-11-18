@@ -2,18 +2,24 @@ extends BaseElectricalComponent
 
 
 
-@export var NodeA: BaseElectricalComponent
-@export var NodeB: BaseElectricalComponent
+@export var InNode: BaseElectricalComponent
+@export var OutNode: BaseElectricalComponent
 @export var NodeLabel: Label3D
 @export var ElectricalLabel: Label3D
 
 
 
 func _process(_delta: float) -> void:
-	if NodeA:
-		ElectricalInput = NodeA.ElectricalOutput
-	if NodeB:
-		NodeB.ElectricalInput = ElectricalOutput
+	if InNode and not InNode.IsEnd:
+		ElectricalInput = InNode.ElectricalOutput
+	else:
+		InNode = null
+	if OutNode and not OutNode.IsStart:
+		OutNode.ElectricalInput = ElectricalOutput
+	else:
+		OutNode = null
 	
-	NodeLabel.text = str("A: ", NodeA, "B: ", NodeB)
-	ElectricalLabel.text = str("In: ", ElectricalInput, ", Out: ", ElectricalOutput)
+	ElectricalOutput = ElectricalInput
+	
+	NodeLabel.text = str("In: ", InNode, "Out: ", OutNode)
+	ElectricalLabel.text = str("Input: ", ElectricalInput, ", Output: ", ElectricalOutput)

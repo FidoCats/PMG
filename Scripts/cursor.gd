@@ -85,4 +85,6 @@ func _on_exit_pressed() -> void:
 		level_scene.Disconnect()
 		player.FPCamera.current = false
 	%Menu.visible = false
-	player.InputBlocked = false
+	player.InputBlocked = true
+	#await get_tree().create_timer(0.1).timeout
+	player.queue_free()

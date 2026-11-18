@@ -43,6 +43,7 @@ func update_state(interactable: Node3D, interactor: Node3D) -> void:
 			IsPickedUp = true
 			player = interactor
 	else: # this is pick up
+		set_multiplayer_authority(interactor.multiplayer.get_unique_id())
 		object = interactable
 		interactable.freeze = true
 		picked_up = true

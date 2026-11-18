@@ -17,7 +17,7 @@ signal UnUsed(User)
 @export var UseInteract: bool = true
 @export var JumpExit: bool = true
 @export var TurnWith: bool = false
-@export var TurnClamp: float = 10
+@export var TurnClamp: float = 75
 #@export var CustomMesh: Mesh = null
 @export_category("Nodes")
 @export var CollisionShape: CollisionShape3D
@@ -27,6 +27,8 @@ signal UnUsed(User)
 @export var AreaCollision: CollisionShape3D
 
 var UsedBy: Node3D
+
+var UserTurn: bool = false
 
 
 
@@ -48,12 +50,21 @@ func _ready() -> void:
 
 
 
+func _unhandled_input(_event: InputEvent) -> void:
+	if _event is InputEventMouseMotion:
+		UserTurn = true
+	else:
+		UserTurn = false
+
+
+
 func Interact(Parent: Node3D, User: Node3D) -> void:
 	if UseInteract:
 		Sit(User,Parent)
 
 
 
+@rpc("any_peer","call_local")
 func Sit(_Who: Node3D, _OnWhat: Node3D = null) -> void:
 	if _OnWhat == null:
 		_OnWhat = self
@@ -94,12 +105,15 @@ func UserDeath(_Who: Node3D):
 func BodyEntered(_body):
 	if UseTouch:
 		UsedBy = null
-		Sit(_body,self)
+		Sit.rpc(_body,self)
 
 func BodyExited(_body):
 	if UseTouch:
 		UsedBy = _body
-		Sit(_body,self)
+		if multiplayer.get_peers() != null:
+			Sit.rpc(_body,self)
+		else:
+			Sit(_body,self)
 
 
 
@@ -117,6 +131,9 @@ func _physics_process(_delta: float) -> void:
 							#print(global_rotation_degrees.y)
 							var Rotation = global_rotation_degrees * transform.basis
 							UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, Rotation.y -TurnClamp, Rotation.y + TurnClamp)
+							if not UserTurn:
+								if (Rotation.y - UsedBy.global_rotation_degrees.y) < 180 and (Rotation.y - UsedBy.global_rotation_degrees.y) > -180:
+									UsedBy.global_rotation_degrees.y += (Rotation.y - UsedBy.global_rotation_degrees.y)
 				if JumpExit:
 					#if UsedBy.is_multiplayer_authority():
 						if Input.is_action_just_pressed("Jump") and JumpExit:

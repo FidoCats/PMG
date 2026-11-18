@@ -8,6 +8,7 @@ class_name ElectricalCrank
 #var ElectricalInput: float
 #var ElectricalOutput: float
 var IsCranking: bool = false
+var CrankOutput: float = 12.0
 
 
 
@@ -21,10 +22,12 @@ func _ready() -> void:
 
 func Interact(_Body: Node3D, _User: Node3D):
 	IsCranking = true
-	ElectricalOutput = 12.0
+	ElectricalOutput = CrankOutput
 	var FinalRotation = rotation_degrees.z + 45
-	for i in FinalRotation:
+	for f in FinalRotation:
+	#while rotation_degrees.z != FinalRotation:
 		rotation_degrees.z = lerp(rotation_degrees.z, FinalRotation, 0.25)
+	print(ElectricalOutput)
 	EndTimer.start()
 	#print(ElectricalOutput)
 	#print("Crank Rotated")
