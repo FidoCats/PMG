@@ -34,6 +34,7 @@ signal Sense(_Body: Node3D)
 @export var UseWindJump: bool = true
 @export var UseGravity: bool = true
 @export var StopOnAttack: bool = true
+@export_enum("Melee","Ranged") var Personality = "Melee"
 
 @export_category("Properties")
 @export var AttackDamage: float = 10
@@ -69,6 +70,7 @@ signal Sense(_Body: Node3D)
 var IsWandering: bool = false #true
 var IsPatroling: bool = false
 var IsPursuing: bool = false
+var IsFleeing: bool = false
 
 var IsBored: bool = false
 
@@ -425,7 +427,7 @@ func Pursue(_delta, Target: Node3D):
 
 
 func Wander(_delta):
-	if global_position.distance_to(WanderPos) <= 0.5:
+	if global_position.distance_to(WanderPos) <= 0.75:
 		WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
 		IsBored = false
 		IsWandering = true
