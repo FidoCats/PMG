@@ -34,6 +34,7 @@ signal Sense(_Body: Node3D)
 @export var UseWindJump: bool = true
 @export var UseGravity: bool = true
 @export var StopOnAttack: bool = true
+@export_enum("Melee","Ranged") var Personality = "Melee"
 
 @export_category("Properties")
 @export var AttackDamage: float = 10
@@ -63,12 +64,14 @@ signal Sense(_Body: Node3D)
 @export var StateTimer: Timer
 @export var NavAgent: NavigationAgent3D
 @export var AlertAudioPlayer: AudioStreamPlayer3D
+@export var Holding: Marker3D
 @export_category("Resources: ")
 
 ## States
 var IsWandering: bool = false #true
 var IsPatroling: bool = false
 var IsPursuing: bool = false
+var IsFleeing: bool = false
 
 var IsBored: bool = false
 
@@ -100,6 +103,9 @@ func _ready() -> void:
 	HearArea.body_entered.connect(AttemptHear)
 	#TouchAreaShape.shape.radius = TouchDistance
 	TouchArea.body_entered.connect(AttemptTouch)
+	
+	if Holding.get_child_count() > 0:
+		PickupWeapon(Holding.get_child(0))
 	
 	#Sense.connect(Pursue)
 	
@@ -237,16 +243,16 @@ func AttemptHear(_body):
 								PursuedPerson = _body
 								IsPursuing = true
 								#print("I hear ", PursuedPerson)
-				if _body.is_in_group("Noticable"):
-					var HasHeard = randf_range(0, HearChance)
-					if HasHeard == 0 and CanHear:
+				elif _body.is_in_group("Noticable"):
+					#var HasHeard = randf_range(0, HearChance)
+					#if HasHeard == 0 and CanHear:
 						if AlertAudioPlayer:
 							AlertAudioPlayer.play()
-							IsBored = false
-							PursuedPerson = _body
-							IsPursuing = true
-							Pursue(get_process_delta_time(), PursuedPerson)
-							print("I heard you!!!!! Oh youre nothing")
+						IsBored = false
+						PursuedPerson = _body
+						IsPursuing = true
+						Pursue(get_process_delta_time(), PursuedPerson)
+						print("I heard you!!!!! Oh youre nothing")
 
 
 
@@ -338,11 +344,12 @@ func Move(_delta, Target: Node3D, TargetPos: Vector3 = Target.global_position):#
 				
 				
 				
+				# Removed for Strafing and RangedNPC Reasons :] -Fido
 				## LookAt
-				if UnderRay.get_collider() != null:
-					var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
-					if LookPos != Origin:
-						look_at(LookPos)
+				#if UnderRay.get_collider() != null:
+					#var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+					#if LookPos != Origin:
+						#look_at(LookPos)
 					
 					#print("Moving Toward ", Target, " at Position ", Target.global_position)
 
@@ -388,44 +395,78 @@ func Pursue(_delta, Target: Node3D):
 		if WillPursue:
 			if Target != null:
 				if Target != self:
-					if Target.is_in_group("Alive") and not Target.is_in_group("Neutral"):
-						if Target.Noticability != 0:
+					if Health > 5:
+						if Target.is_in_group("Alive") and not Target.is_in_group("Neutral"):
+							if Target.Noticability != 0:
+								if Personality == "Melee" or Holding.get_child_count() == 0:
+									if global_position.distance_to(Target.global_position) < SenseDistance:
+										IsBored = false
+										Move(_delta,Target)
+										if UnderRay.get_collider() != null:
+											var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+											if LookPos != Origin:
+												look_at(LookPos)
+										BoredTimer.start()
+										#print("Noticability: ", Target.Noticability)
+										#print("Im pursuing ", Target)
+										if global_position.distance_to(Target.global_position) < AttackDistance:
+											if CanAttack:
+												HurtPlayer(Target)
+											#print("I just hit ", Target)
+									else:
+										velocity = Vector3(0,velocity.y,0)
+										WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
+										Wander(_delta)
+										#print(Target, " is not interesting. :<")
+								else:
+									var TargetVelocity: Vector3 = (Target.transform.basis * Target.velocity)
+									Holding.look_at(Target.global_position + (TargetVelocity / global_position.distance_to(Target.global_position)))
+									var Weapon: RigidBody3D = Holding.get_child(0)
+									Weapon.position = Holding.position
+									if Weapon.has_method("ShootBullet"):
+										if Weapon.Ammo > 0:
+											if Weapon.CanFire:
+												Weapon.ShootBullet("Semi")
+												await get_tree().create_timer(60/Weapon.RPM).timeout
+										else:
+											if Health > Health / 20:
+												if not Weapon.IsReloading:
+													Weapon.Reload()
+											else:
+													Weapon.ShootBullet("Semi")
+													Weapon.ShootBullet("Semi")
+													Weapon.ShootBullet("Semi")
+													Weapon.Reload()
+							else:
+								GetBored()
+						elif Target.is_in_group("Noticable"):
+							#await Target.Sense
 							if global_position.distance_to(Target.global_position) < SenseDistance:
+								print("Hoh? Wuhs dis???")
 								IsBored = false
 								Move(_delta,Target)
+								if UnderRay.get_collider() != null:
+									var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+									if LookPos != Origin:
+										look_at(LookPos)
 								BoredTimer.start()
-								#print("Noticability: ", Target.Noticability)
-								#print("Im pursuing ", Target)
-								if global_position.distance_to(Target.global_position) < AttackDistance:
-									HurtPlayer(Target)
-									#print("I just hit ", Target)
+							elif global_position.distance_to(Target.global_position) <= TouchDistance:
+								HurtPlayer(Target)
+								await get_tree().create_timer(1).timeout
+								Wander(_delta)
+								PursuedPerson = null
+								IsPursuing = false
+								print("Anyways! :3")
 							else:
 								velocity = Vector3(0,velocity.y,0)
 								WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
 								Wander(_delta)
-								#print(Target, " is not interesting. :<")
-						else:
-							GetBored()
-					elif Target.is_in_group("Noticable"):
-						if global_position.distance_to(Target.global_position) < SenseDistance:
-							print("Hoh? Wuhs dis???")
-							IsBored = false
-							Move(_delta,Target)
-							BoredTimer.start()
-							if global_position.distance_to(Target.global_position) < AttackDistance:
-								HurtPlayer(Target)
-								await get_tree().create_timer(5).timeout
-								Wander(_delta)
-						else:
-							velocity = Vector3(0,velocity.y,0)
-							WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
-							Wander(_delta)
 
 
 
 
 func Wander(_delta):
-	if global_position.distance_to(WanderPos) <= 0.5:
+	if global_position.distance_to(WanderPos) <= 0.75:
 		WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
 		IsBored = false
 		IsWandering = true
@@ -437,6 +478,10 @@ func Wander(_delta):
 		if PursuedPerson == null:
 			SetTargetPosition(WanderTarget.position)
 			Move(_delta,WanderTarget)
+			if UnderRay.get_collider() != null:
+				var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+				if LookPos != Origin:
+					look_at(LookPos)
 	
 	#print("Jdu na vandr......")
 
@@ -458,6 +503,7 @@ func HurtPlayer(_body): #, DamageType):
 		if IsAgressive:
 			if CanAttack:
 				if _body.has_method("TakeDamage"):
+					CanAttack = false
 					if AlertAudioPlayer:
 						AlertAudioPlayer.play()
 					CanAttack = false
@@ -473,6 +519,35 @@ func HurtPlayer(_body): #, DamageType):
 				else:
 					GetBored()
 
+
+
+func PickupWeapon(Weapon: RigidBody3D = Holding.get_child(0)):
+	if Weapon != null:
+		if Weapon.has_method("Enable"):
+			Weapon.freeze = true
+			Weapon.Enable(true)
+			print(Weapon.name,".Enabled: ",Weapon.Enabled)
+			#Weapon.Enabled = true
+			Weapon.position = Vector3.ZERO
+			Weapon.rotation = Vector3.ZERO
+		if Weapon.has_method("SetUser"):
+			Weapon.SetUser(self)
+		#print(Weapon)
+	if Weapon.has_method("Reload"):
+		Weapon.Reload()
+
+
+
+func DropWeapon(ChosenWeapon = Holding.get_child(0)):
+	if ChosenWeapon != null:
+		var Weapon:RigidBody3D = ChosenWeapon
+		Global.ObjectSpawner.add_child(Weapon,true)
+		ChosenWeapon.queue_free()
+		Weapon.global_transform = Holding.global_transform
+		if Weapon.has_method("Enable"):
+			Weapon.Enable(false)
+		if Weapon.has_method("SetUser"):
+			Weapon.SetUser(null)
 
 
 #func TakeDamage(Damage: float):

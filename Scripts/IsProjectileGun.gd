@@ -76,8 +76,9 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if User == null:
-		Enable(false)
+	if User != null:
+		if not User.is_class("Player") and not User.is_class("BaseNPC"):#User == null:
+			Enable(false)
 	
 	if Enabled and User:
 		if User.is_multiplayer_authority() and not User.InputBlocked:
@@ -113,18 +114,9 @@ func _process(_delta: float) -> void:
 				## Shoot
 				if CanFire:
 					if Input.is_action_just_pressed("LMB") and not IsReloading:
-						if Ammo > 0:
-							ShootBullet.rpc(Firerate)
-						else:
-							EmptySound.play()
+						ShootBullet.rpc(Firerate)
 					elif Input.is_action_pressed("LMB") and Firerate == "Auto" and not IsReloading:
-						if Ammo > 0:
-							ShootBullet.rpc(Firerate)
-						else:
-							EmptySound.play()
-					
-						#if CanPump:
-							#CanFire = false
+						ShootBullet.rpc(Firerate)
 				
 				## Pump
 				if CanPump and PumpAmount < 4:
@@ -158,7 +150,8 @@ func Reload():
 	ReloadSound.play()
 	if MagPreload != null:
 		var EmptyMag = MagPreload.instantiate()
-		Global.ProjectileSpawner.add_child(EmptyMag)
+		if Global.ProjectileSpawner != null:
+			Global.ProjectileSpawner.add_child(EmptyMag)
 		EmptyMag.global_transform = MagPosMarker.global_transform
 	await get_tree().create_timer(ReloadTime).timeout
 	if not UseResivoir:
@@ -207,34 +200,36 @@ func EjectCasing():
 func ShootBullet(CurrentFirerate: String):
 	if CanFire:
 		if CurrentFirerate != "Safety":
-			CanFire = false
-			for i in (BulletAmount * PumpAmount):
-				var Proj = ProjPreload.instantiate()
-				
-				Global.ProjectileSpawner.add_child(Proj,true)
-				
-				Proj.global_transform = ProjectilePosMarker.global_transform
-				Proj.global_rotation += Vector3(randf_range(-Spread.x,Spread.x) * 0.15, randf_range(-Spread.y,Spread.y) * 0.15, 0)
-				
-			if CanPump == true:
+			if Ammo > 0:
 				CanFire = false
-				PumpAmount = 1
+				for i in (BulletAmount * PumpAmount):
+					var Proj = ProjPreload.instantiate()
+					
+					Global.ProjectileSpawner.add_child(Proj,true)
+					
+					Proj.global_transform = ProjectilePosMarker.global_transform
+					Proj.global_rotation += Vector3(randf_range(-Spread.x,Spread.x) * 0.15, randf_range(-Spread.y,Spread.y) * 0.15, 0)
+					
+				if CanPump == true:
+					CanFire = false
+					PumpAmount = 1
+					
+				if not CanPump:
+					for i in BulletAmount * PumpAmount:
+						EjectCasing.rpc()
+				#else:
+					#EjectCasing.rpc()
 				
-			if not CanPump:
-				for i in BulletAmount * PumpAmount:
-					EjectCasing.rpc()
-			#else:
-				#EjectCasing.rpc()
-			
-			if !BottomlessMag:
-				if CanPump:
-					Ammo -= (1 * PumpAmount)
-					if Ammo < 0:
-						Ammo = 0
-				else:
-					Ammo -= 1
-				WeaponItem.special_value_1 = Ammo
-			
+				if !BottomlessMag:
+					if CanPump:
+						Ammo -= (1 * PumpAmount)
+						if Ammo < 0:
+							Ammo = 0
+					else:
+						Ammo -= 1
+					WeaponItem.special_value_1 = Ammo
+			else:
+				EmptySound.play()
 
 
 			ShootSound.play()
@@ -256,7 +251,9 @@ func ShootBullet(CurrentFirerate: String):
 func SetUser(NewUser: Node3D):
 	User = NewUser
 	if NewUser != null:
-		set_multiplayer_authority(User.multiplayer.get_unique_id())
+		if not NewUser.is_class("BaseNPC") or NewUser.is_class("Player"):
+			set_multiplayer_authority(User.multiplayer.get_unique_id())
+	print("NewUser: ", User)
 
 
 

@@ -626,12 +626,15 @@ func MovementBasic() -> void:
 			if is_on_floor() and not IsSliding and not IsDiving and not IsClinging:
 				BobIndex += 0.025 * CurrentSpeed
 				
-				if CamOffset.position.y < 1.255 and not FootstepPlayer.playing:
-					Footstep()
+				
 				var XBob = sin(BobIndex / 2)
 				var YBob = sin(BobIndex)
 				CamOffset.position.x = (XBob / 25)
 				CamOffset.position.y = 1.25 + (YBob / 25)
+				if CamOffset.position.y < 1.3 and not FootstepPlayer.playing:
+				#if YBob < 0.0 and YBob > -0.1:
+					Footstep()
+				#print(YBob)
 				
 				## Noticability stuff
 				if not IsCrouching and CurrentNoise < RunNoise:
@@ -1005,12 +1008,12 @@ func ResetValues():
 
 func Footstep():
 	var Stream: AudioStream
-	var Floor: Node3D = UnderRay.Under
+	var Floor: Node3D = UnderRay.get_collider()
 	if Floor != null:
-		if  Floor.has_node("CollisionNoise"):
-			Stream = Floor.get_node("CollisionNoise").Stream
-			FootstepPlayer.Play.rpc(Stream,0.0,0.1 * CurrentSpeed)
-		else:
+		#if  Floor.has_node("CollisionNoise"):
+			#Stream = Floor.get_node("CollisionNoise").Stream
+			#FootstepPlayer.Play.rpc(Stream,0.0,0.1 * CurrentSpeed)
+		#else:
 			Stream = FootstepSound
 			FootstepPlayer.Play.rpc(Stream,0.0,0.1 * CurrentSpeed)
 

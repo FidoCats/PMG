@@ -26,6 +26,7 @@ func _ready() -> void:
 		AffectedNode.body_entered.connect(Collide)
 		#AffectedNode.add_user_signal("Sense", [_Body: Node3D])
 		AffectedNode.add_to_group("Noticable")
+		#AffectedNode.add_signal("Sense")
 	if ParticleMaker:
 		ParticleMaker.one_shot = true
 		if MeshNode:
@@ -43,8 +44,8 @@ func Collide(_body: Node3D):
 			if _body.has_method("TakeDamage"):
 				_body.TakeDamage.rpc(AffectedNode.linear_velocity.length() * AffectedNode.mass / 4)
 	
-	Sense.emit(AffectedNode)
-	print("Emitted!")
+	#AffectedNode.Sense.emit(AffectedNode)
+	#print("Emitted!")
 	
 	if CollisionSoundPlayer:
 		if AffectedNode.has_method("set_linear_velocity"):
