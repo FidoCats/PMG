@@ -61,10 +61,12 @@ func Death():
 	Died.emit(self)
 	if Global.UseDebug:
 		print(self, " Died!!")
+	await get_tree().create_timer(RespawnTime).timeout
 	if CanRespawn:
-		await get_tree().create_timer(RespawnTime).timeout
 		if IsDead:
 			ResetValues()
+	else:
+		queue_free()
 
 
 

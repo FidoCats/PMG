@@ -39,7 +39,7 @@ properties/6/spawn = true
 properties/6/replication_mode = 1
 
 [node name="Buckshot" type="RigidBody3D" unique_id=713688264]
-mass = 5.0
+mass = 0.1
 script = ExtResource("1_xj5ho")
 Damage = 10.0
 metadata/_custom_type_script = "uid://dxra3fulo7ifd"

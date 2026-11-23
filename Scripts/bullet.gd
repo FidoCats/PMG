@@ -58,6 +58,13 @@ func _on_body_entered(body):
 				body.TakeDamage.rpc(Damage)
 				#print("Damaged ", body)
 				#print("Health: ", body.Health)
+			if body.is_class("RigidBody3D"):
+				var Force = Force3D.new()
+				body.add_child(Force,true)
+				Force.F = (SPEED / PenetrationChance)
+				body.global_rotation = -global_rotation
+				#body.look_at(-global_position)
+				Force.SetupFinished.emit()
 			if -PenetrationChance < 0.0:
 				var PenetrationCalculation: float = randf_range(-PenetrationChance, 0.0)
 				if PenetrationCalculation < 0.0 - PenetrationChance / 3.0:

@@ -106,7 +106,7 @@ properties/11/path = NodePath(".:IsAgressive")
 properties/11/spawn = true
 properties/11/replication_mode = 1
 
-[node name="Watcher" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "RespawnSoundPlayer") groups=["Alive"]]
+[node name="Watcher" type="CharacterBody3D" unique_id=1797669239 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "Holding", "RespawnSoundPlayer") groups=["Alive"]]
 script = ExtResource("1_loey4")
 StopDistance = 25.0
 IsAgressive = false
@@ -129,6 +129,7 @@ TouchAreaShape = NodePath("TouchArea/TouchShape")
 BoredTimer = NodePath("Timer")
 StateTimer = NodePath("Timer2")
 NavAgent = NodePath("NavigationAgent3D")
+Holding = NodePath("RayCast3D/Marker3D")
 CanRespawn = false
 VisibilityOverride = 0
 NoiseOverride = 0
@@ -144,6 +145,8 @@ debug_color = Color(1, 0, 0, 0.41960785)
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=134919240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49520454, -0.49677712)
 target_position = Vector3(0, 0, -2.5)
+
+[node name="Marker3D" type="Marker3D" parent="RayCast3D" unique_id=1760844104]
 
 [node name="Infront" type="RayCast3D" parent="." unique_id=1436005786]
 transform = Transform3D(1, 0, 0, 0, 1, -9.685755e-08, 0, 9.685755e-08, 1, 0, -0.19999999, -0.5)

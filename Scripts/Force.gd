@@ -37,8 +37,8 @@ func _enter_tree() -> void:
 		position = Parent.global_position
 		rotation = Parent.global_rotation
 	target_position = Vector3.ZERO
-	target_position.z = Velocity.z * F
-
+	#target_position.z = Velocity.z * F
+	target_position = (Velocity * F)
 
 
 func Move() -> void:

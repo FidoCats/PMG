@@ -599,7 +599,7 @@ func MovementBasic() -> void:
 	if CanMove:
 		var _input_direction: Vector2 = Vector2.ZERO
 		if is_multiplayer_authority():
-			_input_direction = Input.get_vector("Right","Left","Down","Up")
+			_input_direction = Input.get_vector("Left","Right","Up","Down")
 		var _direction: Vector3 = transform.basis * Vector3(_input_direction.x, 0, _input_direction.y).normalized()
 		#if _body:
 			#_direction = _direction.rotated(Vector3.UP, _spring_arm_offset.rotation.y)

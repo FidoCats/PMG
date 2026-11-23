@@ -67,6 +67,7 @@ properties/11/spawn = true
 properties/11/replication_mode = 1
 
 [node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "AlertAudioPlayer", "Holding", "RespawnSoundPlayer") groups=["Alive"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 script = ExtResource("1_3sst3")
 CollisonShape = NodePath("CollisionShape3D")
 MainMesh = NodePath("MeshInstance3D")

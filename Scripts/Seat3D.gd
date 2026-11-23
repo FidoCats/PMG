@@ -129,8 +129,8 @@ func _physics_process(_delta: float) -> void:
 						if TurnWith:
 							#UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, get_parent().global_rotation_degrees.y - TurnClamp, get_parent().global_rotation_degrees.y + TurnClamp)
 							#print(global_rotation_degrees.y)
-							var Rotation = global_rotation_degrees * transform.basis
-							UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, Rotation.y -TurnClamp, Rotation.y + TurnClamp)
+							var Rotation = transform.basis * rotation
+							UsedBy.global_rotation_degrees.y = clampf(UsedBy.global_rotation_degrees.y, Rotation.y + -TurnClamp, Rotation.y + TurnClamp)
 							if not UserTurn:
 								if (Rotation.y - UsedBy.global_rotation_degrees.y) < 180 and (Rotation.y - UsedBy.global_rotation_degrees.y) > -180:
 									UsedBy.global_rotation_degrees.y += (Rotation.y - UsedBy.global_rotation_degrees.y)

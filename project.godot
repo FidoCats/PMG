@@ -62,6 +62,7 @@ Interactable="A group used for Interactable bodies other than PhysicsBodies. (Se
 Electrical="A group for any object with electrical properties."
 Neutral="A test group for NPC teams"
 Noticable="A class mostly for NPC distractions.... yeah.."
+Player="A Group for Players."
 
 [input]
 

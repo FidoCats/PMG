@@ -83,6 +83,8 @@ var NavLocation: Vector3
 
 var WanderTarget: Node3D
 
+var CanUseWeapon: bool = true
+
 
 
 # Leftovers for tommorows linner. :3
@@ -123,6 +125,10 @@ func _ready() -> void:
 	get_parent().add_child(WanderTarget)
 	
 	Wander(get_process_delta_time())
+	
+	if Holding.get_child(0) != null:
+		if Holding.get_child(0).has_method("Reload"):
+			Holding.get_child(0).Reload()
 
 
 
@@ -155,6 +161,8 @@ func _physics_process(_delta: float) -> void:
 				if PursuedPerson != self:
 					if PursuedPerson.is_in_group("Alive"):
 						Pursue(_delta, PursuedPerson)
+					#elif PursuedPerson.is_in_group("Player"):
+						#Pursue(_delta, PursuedPerson)
 					elif PursuedPerson.is_in_group("Noticable"):
 						Pursue(_delta, PursuedPerson)
 						print("IsPursuing == true, Pursuing: ", PursuedPerson)
@@ -398,7 +406,7 @@ func Pursue(_delta, Target: Node3D):
 					if Health > 5:
 						if Target.is_in_group("Alive") and not Target.is_in_group("Neutral"):
 							if Target.Noticability != 0:
-								if Personality == "Melee" or Holding.get_child_count() == 0:
+								if Personality == "Melee" or Holding.get_child(0) == null:
 									if global_position.distance_to(Target.global_position) < SenseDistance:
 										IsBored = false
 										Move(_delta,Target)
@@ -419,48 +427,49 @@ func Pursue(_delta, Target: Node3D):
 										Wander(_delta)
 										#print(Target, " is not interesting. :<")
 								else:
-									var TargetVelocity: Vector3 = (Target.transform.basis * Target.velocity)
-									Holding.look_at(Target.global_position + (TargetVelocity / global_position.distance_to(Target.global_position)))
-									var Weapon: RigidBody3D = Holding.get_child(0)
-									Weapon.position = Holding.position
-									if Weapon.has_method("ShootBullet"):
-										if Weapon.Ammo > 0:
-											if Weapon.CanFire:
-												Weapon.ShootBullet("Semi")
-												await get_tree().create_timer(60/Weapon.RPM).timeout
-										else:
-											if Health > Health / 20:
-												if not Weapon.IsReloading:
-													Weapon.Reload()
-											else:
-													Weapon.ShootBullet("Semi")
-													Weapon.ShootBullet("Semi")
-													Weapon.ShootBullet("Semi")
-													Weapon.Reload()
+									if Holding.get_child(0) != null:
+										self.look_at(Vector3(Target.global_position.x,global_position.y + 0.75,Target.global_position.z))
+										rotation_degrees.x = 0.0
+										var TargetVelocity: Vector3 = (Target.transform.basis * Target.velocity)
+										Holding.look_at(Vector3(Target.global_position.x,Target.global_position.y + 0.5, Target.global_position.z) + (-TargetVelocity / global_position.distance_to(Target.global_position)),Vector3.UP,true)
+										
+										if SightLine.get_collider() != Target:
+											Move(_delta,Target)
+											#velocity = (transform.basis * TargetVelocity)
+										if global_position.distance_to(Target.global_position) > (HearDistance - TouchDistance):
+											Move(_delta,Target)
+										
+										#var Rot = abs(Holding.rotation_degrees)
+										#Rot = -Rot
+										#var Weapon: RigidBody3D = Holding.get_child(0)
+										#Weapon.position = Holding.position
+										if SightLine.get_collider() == Target or global_position.distance_to(Target.global_position) <= TouchDistance:
+											UseWeapon()
 							else:
 								GetBored()
-						elif Target.is_in_group("Noticable"):
-							#await Target.Sense
-							if global_position.distance_to(Target.global_position) < SenseDistance:
-								print("Hoh? Wuhs dis???")
-								IsBored = false
-								Move(_delta,Target)
-								if UnderRay.get_collider() != null:
-									var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
-									if LookPos != Origin:
-										look_at(LookPos)
-								BoredTimer.start()
-							elif global_position.distance_to(Target.global_position) <= TouchDistance:
-								HurtPlayer(Target)
-								await get_tree().create_timer(1).timeout
-								Wander(_delta)
-								PursuedPerson = null
-								IsPursuing = false
-								print("Anyways! :3")
-							else:
-								velocity = Vector3(0,velocity.y,0)
-								WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
-								Wander(_delta)
+						## Object Notice Code !!! # Noticable # Lure # Distraction
+						#elif Target.is_in_group("Noticable"):
+							##await Target.Sense
+							#if global_position.distance_to(Target.global_position) < SenseDistance:
+								#print("Hoh? Wuhs dis???")
+								#IsBored = false
+								#Move(_delta,Target)
+								#if UnderRay.get_collider() != null:
+									#var LookPos = Vector3(NavLocation.x, global_position.y + 0.5 - 0.5, NavLocation.z)
+									#if LookPos != Origin:
+										#look_at(LookPos)
+								#BoredTimer.start()
+							#elif global_position.distance_to(Target.global_position) <= TouchDistance:
+								#HurtPlayer(Target)
+								#await get_tree().create_timer(1).timeout
+								#Wander(_delta)
+								#PursuedPerson = null
+								#IsPursuing = false
+								#print("Anyways! :3")
+							#else:
+								#velocity = Vector3(0,velocity.y,0)
+								#WanderPos = Vector3(randf_range(global_position.x - WanderDistance, global_position.x + WanderDistance), global_position.y, randf_range(global_position.z - WanderDistance,global_position.z + WanderDistance))
+								#Wander(_delta)
 
 
 
@@ -548,6 +557,37 @@ func DropWeapon(ChosenWeapon = Holding.get_child(0)):
 			Weapon.Enable(false)
 		if Weapon.has_method("SetUser"):
 			Weapon.SetUser(null)
+
+
+
+func UseWeapon():
+	var Weapon = Holding.get_child(0)
+	
+	if Weapon != null:
+		if IsAgressive:
+			if CanUseWeapon:
+			
+				CanUseWeapon = false
+				if Weapon.has_method("ShootBullet"):
+					if Weapon.Ammo > 0:
+						if Weapon.CanFire:
+							Weapon.ShootBullet("Semi")
+							Weapon.CanFire = false
+							
+							#await get_tree().create_timer(5).timeout
+							await get_tree().create_timer(60/Weapon.RPM * 2.5).timeout
+							Weapon.CanFire = true
+					else:
+						if Health > 5:#Health / 20:
+							if not Weapon.IsReloading:
+								Weapon.Reload()
+						else:
+								Weapon.ShootBullet("Semi")
+								Weapon.ShootBullet("Semi")
+								Weapon.ShootBullet("Semi")
+								Weapon.Reload()
+				CanUseWeapon = true
+
 
 
 #func TakeDamage(Damage: float):

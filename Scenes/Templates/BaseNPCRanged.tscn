@@ -68,6 +68,7 @@ properties/11/spawn = true
 properties/11/replication_mode = 1
 
 [node name="BaseNPC" type="CharacterBody3D" unique_id=1176638673 node_paths=PackedStringArray("CollisonShape", "MainMesh", "AudioPlayer", "InfrontRay", "FloorInfrontRay", "UnderRay", "AboveRay", "SightLine", "SenseArea", "SenseAreaShape", "HearArea", "HearAreaShape", "TouchArea", "TouchAreaShape", "BoredTimer", "StateTimer", "NavAgent", "AlertAudioPlayer", "Holding", "RespawnSoundPlayer") groups=["Alive"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 script = ExtResource("1_0ux1t")
 HearDistance = 75.0
 Personality = "Ranged"
@@ -108,9 +109,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39520457, -0.49677712)
 target_position = Vector3(0, 0, -50)
 
 [node name="Holding" type="Marker3D" parent="LookAt" unique_id=721649389]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.2, -0.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000005, -0.8)
 
 [node name="HKUspMatchAttempt" parent="LookAt/Holding" unique_id=1923918731 instance=ExtResource("3_m35uq")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -0.39999998)
 
 [node name="Infront" type="RayCast3D" parent="." unique_id=1966231872]
 transform = Transform3D(1, 0, 0, 0, 1, -9.685755e-08, 0, 9.685755e-08, 1, 0, -0.19999999, -0.5)

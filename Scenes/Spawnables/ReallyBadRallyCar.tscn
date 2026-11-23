@@ -120,7 +120,7 @@ SteeringWheel = NodePath("Steering Wheel")
 metadata/_custom_type_script = "uid://cddmbdeis15lc"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1768028682]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050000012, 0.2000001)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.012499977, 0.050000012, 0.44774562)
 shape = SubResource("BoxShape3D_g4v7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=90364758]
@@ -128,7 +128,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.940697e-08)
 mesh = SubResource("BoxMesh_yf5fn")
 
 [node name="Steering Wheel" type="RigidBody3D" parent="." unique_id=764421385]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.99999994)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.012500046, 0.9, -0.3522542)
 freeze = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Steering Wheel" unique_id=1698191638]
@@ -143,7 +143,7 @@ transform = Transform3D(0.09, 0, 0, 0, 1.8626451e-09, -0.090000026, 0, 0.0900000
 texture = ExtResource("3_p0skv")
 
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="." unique_id=608941091]
-transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, -0.86000013, 0, 1.0600001)
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0.8725001, 0, -0.41225427)
 use_as_traction = true
 use_as_steering = true
 wheel_friction_slip = 0.85
@@ -154,7 +154,7 @@ transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.1
 mesh = SubResource("CylinderMesh_g4v7s")
 
 [node name="VehicleWheel3D2" type="VehicleWheel3D" parent="." unique_id=911719588]
-transform = Transform3D(1, 0, -6.3573026e-08, 0, 1, 0, 6.3573026e-08, 0, 1, 0.9400001, 0, 1.06)
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -0.9275001, 0, -0.41225427)
 use_as_traction = true
 use_as_steering = true
 wheel_friction_slip = 0.85
@@ -166,7 +166,7 @@ mesh = SubResource("CylinderMesh_g4v7s")
 skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="VehicleWheel3D3" type="VehicleWheel3D" parent="." unique_id=389490936]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9600002, 0, -0.93999994)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.9725, 0, 1.5877459)
 use_as_traction = true
 wheel_friction_slip = 0.85
 suspension_stiffness = 30.0
@@ -177,7 +177,7 @@ mesh = SubResource("CylinderMesh_g4v7s")
 skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="VehicleWheel3D4" type="VehicleWheel3D" parent="." unique_id=1557098395]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9400001, 0, -0.93999994)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -0.9275003, 0, 1.5877457)
 use_as_traction = true
 wheel_friction_slip = 0.85
 suspension_stiffness = 30.0
@@ -189,30 +189,32 @@ mesh = SubResource("CylinderMesh_g4v7s")
 skeleton = NodePath("../../VehicleWheel3D")
 
 [node name="Engine" type="AudioStreamPlayer3D" parent="." unique_id=398376344]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.012499958, 0, 0.6477457)
 stream = ExtResource("5_jcaw1")
 volume_db = -20.0
 parameters/looping = true
 
 [node name="Collide" type="AudioStreamPlayer3D" parent="." unique_id=2119625259]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.012499958, 0, 0.6477457)
 stream = ExtResource("6_f5jvh")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1767842390]
 replication_config = SubResource("SceneReplicationConfig_vr678")
 
 [node name="Seat3D" parent="." unique_id=988545447 instance=ExtResource("7_ht8ng")]
-transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -2.0489097e-08, 0.45320702, 0.1000001)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.012499988, 0.45320702, 0.54774565)
 UseTouch = false
 JumpExit = false
 TurnWith = true
 
 [node name="HitArea" type="Area3D" parent="." unique_id=933597007]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.040000275, 0.8000001, 2.6599998)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027500082, 0.8000001, -2.0122542)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea" unique_id=345154557]
 shape = SubResource("SphereShape3D_ns6mf")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=2101609327]
-transform = Transform3D(1, 0, 0, 0, 0.8191521, 0.5735765, 0, -0.5735765, 0.8191521, -5.9604645e-08, 0.6590424, 1.4286789)
+transform = Transform3D(-1, -5.014365e-08, 7.1612554e-08, 0, 0.8191521, 0.5735765, -8.742278e-08, 0.5735765, -0.8191521, 0.012500143, 0.6590424, -0.7809331)
 shape = SubResource("BoxShape3D_ns6mf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D2" unique_id=1931421229]
@@ -220,7 +222,7 @@ transform = Transform3D(1, 0, 0, 0, 1.0000012, -2.9802322e-08, 0, 2.9802322e-08,
 mesh = SubResource("BoxMesh_ns6mf")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1719499139]
-transform = Transform3D(1, 0, 0, 0, 0.99619466, -0.08715573, 0, 0.08715573, 0.99619466, -5.9604645e-08, 0.7931852, -1.3482361)
+transform = Transform3D(-1, 7.619396e-09, 8.70901e-08, 0, 0.99619466, -0.08715573, -8.742278e-08, -0.08715573, -0.99619466, 0.012499901, 0.7931852, 1.9959817)
 shape = SubResource("BoxShape3D_wen5l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D3" unique_id=576973143]
@@ -228,7 +230,7 @@ transform = Transform3D(1, 0, 0, 0, 1.0000011, 0, 0, 0, 1.0000011, 0, -0.0500001
 mesh = SubResource("BoxMesh_f6v0b")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=188247912]
-transform = Transform3D(1, 0, 0, 0, 0.087155744, -0.99619466, 0, 0.99619466, 0.087155744, -5.9604645e-08, 1.2825689, -0.9992388)
+transform = Transform3D(-1, 8.70901e-08, 7.619398e-09, 0, 0.087155744, -0.99619466, -8.742278e-08, -0.99619466, -0.087155744, 0.012499931, 1.2825689, 1.6469846)
 shape = SubResource("BoxShape3D_nv7by")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D4" unique_id=897973820]
@@ -236,7 +238,7 @@ transform = Transform3D(1, 0, 0, 0, 1.0000012, 0, 0, 0, 1.0000012, 0, 0, 0)
 mesh = SubResource("BoxMesh_ue7nj")
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="." unique_id=1124494344]
-transform = Transform3D(1, 0, 0, 0, 0.99619466, 0.0871557, 0, -0.0871557, 0.99619466, -5.9604645e-08, 1.6825689, -0.6992388)
+transform = Transform3D(-1, -7.619393e-09, 8.70901e-08, 0, 0.99619466, 0.0871557, -8.742278e-08, 0.0871557, -0.99619466, 0.012499957, 1.6825689, 1.3469844)
 shape = SubResource("BoxShape3D_6tmvs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D5" unique_id=683576114]
@@ -244,9 +246,9 @@ transform = Transform3D(1, 0, 0, 0, 1.0000012, 0, 0, 0, 1.0000012, 0, 0, 0)
 mesh = SubResource("BoxMesh_nfent")
 
 [node name="Label3D" type="Label3D" parent="." unique_id=267733710]
-transform = Transform3D(-1, 0, 8.742278e-08, -6.181724e-08, 0.70710677, -0.70710677, -6.181724e-08, -0.70710677, -0.70710677, 0, 2.4853554, 1.2646447)
+transform = Transform3D(1, -6.1817225e-08, -1.4924001e-07, -6.181724e-08, 0.70710677, -0.70710677, 1.4924001e-07, 0.70710677, 0.70710677, 0.01250007, 2.4853554, -0.616899)
 text = "a"
 
 [node name="Label3D2" type="Label3D" parent="." unique_id=379442288]
-transform = Transform3D(-1, 0, 8.742278e-08, -6.181724e-08, 0.70710677, -0.70710677, -6.181724e-08, -0.70710677, -0.70710677, 0, 2.4146447, 1.3353554)
+transform = Transform3D(1, -6.1817225e-08, -1.4924001e-07, -6.181724e-08, 0.70710677, -0.70710677, 1.4924001e-07, 0.70710677, 0.70710677, 0.012500076, 2.4146447, -0.6876096)
 text = "a"
